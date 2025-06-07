@@ -7,8 +7,8 @@ import TakeTestCard from "@/components/take-tests/TakeTestCard";
 import { useLanguage } from "@/contexts/LanguageContext";
 import testsData from "@/Data/tests.json"; // Import the new test data
 import { Button } from "@/components/ui/button";
-import SearchBar from "@/components/tests/SearchBar";
-import EmptyState from "@/components/tests/EmptyState";
+import SearchBar from "@/components/take-tests/SearchBar";
+import EmptyState from "@/components/take-tests/EmptyState";
 
 const TakeTests = () => {
   const router = useRouter();

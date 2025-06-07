@@ -4,6 +4,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -58,12 +59,48 @@ const useLanguage = () => {
 };
 
 const useAuth = () => {
+  const router = useRouter();
+  const [user, setUser] = React.useState({
+    name: "Loading...",
+    email: "",
+  });
+  
+  React.useEffect(() => {
+    // Fetch the current user when the component mounts
+    const fetchUser = async () => {
+      try {
+        const { data } = await authClient.getSession();
+        if (data && data.user) {
+          setUser({
+            name: data.user.name || "User",
+            email: data.user.email || "",
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch user session:", error);
+      }
+    };
+    
+    fetchUser();
+  }, []);
+  
   return {
-    user: {
-      name: "John Doe",
-      email: "johndoe@example.com",
+    user,
+    logout: async () => {
+      try {
+        await authClient.signOut({
+          fetchOptions: {
+            onSuccess: () => {
+              router.push("/login"); // redirect to login page
+            },
+          },
+        });
+      } catch (error) {
+        console.error("Logout failed:", error);
+        // Fallback navigation in case of error
+        router.push("/login");
+      }
     },
-    logout: () => console.log("Placeholder: Logout clicked"),
   };
 };
 
@@ -117,7 +154,7 @@ export function AppSidebar() {
   const mainMenuItems = [
     { title: t("dashboard"), route: "/dashboard", icon: <MdDashboard size={20} /> },
     { title: t("students"), route: "/my-class", icon: <HiOutlineClipboardList size={20} /> },
-    { title: t("tests"), route: "/tests", icon: <HiOutlineClipboardList size={20} /> },
+    { title: t("tests"), route: "/take-tests", icon: <HiOutlineClipboardList size={20} /> },
     { title: t("analytics"), route: "/analytics", icon: <BiBarChartAlt2 size={20} /> },
   ];
 

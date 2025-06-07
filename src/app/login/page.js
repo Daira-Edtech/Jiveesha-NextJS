@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { authClient } from "@/lib/auth-client"; // Import the auth client
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
