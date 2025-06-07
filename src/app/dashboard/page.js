@@ -1,6 +1,6 @@
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 flex items-center justify-center">
+    <div className="p-6">
       <div className="text-center">
         <div className="flex justify-center items-center mb-6">
           <div className="w-16 h-14 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center">
