@@ -1,17 +1,13 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { withAuth } from "@/lib/auth-utils";
 
 const prisma = new PrismaClient();
 
-export async function POST(req) {
+async function postHandler(req, context, { userId, user }) {
   try {
     const body = await req.json();
     const { name, rollno, dateOfBirth, gender } = body;
-    const teacherId = req.headers.get("authorization"); // Replace with your auth logic
-
-    if (!teacherId) {
-      return NextResponse.json({ message: "User not authenticated" }, { status: 401 });
-    }
 
     const child = await prisma.children.create({
       data: {
@@ -19,7 +15,7 @@ export async function POST(req) {
         rollno,
         dateOfBirth: new Date(dateOfBirth),
         gender,
-        teacherId,
+        teacherId: userId,
       },
     });
 
@@ -28,3 +24,5 @@ export async function POST(req) {
     return NextResponse.json({ message: "Error inserting child", error: error.message }, { status: 500 });
   }
 }
+
+export const POST = withAuth(postHandler);
