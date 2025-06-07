@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import TakeTestCard from "@/components/take-tests/TakeTestCard";
 import { useLanguage } from "@/contexts/LanguageContext";
 import testsData from "@/Data/tests.json"; // Import the new test data
+import { Button } from "@/components/ui/button";
+import SearchBar from "@/components/tests/SearchBar";
+import EmptyState from "@/components/tests/EmptyState";
 
 const TakeTests = () => {
   const router = useRouter();
@@ -40,7 +43,7 @@ const TakeTests = () => {
     router.push("/selectstudent");
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
@@ -71,20 +74,29 @@ const TakeTests = () => {
   ];
 
   const filteredTests = tests.filter((test) => {
+    // Guard against empty search term
+    if (!searchTerm) return true;
+    
     const searchLower = searchTerm.toLowerCase();
 
-    // Always check English base fields
-    let match =
-      test.testName?.toLowerCase().includes(searchLower) ||
-      test.About?.toLowerCase().includes(searchLower);
+    // Always check English base fields with null/undefined checks
+    let match = 
+      (typeof test.testName === 'string' && test.testName.toLowerCase().includes(searchLower)) ||
+      (typeof test.About === 'string' && test.About.toLowerCase().includes(searchLower));
 
     // Check localized fields for the current language if it's supported
     if (supportedLanguages.includes(language)) {
       const testNameLocalized = test[`testName_${language}`];
       const aboutLocalized = test[`About_${language}`];
 
-      match ||= testNameLocalized?.toLowerCase().includes(searchLower);
-      match ||= aboutLocalized?.toLowerCase().includes(searchLower);
+      // Add null/undefined checks before calling toLowerCase
+      if (typeof testNameLocalized === 'string') {
+        match = match || testNameLocalized.toLowerCase().includes(searchLower);
+      }
+      
+      if (typeof aboutLocalized === 'string') {
+        match = match || aboutLocalized.toLowerCase().includes(searchLower);
+      }
     }
 
     return match;
@@ -96,80 +108,56 @@ const TakeTests = () => {
         {/* Header section */}
 
         <div className="flex justify-end mb-6">
-          <button
+          <Button
             onClick={() => {
               localStorage.setItem("selectedTestId", "all");
               router.push("/selectstudent");
             }}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 text-lg font-semibold"
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-lg font-semibold"
+            size="lg"
           >
             <MdQuiz className="w-6 h-6" />
             {t("takeAllTests")}
-          </button>
+          </Button>
         </div>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-          <div className="mb-4 md:mb-0">
-            <h1 className="text-3xl font-bold text-blue-800 flex items-center">
-              <MdQuiz className="mr-2 text-blue-600" />
-              {t("tests")}
-            </h1>
-            <p className="text-gray-600 mt-1">{t("selectTestForStudent")}</p>
-          </div>
+        <div className="mb-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="mb-4 md:mb-0">
+              <h1 className="text-3xl font-bold text-blue-800 flex items-center">
+                <MdQuiz className="mr-2 text-blue-600" />
+                {t("tests")}
+              </h1>
+              <p className="text-gray-600 mt-1">{t("selectTestForStudent")}</p>
+            </div>
 
-          {/* Search bar */}
-          <div
-            className={`relative flex items-center rounded-full border ${
-              isFocused
-                ? "border-blue-400 ring-2 ring-blue-100"
-                : "border-gray-200"
-            } bg-white px-3 py-2 w-full md:w-64 transition-all duration-200`}
-          >
-            <MdSearch
-              className={`text-xl ${
-                isFocused ? "text-blue-500" : "text-gray-400"
-              }`}
+            {/* Search bar */}
+            <SearchBar 
+              searchTerm={searchTerm}
+              onSearch={handleSearch}
+              onClear={clearSearch}
             />
-            <input
-              type="text"
-              placeholder={t("searchTests")}
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              className="flex-grow ml-2 outline-none text-gray-700 placeholder-gray-400"
-            />
-            {searchTerm && (
-              <button
-                onClick={clearSearch}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ×
-              </button>
-            )}
           </div>
+          
+          <div className="h-1 w-full bg-gradient-to-r from-blue-600 to-blue-300 mt-4 rounded-full" />
         </div>
 
         {/* Tests grid */}
-        <div className="space-y-6">
-          {filteredTests.length > 0 ? (
-            filteredTests.map((test) => (
-              <div key={test.id}>
-                <TakeTestCard
-                  test={test}
-                  buttonLabel={t("takeTest")}
-                  onClick={() => handleTestClick(test.id)}
-                />
-              </div>
-            ))
-          ) : (
-            <div className="bg-white rounded-lg shadow-md p-8 text-center">
-              <MdSchool className="text-6xl text-blue-200 mx-auto mb-4" />
-              <h3 className="text-xl font-medium text-gray-700 mb-2">
-                {t("noTestsFound")}
-              </h3>
-              <p className="text-gray-500">{t("tryDifferentSearch")}</p>
-            </div>
-          )}
+        <div className={`transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="space-y-6">
+            {filteredTests.length > 0 ? (
+              filteredTests.map((test) => (
+                <div key={test.id}>
+                  <TakeTestCard
+                    test={test}
+                    buttonLabel={t("takeTest")}
+                    onClick={() => handleTestClick(test.id)}
+                  />
+                </div>
+              ))
+            ) : (
+              <EmptyState searchTerm={searchTerm} />
+            )}
+          </div>
         </div>
       </div>
     </div>
