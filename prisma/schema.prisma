@@ -99,6 +99,7 @@ model Children {
   readingProficiencyTests  ReadingProficiencyTestResult[]  @relation("ChildrenReadingProficiencyTests")
   pictureTests             PictureTestResult[]             @relation("ChildrenPictureTests")
   graphemeTests            GraphemeTestResult[]            @relation("ChildrenGraphemeTests")
+  continuousAssessments ContinuousAssessment[] @relation("ChildrenContinuousAssessments")
 
   @@map("children")
 }
@@ -235,4 +236,17 @@ model GraphemeTestResult {
   child Children? @relation("ChildrenGraphemeTests", fields: [childId], references: [id])
 
   @@map("grapheme_test_results")
+}
+
+model ContinuousAssessment {
+  id        String   @id @default(uuid()) @db.UniqueIdentifier
+  createdAt   DateTime @default(now()) @db.DateTime2
+  childId     String?  @db.UniqueIdentifier
+  totalScore  Decimal? @db.Decimal(5, 2)
+  testResults String?  @db.Text  
+  analysis    String?  @db.Text
+
+  child       Children? @relation("ChildrenContinuousAssessments", fields: [childId], references: [id])
+
+  @@map("continuous_assessments")
 }
