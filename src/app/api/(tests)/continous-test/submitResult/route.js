@@ -7,7 +7,7 @@ import path from "path";
 const prisma = new PrismaClient();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Load test metadata (sync at module load)
+
 let testMetaData = {};
 (async () => {
   try {
