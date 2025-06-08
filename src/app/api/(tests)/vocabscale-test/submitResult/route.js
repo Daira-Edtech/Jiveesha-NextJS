@@ -6,7 +6,6 @@ import vocabularyWords from "@/Data/vocabularyWords";
 const prisma = new PrismaClient();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// ✨ Standardized prompt builder
 function buildPrompt(word, definition, language = "en") {
   const basePrompt = `
 Evaluate the child's definition of the word.
@@ -56,7 +55,6 @@ Example:
   return prompts[language] || prompts.en;
 }
 
-// ✨ Evaluate one word's definition
 async function evaluateDefinition(word, definition, language = "en") {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -90,14 +88,13 @@ async function evaluateDefinition(word, definition, language = "en") {
   }
 }
 
-// 📥 POST: /api/tests/vocabscale-test
 export async function POST(req) {
   try {
-    const { child_id, responses, language } = await req.json();
+    const { childId, responses, language } = await req.json();
 
-    if (!child_id || !Array.isArray(responses)) {
+    if (!childId || !Array.isArray(responses)) {
       return NextResponse.json(
-        { error: "Missing child_id or responses" },
+        { error: "Missing childId or responses" },
         { status: 400 }
       );
     }
@@ -126,7 +123,7 @@ export async function POST(req) {
 
     const result = await prisma.vocabularyTestResult.create({
       data: {
-        childId: child_id,
+        childId: childId,
         responses: JSON.stringify(processedResponses),
         score: totalScore,
         testName: "Vocabulary Scale",
@@ -134,7 +131,7 @@ export async function POST(req) {
     });
 
     await prisma.children.update({
-      where: { id: child_id },
+      where: { id: childId },
       data: { testsTaken: { increment: 1 } },
     });
 
