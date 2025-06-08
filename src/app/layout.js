@@ -12,8 +12,10 @@ import { usePathname } from "next/navigation";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  
-  const authRoutes = ['/login', '/register', '/forgot-password',"/"];
+  if(pathname === "/"){
+    return <>{children}</>;
+  }
+  const authRoutes = ['/login', '/register', '/forgot-password'];
   const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
   
   return (
