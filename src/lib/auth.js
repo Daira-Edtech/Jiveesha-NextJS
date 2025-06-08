@@ -17,6 +17,10 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://jiveesha-next-js-deploy.vercel.app"
+  ],
 //   socialProviders: {
 //     github: {
 //       clientId: process.env.GITHUB_CLIENT_ID,
