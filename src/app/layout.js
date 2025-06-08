@@ -13,8 +13,7 @@ import { usePathname } from "next/navigation";
 export default function RootLayout({ children }) {
   const pathname = usePathname();
   
-  // Routes that should NOT have the sidebar
-  const authRoutes = ['/login', '/register', '/forgot-password'];
+  const authRoutes = ['/login', '/register', '/forgot-password',"/"];
   const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
   
   return (
