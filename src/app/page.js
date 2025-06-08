@@ -5,9 +5,5 @@ import { useRouter } from "next/navigation";
 export default function Page() {
   const router = useRouter();
   router.push("/login");
-  return (
-    <div>
-      Hello
-    </div>
-  )
+  return null;
 }
