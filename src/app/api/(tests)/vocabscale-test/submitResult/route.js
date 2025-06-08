@@ -6,7 +6,6 @@ import vocabularyWords from "@/Data/vocabularyWords";
 const prisma = new PrismaClient();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// ✨ Standardized prompt builder
 function buildPrompt(word, definition, language = "en") {
   const basePrompt = `
 Evaluate the child's definition of the word.
@@ -56,7 +55,6 @@ Example:
   return prompts[language] || prompts.en;
 }
 
-// ✨ Evaluate one word's definition
 async function evaluateDefinition(word, definition, language = "en") {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -90,7 +88,6 @@ async function evaluateDefinition(word, definition, language = "en") {
   }
 }
 
-// 📥 POST: /api/tests/vocabscale-test
 export async function POST(req) {
   try {
     const { childId, responses, language } = await req.json();
