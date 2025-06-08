@@ -10,14 +10,27 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { usePathname } from "next/navigation";
 
+export const metadata = {
+  title: "Jiveesha",
+  description:
+    "Jiveesha is an intelligent educational platform for children's learning and assessments.",
+  keywords: [
+    "Jiveesha",
+    "education",
+    "learning",
+    "child development",
+    "AI assessment",
+  ],
+};
+
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  if(pathname === "/"){
+  if (pathname === "/") {
     return <>{children}</>;
   }
-  const authRoutes = ['/login', '/register', '/forgot-password'];
-  const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
-  
+  const authRoutes = ["/login", "/register", "/forgot-password"];
+  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
+
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
@@ -35,9 +48,7 @@ export default function RootLayout({ children }) {
                     <header className="p-4 border-b md:hidden flex-shrink-0">
                       <SidebarTrigger />
                     </header>
-                    <div className="flex-1 overflow-y-auto">
-                      {children}
-                    </div>
+                    <div className="flex-1 overflow-y-auto">{children}</div>
                   </main>
                 </div>
               </SidebarProvider>
