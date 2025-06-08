@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
 import Image from "next/image";
+import { useEffect, useState, cloneElement } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
+import { authClient, getUser } from "@/lib/auth-client";
+import { useLanguage } from "@/contexts/LanguageContext"; // Import from context
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,92 +18,13 @@ import {
   FiChevronsLeft,
   FiChevronsRight,
   FiLogOut,
+  FiChevronDown,
 } from "react-icons/fi";
 import { HiOutlineClipboardList } from "react-icons/hi";
 import { MdDashboard, MdLanguage } from "react-icons/md";
 
 const logoSrc = "/daira-logo1.png";
 const profileSrc = "/profile-icon.jpg";
-
-const useLanguage = () => {
-  const [currentLang, setCurrentLang] = React.useState("en");
-  const [isDropdownOpen, setDropdownOpen] = React.useState(false); // Added for dropdown state
-  const languagesList = [ // Keep the full list for the dropdown
-    { code: "en", name: "English", short: "EN" },
-    { code: "ta", name: "தமிழ்", short: "TA" },
-    { code: "hi", name: "हिंदी", short: "HI" },
-    { code: "ml", name: "മലയാളം", short: "ML" },
-    { code: "te", name: "తెలుగు", short: "TE" },
-    { code: "kn", name: "ಕನ್ನಡ", short: "KN" },
-    { code: "mr", name: "मराठी", short: "MR" },
-    { code: "bn", name: "বাংলা", short: "BN" },
-    { code: "gu", name: "ગુજરાતી", short: "GU" },
-    { code: "pa", name: "ਪੰਜਾਬੀ", short: "PA" },
-    { code: "od", name: "ଓଡ଼ିଆ", short: "OD" },
-  ];
-  const currentLanguageDetails = languagesList.find(l => l.code === currentLang) || languagesList[0];
-
-  return {
-    language: currentLang,
-    currentLanguageDetails,
-    languagesList,
-    setLanguage: (lang) => {
-      setCurrentLang(lang);
-      console.log(`Placeholder: Language changed to ${lang}`);
-      setDropdownOpen(false); // Close dropdown on selection
-    },
-    t: (key) => `${key.charAt(0).toUpperCase() + key.slice(1)}`, // Simple t function
-    isDropdownOpen, // Expose dropdown state
-    setDropdownOpen, // Expose setDropdownOpen directly
-    toggleDropdown: () => setDropdownOpen(!isDropdownOpen), // Expose toggle function
-  };
-};
-
-const useAuth = () => {
-  const router = useRouter();
-  const [user, setUser] = React.useState({
-    name: "Loading...",
-    email: "",
-  });
-  
-  React.useEffect(() => {
-    // Fetch the current user when the component mounts
-    const fetchUser = async () => {
-      try {
-        const { data } = await authClient.getSession();
-        if (data && data.user) {
-          setUser({
-            name: data.user.name || "User",
-            email: data.user.email || "",
-          });
-        }
-      } catch (error) {
-        console.error("Failed to fetch user session:", error);
-      }
-    };
-    
-    fetchUser();
-  }, []);
-  
-  return {
-    user,
-    logout: async () => {
-      try {
-        await authClient.signOut({
-          fetchOptions: {
-            onSuccess: () => {
-              router.push("/login"); // redirect to login page
-            },
-          },
-        });
-      } catch (error) {
-        console.error("Logout failed:", error);
-        // Fallback navigation in case of error
-        router.push("/login");
-      }
-    },
-  };
-};
 
 const SideNavBarItem = ({
   icon,
@@ -128,7 +50,7 @@ const SideNavBarItem = ({
           isActive ? "text-primary-foreground" : "text-primary group-hover:text-accent-foreground" // Icon color matches text or primary
         } transition-colors duration-300`}
       >
-        {React.cloneElement(icon, { className: "w-[18px] h-[18px] md:w-5 md:h-5" })}
+        {cloneElement(icon, { className: "w-[18px] h-[18px] md:w-5 md:h-5" })}
       </div>
       <div
         className={`transition-all duration-300 ease-in-out overflow-hidden ${
@@ -148,8 +70,76 @@ export function AppSidebar() {
   const isExpanded = state === "expanded";
   const router = useRouter();
   const pathname = usePathname();
-  const { language, setLanguage, t, languagesList, currentLanguageDetails, isDropdownOpen, setDropdownOpen, toggleDropdown } = useLanguage();
-  const { user, logout: handleLogout } = useAuth();
+  
+  // Use useLanguage from context
+  const { language, setLanguage, t, languagesList: contextLanguagesList } = useLanguage();
+  
+  // Local state for dropdown visibility
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+  // Define languagesList, using context's list or a fallback
+  const languagesList = contextLanguagesList || [
+    { code: "en", name: "English", short: "EN" },
+    { code: "ta", name: "தமிழ்", short: "TA" },
+    { code: "hi", name: "हिंदी", short: "HI" },
+    { code: "ml", name: "മലയാളം", short: "ML" },
+    { code: "te", name: "తెలుగు", short: "TE" },
+    { code: "kn", name: "ಕನ್ನಡ", short: "KN" },
+    { code: "mr", name: "मराठी", short: "MR" },
+    { code: "bn", name: "বাংলা", short: "BN" },
+    { code: "gu", name: "ગુજરાતી", short: "GU" },
+    { code: "pa", name: "ਪੰਜਾਬੀ", short: "PA" },
+    { code: "od", name: "ଓଡ଼ିଆ", short: "OD" },
+  ];
+
+  const currentLanguageDetails = languagesList.find(l => l.code === language) || languagesList[0];
+  
+  const [user, setUser] = useState({
+    name: "Loading...",
+    email: "",
+  });
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await getUser();
+        if (userData) {
+          setUser({
+            name: userData.name || "User",
+            email: userData.email || "",
+          });
+        } else {
+          setUser({ name: "Guest", email: "" });
+        }
+      } catch (error) {
+        console.error("Error in AppSidebar fetchUser:", error);
+        setUser({ name: "Error", email: "" });
+      }
+    };
+    
+    fetchUser();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            localStorage.removeItem("user");
+            router.push("/login");
+          },
+          onError: () => {
+            localStorage.removeItem("user");
+            router.push("/login");
+          }
+        },
+      });
+    } catch (error) {
+      console.error("Logout failed:", error);
+      localStorage.removeItem("user");
+      router.push("/login");
+    }
+  };
 
   const mainMenuItems = [
     { title: t("dashboard"), route: "/dashboard", icon: <MdDashboard size={20} /> },
@@ -160,7 +150,6 @@ export function AppSidebar() {
 
   const handleItemClick = (route) => {
     router.push(route);
-    // Close sidebar on mobile after navigation if it was open
     if (typeof window !== 'undefined' && window.innerWidth < 768 && state === 'expanded') {
         setOpen(false);
     }
@@ -176,11 +165,12 @@ export function AppSidebar() {
         isExpanded ? "w-64" : "w-16"
       } md:${isExpanded ? "w-64" : "w-20"}`}
     >
-      {/* Header Section */}
       <div
-        className={`flex items-center ${
-          isExpanded ? "justify-between" : "justify-center"
-        } py-4 px-3 md:py-5 md:px-4 relative h-16 md:h-[68px] flex-shrink-0`}
+        className={`flex relative flex-shrink-0 transition-all duration-300 ease-in-out ${
+          isExpanded
+            ? "items-center justify-between py-4 px-3 md:py-5 md:px-4 h-16 md:h-[68px]"
+            : "flex-col items-center justify-center py-2 px-2 h-20 md:h-[88px]" // Adjusted for collapsed state: flex-col, new height, and padding
+        }`}
       >
         <div
           className="flex items-center cursor-pointer group"
@@ -201,8 +191,8 @@ export function AppSidebar() {
           variant="ghost"
           size="icon"
           onClick={handleToggle}
-          className={`text-primary hover:text-primary-hover hover:bg-accent rounded-full w-8 h-8 md:w-10 md:h-10 ${
-            isExpanded ? "" : "absolute right-2 md:right-3 top-1/2 -translate-y-1/2" 
+          className={`text-primary hover:text-primary-hover hover:bg-accent rounded-full w-8 h-8 md:w-10 md:h-10 transition-all duration-300 ease-in-out ${
+            isExpanded ? "" : "mt-1 md:mt-2"
           }`}
           aria-label={isExpanded ? t("collapseMenu") : t("expandMenu")}
         >
@@ -214,7 +204,6 @@ export function AppSidebar() {
         </Button>
       </div>
 
-      {/* Scrollable Navigation Area */}
       <div className="flex-1 overflow-y-auto pb-32 md:pb-36">
         <div className="mt-2 px-2 md:px-3">
           <div
@@ -254,16 +243,19 @@ export function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className={`w-full flex items-center justify-between px-2 py-1.5 md:px-3 md:py-2 text-sm font-medium
-                              ${isExpanded ? "hover:bg-accent" : "hover:bg-transparent justify-center"}
-                              text-sidebar-foreground focus:ring-0 focus:ring-offset-0`}
-                  onClick={toggleDropdown}
+                  className={`w-full flex items-center px-2 py-1.5 md:px-3 md:py-2 text-sm font-medium rounded-lg border border-border/50
+                              ${isExpanded ? "justify-between hover:bg-accent hover:border-border" : "justify-center hover:bg-accent"}
+                              text-sidebar-foreground focus:ring-0 focus:ring-offset-0 transition-all duration-200`}
+                  // onClick removed, DropdownMenuTrigger handles open/close via onOpenChange
                   aria-label={t("selectLanguage")}
                 >
                   {isExpanded ? (
                     <>
-                      <span>{currentLanguageDetails.name}</span>
-                      <MdLanguage className="w-4 h-4 md:w-5 md:h-5 opacity-70" />
+                      <div className="flex items-center gap-2">
+                        <MdLanguage className="w-4 h-4 opacity-70" />
+                        <span className="text-sm">{currentLanguageDetails.name}</span>
+                      </div>
+                      <FiChevronDown className={`w-4 h-4 opacity-70 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                     </>
                   ) : (
                     <MdLanguage className="w-5 h-5 md:w-6 md:h-6" />
@@ -274,7 +266,10 @@ export function AppSidebar() {
                 {languagesList.map((lang) => (
                   <DropdownMenuItem
                     key={lang.code}
-                    onSelect={() => setLanguage(lang.code)}
+                    onSelect={() => {
+                      setLanguage(lang.code);
+                      setDropdownOpen(false); // Close dropdown on selection
+                    }}
                     className={language === lang.code ? "bg-accent" : ""}
                   >
                     {lang.name} ({lang.short})
@@ -286,7 +281,6 @@ export function AppSidebar() {
         </div>
       </div>
 
-      {/* Fixed Account Section at Bottom */}
       <div className={`absolute bottom-0 left-0 right-0 bg-sidebar px-3 pb-3 pt-3 border-t border-sidebar-border/50 transition-all duration-300 ease-in-out ${
         isExpanded ? "w-64" : "w-16 md:w-20"
       }`}>

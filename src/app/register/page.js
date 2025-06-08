@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { authClient } from "@/lib/auth-client"; // Import the auth client
+import Image from "next/image";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -113,9 +114,14 @@ export default function RegisterPage() {
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center items-center mb-6">
-            <div className="w-14 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">D</span>
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img 
+              src="/daira-logo1.png" 
+              alt="Daira Logo" 
+              width={56} 
+              height={48} 
+              className="rounded-xl"
+            />
             <h1 className="text-3xl font-bold ml-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Daira
             </h1>
