@@ -11,7 +11,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 let testMetaData = {};
 (async () => {
   try {
-    const data = await readFile(path.join(process.cwd(), "Data", "testMetaData.json"), "utf-8");
+    const data = await readFile(path.join(process.cwd(), "src", "Data", "testMetaData.json"), "utf-8");
     testMetaData = JSON.parse(data);
   } catch (err) {
     console.error("Failed to load testMetaData.json:", err);
