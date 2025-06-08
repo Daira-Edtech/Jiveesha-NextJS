@@ -1,26 +1,28 @@
 import { NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
-const publicPaths = ["/login", "/register"];
+const publicPaths = ["/login", "/register", "/"];
 
 export async function middleware(request) {
-  const pathname = request.nextUrl.pathname.replace(/\/$/, "");
-
+  const { pathname } = request.nextUrl;
   const sessionCookie = await getSessionCookie(request);
   const isAuthenticated = !!sessionCookie;
 
-  const isAccessingPublicPath = publicPaths.some((path) =>
-    pathname.startsWith(path)
-  );
+  const isPublicPath = publicPaths.includes(pathname);
 
-  if (isAccessingPublicPath && isAuthenticated) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-
-  if (!isAccessingPublicPath && !isAuthenticated) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("redirect_to", pathname);
-    return NextResponse.redirect(loginUrl);
+  if (isAuthenticated) {
+    if (pathname === "/login" || pathname === "/register") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+    if (pathname === "/") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  } else {
+    if (!isPublicPath) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect_to", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
   return NextResponse.next();
