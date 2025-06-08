@@ -96,7 +96,7 @@ const TakeTestCard = ({ test, buttonLabel, onClick }) => {
   const handleButtonClick = (e) => {
     e.stopPropagation();
     localStorage.setItem("selectedTestId", test.id);
-    router.push("/selectstudent");
+    router.push("/select-student");
     if (onClick) onClick();
   };
 

@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "routeName": "reading-proficiency",
     "testName": "Reading Proficiency Assessment",
     "testName_ta": "வாசிப்புத் திறன் மதிப்பீடு",
     "testName_hi": "पठन कौशल मूल्यांकन",
@@ -26,6 +27,7 @@
   },
   {
     "id": 2,
+    "routeName": "visual-discrimination",
     "testName": "Visual Discrimination",
     "testName_ta": "காட்சி வேறுபாடு",
     "testName_hi": "दृश्य भेदभाव",
@@ -53,6 +55,7 @@
 
     {
       "id": 3,
+      "routeName": "sound-discrimination",
       "testName": "Sound Discrimination",
       "testName_ta": "ஒலி வேறுபாடு",
       "testName_hi": "ध्वनि भेदभाव",
@@ -78,6 +81,7 @@
     },
     {
       "id": 4,
+      "routeName": "picture-recognition",
       "testName": "Picture Recognition",
       "testName_ta": "படம் அங்கீகாரம்",
       "testName_hi": "चित्र पहचान",
@@ -107,6 +111,7 @@
   
   {
     "id": 5,
+    "routeName": "grapheme-phoneme-correspondence",
     "testName": "Grapheme/Phoneme Correspondence",
     "testName_ta": "கிராஃபேம்/ஃபோனீம் பொருத்தம்",
     "testName_hi": "ग्राफीम/फोनीम संबंध",
@@ -132,6 +137,7 @@
   },
   {
     "id": 6,
+    "routeName": "auditory-sequential-memory",
     "testName": "Auditory sequential memory",
     "testName_ta": "செவிப்புல தொடர் நினைவகம்",
     "testName_hi": "श्रवण अनुक्रमिक स्मृति",
@@ -159,6 +165,7 @@
 
   {
     "id": 7,
+    "routeName": "sequence-arrangement",
     "testName": "Sequence Arrangement",
     "testName_ta": "வரிசை ஏற்பாடு",
     "testName_hi": "क्रम व्यवस्था",
@@ -184,6 +191,7 @@
   },
   {
     "id": 8,
+    "routeName": "symbol-sequence",
     "testName": "Symbol Sequence",
     "testName_ta": "சின்ன வரிசை",
     "testName_hi": "प्रतीक अनुक्रम",
@@ -209,6 +217,7 @@
   },
   {
     "id": 9,
+    "routeName": "sound-blending",
     "testName": "Sound Blending",
     "testName_ta": "ஒலி கலப்பு",
     "testName_hi": "ध्वनि सम्मिश्रण",
@@ -236,6 +245,7 @@
 
  {
   "id": 10,
+  "routeName": "vocabulary-scale",
   "testName": "Vocabulary Scale",
   "testName_ta": "சொல் அளவீடு",
   "testName_hi": "शब्दावली पैमाना",

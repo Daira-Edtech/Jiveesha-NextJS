@@ -40,7 +40,7 @@ const TakeTests = () => {
 
   const handleTestClick = (testId) => {
     localStorage.setItem("selectedTestId", testId);
-    router.push("/selectstudent");
+    router.push("/select-student");
   };
 
   const handleSearch = (e) => {
@@ -111,7 +111,7 @@ const TakeTests = () => {
           <Button
             onClick={() => {
               localStorage.setItem("selectedTestId", "all");
-              router.push("/selectstudent");
+              router.push("/select-student");
             }}
             className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-lg font-semibold"
             size="lg"
