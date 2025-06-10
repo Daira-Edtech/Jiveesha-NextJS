@@ -72,7 +72,7 @@ const speak = (text) => {
   }
 };
 
-const Test7Page = ({ onTestComplete }) => {
+const Test7Page = () => {
   const router = useRouter();
   const [childId, setChildId] = useState(null);
 
