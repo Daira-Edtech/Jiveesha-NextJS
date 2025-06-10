@@ -96,9 +96,9 @@ const Test7Page = ({ onTestComplete }) => {
 
     try {
       const response = await axios.post(
-        "./api/sequence-test/submitResult",
+        "/api/sequence-test/submitResult",
         {
-          child_id: childId,
+          childId: childId,
           score: finalScore.correct,
           total_questions: finalScore.total,
           test_name: "Sequence Test 7",
