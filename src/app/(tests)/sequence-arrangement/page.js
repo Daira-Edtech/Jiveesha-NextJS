@@ -5,10 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-
 import WelcomeDialog from "./sequence-arrangement/WelcomeDialog.js";
-
-
 
 // --- Direct Implementation of t() and speak() ---
 const translations = {
@@ -16,10 +13,12 @@ const translations = {
   letsBegin: "Let's Begin",
   aboutTheGame: "About The Game",
   howToPlay: "How to Play",
-  memoryGameDescription: "This is a memory game. Watch the sequence of animals, remember their order, and then recreate it.",
+  memoryGameDescription:
+    "This is a memory game. Watch the sequence of animals, remember their order, and then recreate it.",
   watchSequence: "Watch the sequence of animals.",
   rememberOrder: "Remember the order they appear in.",
-  recreateSequence: "Recreate the sequence by selecting the animals in the correct order.",
+  recreateSequence:
+    "Recreate the sequence by selecting the animals in the correct order.",
   fiveSecondsToMemorize: "You'll have 5 seconds to memorize each sequence.",
   gameStructure: "Game Structure",
   practiceRound: "Practice Round",
@@ -33,7 +32,8 @@ const translations = {
   removeRearrange: "You can remove and rearrange selected animals.",
   showAnimalsInOrder: "We'll show you some animals in a specific order.",
   readyForTest: "Ready for the Real Test?",
-  testDescription: "Great job on the practice! Now, let's start the main test. There will be 10 rounds.",
+  testDescription:
+    "Great job on the practice! Now, let's start the main test. There will be 10 rounds.",
   startTest: "Start Test",
   startPracticeRound: "Start Practice Round",
   backToTests: "Back to Tests",
@@ -53,7 +53,8 @@ const translations = {
   yourScore: "Your Score:",
   viewRewards: "View Rewards",
   finishTest: "Finish Test",
-  rewardsTitle: "Yay, you finished the challenge! Here's a little something for your effort!",
+  rewardsTitle:
+    "Yay, you finished the challenge! Here's a little something for your effort!",
   returnToResults: "Return to Results",
   feedback: "Feedback",
   testCompleted: "Test Completed",
@@ -65,23 +66,21 @@ const t = (key) => translations[key] || key;
 
 const speak = (text) => {
   console.log(`TTS (direct): ${text}`);
-  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  if (typeof window !== "undefined" && "speechSynthesis" in window) {
     const utterance = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(utterance);
   }
 };
 
-
 const Test7Page = ({ onTestComplete }) => {
   const router = useRouter();
   const [childId, setChildId] = useState(null);
-  
+
   useEffect(() => {
     const storedChildId = localStorage.getItem("childId");
     if (storedChildId) {
       setChildId(storedChildId);
     }
-    
   }, []);
 
   const handleEntireTestFlowComplete = async (finalScore) => {
@@ -96,14 +95,13 @@ const Test7Page = ({ onTestComplete }) => {
     }
 
     try {
-      
       const response = await axios.post(
-        './api/(tests)/sequence-test/submitResult',
+        "./api/sequence-test/submitResult",
         {
           child_id: childId,
           score: finalScore.correct,
           total_questions: finalScore.total,
-          test_name: "Sequence Test 7"
+          test_name: "Sequence Test 7",
         },
         {
           headers: {
@@ -114,7 +112,10 @@ const Test7Page = ({ onTestComplete }) => {
       );
       console.log("Test results saved by page.js:", response.data);
     } catch (error) {
-      console.error("Error saving test results in page.js:", error.response?.data || error.message);
+      console.error(
+        "Error saving test results in page.js:",
+        error.response?.data || error.message
+      );
     } finally {
       if (onTestComplete) {
         onTestComplete(finalScore.correct);
@@ -132,7 +133,6 @@ const Test7Page = ({ onTestComplete }) => {
         onEntireTestComplete={handleEntireTestFlowComplete}
         initialChildId={childId}
       />
-      
     </div>
   );
 };
