@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 import { FaCheck, FaChevronRight } from "react-icons/fa";
 
 // Import local images relative to this component's location
-import localBackgroundImageForDialog from "../../../public/grapheme-test/backgroundImage.png";
-import birdCharacterImage from "../../../public/grapheme-test/characterImage.png";
+import localBackgroundImageForDialog from "../../../public/grapheme-test/backgroundImage.webp";
+import birdCharacterImage from "../../../public/grapheme-test/characterImage.webp";
 
 const WelcomeDialog = ({
   dialog,

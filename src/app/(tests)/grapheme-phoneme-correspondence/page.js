@@ -15,7 +15,7 @@ import graphemeLettersData from "../../../components/grapheme-test/graphemeLette
 import { useLanguage } from "../../../contexts/LanguageContext.jsx";
 
 // Import local images (ensure these paths are correct relative to page.jsx)
-import localAppBackgroundImage from "../../../../public/grapheme-test/backgroundImage.png";
+import localAppBackgroundImage from "../../../../public/grapheme-test/backgroundImage.webp";
 
 // Import Components & Hook (ensure these paths are correct)
 import { useGraphemeTestLogic } from "../../../components/grapheme-test//useGraphemeTestLogic.js";
@@ -51,11 +51,13 @@ const GraphemeTestPage = ({ suppressResultPage = false, onComplete }) => {
   const [isProcessingFinalSubmit, setIsProcessingFinalSubmit] = useState(false);
   const [childId, setChildId] = useState(null);
   const [token, setToken] = useState(null);
+  
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setChildId(localStorage.getItem("childId"));
       setToken(localStorage.getItem("access_token"));
+      console.log(token);
     }
   }, []);
 
@@ -98,29 +100,106 @@ const GraphemeTestPage = ({ suppressResultPage = false, onComplete }) => {
   const handleStartFullTestFromPracticeModal = () => setTestStage("test");
   const handleClosePracticeModalAndRetryPractice = () => setTestStage("practice");
 
-  const handleSubmitFinal = async () => {
-    if (!childId || !token) { toast.error("User information not found."); return; }
-    setIsProcessingFinalSubmit(true); toast.loading("Processing your responses...");
-    const finalUserInputs = [...userInputs];
-    while (finalUserInputs.length < letters.length) finalUserInputs.push("");
-    try {
-      const evalResponse = await axios.post(
-        `${backendURL}/evaluate-grapheme-test`,
-        { childId, letters, transcriptions: finalUserInputs.slice(0, letters.length), language: langKey },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      toast.dismiss(); setScore(evalResponse.data.score);
+ 
+const handleSubmitFinal = async () => {
+  // --- SOFT DEBUG: Function Entry ---
+  console.log("handleSubmitFinal: Function called.");
+
+  if (!childId || !token) {
+    toast.error("User information not found.");
+    // --- SOFT DEBUG: Missing Info & Abort ---
+    console.warn("handleSubmitFinal: Aborted - childId or token missing.", { childIdExists: !!childId, tokenExists: !!token });
+    return;
+  }
+
+  setIsProcessingFinalSubmit(true);
+  toast.loading("Processing your responses...");
+  // --- SOFT DEBUG: Start Processing & Current User Inputs (from hook) ---
+  console.log("handleSubmitFinal: Processing started. Current userInputs (from hook):", userInputs);
+
+  const finalUserInputs = [...userInputs]; // Ensure userInputs from hook is used
+  while (finalUserInputs.length < letters.length) {
+    finalUserInputs.push("");
+  }
+  // --- SOFT DEBUG: Prepared Inputs for Submission ---
+  console.log("handleSubmitFinal: Prepared finalUserInputs for submission:", finalUserInputs);
+
+  try {
+    const payload = {
+      childId,
+      letters,
+      transcriptions: finalUserInputs.slice(0, letters.length),
+      language: langKey,
+    };
+    // --- SOFT DEBUG: API Call Details (Endpoint & Payload) ---
+    console.log("handleSubmitFinal: Sending POST request to /api/grapheme-test/submitResult with payload:", payload);
+
+    const evalResponse = await axios.post(
+      './api/grapheme-test/submitResult', // Using backendURL prefix. If internal API, path alone might be okay.
+      payload,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    toast.dismiss();
+    // --- SOFT DEBUG: API Call Successful (Status & Response Data) ---
+    console.log("handleSubmitFinal: API call successful. Status:", evalResponse.status, "Response data:", evalResponse.data);
+
+    if (evalResponse.data && typeof evalResponse.data.score === 'number') {
+      setScore(evalResponse.data.score);
+      // --- SOFT DEBUG: Score Updated ---
+      console.log("handleSubmitFinal: Score set to:", evalResponse.data.score);
+
       if (suppressResultPage && typeof onComplete === "function") {
+        // --- SOFT DEBUG: Suppressing Result Page ---
+        console.log("handleSubmitFinal: Suppressing result page and calling onComplete.");
         onComplete(evalResponse.data.score);
-        setTestStage("intro"); // Or router.push("/taketests") if suppressing means exiting this flow.
+        setTestStage("intro");
+        // --- SOFT DEBUG: Stage Transition ---
+        console.log("handleSubmitFinal: Test stage set to 'intro'.");
       } else {
+        // --- SOFT DEBUG: Showing Results Page ---
+        console.log("handleSubmitFinal: Showing results page.");
         setTestStage("results");
+        // --- SOFT DEBUG: Stage Transition ---
+        console.log("handleSubmitFinal: Test stage set to 'results'.");
       }
-    } catch (error) {
-      toast.dismiss(); toast.error("Failed to process results. Please try again.");
-      console.error("Submission Error:", error); setTestStage("submit");
-    } finally { setIsProcessingFinalSubmit(false); }
-  };
+    } else {
+      toast.error("Invalid response from server. Score not found.");
+      // --- SOFT DEBUG: Invalid API Response Structure ---
+      console.error("handleSubmitFinal: Invalid response structure from API. Score missing.", evalResponse.data);
+      setTestStage("submit"); // Stay on submit or show an error state
+    }
+
+  } catch (error) {
+    toast.dismiss();
+    toast.error("Failed to process results. Please try again.");
+    
+    // --- SOFT DEBUG: API Error Details ---
+    if (error.response) {
+      // Server responded with an error status (4xx, 5xx)
+      console.error(
+        "handleSubmitFinal: API Error - Status:", error.response.status,
+        "Data:", error.response.data
+        // "Headers:", error.response.headers // Headers can be very verbose, log if needed
+      );
+    } else if (error.request) {
+      // Request was made but no response received (network issue, server down)
+      console.error("handleSubmitFinal: Network Error - No response received. Request details:", error.request);
+    } else {
+      // Something else went wrong in setting up the request
+      console.error("handleSubmitFinal: Request Setup Error - Message:", error.message);
+    }
+    // --- SOFT DEBUG: Full Error Object (for more details if needed) ---
+    // console.error("handleSubmitFinal: Full error object:", error); // Uncomment if you need the whole thing
+    setTestStage("submit");
+    // --- SOFT DEBUG: Stage Transition due to Error ---
+    console.log("handleSubmitFinal: Test stage set back to 'submit' due to error.");
+  } finally {
+    setIsProcessingFinalSubmit(false);
+    // --- SOFT DEBUG: Processing Finished ---
+    console.log("handleSubmitFinal: Processing finished. isProcessingFinalSubmit set to false.");
+  }
+};
 
   // This restart function is primarily for the "Try Again" button on the ResultsScreen
   const restartEntireTestFlowFromIntro = () => {
