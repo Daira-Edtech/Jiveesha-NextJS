@@ -1,23 +1,23 @@
-"use client";
+"use client"; // This directive applies to all components in this file
+
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import PropTypes from "prop-types";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+// PropTypes removed as it's not the primary way to type Next.js page props and custom props are handled internally
+import { Suspense, useCallback, useEffect, useRef, useState } from "react"; // Added Suspense
 import { toast } from "sonner";
 
 import { Loader2 } from "lucide-react";
 import { FaArrowLeft } from "react-icons/fa";
 
-
 import graphemeLettersData from "../../../components/grapheme-test/graphemeLetters.json";
 import { useLanguage } from "../../../contexts/LanguageContext.jsx";
 
-// Import local images (ensure these paths are correct relative to page.jsx)
+// Import local images
 import localAppBackgroundImage from "../../../../public/grapheme-test/backgroundImage.webp";
 
-// Import Components & Hook (ensure these paths are correct)
+// Import Components & Hook
 import { useGraphemeTestLogic } from "../../../components/grapheme-test//useGraphemeTestLogic.js";
 import PracticeInterface from "../../../components/grapheme-test/PracticeInterface";
 import PracticeModal from "../../../components/grapheme-test/PracticeModal";
@@ -25,6 +25,7 @@ import ResultsScreen from "../../../components/grapheme-test/ResultScreen.jsx";
 import SubmitScreen from "../../../components/grapheme-test/SubmitScreen.jsx";
 import TestInterface from "../../../components/grapheme-test/TestInterface.jsx";
 import WelcomeDialog from "../../../components/grapheme-test/WelcomeDialog.jsx";
+
 const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
 
 const LETTER_TIMER_DURATION = 8;
@@ -36,9 +37,20 @@ const DIALOG_TEXTS = [
     "Are you ready to let the cliffs sing you their secrets and find the harmony of letters and sounds?",
 ];
 
-const GraphemeTestPage = ({ suppressResultPage = false, onComplete }) => {
-  const { language, t } = useLanguage();
+// Renamed the original component to GraphemeTestContent
+// This component contains all the original logic and uses useSearchParams
+const GraphemeTestContent = () => {
   const router = useRouter();
+  const searchParams = useSearchParams(); 
+
+  const suppressResultPage = searchParams.get('suppressResultPage') === 'true';
+
+  const onCompleteHandler = useCallback((score) => {
+    toast.info(`Test completed with score: ${score}. Suppressing results page as requested.`);
+    router.push("/take-tests"); 
+  }, [router]);
+
+  const { language, t } = useLanguage();
   const inputRef = useRef(null);
 
   const [letters, setLetters] = useState([]);
@@ -55,9 +67,10 @@ const GraphemeTestPage = ({ suppressResultPage = false, onComplete }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setChildId(localStorage.getItem("childId"));
-      setToken(localStorage.getItem("access_token"));
-      console.log(token);
+      const storedChildId = localStorage.getItem("childId");
+      const storedToken = localStorage.getItem("access_token");
+      setChildId(storedChildId);
+      setToken(storedToken);
     }
   }, []);
 
@@ -72,8 +85,8 @@ const GraphemeTestPage = ({ suppressResultPage = false, onComplete }) => {
     
     setTestStage("intro");
     setCurrentDialog(0);
-    // resetMainTestLogic(); // The hook will reset itself when 'letters' or 'isMainTestUIVisible' changes.
-  }, [language]); // Added resetMainTestLogic to dependencies if it were called here, but it's not needed.
+    setScore(0); 
+  }, [language]); 
 
   const handleFullTestCompletionByHook = useCallback(() => {
     setTestStage("submit");
@@ -102,26 +115,23 @@ const GraphemeTestPage = ({ suppressResultPage = false, onComplete }) => {
 
  
 const handleSubmitFinal = async () => {
-  // --- SOFT DEBUG: Function Entry ---
   console.log("handleSubmitFinal: Function called.");
 
   if (!childId || !token) {
-    toast.error("User information not found.");
-    // --- SOFT DEBUG: Missing Info & Abort ---
+    toast.error("User information not found. Please log in again.");
     console.warn("handleSubmitFinal: Aborted - childId or token missing.", { childIdExists: !!childId, tokenExists: !!token });
+    setIsProcessingFinalSubmit(false); 
     return;
   }
 
   setIsProcessingFinalSubmit(true);
   toast.loading("Processing your responses...");
-  // --- SOFT DEBUG: Start Processing & Current User Inputs (from hook) ---
   console.log("handleSubmitFinal: Processing started. Current userInputs (from hook):", userInputs);
 
-  const finalUserInputs = [...userInputs]; // Ensure userInputs from hook is used
+  const finalUserInputs = [...userInputs]; 
   while (finalUserInputs.length < letters.length) {
     finalUserInputs.push("");
   }
-  // --- SOFT DEBUG: Prepared Inputs for Submission ---
   console.log("handleSubmitFinal: Prepared finalUserInputs for submission:", finalUserInputs);
 
   try {
@@ -131,77 +141,56 @@ const handleSubmitFinal = async () => {
       transcriptions: finalUserInputs.slice(0, letters.length),
       language: langKey,
     };
-    // --- SOFT DEBUG: API Call Details (Endpoint & Payload) ---
     console.log("handleSubmitFinal: Sending POST request to /api/grapheme-test/submitResult with payload:", payload);
 
     const evalResponse = await axios.post(
-      './api/grapheme-test/submitResult', // Using backendURL prefix. If internal API, path alone might be okay.
+      `${backendURL}/api/grapheme-test/submitResult`, 
       payload,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
     toast.dismiss();
-    // --- SOFT DEBUG: API Call Successful (Status & Response Data) ---
     console.log("handleSubmitFinal: API call successful. Status:", evalResponse.status, "Response data:", evalResponse.data);
 
     if (evalResponse.data && typeof evalResponse.data.score === 'number') {
-      setScore(evalResponse.data.score);
-      // --- SOFT DEBUG: Score Updated ---
-      console.log("handleSubmitFinal: Score set to:", evalResponse.data.score);
+      const newScore = evalResponse.data.score;
+      setScore(newScore);
+      console.log("handleSubmitFinal: Score set to:", newScore);
 
-      if (suppressResultPage && typeof onComplete === "function") {
-        // --- SOFT DEBUG: Suppressing Result Page ---
-        console.log("handleSubmitFinal: Suppressing result page and calling onComplete.");
-        onComplete(evalResponse.data.score);
-        setTestStage("intro");
-        // --- SOFT DEBUG: Stage Transition ---
-        console.log("handleSubmitFinal: Test stage set to 'intro'.");
+      if (suppressResultPage && typeof onCompleteHandler === "function") {
+        console.log("handleSubmitFinal: Suppressing result page and calling onCompleteHandler.");
+        onCompleteHandler(newScore);
       } else {
-        // --- SOFT DEBUG: Showing Results Page ---
         console.log("handleSubmitFinal: Showing results page.");
         setTestStage("results");
-        // --- SOFT DEBUG: Stage Transition ---
-        console.log("handleSubmitFinal: Test stage set to 'results'.");
       }
     } else {
       toast.error("Invalid response from server. Score not found.");
-      // --- SOFT DEBUG: Invalid API Response Structure ---
       console.error("handleSubmitFinal: Invalid response structure from API. Score missing.", evalResponse.data);
-      setTestStage("submit"); // Stay on submit or show an error state
+      setTestStage("submit"); 
     }
 
   } catch (error) {
     toast.dismiss();
     toast.error("Failed to process results. Please try again.");
     
-    // --- SOFT DEBUG: API Error Details ---
     if (error.response) {
-      // Server responded with an error status (4xx, 5xx)
       console.error(
         "handleSubmitFinal: API Error - Status:", error.response.status,
         "Data:", error.response.data
-        // "Headers:", error.response.headers // Headers can be very verbose, log if needed
       );
     } else if (error.request) {
-      // Request was made but no response received (network issue, server down)
       console.error("handleSubmitFinal: Network Error - No response received. Request details:", error.request);
     } else {
-      // Something else went wrong in setting up the request
       console.error("handleSubmitFinal: Request Setup Error - Message:", error.message);
     }
-    // --- SOFT DEBUG: Full Error Object (for more details if needed) ---
-    // console.error("handleSubmitFinal: Full error object:", error); // Uncomment if you need the whole thing
     setTestStage("submit");
-    // --- SOFT DEBUG: Stage Transition due to Error ---
-    console.log("handleSubmitFinal: Test stage set back to 'submit' due to error.");
   } finally {
     setIsProcessingFinalSubmit(false);
-    // --- SOFT DEBUG: Processing Finished ---
     console.log("handleSubmitFinal: Processing finished. isProcessingFinalSubmit set to false.");
   }
 };
 
-  // This restart function is primarily for the "Try Again" button on the ResultsScreen
   const restartEntireTestFlowFromIntro = () => {
     resetMainTestLogic(); 
     setScore(0); 
@@ -210,17 +199,16 @@ const handleSubmitFinal = async () => {
     setTestStage("intro"); 
   };
 
-  // --- REVISED Back Button Logic ---
   const handleBackButtonClick = () => {
     let confirmAndExit = false;
     switch (testStage) {
       case "intro":
-        router.push("/take-tests"); // To main menu
+        router.push("/take-tests"); 
         break;
       case "practice":
       case "practiceCompleted":
-        setTestStage("intro");    // Back to intro dialogs
-        setCurrentDialog(0);      // Reset intro dialogs
+        setTestStage("intro");    
+        setCurrentDialog(0);      
         break;
       case "test":
       case "submit":
@@ -230,15 +218,15 @@ const handleSubmitFinal = async () => {
             );
         }
         if (confirmAndExit) {
-          resetMainTestLogic();     // Reset the main test's logic (e.g., currentIndex)
-          router.push("/take-tests"); // Navigate to the main test menu
+          resetMainTestLogic();     
+          router.push("/take-tests"); 
         }
         break;
       case "results":
-        router.push("/take-tests"); // From results screen, "back" goes to main menu
+        router.push("/take-tests"); 
         break;
       default:
-        router.push("/take-tests"); // Fallback
+        router.push("/take-tests"); 
     }
   };
 
@@ -252,8 +240,8 @@ const handleSubmitFinal = async () => {
     }
   };
 
-  // --- RENDER LOGIC BASED ON testStage ---
   let mainCardContent;
+  // ... (rest of the mainCardContent logic, exactly as before)
   if (testStage === "intro") {
     mainCardContent = <div className="text-center py-12 min-h-[400px] flex items-center justify-center"><Loader2 size={36} className="animate-spin text-sky-400" /><p className="ml-3 text-lg text-slate-300">Loading Introduction...</p></div>;
   } else if ((testStage === 'practice' || testStage === 'practiceCompleted') && !firstLetterForPractice) {
@@ -266,30 +254,28 @@ const handleSubmitFinal = async () => {
     mainCardContent = <motion.div key="processing-final-submit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center py-12 min-h-[400px] flex items-center justify-center"><div className="flex flex-col items-center gap-6"><motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="text-6xl text-white">🎵</motion.div><Loader2 size={48} className="text-orange-400 animate-spin" /><p className="text-2xl text-orange-200 font-medium">Processing your melody...</p></div></motion.div>;
   } else if (testStage === "submit") {
     mainCardContent = <SubmitScreen onSubmit={handleSubmitFinal} isProcessingSubmit={isProcessingFinalSubmit} />;
-  } else if (testStage === "results") {
+  } else if (testStage === "results") { 
     mainCardContent = <ResultsScreen score={score} totalLetters={letters.length} onRestartTest={restartEntireTestFlowFromIntro} />;
   } else if (testStage === "test" && currentIndex < letters.length && letters.length > 0) {
     mainCardContent = <TestInterface currentIndex={currentIndex} letters={letters} timeLeft={timeLeft} LETTER_TIMER_DURATION={LETTER_TIMER_DURATION} userInputs={userInputs} inputStatus={inputStatus} isRecording={isRecording} isProcessingSubmit={isProcessingFinalSubmit} inputRef={inputRef} handleInputChange={handleInputChange} handleRecordButtonClick={handleRecordButtonClick} handleNext={handleNext} language={language} />;
-  } else if (testStage === "test" && letters.length === 0 && !firstLetterForPractice) { // More specific loading for test letters
+  } else if (testStage === "test" && letters.length === 0 && !firstLetterForPractice) { 
      mainCardContent = <div className="text-center py-12 min-h-[400px] flex items-center justify-center"><Loader2 size={36} className="animate-spin text-sky-400" /><p className="ml-3 text-lg text-slate-300">Loading Test Letters...</p></div>;
-  } else if (testStage === "test" && currentIndex >= letters.length && letters.length > 0) { // Test logic hook finished, page should transition to submit
+  } else if (testStage === "test" && currentIndex >= letters.length && letters.length > 0) { 
     mainCardContent = <div className="text-center py-12 min-h-[400px] flex items-center justify-center" key="finalizing-test-transition"><Loader2 size={36} className="animate-spin text-orange-400" /><p className="ml-3 text-lg text-orange-300">Finalizing Test...</p></div>;
-  } else { // Fallback for any unhandled or initial loading state before letters/practiceLetter are set
+  } else { 
     mainCardContent = <div className="text-center py-12 min-h-[400px] flex items-center justify-center"><Loader2 size={36} className="animate-spin text-gray-400" /><p className="ml-3 text-lg text-gray-300">Loading...</p></div>;
   }
 
-  // --- Main Render ---
-  // Handle full-screen intro dialog separately as it overlays everything
+  // --- Main Render Logic of GraphemeTestContent ---
   if (testStage === "intro") {
     return <WelcomeDialog dialog={DIALOG_TEXTS} currentDialog={currentDialog} onNextDialog={handleNextIntroDialog} onStartTest={startPracticeAfterIntroDialog} t={t} />;
   }
   
   return (
-    <div className="fixed inset-0"> {/* Main page wrapper */}
+    <div className="fixed inset-0"> 
       <Image src={localAppBackgroundImage} alt="Grapheme test background" layout="fill" objectFit="cover" quality={75} priority placeholder="blur" className="-z-10" />
       <div className="absolute inset-0 bg-gradient-to-b from-orange-900/40 via-purple-900/30 to-blue-900/50" />
       
-      {/* Back Button - always visible except during intro dialog */}
       <motion.button 
         initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} 
         onClick={handleBackButtonClick}
@@ -300,7 +286,6 @@ const handleSubmitFinal = async () => {
         {getBackButtonText()}
       </motion.button>
 
-      {/* Main Content Card Area */}
       <div className="relative z-20 flex flex-col items-center justify-center min-h-screen p-4">
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }} 
@@ -360,10 +345,34 @@ const handleSubmitFinal = async () => {
   );
 };
 
-GraphemeTestPage.propTypes = {
-  suppressResultPage: PropTypes.bool,
-  onComplete: PropTypes.func,
-};
 
-export default GraphemeTestPage;
+// This is the new default export for the page.
+// It wraps GraphemeTestContent in Suspense.
+// Since GraphemeTestContent (and thus this whole file) is "use client",
+// this component will also be a client component.
+export default function GraphemePhonemeCorrespondencePage() {
+  // A fallback UI for Suspense. This will be shown while useSearchParams is resolving.
+  const fallbackContent = (
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 text-white z-[200]">
+      {/* Optional: Add background image to fallback as well for consistency */}
+      <Image 
+        src={localAppBackgroundImage} 
+        alt="Loading background" 
+        layout="fill" 
+        objectFit="cover" 
+        quality={75} 
+        priority // Priority if it's the first thing seen
+        className="-z-10" 
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-orange-900/40 via-purple-900/30 to-blue-900/50" />
+      <Loader2 className="animate-spin h-12 w-12 text-sky-400 mb-4" />
+      <p className="text-xl text-slate-300">Loading Grapheme Test...</p>
+    </div>
+  );
 
+  return (
+    <Suspense fallback={fallbackContent}>
+      <GraphemeTestContent />
+    </Suspense>
+  );
+}
