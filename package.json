@@ -26,6 +26,8 @@
     "better-auth": "^1.2.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "file-type": "^21.0.0",
+    "formidable": "^3.5.4",
     "framer-motion": "^12.16.0",
     "geist": "^1.4.2",
     "lottie-react": "^2.4.1",
@@ -36,7 +38,7 @@
     "react-h5-audio-player": "^3.10.0",
     "react-hook-form": "^7.57.0",
     "react-icons": "^5.5.0",
-    "react-toastify": "^11.0.5",
+    "recharts": "^2.15.3",
     "tailwind-merge": "^3.3.0",
     "zod": "^3.25.56"
   },
