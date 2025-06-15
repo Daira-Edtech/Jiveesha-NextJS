@@ -1,38 +1,31 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlserver"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
   id            String     @id
   name          String
-  email         String
+  email         String     @unique
   emailVerified Boolean
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
-  sessions      Session[]
   accounts      Account[]
   children      Children[]
+  sessions      Session[]
 
-  @@unique([email])
   @@map("user")
 }
 
 model Session {
   id        String   @id
   expiresAt DateTime
-  token     String
+  token     String   @unique
   createdAt DateTime
   updatedAt DateTime
   ipAddress String?
@@ -40,7 +33,6 @@ model Session {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([token])
   @@map("session")
 }
 
@@ -49,7 +41,6 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -59,6 +50,7 @@ model Account {
   password              String?
   createdAt             DateTime
   updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("account")
 }
@@ -74,178 +66,163 @@ model Verification {
   @@map("verification")
 }
 
-// The `Children` model represents the children in the system, linked to a teacher.
-// Dob is stored inplace of age
-
 model Children {
-  id          String   @id @default(uuid()) @db.UniqueIdentifier
-  name        String   @db.Text
-  rollno      String   @db.Text
-  dateOfBirth DateTime @db.Date
-  createdAt   DateTime @default(now()) @db.DateTime2
-  updatedAt   DateTime @default(now()) @db.DateTime2
-  gender      String   @db.VarChar(10)
-  teacherId   String
-  teacher     User     @relation(fields: [teacherId], references: [id], onDelete: Cascade)
-  testsTaken  Int?     @default(0) @db.Int
-
+  id                       String                          @id @default(uuid())
+  name                     String
+  rollno                   String
+  dateOfBirth              DateTime                        @db.Date
+  createdAt                DateTime                        @default(now())
+  updatedAt                DateTime                        @default(now())
+  gender                   String                          @db.VarChar(10)
+  teacherId                String
+  testsTaken               Int?                            @default(0)
+  auditoryMemoryTests      AuditoryMemoryTestResult[]      @relation("ChildrenAuditoryMemoryTests")
+  teacher                  User                            @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  continuousAssessments    ContinuousAssessment[]          @relation("ChildrenContinuousAssessments")
+  graphemeTests            GraphemeTestResult[]            @relation("ChildrenGraphemeTests")
+  pictureTests             PictureTestResult[]             @relation("ChildrenPictureTests")
+  readingProficiencyTests  ReadingProficiencyTestResult[]  @relation("ChildrenReadingProficiencyTests")
+  sequenceTests            SequenceTestResult[]            @relation("ChildrenSequenceTests")
+  soundBlendingTests       SoundBlendingResult[]           @relation("ChildrenSoundBlendingTests")
+  soundDiscriminationTests SoundDiscriminationTestResult[] @relation("ChildrenSoundDiscriminationTests")
+  symbolSequenceTests      SymbolSequenceResult[]          @relation("ChildrenSymbolSequenceTests")
   visualTests              VisualTestResult[]              @relation("ChildrenVisualTests")
   vocabularyTests          VocabularyTestResult[]          @relation("ChildrenVocabularyTests")
-  symbolSequenceTests      SymbolSequenceResult[]          @relation("ChildrenSymbolSequenceTests")
-  soundBlendingTests       SoundBlendingResult[]           @relation("ChildrenSoundBlendingTests")
-  sequenceTests            SequenceTestResult[]            @relation("ChildrenSequenceTests")
-  auditoryMemoryTests      AuditoryMemoryTestResult[]      @relation("ChildrenAuditoryMemoryTests")
-  soundDiscriminationTests SoundDiscriminationTestResult[] @relation("ChildrenSoundDiscriminationTests")
-  readingProficiencyTests  ReadingProficiencyTestResult[]  @relation("ChildrenReadingProficiencyTests")
-  pictureTests             PictureTestResult[]             @relation("ChildrenPictureTests")
-  graphemeTests            GraphemeTestResult[]            @relation("ChildrenGraphemeTests")
-  continuousAssessments ContinuousAssessment[] @relation("ChildrenContinuousAssessments")
 
   @@map("children")
 }
 
 model VisualTestResult {
-  id        String   @id @default(uuid()) @db.UniqueIdentifier
-  childId   String?  @db.UniqueIdentifier
-  createdAt DateTime @default(now()) @db.DateTime2
-  testName  String?  @default("Visual Discrimination Test")
+  id        String    @id @default(uuid())
+  childId   String?
+  createdAt DateTime  @default(now())
+  testName  String?   @default("Visual Discrimination Test")
   options   String
-  score     Decimal? @db.Decimal(5, 2)
-
-  child Children? @relation("ChildrenVisualTests", fields: [childId], references: [id], onDelete: Cascade)
+  score     Decimal?  @db.Decimal(5, 2)
+  child     Children? @relation("ChildrenVisualTests", fields: [childId], references: [id], onDelete: Cascade)
 
   @@map("visual_test_results")
 }
 
 model VocabularyTestResult {
-  id        String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt DateTime @default(now()) @db.DateTime2
-  childId   String?  @db.UniqueIdentifier
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  childId   String?
   responses String?
-  score     Decimal? @db.Decimal(5, 2)
-  testName  String?  @db.Text
-
-  child Children? @relation("ChildrenVocabularyTests", fields: [childId], references: [id])
+  score     Decimal?  @db.Decimal(5, 2)
+  testName  String?
+  child     Children? @relation("ChildrenVocabularyTests", fields: [childId], references: [id])
 
   @@map("vocabulary_test_results")
 }
 
 model SymbolSequenceResult {
-  id          String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt   DateTime @default(now()) @db.DateTime2
-  childId     String?  @default(dbgenerated("NEWID()")) @db.UniqueIdentifier
-  difficulty  String?  @db.Text
-  level       Decimal? @db.Decimal(5, 2)
-  score       Decimal? @db.Decimal(5, 2)
-  totalRounds Decimal? @db.Decimal(5, 2)
-  testName    String?  @db.Text
-
-  child Children? @relation("ChildrenSymbolSequenceTests", fields: [childId], references: [id])
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  childId     String?
+  difficulty  String?
+  level       Decimal?  @db.Decimal(5, 2)
+  score       Decimal?  @db.Decimal(5, 2)
+  totalRounds Decimal?  @db.Decimal(5, 2)
+  testName    String?
+  child       Children? @relation("ChildrenSymbolSequenceTests", fields: [childId], references: [id])
 
   @@map("symbol_sequence_results")
 }
 
 model SoundBlendingResult {
-  id         String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt  DateTime @default(now()) @db.DateTime2
-  childId    String?  @default(dbgenerated("NEWID()")) @db.UniqueIdentifier
-  totalScore Decimal? @db.Decimal(5, 2)
-  score      Decimal? @db.Decimal(5, 2)
+  id         String    @id @default(uuid())
+  createdAt  DateTime  @default(now())
+  childId    String?
+  totalScore Decimal?  @db.Decimal(5, 2)
+  score      Decimal?  @db.Decimal(5, 2)
   responses  String?
-  testName   String?  @db.Text
-
-  child Children? @relation("ChildrenSoundBlendingTests", fields: [childId], references: [id])
+  testName   String?
+  child      Children? @relation("ChildrenSoundBlendingTests", fields: [childId], references: [id])
 
   @@map("sound_blending_results")
 }
 
 model SequenceTestResult {
-  id        String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt DateTime @default(now()) @db.DateTime2
-  childId   String?  @default(dbgenerated("NEWID()")) @db.UniqueIdentifier
-  score     Decimal? @db.Decimal(5, 2)
-  testName  String?  @db.Text
-
-  child Children? @relation("ChildrenSequenceTests", fields: [childId], references: [id])
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  childId   String?
+  score     Decimal?  @db.Decimal(5, 2)
+  testName  String?
+  child     Children? @relation("ChildrenSequenceTests", fields: [childId], references: [id])
 
   @@map("sequence_test_results")
 }
 
 model AuditoryMemoryTestResult {
-  id             String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt      DateTime @default(now()) @db.DateTime2
-  childId        String?  @default(dbgenerated("NEWID()")) @db.UniqueIdentifier
-  score          Decimal? @db.Decimal(5, 2)
-  forwardCorrect Decimal? @db.Decimal(5, 2)
-  reverseCorrect Decimal? @db.Decimal(5, 2)
-  testName       String?  @db.Text
-
-  child Children? @relation("ChildrenAuditoryMemoryTests", fields: [childId], references: [id])
+  id             String    @id @default(uuid())
+  createdAt      DateTime  @default(now())
+  childId        String?
+  score          Decimal?  @db.Decimal(5, 2)
+  forwardCorrect Decimal?  @db.Decimal(5, 2)
+  reverseCorrect Decimal?  @db.Decimal(5, 2)
+  testName       String?
+  child          Children? @relation("ChildrenAuditoryMemoryTests", fields: [childId], references: [id])
 
   @@map("auditory_memory_test_results")
 }
 
 model SoundDiscriminationTestResult {
-  id        String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt DateTime @default(now()) @db.DateTime2
-  childId   String?  @default(dbgenerated("NEWID()")) @db.UniqueIdentifier
-  score     Decimal? @db.Decimal(5, 2)
-  testName  String?  @db.Text
-
-  child Children? @relation("ChildrenSoundDiscriminationTests", fields: [childId], references: [id])
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  childId   String?
+  score     Decimal?  @db.Decimal(5, 2)
+  testName  String?
+  child     Children? @relation("ChildrenSoundDiscriminationTests", fields: [childId], references: [id])
 
   @@map("sound_discrimination_test_results")
 }
 
 model ReadingProficiencyTestResult {
-  id             String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt      DateTime @default(now()) @db.DateTime2
-  childId        String?  @default(dbgenerated("NEWID()")) @db.UniqueIdentifier
-  spokenWords    String?  @db.Text
-  correctWords   String?  @db.Text
-  incorrectWords String?  @db.Text
-  score          Decimal? @db.Decimal(5, 2)
-  testName       String?  @db.Text
-
-  child Children? @relation("ChildrenReadingProficiencyTests", fields: [childId], references: [id])
+  id             String    @id @default(uuid())
+  createdAt      DateTime  @default(now())
+  childId        String?
+  spokenWords    String?
+  correctWords   String?
+  incorrectWords String?
+  score          Decimal?  @db.Decimal(5, 2)
+  testName       String?
+  child          Children? @relation("ChildrenReadingProficiencyTests", fields: [childId], references: [id])
 
   @@map("reading_proficiency_test_results")
 }
 
 model PictureTestResult {
-  id        String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt DateTime @default(now()) @db.DateTime2
-  score     Decimal? @db.Decimal(5, 2)
-  childId   String?  @default(dbgenerated("NEWID()")) @db.UniqueIdentifier
-  testName  String?  @db.Text
-  responses String?  @db.Text // JSON stored as string
-
-  child Children? @relation("ChildrenPictureTests", fields: [childId], references: [id])
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  score     Decimal?  @db.Decimal(5, 2)
+  childId   String?
+  testName  String?
+  responses String?
+  child     Children? @relation("ChildrenPictureTests", fields: [childId], references: [id])
 
   @@map("picture_test_results")
 }
 
 model GraphemeTestResult {
-  id        String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt DateTime @default(now()) @db.DateTime2
-  childId   String?  @default(dbgenerated("NEWID()")) @db.UniqueIdentifier
-  results   String?  @db.Text // JSON stored as string
-  score     Decimal? @db.Decimal(5, 2)
-  testName  String?  @db.Text
-
-  child Children? @relation("ChildrenGraphemeTests", fields: [childId], references: [id])
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  childId   String?
+  results   String?
+  score     Decimal?  @db.Decimal(5, 2)
+  testName  String?
+  child     Children? @relation("ChildrenGraphemeTests", fields: [childId], references: [id])
 
   @@map("grapheme_test_results")
 }
 
 model ContinuousAssessment {
-  id        String   @id @default(uuid()) @db.UniqueIdentifier
-  createdAt   DateTime @default(now()) @db.DateTime2
-  childId     String?  @db.UniqueIdentifier
-  totalScore  Decimal? @db.Decimal(5, 2)
-  testResults String?  @db.Text  
-  analysis    String?  @db.Text
-
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  childId     String?
+  totalScore  Decimal?  @db.Decimal(5, 2)
+  testResults String?
+  analysis    String?
   child       Children? @relation("ChildrenContinuousAssessments", fields: [childId], references: [id])
 
   @@map("continuous_assessments")

@@ -5,13 +5,13 @@ const prisma = new PrismaClient();
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
-  const child_id = searchParams.get("childId");
+  const childId = searchParams.get("childId");
 
-  if (!child_id) {
+  if (!childId) {
     return NextResponse.json(
       {
         success: false,
-        message: "Missing required field: child_id",
+        message: "Missing required field: childId",
       },
       { status: 400 }
     );
@@ -19,7 +19,7 @@ export async function GET(req) {
 
   try {
     const data = await prisma.continuousAssessment.findMany({
-      where: { childId: child_id },
+      where: { childId: childId },
       orderBy: { createdAt: "desc" },
     });
 
