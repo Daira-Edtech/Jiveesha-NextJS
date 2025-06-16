@@ -7,10 +7,10 @@ import { useCallback, useEffect, useState } from "react";
 
 // Path to public assets: A leading '/' means from the 'public' directory.
 // Ensure 'public/sequence-test/clockAnimation.json' exists.
-import clockAnimationData from "../../../../../public/sequence-test/clockAnimation.json";
+import clockAnimationData from "../../../public/sequence-test/clockAnimation.json";
 
 // Assuming Constants.js is in the same directory as GameplayArea.js
-import { animals as animalEmojis } from "../sequence-arrangement/Constants.js";
+import { animals as animalEmojis } from "./Constants.js";
 
 // Utility functions
 const shuffleArray = (array) => {

@@ -3,34 +3,35 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 
 import GameplayArea from "./GameplayArea";
 import InfoDialog from "./InfoDialog.js"; // <<<<<< IMPORT InfoDialog
-import InstructionsScreen from "./InstructionsScreen.js"; // For the main game flow
+import InstructionsScreen from "./InstructionsScreen.js";
 import ResultsScreen from "./ResultsScreen.js";
 import RewardsModal from "./RewardsModal.js";
 import TopBar from "./TopBar.js";
 
 
 import {
-    dialogContent,
-    practiceSequence as practiceSequenceData,
-    sequences as testItemsData
+  dialogContent,
+  practiceSequence as practiceSequenceData,
+  sequences as testItemsData
 } from "./Constants.js";
 
-import islandBackgroundImage from "../../../../../public/sequence-test/Mystical-TimeIsland.png";
-import captainCharacter from "../../../../../public/sequence-test/Pirate-Crab.png";
+import islandBackgroundImage from "../../../public/sequence-test/Mystical-TimeIsland.png";
+import captainCharacter from "../../../public/sequence-test/Pirate-Crab.png";
 
 const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
+  const router = useRouter(); // <<<<<< INITIALIZE router
   const [internalGameState, setInternalGameState] = useState("welcome");
   const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [score, setScore] = useState({ correct: 0, total: 0 });
   const [currentSequence, setCurrentSequence] = useState(() => [...practiceSequenceData]);
 
- 
   const [showInfoDialogOverlay, setShowInfoDialogOverlay] = useState(false);
 
   useEffect(() => {
@@ -95,7 +96,8 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
     if (onEntireTestComplete) {
       onEntireTestComplete(score);
     }
-  };
+    router.push("/take-tests"); // <<<<<< CORRECTED (router defined, semicolon added)
+  }; // <<<<<< CORRECTED (removed extra '};')
 
   const handleViewRewards = () => setInternalGameState("rewards");
   const handleCloseRewards = () => setInternalGameState("results");
@@ -104,9 +106,9 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
       if(onEntireTestComplete) {
           onEntireTestComplete({correct: 0, total: testItemsData.length});
       }
+      // Consider adding navigation after skipping, e.g., router.push("/take-tests");
   };
 
-  
   const handleShowInfoDialogOverlay = () => {
     setShowInfoDialogOverlay(true);
   };
@@ -204,14 +206,14 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
               mode={internalGameState}
               currentItem={internalGameState === 'test' ? currentItemIndex : 0}
               score={score}
-              onShowInfo={handleShowInfoDialogOverlay} //
+              onShowInfo={handleShowInfoDialogOverlay}
               onSkipTest={handleSkipTestEntirely}
               t={t}
               totalTestItems={testItemsData.length}
             />
             <div className="flex flex-col items-center justify-center min-h-screen relative px-2 sm:px-4 py-10 pt-20"> {/* pt-20 for TopBar */}
               <GameplayArea
-                key={`${internalGameState}-${currentItemIndex}`} 
+                key={`${internalGameState}-${currentItemIndex}`}
                 mode={internalGameState}
                 currentSequence={currentSequence}
                 onCompleteItem={internalGameState === "practice" ? handlePracticeItemComplete : handleTestItemComplete}
@@ -254,18 +256,16 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
         {renderContent()}
       </AnimatePresence>
 
-      {/* --- Conditionally render InfoDialog as an OVERLAY --- */}
-
       {showInfoDialogOverlay && (
           <InfoDialog
             key="infoDialogOverlay"
             show={showInfoDialogOverlay}
-            onClose={handleCloseInfoDialogOverlay} 
+            onClose={handleCloseInfoDialogOverlay}
             t={t}
           />
       )}
     </div>
   );
-};
+}; // <<<< Ensure this closing brace for the component is present
 
 export default WelcomeDialog;

@@ -74,6 +74,7 @@ const ResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
             whileTap={{ scale: 0.95 }}
             className="w-full px-8 py-3 sm:py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-white rounded-full text-lg sm:text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
             onClick={onFinishTest} // This will trigger saveTestResults in parent
+            usenav
           >
             {t("finishTest")} <span className="text-xl">🏁</span>
           </motion.button>
