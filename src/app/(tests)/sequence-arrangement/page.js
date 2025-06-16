@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-export default function SequenceArrangementTest() {
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-center">Sequence Arrangement Test</h1>
-    </div>
-  );
-}
-=======
 // app/(tests)/sequence-arrangement/page.js
 "use client";
 
@@ -147,4 +138,3 @@ const Test7Page = () => {
 };
 
 export default Test7Page;
->>>>>>> 1b60f3fb5aedf9df3eee46c00fcfd9a58105d2c0

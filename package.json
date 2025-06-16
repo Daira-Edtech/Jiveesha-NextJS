@@ -26,13 +26,9 @@
     "better-auth": "^1.2.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-<<<<<<< HEAD
-    "framer-motion": "^12.17.3",
-=======
     "file-type": "^21.0.0",
     "formidable": "^3.5.4",
     "framer-motion": "^12.16.0",
->>>>>>> 1b60f3fb5aedf9df3eee46c00fcfd9a58105d2c0
     "geist": "^1.4.2",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.513.0",
@@ -41,11 +37,8 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.57.0",
     "react-icons": "^5.5.0",
-<<<<<<< HEAD
     "react-toastify": "^11.0.5",
-=======
     "recharts": "^2.15.3",
->>>>>>> 1b60f3fb5aedf9df3eee46c00fcfd9a58105d2c0
     "tailwind-merge": "^3.3.0",
     "zod": "^3.25.56"
   },
