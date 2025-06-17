@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client"; // This component uses client-side hooks like useState, useEffect, and browser APIs.
 
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -721,6 +722,10 @@ export default function PhonemeBlendingPage() {
   const progress = Math.min(100, (currentWordIndex / WORDS.length) * 100);
   const currentWord = WORDS[currentWordIndex]; // Ensure currentWord is always defined for rendering
 
+=======
+
+export default function SoundBlendingTest() {
+>>>>>>> 6c28320f1ad0aa7a2313c5c3dc91e13922e2b6fa
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-50 p-6 font-inter">
       {/* Loading overlay for final submission */}

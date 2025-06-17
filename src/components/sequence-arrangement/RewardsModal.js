@@ -1,7 +1,7 @@
 // components/test7/RewardsModal.js
 import { motion } from "framer-motion";
 import Image from "next/image";
-import rewardImagePlaceholder from "..//..//..//..//..//public//reading-test//shellOfFluencyImage.png"; // Adjust path
+import rewardImagePlaceholder from "../../../public/reading-test/shellOfFluencyImage.png"; // Adjust path
 
 const RewardsModal = ({ show, onClose, t }) => {
   if (!show) return null;

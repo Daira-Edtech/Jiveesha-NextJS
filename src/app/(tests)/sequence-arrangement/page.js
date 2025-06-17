@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import WelcomeDialog from "./sequence-arrangement/WelcomeDialog.js";
+import WelcomeDialog from "../../../components/sequence-arrangement/WelcomeDialog.js";
 
 // --- Direct Implementation of t() and speak() ---
 const translations = {
@@ -105,7 +105,7 @@ const Test7Page = () => {
         },
         {
           headers: {
-            ...(token && { Authorization: `Bearer ${token}` }), // Conditionally add token
+            ...(token && { Authorization: `Bearer ${token}` }), 
             "Content-Type": "application/json",
           },
         }

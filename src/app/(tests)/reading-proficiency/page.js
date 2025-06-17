@@ -1,7 +1,9 @@
+import Test6Controller from "../../../components/tests/reading-proficiency/index"
 export default function ReadingProficiencyTest() {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-center">Reading Proficiency Test</h1>
+      <Test6Controller />
+      
     </div>
   );
 }

@@ -1,54 +1,62 @@
 import { NextResponse } from "next/server";
-import { IncomingForm } from "formidable";
-import fs from "fs";
 import { transcribeAudio } from "./controller";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req) {
-  return new Promise((resolve, reject) => {
-    const form = new IncomingForm({ maxFileSize: 25 * 1024 * 1024 });
+  try {
+    console.log("Speech-to-text API called");
 
-    form.parse(req, async (err, fields, files) => {
-      if (err) {
-        return resolve(
-          NextResponse.json(
-            { success: false, error: "File parsing failed" },
-            { status: 400 }
-          )
-        );
-      }
+    // Get the form data
+    const formData = await req.formData();
+    const file = formData.get("file");
+    const language = formData.get("language");
 
-      try {
-        const file = files.file;
-        const fileBuffer = fs.readFileSync(file.filepath);
-        const result = await transcribeAudio(
-          fileBuffer,
-          fields.language,
-          file.originalFilename
-        );
+    console.log("File received:", file?.name, "Language:", language);
 
-        resolve(NextResponse.json(result));
-      } catch (error) {
-        console.error("API Error:", error);
-        resolve(
-          NextResponse.json(
-            {
-              success: false,
-              error: "Audio processing failed",
-              details:
-                process.env.NODE_ENV === "development"
-                  ? error.message
-                  : undefined,
-            },
-            { status: 500 }
-          )
-        );
-      }
-    });
-  });
+    if (!file) {
+      return NextResponse.json(
+        { success: false, error: "No file provided" },
+        { status: 400 }
+      );
+    }
+
+    if (!language) {
+      return NextResponse.json(
+        { success: false, error: "No language provided" },
+        { status: 400 }
+      );
+    }
+
+    // Convert file to buffer
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    console.log("File size:", buffer.length, "bytes");
+
+    if (buffer.length === 0) {
+      return NextResponse.json(
+        { success: false, error: "Empty file received" },
+        { status: 400 }
+      );
+    }
+
+    // Process the audio
+    const result = await transcribeAudio(buffer, language, file.name);
+
+    console.log("Transcription result:", result);
+
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error("Speech-to-text API Error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Audio processing failed",
+        details:
+          process.env.NODE_ENV === "development"
+            ? error.message
+            : "Internal server error",
+      },
+      { status: 500 }
+    );
+  }
 }
