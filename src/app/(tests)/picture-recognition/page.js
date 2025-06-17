@@ -172,10 +172,19 @@ const PictureRecognitionTestPage = () => {
       mediaRecorderRef.current.state === "recording"
     ) {
       mediaRecorderRef.current.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, {
-          type: mediaRecorderRef.current.mimeType,
-        });
-        if (audioChunksRef.current.length > 0) {
+        let audioBlob = null;
+        if (
+          audioChunksRef.current.length > 0 &&
+          mediaRecorderRef.current &&
+          mediaRecorderRef.current.mimeType
+        ) {
+          audioBlob = new Blob(audioChunksRef.current, {
+            type: mediaRecorderRef.current.mimeType,
+          });
+        } else if (audioChunksRef.current.length > 0) {
+          audioBlob = new Blob(audioChunksRef.current);
+        }
+        if (audioBlob) {
           audioChunksRef.current = []; // Clear before async operation
           await uploadAudio(audioBlob);
         }
