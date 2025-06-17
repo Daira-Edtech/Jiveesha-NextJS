@@ -24,6 +24,8 @@ import TestComplete from "../../../components/vocab-scale/TestComplete";
 import LoadingState from "../../../components/vocab-scale/LoadingState";
 import ErrorState from "../../../components/vocab-scale/ErrorState";
 import DialogIntro from "../../../components/vocab-scale/DialogIntro";
+import PracticeRound from "../../../components/vocab-scale/PracticeRound";
+import PracticeInstructions from "../../../components/vocab-scale/PracticeInstructions";
 
 // Image paths from public directory
 const backgroundImage = "/vocab-scale/background-image.png";
@@ -213,6 +215,10 @@ const VocabularyScaleTestClient = () => {
   const { language, t } = useLanguage();
   const [currentDialog, setCurrentDialog] = useState(0);
   const [showTest, setShowTest] = useState(false);
+  const [showPractice, setShowPractice] = useState(false);
+  const [showPracticeInstructions, setShowPracticeInstructions] =
+    useState(false);
+  const [practiceComplete, setPracticeComplete] = useState(false);
 
   // Dialog content - kept here as it's specific to this test's narrative
   const dialog = [
@@ -231,11 +237,22 @@ const VocabularyScaleTestClient = () => {
     if (currentDialog < dialog.length - 1) {
       setCurrentDialog((prev) => prev + 1);
     } else {
-      setShowTest(true);
+      setShowPracticeInstructions(true);
     }
   };
 
-  // Handle transcribed audio
+  const handleStartPractice = () => {
+    setShowPracticeInstructions(false);
+    setShowPractice(true);
+  };
+
+  const handlePracticeComplete = () => {
+    setPracticeComplete(true);
+    setShowPractice(false);
+    setShowTest(true);
+  };
+
+  // Handle transcribed audio for main test
   const handleTranscriptionComplete = useCallback((transcription) => {
     setCurrentDefinition(transcription);
   }, []);
@@ -439,13 +456,19 @@ const VocabularyScaleTestClient = () => {
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            filter: showTest ? "none" : "blur(8px)",
+            filter:
+              showTest || showPractice || showPracticeInstructions
+                ? "none"
+                : "blur(8px)",
           }}
         />
         <motion.div
           className="absolute inset-0 bg-yellow-950/30"
           initial={{ opacity: 0 }}
-          animate={{ opacity: showTest ? 0.2 : 0.45 }}
+          animate={{
+            opacity:
+              showTest || showPractice || showPracticeInstructions ? 0.2 : 0.45,
+          }}
           transition={{ duration: 0.5 }}
         />
       </div>
@@ -466,7 +489,7 @@ const VocabularyScaleTestClient = () => {
           className="relative max-w-7xl w-full flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:gap-12"
         >
           {/* Floating character - only show during intro */}
-          {!showTest && (
+          {!showTest && !showPractice && !showPracticeInstructions && (
             <motion.div
               initial={{ y: -40, opacity: 0 }}
               animate={{
@@ -505,7 +528,9 @@ const VocabularyScaleTestClient = () => {
           {/* Main content area */}
           <motion.div
             className={`bg-gradient-to-br from-amber-800/60 to-yellow-900/30 backdrop-blur-xl rounded-3xl p-4 sm:p-6 lg:p-8 border-2 border-yellow-400/30 shadow-[0_8px_30px_rgba(252,211,77,0.25)] flex-1 relative overflow-hidden w-full ${
-              showTest ? "lg:max-w-3xl mx-auto" : "lg:max-w-4xl"
+              showTest || showPractice || showPracticeInstructions
+                ? "lg:max-w-3xl mx-auto"
+                : "lg:max-w-4xl"
             }`}
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -527,12 +552,24 @@ const VocabularyScaleTestClient = () => {
 
             <ToastContainer position="top-center" autoClose={3000} />
 
-            {!showTest ? (
+            {!showPracticeInstructions && !showPractice && !showTest ? (
               <DialogIntro
                 currentDialog={currentDialog}
                 dialog={dialog}
                 handleNext={handleNextDialog}
                 t={t}
+              />
+            ) : showPracticeInstructions ? (
+              <PracticeInstructions
+                onStartPractice={handleStartPractice}
+                t={t}
+                language={language}
+              />
+            ) : showPractice && !practiceComplete ? (
+              <PracticeRound
+                language={language}
+                t={t}
+                onPracticeComplete={handlePracticeComplete}
               />
             ) : isLoading ? (
               <LoadingState t={t} />
