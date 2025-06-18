@@ -1,14 +1,15 @@
-// app/picture-test/page.js
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { FaInfoCircle } from "react-icons/fa"; // New import
 import { toast, Toaster } from "sonner";
 import imagesData from "../../../Data/imageData"; // Ensure this path is correct
 import BackButton from "../../../components/picture-test/BackButton";
+import InfoDialog from "../../../components/picture-test/InfoDialog"; // New import
 import LoadingSpinner from "../../../components/picture-test/LoadingSpinner";
 import PictureDialogContent from "../../../components/picture-test/PictureDialogContent";
-import PracticeCompleteModal from "../../../components/picture-test/PracticeCompleteModal"; // New import
-import PracticeRound from "../../../components/picture-test/PracticeRoundContent"; // New import
-import ResultsDisplay from "../../../components/picture-test/ResultDisplay"; // Corrected import
+import PracticeCompleteModal from "../../../components/picture-test/PracticeCompleteModal";
+import PracticeRound from "../../../components/picture-test/PracticeRoundContent"; // Your path was PracticeRoundContent
+import ResultsDisplay from "../../../components/picture-test/ResultDisplay";
 import WelcomeDialog from "../../../components/picture-test/WelcomeDialog";
 import {
   LanguageProvider,
@@ -18,31 +19,34 @@ import {
 // Define view states
 const VIEW_STATES = {
   WELCOME: "welcome",
+  INFO_DIALOG_INITIAL: "info_dialog_initial", // New: For InfoDialog after WelcomeDialog
   PRACTICE: "practice",
   PRACTICE_COMPLETE_MODAL: "practice_complete_modal",
   TEST: "test",
   RESULTS: "results",
-  LOADING_SUBMISSION: "loading_submission", // For final test submission
-  LOADING_DATA: "loading_data", // For initial data load
+  LOADING_SUBMISSION: "loading_submission",
+  LOADING_DATA: "loading_data",
+  LOADING_RESULTS: "loading_results", // Added this as it was used but not defined in original
 };
 
 const PictureRecognitionTestPage = () => {
   const { language, t } = useLanguage();
 
-  const [images, setImages] = useState([]); // Initialize empty, load in useEffect
+  const [images, setImages] = useState([]);
   const [practiceImage, setPracticeImage] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [canSee, setCanSee] = useState(null);
   const [answer, setAnswer] = useState("");
   const [description, setDescription] = useState("");
-  const [step, setStep] = useState(1); // For main test
+  const [step, setStep] = useState(1);
   const [isRecording, setIsRecording] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [responses, setResponses] = useState([]);
   const [testResults, setTestResults] = useState(null);
-  const [currentView, setCurrentView] = useState(VIEW_STATES.LOADING_DATA); // Start with loading
-  const [currentDialog, setCurrentDialog] = useState(0); // For WelcomeDialog
+  const [currentView, setCurrentView] = useState(VIEW_STATES.LOADING_DATA);
+  const [currentDialog, setCurrentDialog] = useState(0);
   const [practiceEvaluation, setPracticeEvaluation] = useState(null);
+  const [showOverlayInfoDialog, setShowOverlayInfoDialog] = useState(false); // New: For button-triggered InfoDialog
 
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -56,19 +60,19 @@ const PictureRecognitionTestPage = () => {
   ];
 
   useEffect(() => {
-    // Simulate loading or fetch imagesData
     if (imagesData && imagesData.length > 0) {
       setImages(imagesData);
-      setPracticeImage(imagesData[0]); // Use the first image for practice
+      // Ensure practice image is not the same as the first test image if test starts from index 0 of imagesData
+      // For this example, let's assume imagesData[0] is okay for practice, and main test might skip it or use a different set.
+      // If using imagesData directly, consider picking a dedicated practice image or adjusting main test start.
+      setPracticeImage(imagesData[0]); 
       setCurrentView(VIEW_STATES.WELCOME);
     } else {
-      // Handle case where imagesData might be empty or undefined
       toast.error(
-        t("errorLoadingImageData") || "Error: Could not load image data."
+        t("errorLoadingImageData", "Error: Could not load image data.")
       );
-      // Potentially set to an error view or redirect
     }
-  }, [t]); // Added t to dependencies
+  }, [t]);
 
   const getCorrectAnswerForLang = useCallback(
     (imageItem) => {
@@ -104,15 +108,24 @@ const PictureRecognitionTestPage = () => {
     if (currentDialog < dialogIntroTexts.length - 1) {
       setCurrentDialog((prev) => prev + 1);
     } else {
-      setCurrentView(VIEW_STATES.PRACTICE); // Transition to Practice Round
-      // speakText for practice round will be handled by PracticeRound component itself
+      setCurrentView(VIEW_STATES.INFO_DIALOG_INITIAL); // Transition to initial InfoDialog
+      speakText(t("heresHowToPlay", "Here's a quick guide on how to play."));
     }
   };
 
-  // --- Main Test Recording Logic ---
+  
+  const handleInitialInfoDialogClose = () => {
+    setCurrentView(VIEW_STATES.PRACTICE);
+    
+  };
+
+    const handleToggleOverlayInfoDialog = () => {
+    setShowOverlayInfoDialog(prev => !prev);
+  };
+
+
   const uploadAudio = useCallback(
     async (audioBlob) => {
-      // This is for the MAIN TEST, PracticeRound has its own.
       const formData = new FormData();
       formData.append(
         "file",
@@ -122,7 +135,7 @@ const PictureRecognitionTestPage = () => {
 
       setIsTranscribing(true);
       const ProzessToastId = toast.loading(
-        t("transcribing") || "Transcribing..."
+        t("transcribing", "Transcribing...")
       );
 
       try {
@@ -139,34 +152,31 @@ const PictureRecognitionTestPage = () => {
               .toLowerCase()
               .trim()
               .replace(/[.,!?;:]*$/, "") || "";
-          // 'step' here refers to the main test's step state
           if (step === 2) setAnswer(transcription);
           else if (step === 3) setDescription(transcription);
           toast.success(
-            t("transcriptionReceived") || "Transcription received!"
+            t("transcriptionReceived", "Transcription received!")
           );
         } else {
           toast.error(
             result.error ||
-              t("transcriptionFailedTryAgain") ||
-              "Transcription failed."
+              t("transcriptionFailedTryAgain", "Transcription failed.")
           );
         }
       } catch (error) {
         toast.dismiss(ProzessToastId);
         console.error("Error uploading audio:", error);
         toast.error(
-          t("errorUploadingAudioCheckConnection") || "Audio upload error."
+          t("errorUploadingAudioCheckConnection", "Audio upload error.")
         );
       } finally {
         setIsTranscribing(false);
       }
     },
     [step, language, t]
-  ); // 'step' is crucial here
+  );
 
   const stopListening = useCallback(() => {
-    // This is for the MAIN TEST
     if (
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state === "recording"
@@ -185,7 +195,7 @@ const PictureRecognitionTestPage = () => {
           audioBlob = new Blob(audioChunksRef.current);
         }
         if (audioBlob) {
-          audioChunksRef.current = []; // Clear before async operation
+          audioChunksRef.current = []; 
           await uploadAudio(audioBlob);
         }
         if (mediaRecorderRef.current?.stream) {
@@ -208,7 +218,6 @@ const PictureRecognitionTestPage = () => {
   }, [uploadAudio]);
 
   const startListening = useCallback(() => {
-    // This is for the MAIN TEST
     if (isRecording || isTranscribing) return;
     navigator.mediaDevices
       .getUserMedia({ audio: true })
@@ -226,48 +235,44 @@ const PictureRecognitionTestPage = () => {
         newMediaRecorder.onerror = (event) => {
           console.error("MediaRecorder error:", event.error);
           toast.error(
-            t("errorRecording") || `Recording error: ${event.error.name}`
+            t("errorRecording", `Recording error: ${event.error.name}`)
           );
           stopListening();
         };
         newMediaRecorder.onstart = () => {
           setIsRecording(true);
-          toast.message(t("recordingStarted") || "Recording started!");
+          toast.message(t("recordingStarted", "Recording started!"));
         };
         newMediaRecorder.start();
       })
       .catch((err) => {
         console.error("Mic access error:", err);
         toast.error(
-          t("couldNotAccessMicrophoneCheckPermissions") ||
-            "Could not access microphone."
+          t("couldNotAccessMicrophoneCheckPermissions", "Could not access microphone.")
         );
       });
   }, [isRecording, isTranscribing, stopListening, t]);
 
   const toggleRecording = useCallback(() => {
-    // This is for the MAIN TEST
     if (isRecording) stopListening();
     else startListening();
   }, [isRecording, startListening, stopListening]);
-  // --- End Main Test Recording Logic ---
 
   const handlePracticeComplete = (evaluation) => {
-    setPracticeEvaluation(evaluation); // Save evaluation result
+    setPracticeEvaluation(evaluation);
     setCurrentView(VIEW_STATES.PRACTICE_COMPLETE_MODAL);
-    // Toast for evaluation is shown by PracticeRound itself
   };
 
   const handleStartMainTest = () => {
-    setCurrentIndex(0);
+    setCurrentIndex(0); // Or 1 if practiceImage was imagesData[0] and you want to avoid repetition
     setResponses([]);
     setTestResults(null);
-    resetForNextImage(); // Resets step, answer, description, canSee for main test
+    resetForNextImage(); 
     setCurrentView(VIEW_STATES.TEST);
     setTimeout(
       () =>
         speakText(
-          t("start_forward_instructions") + " " + t("canYouSeeThisPicture")
+          (t("start_forward_instructions", "The main test will start now.") || "The main test will start now.") + " " + (t("canYouSeeThisPicture", "Can you see this picture?") || "Can you see this picture?")
         ),
       500
     );
@@ -276,7 +281,6 @@ const PictureRecognitionTestPage = () => {
   const currentImage = images[currentIndex];
 
   const handleCanSeeSelection = (selection) => {
-    // For Main Test
     setCanSee(selection);
     if (!currentImage) return;
     if (!selection) {
@@ -295,20 +299,19 @@ const PictureRecognitionTestPage = () => {
       else nextImage();
     } else {
       setStep(2);
-      speakText(t("speakGreatWhatIsIt"));
+      speakText(t("speakGreatWhatIsIt", "Great! What is it?"));
     }
   };
 
   const handleNextOrSubmit = () => {
-    // For Main Test
     if (!currentImage) return;
     if (step === 2) {
       if (!answer.trim()) {
-        toast.warning(t("pleaseCompleteStep") || "Please provide an answer.");
+        toast.warning(t("pleaseCompleteStep", "Please provide an answer."));
         return;
       }
       setStep(3);
-      speakText(t("describeThePicture"));
+      speakText(t("describeThePicture", "Now, please describe the picture."));
     } else if (step === 3) {
       const currentResp = {
         image: currentImage.imageUrl,
@@ -316,7 +319,7 @@ const PictureRecognitionTestPage = () => {
         correctAnswer: getCorrectAnswerForLang(currentImage),
         description: description,
         language: language,
-        canSee: true,
+        canSee: canSee === null ? true : canSee, // Ensure canSee is boolean
       };
       const updatedResponses = [...responses, currentResp];
       setResponses(updatedResponses);
@@ -338,9 +341,10 @@ const PictureRecognitionTestPage = () => {
     if (currentIndex < images.length - 1) {
       setCurrentIndex((prev) => prev + 1);
       resetForNextImage();
-      setTimeout(() => speakText(t("canYouSeeThisPicture")), 300);
+      setTimeout(() => speakText(t("canYouSeeThisPicture", "Can you see this picture?")), 300);
     }
   };
+
   const fetchResultsById = useCallback(async (resultId) => {
     const token = localStorage.getItem("access_token");
     setCurrentView(VIEW_STATES.LOADING_RESULTS);
@@ -359,15 +363,18 @@ const PictureRecognitionTestPage = () => {
       setTestResults(resultData);
       setCurrentView(VIEW_STATES.RESULTS);
     } catch (error) {
-      setCurrentView(VIEW_STATES.TEST);
+      console.error("Fetch results error:", error); // Added console log
+      toast.error(t("errorFetchingResults", "Error fetching results.")); // Added toast
+      setCurrentView(VIEW_STATES.TEST); // Fallback to test or an error view
     }
-  }, []);
+  }, [t]); // Added t
+
   const submitFinalResults = async (finalResponsesData) => {
     const token = localStorage.getItem("access_token");
     const childId = localStorage.getItem("childId");
     if (!childId) {
       toast.error(
-        t("authOrStudentDataMissing") || "Student/Auth data missing."
+        t("authOrStudentDataMissing", "Student/Auth data missing.")
       );
       return;
     }
@@ -393,22 +400,33 @@ const PictureRecognitionTestPage = () => {
       if (resultData.id) {
         await fetchResultsById(resultData.id);
       } else {
+         // If resultData itself contains the full results (as per original code)
         setTestResults(resultData);
         setCurrentView(VIEW_STATES.RESULTS);
       }
     } catch (error) {
-      setCurrentView(VIEW_STATES.TEST);
+      console.error("Submit final results error:", error); // Added console log
+      toast.error(t("errorSubmittingResults", "Error submitting results.")); // Added toast
+      setCurrentView(VIEW_STATES.TEST); // Fallback to test
     }
   };
 
   const handleRetakeTest = () => {
-    setCurrentDialog(0); // Reset welcome dialog
+    setCurrentDialog(0);
     setCurrentView(VIEW_STATES.WELCOME);
+    // Reset all relevant states for a full retake
+    setImages(imagesData); // Reload images
+    setPracticeImage(imagesData[0]);
+    setCurrentIndex(0);
+    setResponses([]);
+    setTestResults(null);
+    resetForNextImage();
+    setPracticeEvaluation(null);
+
   };
 
   useEffect(() => {
     return () => {
-      // Cleanup
       if (isRecording) stopListening();
       if (typeof window !== "undefined" && window.speechSynthesis)
         window.speechSynthesis.cancel();
@@ -420,7 +438,7 @@ const PictureRecognitionTestPage = () => {
       case VIEW_STATES.LOADING_DATA:
         return (
           <LoadingSpinner
-            text={t("loadingTestData") || "Loading test data..."}
+            text={t("loadingTestData", "Loading test data...")}
           />
         );
       case VIEW_STATES.WELCOME:
@@ -432,11 +450,20 @@ const PictureRecognitionTestPage = () => {
             t={t}
           />
         );
+      // New Case: Initial Info Dialog
+      case VIEW_STATES.INFO_DIALOG_INITIAL:
+        return (
+          <InfoDialog
+            t={t}
+            onClose={handleInitialInfoDialogClose}
+            title={t("howToPlayTitle", "How to Play")}
+          />
+        );
       case VIEW_STATES.PRACTICE:
         if (!practiceImage)
           return (
             <LoadingSpinner
-              text={t("loadingPracticeImage") || "Loading practice..."}
+              text={t("loadingPracticeImage", "Loading practice...")}
             />
           );
         return (
@@ -456,12 +483,14 @@ const PictureRecognitionTestPage = () => {
             evaluationResult={practiceEvaluation}
           />
         );
-
+      case VIEW_STATES.LOADING_RESULTS: // Added this case for clarity
+        return <LoadingSpinner text={t("loadingResults", "Loading results...")} />;
+      case VIEW_STATES.LOADING_SUBMISSION: // Added this case for clarity
+        return <LoadingSpinner text={t("submittingResults", "Submitting results...")} />;
       case VIEW_STATES.RESULTS:
         if (!testResults) {
-          // Should ideally not happen if view is RESULTS
-          setCurrentView(VIEW_STATES.TEST); // Fallback
-          return <LoadingSpinner text={t("loadingResults")} />;
+          setCurrentView(VIEW_STATES.TEST); 
+          return <LoadingSpinner text={t("loadingResults", "Loading results...")} />;
         }
         return (
           <>
@@ -477,7 +506,7 @@ const PictureRecognitionTestPage = () => {
         if (!currentImage)
           return (
             <LoadingSpinner
-              text={t("loadingTestData") || "Loading test data..."}
+              text={t("loadingTestData", "Loading test data...")}
             />
           );
         return (
@@ -496,11 +525,11 @@ const PictureRecognitionTestPage = () => {
               mediaRecorderRef={mediaRecorderRef}
               toggleRecording={toggleRecording}
               handleNext={handleNextOrSubmit}
-              isSubmitting={
+              isSubmitting={ // isSubmitting is true if loading final submission for the last image/step
                 currentView === VIEW_STATES.LOADING_SUBMISSION &&
                 currentIndex === images.length - 1 &&
                 step === 3
-              } // Corrected isSubmitting condition
+              }
               isLastImage={currentIndex === images.length - 1}
               t={t}
               totalImages={images.length}
@@ -508,13 +537,35 @@ const PictureRecognitionTestPage = () => {
           </>
         );
       default:
-        return <LoadingSpinner text={t("loading") || "Loading..."} />;
+        return <LoadingSpinner text={t("loading", "Loading...")} />;
     }
   };
 
   return (
     <>
       <Toaster richColors position="top-center" closeButton duration={3000} />
+
+      {/* Info Button - visible during practice and test */}
+      {(currentView === VIEW_STATES.PRACTICE || currentView === VIEW_STATES.TEST) && (
+        <button
+          onClick={handleToggleOverlayInfoDialog}
+          className="fixed top-4 right-4 z-[60] p-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full text-white shadow-lg transition-colors active:scale-95"
+          aria-label={t ? t("showInstructions", "Show Instructions") : "Show Instructions"}
+          title={t ? t("showInstructions", "Show Instructions") : "Show Instructions"}
+        >
+          <FaInfoCircle size={24} />
+        </button>
+      )}
+
+      {/* Overlay Info Dialog - triggered by the info button */}
+      {showOverlayInfoDialog && (
+        <InfoDialog
+          t={t}
+          onClose={handleToggleOverlayInfoDialog}
+          title={t("howToPlayTitle", "How to Play")}
+        />
+      )}
+
       {renderContent()}
     </>
   );
