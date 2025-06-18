@@ -1,3 +1,4 @@
+"use client";
 import Test6Controller from "../../../components/tests/reading-proficiency/index"
 export default function ReadingProficiencyTest() {
   return (
