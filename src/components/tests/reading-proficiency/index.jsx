@@ -20,7 +20,11 @@ import {
   Award,
   ChevronRight,
   ChevronLeft,
+<<<<<<< HEAD
   HelpCircle,
+=======
+  HelpCircle, 
+>>>>>>> 3dcec4d (Added Demo Round)
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -28,12 +32,21 @@ import coralBackground from "../../../../public/reading-test/coralBackground.png
 import coralineImage from "../../../../public/reading-test/coralineImage.png"; // Adjust path
 import shellImage from "../../../../public/reading-test/shellImage.png"; // Adjust path
 
+<<<<<<< HEAD
 import TutorialView from "./TutorialView";
 import TestSessionView from "./TestSessionView";
 import RewardView from "./RewardView";
 import TestInstructionsScreen from "./TestInstructionsScreen";
 import InstructionsModal from "./InstructionsModal";
 import DemoRoundView from "./DemoRoundView";
+=======
+import TutorialView from "./TutorialView"; 
+import TestSessionView from "./TestSessionView"; 
+import RewardView from "./RewardView"; 
+import TestInstructionsScreen from "./TestInstructionsScreen"; 
+import InstructionsModal from "./InstructionsModal"; 
+import DemoRoundView from "./DemoRoundView"; 
+>>>>>>> 3dcec4d (Added Demo Round)
 
 const useAudioRecorder = (onAudioRecorded) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -42,6 +55,7 @@ const useAudioRecorder = (onAudioRecorded) => {
 
   useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+<<<<<<< HEAD
       navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then((stream) => {
@@ -59,6 +73,18 @@ const useAudioRecorder = (onAudioRecorded) => {
         mediaRecorderRef.current &&
         mediaRecorderRef.current.state === "recording"
       ) {
+=======
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          stream.getTracks().forEach(track => track.stop());
+        })
+        .catch(error => {
+          console.warn("Initial microphone access check failed or denied:", error);
+        });
+    }
+    return () => {
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
+>>>>>>> 3dcec4d (Added Demo Round)
         mediaRecorderRef.current.stop();
       }
       if (localStreamRef.current) {
@@ -70,6 +96,7 @@ const useAudioRecorder = (onAudioRecorded) => {
 
   const startRecording = () => {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+<<<<<<< HEAD
       toast.error(
         "Audio recording is not supported on this browser or connection."
       );
@@ -79,12 +106,25 @@ const useAudioRecorder = (onAudioRecorded) => {
     if (localStreamRef.current) {
       localStreamRef.current.getTracks().forEach((track) => track.stop());
       localStreamRef.current = null;
+=======
+        toast.error("Audio recording is not supported on this browser or connection.");
+        setIsRecording(false);
+        return;
+    }
+    if (localStreamRef.current) {
+        localStreamRef.current.getTracks().forEach(track => track.stop());
+        localStreamRef.current = null;
+>>>>>>> 3dcec4d (Added Demo Round)
     }
     setIsRecording(true);
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
+<<<<<<< HEAD
         localStreamRef.current = stream;
+=======
+        localStreamRef.current = stream; 
+>>>>>>> 3dcec4d (Added Demo Round)
         let localAudioChunks = [];
         const newMediaRecorder = new MediaRecorder(stream);
         mediaRecorderRef.current = newMediaRecorder;
@@ -95,13 +135,18 @@ const useAudioRecorder = (onAudioRecorded) => {
           if (localAudioChunks.length > 0) {
             const audioBlob = new Blob(localAudioChunks, { type: "audio/wav" });
             onAudioRecorded(audioBlob);
+<<<<<<< HEAD
             localAudioChunks = [];
+=======
+            localAudioChunks = []; 
+>>>>>>> 3dcec4d (Added Demo Round)
           }
         };
         newMediaRecorder.start();
       })
       .catch((error) => {
         console.error("Error accessing microphone:", error);
+<<<<<<< HEAD
         toast.error(
           "Could not start recording. Please check microphone permissions."
         );
@@ -109,22 +154,38 @@ const useAudioRecorder = (onAudioRecorded) => {
         if (localStreamRef.current) {
           localStreamRef.current.getTracks().forEach((track) => track.stop());
           localStreamRef.current = null;
+=======
+        toast.error("Could not start recording. Please check microphone permissions.");
+        setIsRecording(false);
+        if (localStreamRef.current) {
+            localStreamRef.current.getTracks().forEach(track => track.stop());
+            localStreamRef.current = null;
+>>>>>>> 3dcec4d (Added Demo Round)
         }
       });
   };
 
   const stopRecording = () => {
+<<<<<<< HEAD
     if (
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state === "recording"
     ) {
       mediaRecorderRef.current.stop();
+=======
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
+      mediaRecorderRef.current.stop(); 
+>>>>>>> 3dcec4d (Added Demo Round)
     }
     if (localStreamRef.current) {
       localStreamRef.current.getTracks().forEach((track) => track.stop());
       localStreamRef.current = null;
     }
+<<<<<<< HEAD
     setIsRecording(false);
+=======
+    setIsRecording(false); 
+>>>>>>> 3dcec4d (Added Demo Round)
   };
   return { isRecording, startRecording, stopRecording };
 };
@@ -134,6 +195,7 @@ const useTranscriptionService = (t, language) => {
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [transcriptionReady, setTranscriptionReady] = useState(false);
 
+<<<<<<< HEAD
   const transcribeAudio = async (
     audioBlob,
     targetWordsForCorrectionList = null
@@ -141,6 +203,12 @@ const useTranscriptionService = (t, language) => {
     if (!audioBlob) {
       toast.error(t("noAudioToTranscribe") || "No audio data to transcribe.");
       return null;
+=======
+  const transcribeAudio = async (audioBlob, targetWordsForCorrectionList = null) => {
+    if (!audioBlob) {
+        toast.error(t("noAudioToTranscribe") || "No audio data to transcribe.");
+        return null;
+>>>>>>> 3dcec4d (Added Demo Round)
     }
     const formData = new FormData();
     const fileName = `user_audio_${Date.now()}.wav`;
@@ -154,16 +222,25 @@ const useTranscriptionService = (t, language) => {
 
     setIsTranscribing(true);
     setTranscriptionReady(false);
+<<<<<<< HEAD
     setTranscript("");
 
     try {
       const response = await fetch("/api/speech-to-text", {
         method: "POST",
         body: formData,
+=======
+    setTranscript(""); 
+      
+    try {
+      const response = await fetch("/api/speech-to-text", { 
+        method: "POST", body: formData,
+>>>>>>> 3dcec4d (Added Demo Round)
       });
       if (response.ok) {
         const result = await response.json();
         const rawTranscript = result.transcription;
+<<<<<<< HEAD
         const correctionList =
           targetWordsForCorrectionList || wordLists[language] || wordLists.en;
         const safeTargetWords = Array.isArray(correctionList)
@@ -173,6 +250,11 @@ const useTranscriptionService = (t, language) => {
           rawTranscript || "",
           safeTargetWords
         );
+=======
+        const correctionList = targetWordsForCorrectionList || wordLists[language] || wordLists.en;
+        const safeTargetWords = Array.isArray(correctionList) ? correctionList : [];
+        const correctedTranscript = improveTranscriptionAccuracy(rawTranscript || "", safeTargetWords);
+>>>>>>> 3dcec4d (Added Demo Round)
         setTranscript(correctedTranscript);
         return correctedTranscript;
       } else {
@@ -183,6 +265,7 @@ const useTranscriptionService = (t, language) => {
       console.error("Error uploading audio:", error);
       toast.error(t("errorUploadingAudioTryAgain"));
     } finally {
+<<<<<<< HEAD
       setIsTranscribing(false);
       setTranscriptionReady(true);
     }
@@ -196,49 +279,65 @@ const useTranscriptionService = (t, language) => {
     setTranscript,
     setTranscriptionReady,
   };
+=======
+        setIsTranscribing(false);
+        setTranscriptionReady(true); 
+    }
+    return null;
+  };
+  return { transcript, isTranscribing, transcriptionReady, transcribeAudio, setTranscript, setTranscriptionReady };
+>>>>>>> 3dcec4d (Added Demo Round)
 };
 
 const useTestSubmission = (onTestComplete, router, t) => {
   const [testResults, setTestResults] = useState([]);
+<<<<<<< HEAD
   const submitTest = async (
     transcriptToSubmit,
     suppressResultPage,
     language = "en"
   ) => {
+=======
+  const submitTest = async (transcriptToSubmit, suppressResultPage, language = "en") => {
+>>>>>>> 3dcec4d (Added Demo Round)
     const spokenWords = transcriptToSubmit.trim().toLowerCase();
     const childId = localStorage.getItem("childId") || null;
     const token = localStorage.getItem("access_token");
     if (!spokenWords) {
+<<<<<<< HEAD
       toast.info(t("nothingToSubmit") || "Nothing to submit.");
       return { success: false, score: 0 };
+=======
+        toast.info(t("nothingToSubmit") || "Nothing to submit.");
+        return { success: false, score: 0 };
+>>>>>>> 3dcec4d (Added Demo Round)
     }
     try {
-      const responseFromApi = await axios.post(
-        "/api/reading-test/submitResult",
+      const responseFromApi = await axios.post("/api/reading-test/submitResult",
         { childId, spokenWords, language },
-        {
-          headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-            "Content-Type": "application/json",
-          },
-        }
+        { headers: { ...(token && { Authorization: `Bearer ${token}` }), "Content-Type": "application/json" } }
       );
       if (responseFromApi.status === 201) {
         const { score, correctGroups, errorWords } = responseFromApi.data;
+<<<<<<< HEAD
         const validCorrectGroups = Array.isArray(correctGroups)
           ? correctGroups.map((g) => (Array.isArray(g) ? g : [g]))
           : [];
         const validErrorWords = Array.isArray(errorWords)
           ? errorWords.map((w) => (Array.isArray(w) ? w : [w]))
           : [];
+=======
+        const validCorrectGroups = Array.isArray(correctGroups) ? correctGroups.map((g) => Array.isArray(g) ? g : [g]) : [];
+        const validErrorWords = Array.isArray(errorWords) ? errorWords.map((w) => Array.isArray(w) ? w : [w]) : [];
+>>>>>>> 3dcec4d (Added Demo Round)
         const tableData = validCorrectGroups.map((group, index) => ({
-          continuousCorrectWords: group.join(" "),
-          errorWords: validErrorWords[index]?.join(" ") || "-",
+          continuousCorrectWords: group.join(" "), errorWords: validErrorWords[index]?.join(" ") || "-",
         }));
         setTestResults(tableData);
         if (suppressResultPage && typeof onTestComplete === "function") {
           onTestComplete(score);
         } else {
+<<<<<<< HEAD
           toast.success(`Test submitted with score: ${score}`, {
             position: "top-center",
             onClose: () => {
@@ -250,6 +349,13 @@ const useTestSubmission = (onTestComplete, router, t) => {
                     tableData: JSON.stringify(tableData),
                   },
                 });
+=======
+          toast.success(t("testSubmittedWithScore", { score: score }), {
+            position: "top-center",
+            onClose: () => {
+              if (router && router.push) {
+                router.push({ pathname: "/results", query: { score: score.toString(), tableData: JSON.stringify(tableData) } });
+>>>>>>> 3dcec4d (Added Demo Round)
               }
             },
           });
@@ -261,10 +367,14 @@ const useTestSubmission = (onTestComplete, router, t) => {
       }
     } catch (error) {
       console.error("Full error details:", error);
+<<<<<<< HEAD
       toast.error(
         t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain") ||
           t("errorOccurred")
       );
+=======
+      toast.error(t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain") || t("errorOccurred"));
+>>>>>>> 3dcec4d (Added Demo Round)
       return { success: false, score: 0 };
     }
   };
@@ -284,6 +394,7 @@ export default function Test6Controller({
   );
   const [showInstructionsModal, setShowInstructionsModal] = useState(false);
 
+<<<<<<< HEAD
   const [demoWords, setDemoWords] = useState([]);
   const [isDemoCorrect, setIsDemoCorrect] = useState(null);
   const [demoUserTranscript, setDemoUserTranscript] = useState("");
@@ -293,15 +404,29 @@ export default function Test6Controller({
   const [demoAudioBlob, setDemoAudioBlob] = useState(null);
 
   const [selectedFile, setSelectedFile] = useState(null);
+=======
+  const [demoWords, setDemoWords] = useState([]); 
+  const [isDemoCorrect, setIsDemoCorrect] = useState(null);
+  const [demoUserTranscript, setDemoUserTranscript] = useState("");
+  const [demoFeedback, setDemoFeedback] = useState("");
+  const [isDemoTranscriptionAttempted, setIsDemoTranscriptionAttempted] = useState(false);
+  const [demoAudioBlob, setDemoAudioBlob] = useState(null);
+
+  const [selectedFile, setSelectedFile] = useState(null); 
+>>>>>>> 3dcec4d (Added Demo Round)
   const [showEels, setShowEels] = useState(false);
   const [showReward, setShowReward] = useState(false);
   const [coralineVisible, setCoralineVisible] = useState(!suppressTutorial);
   const [coralineAnimationState, setCoralineAnimationState] = useState("idle");
   const [introMessage, setIntroMessage] = useState("");
   const [gameProgress, setGameProgress] = useState(0);
+<<<<<<< HEAD
   const [gameState, setGameState] = useState(
     suppressTutorial ? "instructionsScreen" : "intro"
   );
+=======
+  const [gameState, setGameState] = useState(suppressTutorial ? "instructionsScreen" : "intro");
+>>>>>>> 3dcec4d (Added Demo Round)
   const [tutorialPhase, setTutorialPhase] = useState(0);
 
   const [currentWords, setCurrentWords] = useState([]);
@@ -311,6 +436,7 @@ export default function Test6Controller({
   const [currentPage, setCurrentPage] = useState(0);
 
   const tutorialMessages = useMemo(
+<<<<<<< HEAD
     () =>
       [
         t("tutorialHelloExplorer"),
@@ -323,19 +449,32 @@ export default function Test6Controller({
         t("tutorialLetsGetReading"),
         t("tutorialReadyForMission"),
       ].filter(Boolean),
+=======
+    () => [
+      t("tutorialHelloExplorer"), t("tutorialCoralineIntro"), t("tutorialGlyphReefDescription"),
+      t("tutorialReadingTask"), t("tutorialDifficulty"), t("tutorialShellOfFluency"),
+      t("tutorialCoralSpyglass"), t("tutorialLetsGetReading"), t("tutorialReadyForMission"),
+    ].filter(Boolean),
+>>>>>>> 3dcec4d (Added Demo Round)
     [t]
   );
-
+  
   const {
+<<<<<<< HEAD
     transcript,
     isTranscribing,
     transcriptionReady,
     transcribeAudio,
     setTranscript: setGlobalTranscript,
+=======
+    transcript, isTranscribing, transcriptionReady, transcribeAudio,
+    setTranscript: setGlobalTranscript, 
+>>>>>>> 3dcec4d (Added Demo Round)
     setTranscriptionReady: setGlobalTranscriptionReady,
   } = useTranscriptionService(t, language);
 
   const { submitTest } = useTestSubmission(onComplete, router, t);
+<<<<<<< HEAD
 
   const { isRecording, startRecording, stopRecording } = useAudioRecorder(
     (audioBlob) => {
@@ -363,15 +502,46 @@ export default function Test6Controller({
           }
         });
       }
+=======
+  
+  const { isRecording, startRecording, stopRecording } = useAudioRecorder(
+    (audioBlob) => { 
+        if (currentScreen === "demo") {
+            setDemoAudioBlob(audioBlob);
+            toast.info(t("audioRecordedForDemo") || "Audio recorded. Click 'Submit Demo Answer'.")
+        } else if (currentScreen === "mainTest") {
+            transcribeAudio(audioBlob).then(mainTestTranscript => { // Pass full word list by default
+                if (mainTestTranscript !== null) { 
+                    setAllTranscriptions(prev => {
+                        const newTranscriptions = [...prev];
+                        newTranscriptions[currentPage] = mainTestTranscript;
+                        return newTranscriptions;
+                    });
+                    glowCorrectWords(mainTestTranscript);
+                    setCoralineAnimationState("happy");
+                    setIntroMessage(t("coralineHeardClearly"));
+                } else {
+                    setCoralineAnimationState("confused");
+                    setIntroMessage(t("coralineCouldntMakeOut"));
+                }
+            });
+        }
+>>>>>>> 3dcec4d (Added Demo Round)
     }
   );
 
   useEffect(() => {
     const langWordList = wordLists[language] || wordLists.en || [];
     if (langWordList.length > 0) {
+<<<<<<< HEAD
       setDemoWords(langWordList.slice(0, 6));
     } else {
       setDemoWords(["apple", "ball", "cat", "dog", "egg", "fish"]);
+=======
+      setDemoWords(langWordList.slice(0, 6)); 
+    } else {
+      setDemoWords(["apple", "ball", "cat", "dog", "egg", "fish"]); 
+>>>>>>> 3dcec4d (Added Demo Round)
       console.warn("No word list found for demo words, using fallback.");
     }
   }, [language]);
@@ -381,20 +551,10 @@ export default function Test6Controller({
       const words = wordLists[language] || wordLists.en;
       setCurrentWords(words);
       setWordShells(
-        words.map((word, index) => ({
-          id: index,
-          word,
-          collected: false,
-          glowing: false,
-        }))
+        words.map((word, index) => ({ id: index, word, collected: false, glowing: false }))
       );
       if (words.length > 0) {
-        setGameProgress(
-          (wordsPerBatch / words.length) *
-            100 *
-            (1 / Math.ceil(words.length / wordsPerBatch)) *
-            0.85
-        );
+        setGameProgress( (wordsPerBatch / words.length) * 100 * (1 / Math.ceil(words.length / wordsPerBatch)) * 0.85 );
       } else {
         setGameProgress(0);
       }
@@ -408,22 +568,34 @@ export default function Test6Controller({
       setTutorialPhase(0);
       setIntroMessage(tutorialMessages[0]);
     } else if (currentScreen !== "tutorial") {
+<<<<<<< HEAD
       setCoralineVisible(false);
     }
   }, [currentScreen, tutorialMessages, t]);
+=======
+        setCoralineVisible(false);
+    }
+  }, [currentScreen, tutorialMessages, t]);
+
+>>>>>>> 3dcec4d (Added Demo Round)
 
   const handleNextTutorialStep = () => {
     if (tutorialPhase < tutorialMessages.length - 1) {
       const nextPhase = tutorialPhase + 1;
       setTutorialPhase(nextPhase);
       setIntroMessage(tutorialMessages[nextPhase]);
+<<<<<<< HEAD
       if (nextPhase === tutorialMessages.length - 2)
         setCoralineAnimationState("happy");
+=======
+      if (nextPhase === tutorialMessages.length - 2) setCoralineAnimationState("happy");
+>>>>>>> 3dcec4d (Added Demo Round)
     }
   };
 
   const handleTutorialComplete = () => {
     setCurrentScreen("instructionsScreen");
+<<<<<<< HEAD
     setGameState("instructionsScreen");
     setCoralineVisible(false);
   };
@@ -542,12 +714,117 @@ export default function Test6Controller({
   };
 
   const handleMainTestFileUpload = async (event) => {
+=======
+    setGameState("instructionsScreen"); 
+    setCoralineVisible(false); 
+  };
+  
+  const handleStartDemo = () => {
+    setCurrentScreen("demo");
+    setGameState("demo");
+    setIsDemoCorrect(null);
+    setDemoUserTranscript("");
+    setDemoFeedback("");
+    setGlobalTranscript(""); 
+    setGlobalTranscriptionReady(false);
+    setIsDemoTranscriptionAttempted(false);
+    setDemoAudioBlob(null);
+    if(isRecording) stopRecording();
+  };
+
+  const handleDemoFileUpload = async (event) => {
+>>>>>>> 3dcec4d (Added Demo Round)
     const file = event.target.files[0];
     if (file) {
-      setSelectedFile(file);
+        setDemoAudioBlob(file);
+        toast.info(t("fileSelectedForDemo") || "File selected. Click 'Submit Demo Answer'.");
+        setIsDemoTranscriptionAttempted(false);
+        setDemoUserTranscript("");
+        setDemoFeedback("");
+        setIsDemoCorrect(null);
+    }
+  };
+
+  const handleDemoSubmit = async () => {
+    if (!demoAudioBlob) {
+        toast.info(t("noAudioForDemo") || "Please record or upload audio for the demo.");
+        return;
+    }
+    if (isTranscribing) return;
+    setIsDemoTranscriptionAttempted(true);
+    const transcribedText = await transcribeAudio(demoAudioBlob, demoWords); 
+    setDemoUserTranscript(transcribedText || "");
+
+    if (transcribedText !== null && demoWords.length > 0) {
+      const cleanedUserWords = (transcribedText || "").toLowerCase().trim().replace(/[.,!?;:"']/g, "").split(/\s+/).filter(Boolean);
+      const cleanedDemoWordsArray = demoWords.map(word => (word || "").toLowerCase().trim().replace(/[.,!?;:"']/g, ""));
+      let allMatch = false;
+      // Strict check: user's transcript must exactly match the demo words joined by space
+      // const userSequence = cleanedUserWords.join(" ");
+      // const demoSequence = cleanedDemoWordsArray.join(" ");
+      // if (userSequence === demoSequence) {
+      //    allMatch = true;
+      // }
+      
+      // Less strict: check if all demo words are present, in order, allowing for extra user words in between or at ends
+      let currentDemoWordIndex = 0;
+      for(const userWord of cleanedUserWords) {
+          if(currentDemoWordIndex < cleanedDemoWordsArray.length && userWord === cleanedDemoWordsArray[currentDemoWordIndex]) {
+              currentDemoWordIndex++;
+          }
+      }
+      if (currentDemoWordIndex === cleanedDemoWordsArray.length) {
+          allMatch = true;
+      }
+
+      if (allMatch) {
+        setIsDemoCorrect(true);
+        setDemoFeedback(t("demoAllWordsCorrectMessage"));
+      } else {
+        setIsDemoCorrect(false);
+        setDemoFeedback(t("demoSomeWordsIncorrectMessage", { words: demoWords.join(", ") }));
+      }
+    } else {
+      setIsDemoCorrect(false);
+      setDemoFeedback(t("transcriptionFailedTryAgain"));
+    }
+    setDemoAudioBlob(null);
+  };
+
+  const handleDemoRetry = () => {
+    setIsDemoCorrect(null);
+    setDemoUserTranscript("");
+    setDemoFeedback("");
+    setGlobalTranscript(""); 
+    setGlobalTranscriptionReady(false);
+    setIsDemoTranscriptionAttempted(false);
+    setDemoAudioBlob(null);
+    if (isRecording) stopRecording();
+  };
+
+  const handleProceedToMainTest = () => {
+    setCurrentScreen("mainTest");
+    setGameState("active"); 
+    setGlobalTranscript(""); 
+    setGlobalTranscriptionReady(false);
+    setSelectedFile(null); 
+    setAllTranscriptions([]); 
+    setCurrentPage(0); 
+    setGameProgress(0); 
+    if(isRecording) stopRecording();
+  };
+
+  const handleMainTestFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file); 
       setCoralineAnimationState("excited");
       setIntroMessage(t("coralineExcellentRecording"));
+<<<<<<< HEAD
       const mainTestTranscript = await transcribeAudio(file);
+=======
+      const mainTestTranscript = await transcribeAudio(file); 
+>>>>>>> 3dcec4d (Added Demo Round)
       if (mainTestTranscript !== null) {
         setAllTranscriptions((prev) => {
           const newTranscriptions = [...prev];
@@ -556,21 +833,21 @@ export default function Test6Controller({
         });
         setCoralineAnimationState("happy");
         setIntroMessage(t("coralineHeardClearly"));
-        const progress = Math.min(
-          ((currentPage + 1) / Math.ceil(currentWords.length / wordsPerBatch)) *
-            85,
-          85
-        );
+        const progress = Math.min( ((currentPage + 1) / Math.ceil(currentWords.length / wordsPerBatch)) * 85, 85 );
         setGameProgress(progress);
         glowCorrectWords(mainTestTranscript);
       } else {
         setCoralineAnimationState("confused");
         setIntroMessage(t("coralineCouldntMakeOut"));
       }
+<<<<<<< HEAD
       setTimeout(() => {
         setCoralineAnimationState("idle");
         setIntroMessage("");
       }, 4000);
+=======
+      setTimeout(() => { setCoralineAnimationState("idle"); setIntroMessage(""); }, 4000);
+>>>>>>> 3dcec4d (Added Demo Round)
     }
   };
 
@@ -578,50 +855,62 @@ export default function Test6Controller({
     if (!textToGlow) return;
     const spokenWords = textToGlow.toLowerCase().split(" ");
     setWordShells((prev) =>
-      prev.map((shell) => ({
-        ...shell,
-        glowing: spokenWords.includes(shell.word.toLowerCase()),
-      }))
+      prev.map((shell) => ({ ...shell, glowing: spokenWords.includes(shell.word.toLowerCase()) }))
     );
     setTimeout(() => {
+<<<<<<< HEAD
       setWordShells((prev) =>
         prev.map((shell) => ({ ...shell, glowing: false }))
       );
+=======
+      setWordShells((prev) => prev.map((shell) => ({ ...shell, glowing: false })) );
+>>>>>>> 3dcec4d (Added Demo Round)
     }, 3000);
   };
 
   const handleSubmitPageOrTest = async () => {
+<<<<<<< HEAD
     let currentTranscriptForPageToSubmit = transcript;
     if (selectedFile && allTranscriptions[currentPage]) {
       currentTranscriptForPageToSubmit = allTranscriptions[currentPage];
     } else if (allTranscriptions[currentPage]) {
       currentTranscriptForPageToSubmit = allTranscriptions[currentPage];
+=======
+    let currentTranscriptForPageToSubmit = transcript; 
+    if (selectedFile && allTranscriptions[currentPage]) { 
+        currentTranscriptForPageToSubmit = allTranscriptions[currentPage];
+    } else if (allTranscriptions[currentPage]) { 
+        currentTranscriptForPageToSubmit = allTranscriptions[currentPage];
+>>>>>>> 3dcec4d (Added Demo Round)
     }
     if (!transcriptionReady && !currentTranscriptForPageToSubmit) {
       toast.info(t("transcriptionNotReady"));
       setShowEels(true);
       setCoralineAnimationState("warning");
       setIntroMessage(t("coralineNeedYourVoice"));
-      setTimeout(() => {
-        setShowEels(false);
-        setCoralineAnimationState("idle");
-        setIntroMessage("");
-      }, 3000);
+      setTimeout(() => { setShowEels(false); setCoralineAnimationState("idle"); setIntroMessage(""); }, 3000);
       return;
     }
     const updatedAllTranscriptions = [...allTranscriptions];
+<<<<<<< HEAD
     if (
       currentTranscriptForPageToSubmit &&
       !updatedAllTranscriptions[currentPage]
     ) {
       updatedAllTranscriptions[currentPage] = currentTranscriptForPageToSubmit;
       setAllTranscriptions(updatedAllTranscriptions);
+=======
+    if (currentTranscriptForPageToSubmit && !updatedAllTranscriptions[currentPage]) {
+        updatedAllTranscriptions[currentPage] = currentTranscriptForPageToSubmit;
+        setAllTranscriptions(updatedAllTranscriptions);
+>>>>>>> 3dcec4d (Added Demo Round)
     }
     const isLastPage = (currentPage + 1) * wordsPerBatch >= currentWords.length;
     if (isLastPage) {
       setCoralineAnimationState("focused");
       setIntroMessage(t("coralineCheckingPronunciation"));
       setGameProgress(85);
+<<<<<<< HEAD
       const combinedTranscript = updatedAllTranscriptions
         .filter(Boolean)
         .join(" ");
@@ -647,13 +936,28 @@ export default function Test6Controller({
             setCoralineAnimationState("encouraging");
             setIntroMessage(t("coralineGoodEffort"));
           }
+=======
+      const combinedTranscript = updatedAllTranscriptions.filter(Boolean).join(" ");
+      const { success, score } = await submitTest(combinedTranscript.trim(), suppressResultPage, language);
+      if (success) {
+        setGameProgress(100);
+        if (onComplete && typeof onComplete === "function") onComplete(score); 
+        if (!suppressResultPage) { 
+            if (score >= 70) {
+                setGameState("success"); setCoralineAnimationState("celebrating"); setShowReward(true);
+                setIntroMessage(t("coralineExcellentJob"));
+                setTimeout(() => { setCoralineAnimationState("happy"); setIntroMessage(t("coralineRewardUnlocked")); }, 3000);
+            } else {
+                setCoralineAnimationState("encouraging"); setIntroMessage(t("coralineGoodEffort"));
+            }
+>>>>>>> 3dcec4d (Added Demo Round)
         }
       } else {
-        setCoralineAnimationState("confused");
-        setIntroMessage(t("coralineReefMagicError"));
+        setCoralineAnimationState("confused"); setIntroMessage(t("coralineReefMagicError"));
       }
     } else {
       setCurrentPage((prev) => prev + 1);
+<<<<<<< HEAD
       setGlobalTranscript("");
       setGlobalTranscriptionReady(false);
       setSelectedFile(null);
@@ -668,6 +972,15 @@ export default function Test6Controller({
         setCoralineAnimationState("idle");
         setIntroMessage("");
       }, 2000);
+=======
+      setGlobalTranscript(""); 
+      setGlobalTranscriptionReady(false);
+      setSelectedFile(null); 
+      const newProgress = Math.min( (((currentPage + 2) * wordsPerBatch) / currentWords.length) * 85, 85 );
+      setGameProgress(newProgress);
+      setCoralineAnimationState("happy"); setIntroMessage(t("coralineNextPage"));
+      setTimeout(() => { setCoralineAnimationState("idle"); setIntroMessage(""); }, 2000);
+>>>>>>> 3dcec4d (Added Demo Round)
     }
   };
 
@@ -675,16 +988,31 @@ export default function Test6Controller({
     const start = currentPage * wordsPerBatch;
     const end = start + wordsPerBatch;
     return wordShells.slice(start, end).map((shell, idx) => ({
-      ...shell,
-      word: shell.word || shell,
-      index: start + idx,
+      ...shell, word: shell.word || shell, index: start + idx,
     }));
   }, [currentPage, wordShells, wordsPerBatch]);
 
-  const backgroundStyle = coralBackground
-    ? { backgroundImage: `url(${coralBackground.src || coralBackground})` }
-    : {};
+  const backgroundStyle = coralBackground ? { backgroundImage: `url(${coralBackground.src || coralBackground})` } : {};
+  
+  const commonHeaderButtons = (
+    <>
+      <Link
+        href="/taketests"
+        className="absolute top-4 left-4 z-[55] flex items-center gap-2 bg-white/80 hover:bg-white text-teal-800 font-medium py-2 px-3 rounded-full shadow-md transition-all"
+      > <ChevronLeft className="h-5 w-5" /> <span className="hidden sm:inline">{t("backToTests")}</span>
+      </Link>
+      {currentScreen !== "instructionsScreen" && (
+        <button
+          onClick={() => setShowInstructionsModal(true)}
+          className="absolute top-4 right-4 z-[55] flex items-center gap-2 bg-white/80 hover:bg-white text-teal-800 font-medium py-2 px-3 rounded-full shadow-md transition-all"
+          aria-label={t("instructionsButtonLabel")}
+        > <HelpCircle className="h-5 w-5" /> <span className="hidden sm:inline">{t("instructionsButtonLabel")}</span>
+        </button>
+      )}
+    </>
+  );
 
+<<<<<<< HEAD
   const commonHeaderButtons = (
     <>
       <Link
@@ -819,12 +1147,56 @@ export default function Test6Controller({
     );
   }
 
+=======
+  if (!t || (currentScreen === "tutorial" && tutorialMessages.length === 0 && !suppressTutorial) || (currentScreen === "demo" && demoWords.length === 0)) {
+    return <div className="fixed inset-0 flex items-center justify-center bg-gray-100 text-teal-700">Loading resources...</div>;
+  }
+
+  let screenContent;
+  if (currentScreen === "tutorial") {
+    screenContent = ( <> {commonHeaderButtons} <TutorialView
+            tutorialMessages={tutorialMessages} tutorialPhase={tutorialPhase}
+            handleNextTutorialStep={handleNextTutorialStep} onTutorialComplete={handleTutorialComplete}
+            introMessage={introMessage} coralineImage={coralineImage.src || coralineImage}
+            coralineAnimationState={coralineAnimationState} t={t} /> </>
+    );
+  } else if (currentScreen === "instructionsScreen") {
+    screenContent = ( <> {commonHeaderButtons} <TestInstructionsScreen onStartDemo={handleStartDemo} t={t} /> </> );
+  } else if (currentScreen === "demo") {
+    screenContent = ( <> {commonHeaderButtons} <DemoRoundView
+          demoWords={demoWords} ancientPaperImage={ancientPaper.src || ancientPaper} 
+          isRecording={isRecording}
+          startRecording={() => { if(isRecording) stopRecording(); setDemoAudioBlob(null); 
+              setIsDemoTranscriptionAttempted(false); setIsDemoCorrect(null);
+              setDemoUserTranscript(""); setDemoFeedback(""); startRecording(); }}
+          stopRecording={stopRecording} handleFileUpload={handleDemoFileUpload}
+          onSubmit={handleDemoSubmit} onRetry={handleDemoRetry}
+          onProceedToMainTest={handleProceedToMainTest} isTranscribing={isTranscribing}
+          userTranscript={demoUserTranscript} isDemoCorrect={isDemoCorrect}
+          demoFeedback={demoFeedback} t={t} isTranscriptionAttempted={isDemoTranscriptionAttempted} /> </>
+    );
+  } else if (currentScreen === "mainTest") {
+    screenContent = ( <> {commonHeaderButtons} <TestSessionView
+            gameProgress={gameProgress} currentPage={currentPage} currentWordsLength={currentWords.length}
+            wordsPerBatch={wordsPerBatch} ancientPaperImage={ancientPaper.src || ancientPaper}
+            visibleWords={visibleWords} isRecording={isRecording}
+            startRecording={() => { setSelectedFile(null); setGlobalTranscript(""); 
+                setGlobalTranscriptionReady(false); if(isRecording) stopRecording(); startRecording(); }}
+            stopRecording={stopRecording} showEels={showEels} handleFileUpload={handleMainTestFileUpload}
+            handleSubmitPageOrTest={handleSubmitPageOrTest} isTranscribing={isTranscribing}
+            transcriptionReady={transcriptionReady || (selectedFile && allTranscriptions[currentPage])}
+            t={t} coralineImageForEels={coralineImage.src || coralineImage} /> </>
+    );
+  }
+
+>>>>>>> 3dcec4d (Added Demo Round)
   return (
     <div
       className="fixed inset-0 overflow-y-auto flex items-center justify-center p-1 sm:p-4 md:p-8 bg-cover bg-center"
       style={backgroundStyle}
     >
       {screenContent}
+<<<<<<< HEAD
       <InstructionsModal
         isOpen={showInstructionsModal}
         onClose={() => setShowInstructionsModal(false)}
@@ -837,6 +1209,12 @@ export default function Test6Controller({
             onClose={() => setShowReward(false)}
             t={t}
           />
+=======
+      <InstructionsModal isOpen={showInstructionsModal} onClose={() => setShowInstructionsModal(false)} t={t} />
+      <AnimatePresence>
+        {showReward && currentScreen === "mainTest" && (
+          <RewardView shellImage={shellImage.src || shellImage} onClose={() => setShowReward(false)} t={t} />
+>>>>>>> 3dcec4d (Added Demo Round)
         )}
       </AnimatePresence>
       <ToastContainer position="top-center" autoClose={3000} newestOnTop />
