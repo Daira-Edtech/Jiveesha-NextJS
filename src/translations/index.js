@@ -745,6 +745,118 @@ theCorrectAnswerWas: "The correct answer was:",
     continuousAssessmentResults: "Continuous Assessment Results",
     noTestResultsFoundAtAll: "No Test Results Found",
     noTestResultsFoundForFilter: "No Test Results Found",
+    visualDemoInstruction1: "You'll be shown a target character or word.",
+    visualDemoInstruction2: "Several options will appear below it.",
+    visualDemoInstruction3: "Your goal: Find and click the option that exactly matches the target.",
+    visualDemoInstruction4: "The main test questions are timed, so practice being quick and accurate!",
+    visualDemoInstruction5: "In the main test, once you pick an answer, you can't change it.",
+    visualDemoPracticeNote:"This practice question is untimed. If you get it wrong, you can try again!",
+
+
+    // For SoundDiscriminationTestOrchestrator.jsx & its sub-components
+    soundTestApiName: "Sound Discrimination Test",
+    progress: "Progress",
+    backToTests: "Back to Tests",
+    showInstructionsButton: "Instructions",
+    demoRoundTitle: "Demo Round",
+    demoRoundInstructions: "Let's practice! Listen to the sounds and decide if they are the same or different. You can try again if you miss.",
+    demoIncorrectToastMessage: "Oops! Let's try that one again.",
+    demoTimeoutRetry: "Demo question timed out. Let's try it again!",
+    demoCorrect: "Excellent!",
+    demoCorrectProceed: "You've got it! Ready to start the main test?",
+    startMainTestButton: "Start Main Test",
+    testCompleted: "Test Completed!",
+    youGot: "You scored",
+    outOf: "out of",
+    correct: "correctly.",
+    submitResults: "Submit Results",
+    submitting: "Submitting...",
+    selectStudentFirst: "Please select a student first.",
+    testSubmittedSuccessfully: "Test submitted successfully!",
+    failedToSubmitTestPleaseTryAgain: "Failed to submit. Please try again.",
+    errorOccurredGeneric: "An error occurred. Please try again.",
+
+    // For InstructionsComponent.jsx
+    testInstructionsTitle: "Test Instructions",
+    instructionWelcome: "Welcome, brave adventurer, to the Whispering Isle Sound Challenge!",
+    instructionHowToPlayTitle: "How to Play:",
+    instructionListenCarefully: "You will hear pairs of spoken words.",
+    instructionTwoWords: "Listen carefully to both words in each pair played through the speaker bird.",
+    instructionSameOrDifferent: "Click 'Same Sounds' if they are identical, or 'Different Sounds' if they are not.",
+    instructionDemoRoundFirst: "First, you'll have a practice (demo) round with one question.",
+    instructionDemoRetry: "If you get the demo question wrong, you can try it again.",
+    instructionDemoSuccess: "Once you answer the demo correctly, the main test will begin.",
+    instructionMainTest: "The main test consists of multiple questions. Give it your best shot!",
+    instructionGoodLuckTitle: "Ready?",
+    instructionGoodLuckMessage: "Focus, listen closely, and good luck!",
+    proceedToDemoButton: "Start Demo Round",
+    closeInstructionsAriaLabel: "Close Instructions",
+    gotItButton: "Got It!",
+
+
+    
+    testInstructionsTitle: "Test Instructions",
+    instructionPoint1: "You will be shown a series of words.",
+    instructionPoint2: "Please read each word clearly into your microphone.",
+    instructionPoint3: "You can also upload an audio file of your recording.",
+    instructionPoint4: "First, you'll try a quick demo word to get familiar.",
+    instructionPoint5: "In the demo, if your answer is incorrect, you can try again.",
+    instructionPoint6: "Once the demo word is correct, you can proceed to the main test.",
+    instructionPoint7: "Click 'Start Recording' (Mic icon) to begin, and 'Stop Recording' (Mic Off icon) when done.",
+    instructionPoint8: "Ensure your microphone is enabled and working.",
+    buttonStartDemo: "Start Demo",
+    buttonShowInstructions: "Show Instructions",
+    buttonHideInstructions: "Hide Instructions", // Or just use a close icon
+    demoRoundTitle: "Demo Round",
+    demoReadThisWord: "Please read this word aloud:",
+    demoYourAttempt: "Your attempt:",
+    demoCorrectMessage: "Great! That's correct.",
+    demoIncorrectMessage: "Not quite. The word was \"{word}\". Please try again.",
+    demoIncorrectSimpleMessage: "Not quite. Please try again.",
+    buttonTryAgain: "Try Again",
+    buttonProceedToMainTest: "Proceed to Main Test",
+    buttonSubmitDemoAnswer: "Submit Demo Answer",
+    recordingInProgress: "Recording...",
+    transcribingInProgress: "Transcribing...",
+    uploadAudioPrompt: "Or upload an audio file",
+    instructionsButtonLabel: "Instructions",
+    demoReadTheseWords: "Please read these words aloud in order:",
+    demoAllWordsCorrectMessage: "Excellent! All demo words are correct.",
+    demoSomeWordsIncorrectMessage: "Not quite. Please try reading all the words again clearly. The words were: \"{words}\".",
+    demoYourFullAttempt: "Your full attempt:",
+
+
+    gotIt: "Got It!",
+
+    VisualDemoInstruction1: "Examine the target image at the top.",
+    VisualDemoInstruction2: "Carefully look at the options provided below.",
+    VisualDemoInstruction3: "Select the option that is an exact match to the target image.",
+    VisualDemoInstruction4: "If your choice is incorrect, you will get a chance to try again.",
+    VisualDemoInstruction5: "If your choice is correct, you can proceed to the main test.",
+    VisualDemoPracticeNote: "This is a practice round. Your performance here does not affect your main test score.",
+
+    loadingPractice: "Loading Practice Round...", 
+    practiceRoundTitle: "Welcome to the Practice Round!",
+    practiceRoundIntroVisual: "Let's try a sample question to get you familiar with the Visual Discrimination test. Your performance here won't affect your main test score.",
+    practiceRoundTip: "Remember, you can click the \"Test Instructions\" button anytime during this practice if you need a refresher.",
+    startPracticeQuestion: "Start Practice",
+    errorNoPracticeQuestion: "Sorry, no practice question available for this language.",
+    showInstructions: "Show Test Instructions",
+    testInstructions: "Test Instructions",
+    visualTestInstructionsTitle: "Visual Discrimination: How to Play",
+    practiceCorrect: "Excellent! That's the correct one.",
+    startMainTest: "Start Main Test",
+    practiceIncorrect: "Not quite. That wasn't the match.",
+    practiceSelected: "You picked: \"{selection}\".", // {selection} is for i18next interpolation
+    tryAgain: "Try Again",
+        
+
+
+
+   
+
+
+
 
   },
   ta: {
