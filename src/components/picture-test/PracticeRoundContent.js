@@ -111,10 +111,15 @@ export default function PracticeRound({
     ) {
       mediaRecorderRef.current.onstop = async () => {
         const mimeType = mediaRecorderRef.current?.mimeType;
+<<<<<<< HEAD
         const audioBlob = new Blob(audioChunksRef.current, {
           type: mimeType || undefined,
         });
 
+=======
+        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType || undefined });
+        
+>>>>>>> ebbb870 (Added Instructions component)
         if (audioChunksRef.current.length > 0) {
           audioChunksRef.current = [];
           await uploadAudio(audioBlob);
@@ -128,12 +133,19 @@ export default function PracticeRound({
       };
       mediaRecorderRef.current.stop();
     } else {
+<<<<<<< HEAD
       if (mediaRecorderRef.current?.stream) {
         mediaRecorderRef.current.stream
           .getTracks()
           .forEach((track) => track.stop());
       }
       mediaRecorderRef.current = null;
+=======
+        if (mediaRecorderRef.current?.stream) { 
+            mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+        }
+        mediaRecorderRef.current = null;
+>>>>>>> ebbb870 (Added Instructions component)
     }
     setIsRecording(false);
   }, [uploadAudio]);
@@ -144,6 +156,7 @@ export default function PracticeRound({
       .getUserMedia({ audio: true })
       .then((stream) => {
         audioChunksRef.current = [];
+<<<<<<< HEAD
         const options = { mimeType: "audio/webm;codecs=opus" };
         if (!MediaRecorder.isTypeSupported(options.mimeType)) {
           console.warn(
@@ -155,6 +168,14 @@ export default function PracticeRound({
           stream,
           options.mimeType ? options : undefined
         );
+=======
+        const options = { mimeType: 'audio/webm;codecs=opus' };
+        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+            console.warn("audio/webm;codecs=opus not supported, falling back to default.");
+            options.mimeType = ''; 
+        }
+        const newMediaRecorder = new MediaRecorder(stream, options.mimeType ? options : undefined);
+>>>>>>> ebbb870 (Added Instructions component)
         mediaRecorderRef.current = newMediaRecorder;
         newMediaRecorder.ondataavailable = (event) => {
           if (event.data.size > 0) audioChunksRef.current.push(event.data);
@@ -196,14 +217,19 @@ export default function PracticeRound({
     };
     let toastMessage = "";
     if (canSee === false) {
+<<<<<<< HEAD
       toastMessage = t(
         "practiceFeedback.cantSee",
         "Practice: You indicated you couldn't see the image."
       );
+=======
+      toastMessage = t("practiceFeedback.cantSee", "Practice: You indicated you couldn't see the image.");
+>>>>>>> ebbb870 (Added Instructions component)
       evaluation.message = toastMessage;
       toast.info(toastMessage);
     } else {
       const userAnswerTrimmed = answer.trim().toLowerCase();
+<<<<<<< HEAD
       const correctAnswerTrimmed = (currentCorrectAnswer || "")
         .trim()
         .toLowerCase();
@@ -222,6 +248,17 @@ export default function PracticeRound({
           "Practice: Good try! The correct answer was: {{correctAnswer}}.",
           { correctAnswer: currentCorrectAnswer }
         );
+=======
+      const correctAnswerTrimmed = (currentCorrectAnswer || "").trim().toLowerCase();
+      if (userAnswerTrimmed === correctAnswerTrimmed) {
+        evaluation.score = 2;
+        toastMessage = t("practiceFeedback.correct", "Practice: Great job! You identified it correctly.");
+        evaluation.message = toastMessage;
+        toast.success(toastMessage);
+      } else {
+        evaluation.score = 1; 
+        toastMessage = t("practiceFeedback.goodTry", "Practice: Good try! The correct answer was: {{correctAnswer}}.", { correctAnswer: currentCorrectAnswer });
+>>>>>>> ebbb870 (Added Instructions component)
         evaluation.message = toastMessage;
         toast.warning(toastMessage);
       }
@@ -254,6 +291,16 @@ export default function PracticeRound({
       evaluatePractice();
     }
   };
+<<<<<<< HEAD
+=======
+  
+  useEffect(() => {
+    if (speakText && step === 1) {
+        speakText((t("practiceRoundTitle") || "Practice Round") + ". " + (t("canYouSeeThisPicture") || "Can you see this picture?"));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speakText, t, step]); 
+>>>>>>> ebbb870 (Added Instructions component)
 
   useEffect(() => {
     if (speakText && step === 1) {
@@ -274,14 +321,22 @@ export default function PracticeRound({
   let imageContainerStyle = { ...imageContainerBaseStyle };
   let imageContainerSpecificClasses = "";
 
+  // The step 1 image size is 280px. If the dialog is much shorter, this takes up a large portion.
+  // Consider if this needs to be adjusted if the dialog height is very small.
+  // For now, I'll keep it as is, and scrolling will handle overflow.
   if (step === 1) {
     const sizeStep1 = "280px"; // This is approx 17.5rem
+<<<<<<< HEAD
     imageContainerStyle.height = sizeStep1;
     imageContainerStyle.width = sizeStep1;
+=======
+    imageContainerStyle.height = sizeStep1; imageContainerStyle.width = sizeStep1;
+>>>>>>> ebbb870 (Added Instructions component)
     imageContainerSpecificClasses = `max-w-[${sizeStep1}]`;
   } else {
     imageContainerSpecificClasses = `max-w-md w-full`;
     imageContainerStyle.aspectRatio = "16/10";
+<<<<<<< HEAD
     imageContainerStyle.height = undefined;
     imageContainerStyle.width = undefined;
   }
@@ -292,6 +347,18 @@ export default function PracticeRound({
         {t("loadingPracticeImage") || "Loading practice image..."}
       </div>
     );
+=======
+    imageContainerStyle.height = undefined; 
+    imageContainerStyle.width = undefined;  
+  }
+
+  if (!practiceImage) return <div className="text-white p-4 text-center">{t("loadingPracticeImage") || "Loading practice image..."}</div>;
+
+  const yesButtonClasses = "px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none flex items-center justify-center gap-1.5 transition-all duration-150 bg-[#6CB4A3]/80 hover:bg-[#6CB4A3] focus:ring-2 focus:ring-[#6CB4A3] border-2 border-white/50";
+  const noButtonClasses = "px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none flex items-center justify-center gap-1.5 transition-all duration-150 bg-[#A3D8D0]/70 hover:bg-[#A3D8D0]/90 border-2 border-white/70 focus:ring-2 focus:ring-white";
+  const actionButtonClasses = "w-full px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none flex items-center justify-center gap-1.5 transition-all duration-150 bg-[#A3D8D0]/70 hover:bg-[#A3D8D0]/90 border-2 border-white/70 focus:ring-2 focus:ring-white";
+  const recordingButtonActiveClasses = "ring-2 ring-red-500 ring-opacity-70 !bg-red-500/70 hover:!bg-red-600/80";
+>>>>>>> ebbb870 (Added Instructions component)
 
   const yesButtonClasses =
     "px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none flex items-center justify-center gap-1.5 transition-all duration-150 bg-[#6CB4A3]/80 hover:bg-[#6CB4A3] focus:ring-2 focus:ring-[#6CB4A3] border-2 border-white/50";
@@ -317,11 +384,22 @@ export default function PracticeRound({
       )}
       <motion.div
         key={`practice-${practiceImage.id}-${step}`}
+<<<<<<< HEAD
         className="w-full max-w-3xl bg-[#FDF6E3]/10 backdrop-blur-lg rounded-3xl overflow-hidden shadow-2xl border border-[#6CB4A3]/50 relative"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
         style={{ boxShadow: "0 10px 30px -10px rgba(60, 110, 113, 0.3)" }}
+=======
+        // MODIFIED: Reduced height to h-[32.5rem] (520px).
+        // Adjusted max-h slightly.
+        className="w-full max-w-md md:max-w-lg h-[32.5rem] max-h-[90vh] sm:max-h-[88vh] 
+                   bg-[#FDF6E3]/20 backdrop-blur-xl rounded-3xl shadow-2xl 
+                   border border-[#6CB4A3]/60 
+                   flex flex-col overflow-hidden"
+        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }}
+        style={{ boxShadow: "0 10px 30px -10px rgba(60, 110, 113, 0.4)" }}
+>>>>>>> ebbb870 (Added Instructions component)
       >
         <div className="bg-gradient-to-r from-[#3C6E71]/90 to-[#4B7F52]/90 p-6 text-center relative overflow-hidden">
           <motion.h2
@@ -334,6 +412,7 @@ export default function PracticeRound({
             {`${t("practiceRoundTitle") || "Practice Round"}: ${titleText}`}
           </motion.h2>
         </div>
+<<<<<<< HEAD
         <div className="p-6 flex flex-col items-center overflow-y-auto">
           <motion.div
             className="relative rounded-xl overflow-hidden border-2 border-[#6CB4A3]/50 shadow-lg"
@@ -402,6 +481,39 @@ export default function PracticeRound({
                     <FaEyeSlash className="text-[#3E2F2F]/90" />{" "}
                     {t("noICan") || "No, I can't"}
                   </span>
+=======
+        <div className="p-3 sm:p-4 flex flex-col items-center flex-1 overflow-y-auto">
+          <div className={`${imageContainerBaseClasses} ${imageContainerSpecificClasses}`} style={imageContainerStyle}>
+            {practiceImage.imageUrl ? (
+                <Image 
+                    src={practiceImage.imageUrl} 
+                    alt={t("altTidepoolReflection") || practiceImage.correctAnswer || "Practice image"} 
+                    fill 
+                    style={{ objectFit: "contain" }} 
+                    priority 
+                    sizes="(max-width: 640px) 280px, (max-width: 1024px) 448px, 512px"
+                    onError={(e) => console.error(`Practice Image Load Error: ${e.target.src}`)}
+                />
+            ) : (
+                <div className="w-full h-full flex items-center justify-center text-gray-300">
+                    {t("imageNotAvailable", "Image not available")}
+                </div>
+            )}
+            <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-black/20 via-black/10 to-transparent pointer-events-none" />
+          </div>
+          <div className="w-full max-w-md space-y-2 mt-auto pt-2 sm:pt-3">
+            {step === 1 && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
+                <motion.button whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.97 }} 
+                  className={yesButtonClasses}
+                  onClick={() => handleCanSeeSelection(true)}> 
+                  <FaEye className="text-white/90 text-sm sm:text-base" /> {t("yesICan") || "Yes, I can"}
+                </motion.button>
+                <motion.button whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.97, opacity: 0.85 }} 
+                  className={noButtonClasses}
+                  onClick={() => handleCanSeeSelection(false)}> 
+                  <FaEyeSlash className="text-white text-sm sm:text-base" /> {t("noICan") || "No, I can't"}
+>>>>>>> ebbb870 (Added Instructions component)
                 </motion.button>
               </motion.div>
             )}
@@ -429,6 +541,7 @@ export default function PracticeRound({
                   }
                 />
                 <motion.button
+<<<<<<< HEAD
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={toggleRecording}
@@ -490,6 +603,29 @@ export default function PracticeRound({
                   whileTap={{ scale: 0.98 }}
                   onClick={handleNext}
                   className={`w-full py-4 px-6 rounded-xl font-bold text-white relative overflow-hidden transition-all bg-gradient-to-r from-[#3C6E71] to-[#6CB4A3]`}
+=======
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97, opacity: 0.85 }}
+                    onClick={toggleRecording}
+                    disabled={isTranscribing}
+                    className={`${actionButtonClasses} group ${isRecording ? recordingButtonActiveClasses : "" }`}
+                >
+                  {isRecording ? (
+                    <> 
+                      <FaStopCircle className="text-sm sm:text-base" /> 
+                      <span className="ml-1">{t("stopRecording") || "Stop Recording"}</span>
+                    </>
+                  ) : (
+                    <> 
+                      <FaMicrophone className="text-sm sm:text-base" /> 
+                      {t("useVoiceInput") || "Use Voice Input"}
+                    </>
+                  )}
+                </motion.button>
+                <motion.button
+                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97, opacity: 0.85 }}
+                    onClick={handleNext}
+                    className={`${actionButtonClasses} group`}
+>>>>>>> ebbb870 (Added Instructions component)
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     {step === 3

@@ -65,7 +65,11 @@ const PictureRecognitionTestPage = () => {
       // Ensure practice image is not the same as the first test image if test starts from index 0 of imagesData
       // For this example, let's assume imagesData[0] is okay for practice, and main test might skip it or use a different set.
       // If using imagesData directly, consider picking a dedicated practice image or adjusting main test start.
+<<<<<<< HEAD
       setPracticeImage(imagesData[0]);
+=======
+      setPracticeImage(imagesData[0]); 
+>>>>>>> ebbb870 (Added Instructions component)
       setCurrentView(VIEW_STATES.WELCOME);
     } else {
       toast.error(
@@ -113,6 +117,7 @@ const PictureRecognitionTestPage = () => {
     }
   };
 
+<<<<<<< HEAD
   const handleInitialInfoDialogClose = () => {
     setCurrentView(VIEW_STATES.PRACTICE);
   };
@@ -121,6 +126,19 @@ const PictureRecognitionTestPage = () => {
     setShowOverlayInfoDialog((prev) => !prev);
   };
 
+=======
+  
+  const handleInitialInfoDialogClose = () => {
+    setCurrentView(VIEW_STATES.PRACTICE);
+    
+  };
+
+    const handleToggleOverlayInfoDialog = () => {
+    setShowOverlayInfoDialog(prev => !prev);
+  };
+
+
+>>>>>>> ebbb870 (Added Instructions component)
   const uploadAudio = useCallback(
     async (audioBlob) => {
       const formData = new FormData();
@@ -151,7 +169,13 @@ const PictureRecognitionTestPage = () => {
               .replace(/[.,!?;:]*$/, "") || "";
           if (step === 2) setAnswer(transcription);
           else if (step === 3) setDescription(transcription);
+<<<<<<< HEAD
           toast.success(t("transcriptionReceived", "Transcription received!"));
+=======
+          toast.success(
+            t("transcriptionReceived", "Transcription received!")
+          );
+>>>>>>> ebbb870 (Added Instructions component)
         } else {
           toast.error(
             result.error ||
@@ -190,7 +214,11 @@ const PictureRecognitionTestPage = () => {
           audioBlob = new Blob(audioChunksRef.current);
         }
         if (audioBlob) {
+<<<<<<< HEAD
           audioChunksRef.current = [];
+=======
+          audioChunksRef.current = []; 
+>>>>>>> ebbb870 (Added Instructions component)
           await uploadAudio(audioBlob);
         }
         if (mediaRecorderRef.current?.stream) {
@@ -243,10 +271,14 @@ const PictureRecognitionTestPage = () => {
       .catch((err) => {
         console.error("Mic access error:", err);
         toast.error(
+<<<<<<< HEAD
           t(
             "couldNotAccessMicrophoneCheckPermissions",
             "Could not access microphone."
           )
+=======
+          t("couldNotAccessMicrophoneCheckPermissions", "Could not access microphone.")
+>>>>>>> ebbb870 (Added Instructions component)
         );
       });
   }, [isRecording, isTranscribing, stopListening, t]);
@@ -265,16 +297,24 @@ const PictureRecognitionTestPage = () => {
     setCurrentIndex(0); // Or 1 if practiceImage was imagesData[0] and you want to avoid repetition
     setResponses([]);
     setTestResults(null);
+<<<<<<< HEAD
     resetForNextImage();
+=======
+    resetForNextImage(); 
+>>>>>>> ebbb870 (Added Instructions component)
     setCurrentView(VIEW_STATES.TEST);
     setTimeout(
       () =>
         speakText(
+<<<<<<< HEAD
           (t("start_forward_instructions", "The main test will start now.") ||
             "The main test will start now.") +
             " " +
             (t("canYouSeeThisPicture", "Can you see this picture?") ||
               "Can you see this picture?")
+=======
+          (t("start_forward_instructions", "The main test will start now.") || "The main test will start now.") + " " + (t("canYouSeeThisPicture", "Can you see this picture?") || "Can you see this picture?")
+>>>>>>> ebbb870 (Added Instructions component)
         ),
       500
     );
@@ -343,6 +383,7 @@ const PictureRecognitionTestPage = () => {
     if (currentIndex < images.length - 1) {
       setCurrentIndex((prev) => prev + 1);
       resetForNextImage();
+<<<<<<< HEAD
       setTimeout(
         () => speakText(t("canYouSeeThisPicture", "Can you see this picture?")),
         300
@@ -376,12 +417,47 @@ const PictureRecognitionTestPage = () => {
     },
     [t]
   ); // Added t
+=======
+      setTimeout(() => speakText(t("canYouSeeThisPicture", "Can you see this picture?")), 300);
+    }
+  };
+
+  const fetchResultsById = useCallback(async (resultId) => {
+    const token = localStorage.getItem("access_token");
+    setCurrentView(VIEW_STATES.LOADING_RESULTS);
+    try {
+      const response = await fetch(
+        `/api/picture-test/getResultByID?id=${resultId}`,
+        {
+          headers: {
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        }
+      );
+      const resultData = await response.json();
+      if (!response.ok)
+        throw new Error(resultData.error || "Failed to fetch results.");
+      setTestResults(resultData);
+      setCurrentView(VIEW_STATES.RESULTS);
+    } catch (error) {
+      console.error("Fetch results error:", error); // Added console log
+      toast.error(t("errorFetchingResults", "Error fetching results.")); // Added toast
+      setCurrentView(VIEW_STATES.TEST); // Fallback to test or an error view
+    }
+  }, [t]); // Added t
+>>>>>>> ebbb870 (Added Instructions component)
 
   const submitFinalResults = async (finalResponsesData) => {
     const token = localStorage.getItem("access_token");
     const childId = localStorage.getItem("childId");
     if (!childId) {
+<<<<<<< HEAD
       toast.error(t("authOrStudentDataMissing", "Student/Auth data missing."));
+=======
+      toast.error(
+        t("authOrStudentDataMissing", "Student/Auth data missing.")
+      );
+>>>>>>> ebbb870 (Added Instructions component)
       return;
     }
     setCurrentView(VIEW_STATES.LOADING_SUBMISSION);
@@ -406,7 +482,11 @@ const PictureRecognitionTestPage = () => {
       if (resultData.id) {
         await fetchResultsById(resultData.id);
       } else {
+<<<<<<< HEAD
         // If resultData itself contains the full results (as per original code)
+=======
+         // If resultData itself contains the full results (as per original code)
+>>>>>>> ebbb870 (Added Instructions component)
         setTestResults(resultData);
         setCurrentView(VIEW_STATES.RESULTS);
       }
@@ -428,6 +508,10 @@ const PictureRecognitionTestPage = () => {
     setTestResults(null);
     resetForNextImage();
     setPracticeEvaluation(null);
+<<<<<<< HEAD
+=======
+
+>>>>>>> ebbb870 (Added Instructions component)
   };
 
   useEffect(() => {
@@ -442,7 +526,13 @@ const PictureRecognitionTestPage = () => {
     switch (currentView) {
       case VIEW_STATES.LOADING_DATA:
         return (
+<<<<<<< HEAD
           <LoadingSpinner text={t("loadingTestData", "Loading test data...")} />
+=======
+          <LoadingSpinner
+            text={t("loadingTestData", "Loading test data...")}
+          />
+>>>>>>> ebbb870 (Added Instructions component)
         );
       case VIEW_STATES.WELCOME:
         return (
@@ -487,6 +577,7 @@ const PictureRecognitionTestPage = () => {
           />
         );
       case VIEW_STATES.LOADING_RESULTS: // Added this case for clarity
+<<<<<<< HEAD
         return (
           <LoadingSpinner text={t("loadingResults", "Loading results...")} />
         );
@@ -502,6 +593,15 @@ const PictureRecognitionTestPage = () => {
           return (
             <LoadingSpinner text={t("loadingResults", "Loading results...")} />
           );
+=======
+        return <LoadingSpinner text={t("loadingResults", "Loading results...")} />;
+      case VIEW_STATES.LOADING_SUBMISSION: // Added this case for clarity
+        return <LoadingSpinner text={t("submittingResults", "Submitting results...")} />;
+      case VIEW_STATES.RESULTS:
+        if (!testResults) {
+          setCurrentView(VIEW_STATES.TEST); 
+          return <LoadingSpinner text={t("loadingResults", "Loading results...")} />;
+>>>>>>> ebbb870 (Added Instructions component)
         }
         return (
           <>
@@ -536,8 +636,12 @@ const PictureRecognitionTestPage = () => {
               mediaRecorderRef={mediaRecorderRef}
               toggleRecording={toggleRecording}
               handleNext={handleNextOrSubmit}
+<<<<<<< HEAD
               isSubmitting={
                 // isSubmitting is true if loading final submission for the last image/step
+=======
+              isSubmitting={ // isSubmitting is true if loading final submission for the last image/step
+>>>>>>> ebbb870 (Added Instructions component)
                 currentView === VIEW_STATES.LOADING_SUBMISSION &&
                 currentIndex === images.length - 1 &&
                 step === 3
@@ -558,6 +662,7 @@ const PictureRecognitionTestPage = () => {
       <Toaster richColors position="top-center" closeButton duration={3000} />
 
       {/* Info Button - visible during practice and test */}
+<<<<<<< HEAD
       {(currentView === VIEW_STATES.PRACTICE ||
         currentView === VIEW_STATES.TEST) && (
         <button
@@ -569,6 +674,14 @@ const PictureRecognitionTestPage = () => {
           title={
             t ? t("showInstructions", "Show Instructions") : "Show Instructions"
           }
+=======
+      {(currentView === VIEW_STATES.PRACTICE || currentView === VIEW_STATES.TEST) && (
+        <button
+          onClick={handleToggleOverlayInfoDialog}
+          className="fixed top-4 right-4 z-[60] p-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full text-white shadow-lg transition-colors active:scale-95"
+          aria-label={t ? t("showInstructions", "Show Instructions") : "Show Instructions"}
+          title={t ? t("showInstructions", "Show Instructions") : "Show Instructions"}
+>>>>>>> ebbb870 (Added Instructions component)
         >
           <FaInfoCircle size={24} />
         </button>
