@@ -22,20 +22,7 @@ const SequenceArrangementTestContent = () => {
     }
   }, []);
 
-  // Define the speak function here, using the 'language' from context
-  const speak = useCallback((text, langOverride) => {
-    const effectiveLang = langOverride || language; // Use context language or an override
-    console.log(`TTS (Page-level, Context Lang: ${language}): "${text}" in language "${effectiveLang}"`);
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel(); // Cancel any ongoing speech
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = effectiveLang;
-      // You can set default rate and pitch here if desired, e.g.:
-      // utterance.rate = 0.9;
-      // utterance.pitch = 1.1;
-      window.speechSynthesis.speak(utterance);
-    }
-  }, [language]);
+
 
   const handleEntireTestFlowComplete = async (finalScore) => {
     console.log("Entire test flow completed. Final Score:", finalScore);
@@ -79,7 +66,6 @@ const SequenceArrangementTestContent = () => {
       
       <WelcomeDialog
         t={t}
-        speak={speak} // Pass the newly defined speak function
         onEntireTestFlowComplete={handleEntireTestFlowComplete}
         initialChildId={childId}
       />

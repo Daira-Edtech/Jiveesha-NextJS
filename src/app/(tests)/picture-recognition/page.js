@@ -65,7 +65,7 @@ const PictureRecognitionTestPage = () => {
       // Ensure practice image is not the same as the first test image if test starts from index 0 of imagesData
       // For this example, let's assume imagesData[0] is okay for practice, and main test might skip it or use a different set.
       // If using imagesData directly, consider picking a dedicated practice image or adjusting main test start.
-      setPracticeImage(imagesData[0]); 
+      setPracticeImage(imagesData[0]);
       setCurrentView(VIEW_STATES.WELCOME);
     } else {
       toast.error(
@@ -113,16 +113,13 @@ const PictureRecognitionTestPage = () => {
     }
   };
 
-  
   const handleInitialInfoDialogClose = () => {
     setCurrentView(VIEW_STATES.PRACTICE);
-    
   };
 
-    const handleToggleOverlayInfoDialog = () => {
-    setShowOverlayInfoDialog(prev => !prev);
+  const handleToggleOverlayInfoDialog = () => {
+    setShowOverlayInfoDialog((prev) => !prev);
   };
-
 
   const uploadAudio = useCallback(
     async (audioBlob) => {
@@ -154,9 +151,7 @@ const PictureRecognitionTestPage = () => {
               .replace(/[.,!?;:]*$/, "") || "";
           if (step === 2) setAnswer(transcription);
           else if (step === 3) setDescription(transcription);
-          toast.success(
-            t("transcriptionReceived", "Transcription received!")
-          );
+          toast.success(t("transcriptionReceived", "Transcription received!"));
         } else {
           toast.error(
             result.error ||
@@ -195,7 +190,7 @@ const PictureRecognitionTestPage = () => {
           audioBlob = new Blob(audioChunksRef.current);
         }
         if (audioBlob) {
-          audioChunksRef.current = []; 
+          audioChunksRef.current = [];
           await uploadAudio(audioBlob);
         }
         if (mediaRecorderRef.current?.stream) {
@@ -248,7 +243,10 @@ const PictureRecognitionTestPage = () => {
       .catch((err) => {
         console.error("Mic access error:", err);
         toast.error(
-          t("couldNotAccessMicrophoneCheckPermissions", "Could not access microphone.")
+          t(
+            "couldNotAccessMicrophoneCheckPermissions",
+            "Could not access microphone."
+          )
         );
       });
   }, [isRecording, isTranscribing, stopListening, t]);
@@ -267,12 +265,16 @@ const PictureRecognitionTestPage = () => {
     setCurrentIndex(0); // Or 1 if practiceImage was imagesData[0] and you want to avoid repetition
     setResponses([]);
     setTestResults(null);
-    resetForNextImage(); 
+    resetForNextImage();
     setCurrentView(VIEW_STATES.TEST);
     setTimeout(
       () =>
         speakText(
-          (t("start_forward_instructions", "The main test will start now.") || "The main test will start now.") + " " + (t("canYouSeeThisPicture", "Can you see this picture?") || "Can you see this picture?")
+          (t("start_forward_instructions", "The main test will start now.") ||
+            "The main test will start now.") +
+            " " +
+            (t("canYouSeeThisPicture", "Can you see this picture?") ||
+              "Can you see this picture?")
         ),
       500
     );
@@ -341,41 +343,45 @@ const PictureRecognitionTestPage = () => {
     if (currentIndex < images.length - 1) {
       setCurrentIndex((prev) => prev + 1);
       resetForNextImage();
-      setTimeout(() => speakText(t("canYouSeeThisPicture", "Can you see this picture?")), 300);
+      setTimeout(
+        () => speakText(t("canYouSeeThisPicture", "Can you see this picture?")),
+        300
+      );
     }
   };
 
-  const fetchResultsById = useCallback(async (resultId) => {
-    const token = localStorage.getItem("access_token");
-    setCurrentView(VIEW_STATES.LOADING_RESULTS);
-    try {
-      const response = await fetch(
-        `/api/picture-test/getResultByID?id=${resultId}`,
-        {
-          headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-          },
-        }
-      );
-      const resultData = await response.json();
-      if (!response.ok)
-        throw new Error(resultData.error || "Failed to fetch results.");
-      setTestResults(resultData);
-      setCurrentView(VIEW_STATES.RESULTS);
-    } catch (error) {
-      console.error("Fetch results error:", error); // Added console log
-      toast.error(t("errorFetchingResults", "Error fetching results.")); // Added toast
-      setCurrentView(VIEW_STATES.TEST); // Fallback to test or an error view
-    }
-  }, [t]); // Added t
+  const fetchResultsById = useCallback(
+    async (resultId) => {
+      const token = localStorage.getItem("access_token");
+      setCurrentView(VIEW_STATES.LOADING_RESULTS);
+      try {
+        const response = await fetch(
+          `/api/picture-test/getResultByID?id=${resultId}`,
+          {
+            headers: {
+              ...(token && { Authorization: `Bearer ${token}` }),
+            },
+          }
+        );
+        const resultData = await response.json();
+        if (!response.ok)
+          throw new Error(resultData.error || "Failed to fetch results.");
+        setTestResults(resultData);
+        setCurrentView(VIEW_STATES.RESULTS);
+      } catch (error) {
+        console.error("Fetch results error:", error); // Added console log
+        toast.error(t("errorFetchingResults", "Error fetching results.")); // Added toast
+        setCurrentView(VIEW_STATES.TEST); // Fallback to test or an error view
+      }
+    },
+    [t]
+  ); // Added t
 
   const submitFinalResults = async (finalResponsesData) => {
     const token = localStorage.getItem("access_token");
     const childId = localStorage.getItem("childId");
     if (!childId) {
-      toast.error(
-        t("authOrStudentDataMissing", "Student/Auth data missing.")
-      );
+      toast.error(t("authOrStudentDataMissing", "Student/Auth data missing."));
       return;
     }
     setCurrentView(VIEW_STATES.LOADING_SUBMISSION);
@@ -400,7 +406,7 @@ const PictureRecognitionTestPage = () => {
       if (resultData.id) {
         await fetchResultsById(resultData.id);
       } else {
-         // If resultData itself contains the full results (as per original code)
+        // If resultData itself contains the full results (as per original code)
         setTestResults(resultData);
         setCurrentView(VIEW_STATES.RESULTS);
       }
@@ -422,7 +428,6 @@ const PictureRecognitionTestPage = () => {
     setTestResults(null);
     resetForNextImage();
     setPracticeEvaluation(null);
-
   };
 
   useEffect(() => {
@@ -437,9 +442,7 @@ const PictureRecognitionTestPage = () => {
     switch (currentView) {
       case VIEW_STATES.LOADING_DATA:
         return (
-          <LoadingSpinner
-            text={t("loadingTestData", "Loading test data...")}
-          />
+          <LoadingSpinner text={t("loadingTestData", "Loading test data...")} />
         );
       case VIEW_STATES.WELCOME:
         return (
@@ -484,13 +487,21 @@ const PictureRecognitionTestPage = () => {
           />
         );
       case VIEW_STATES.LOADING_RESULTS: // Added this case for clarity
-        return <LoadingSpinner text={t("loadingResults", "Loading results...")} />;
+        return (
+          <LoadingSpinner text={t("loadingResults", "Loading results...")} />
+        );
       case VIEW_STATES.LOADING_SUBMISSION: // Added this case for clarity
-        return <LoadingSpinner text={t("submittingResults", "Submitting results...")} />;
+        return (
+          <LoadingSpinner
+            text={t("submittingResults", "Submitting results...")}
+          />
+        );
       case VIEW_STATES.RESULTS:
         if (!testResults) {
-          setCurrentView(VIEW_STATES.TEST); 
-          return <LoadingSpinner text={t("loadingResults", "Loading results...")} />;
+          setCurrentView(VIEW_STATES.TEST);
+          return (
+            <LoadingSpinner text={t("loadingResults", "Loading results...")} />
+          );
         }
         return (
           <>
@@ -525,7 +536,8 @@ const PictureRecognitionTestPage = () => {
               mediaRecorderRef={mediaRecorderRef}
               toggleRecording={toggleRecording}
               handleNext={handleNextOrSubmit}
-              isSubmitting={ // isSubmitting is true if loading final submission for the last image/step
+              isSubmitting={
+                // isSubmitting is true if loading final submission for the last image/step
                 currentView === VIEW_STATES.LOADING_SUBMISSION &&
                 currentIndex === images.length - 1 &&
                 step === 3
@@ -546,12 +558,17 @@ const PictureRecognitionTestPage = () => {
       <Toaster richColors position="top-center" closeButton duration={3000} />
 
       {/* Info Button - visible during practice and test */}
-      {(currentView === VIEW_STATES.PRACTICE || currentView === VIEW_STATES.TEST) && (
+      {(currentView === VIEW_STATES.PRACTICE ||
+        currentView === VIEW_STATES.TEST) && (
         <button
           onClick={handleToggleOverlayInfoDialog}
           className="fixed top-4 right-4 z-[60] p-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full text-white shadow-lg transition-colors active:scale-95"
-          aria-label={t ? t("showInstructions", "Show Instructions") : "Show Instructions"}
-          title={t ? t("showInstructions", "Show Instructions") : "Show Instructions"}
+          aria-label={
+            t ? t("showInstructions", "Show Instructions") : "Show Instructions"
+          }
+          title={
+            t ? t("showInstructions", "Show Instructions") : "Show Instructions"
+          }
         >
           <FaInfoCircle size={24} />
         </button>

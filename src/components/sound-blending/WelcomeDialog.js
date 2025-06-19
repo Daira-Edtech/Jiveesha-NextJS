@@ -1,131 +1,131 @@
 // components/sound-blending/WelcomeDialog.js
 
-"use client"
+"use client";
 
-import { AnimatePresence, motion } from "framer-motion"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import GameplayArea from "./GameplayArea.js"
-import InstructionsScreen from "./InstructionsScreen.js"
-import TopBar from "./TopBar.js"
+import GameplayArea from "./GameplayArea.js";
+import InstructionsScreen from "./InstructionsScreen.js";
+import TopBar from "./TopBar.js";
 
-import { words, practiceWord, dialogContent } from "./soundBlendingConstants.js"
+import {
+  words,
+  practiceWord,
+  dialogContent,
+} from "./soundBlendingConstants.js";
 
-import backgroundImage from "../../../public/sound-blending/background.png"
-import characterImage from "../../../public/sound-blending/dolphin.png"
+import backgroundImage from "../../../public/sound-blending/background.png";
+import characterImage from "../../../public/sound-blending/dolphin.png";
 
-const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
-  const router = useRouter()
+const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
+  const router = useRouter();
 
-  const [gameState, setGameState] = useState("welcome")
-  const [currentWordIndex, setCurrentWordIndex] = useState(0)
-  const [score, setScore] = useState(0)
-  const [responses, setResponses] = useState([])
-  const [isPracticeMode, setIsPracticeMode] = useState(false)
-  const [currentDialogIndex, setCurrentDialogIndex] = useState(0)
+  const [gameState, setGameState] = useState("welcome");
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [responses, setResponses] = useState([]);
+  const [isPracticeMode, setIsPracticeMode] = useState(false);
+  const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
 
-  const totalWords = words.length
-
-  useEffect(() => {
-    if (gameState === "welcome" && dialogContent && dialogContent.length > 0) {
-      speak(dialogContent[0])
-    }
-  }, [gameState, speak])
+  const totalWords = words.length;
 
   const handleNextDialog = () => {
     if (currentDialogIndex < dialogContent.length - 1) {
-      speak(dialogContent[currentDialogIndex + 1])
-      setCurrentDialogIndex(currentDialogIndex + 1)
+      dialogContent[currentDialogIndex + 1];
+      setCurrentDialogIndex(currentDialogIndex + 1);
     } else {
-      setGameState("initialInstructions")
+      setGameState("initialInstructions");
     }
-  }
+  };
 
   const handleStartPractice = () => {
-    setIsPracticeMode(true)
-    setCurrentWordIndex(0)
-    setScore(0)
-    setResponses([])
-    setGameState("practice")
-  }
+    setIsPracticeMode(true);
+    setCurrentWordIndex(0);
+    setScore(0);
+    setResponses([]);
+    setGameState("practice");
+  };
 
   const handleStartTest = () => {
-    setIsPracticeMode(false)
-    setCurrentWordIndex(0)
-    setScore(0)
-    setResponses([])
-    setGameState("test")
-  }
+    setIsPracticeMode(false);
+    setCurrentWordIndex(0);
+    setScore(0);
+    setResponses([]);
+    setGameState("test");
+  };
 
   const handleWordComplete = (userResponse) => {
-    const currentWord = isPracticeMode ? practiceWord : words[currentWordIndex]
+    const currentWord = isPracticeMode ? practiceWord : words[currentWordIndex];
     const isCorrect = currentWord.alternatives
-      ? [...currentWord.alternatives, currentWord.word.toLowerCase()].includes(userResponse)
-      : userResponse === currentWord.word.toLowerCase()
+      ? [...currentWord.alternatives, currentWord.word.toLowerCase()].includes(
+          userResponse
+        )
+      : userResponse === currentWord.word.toLowerCase();
 
     const newResponse = {
       wordId: currentWord.id,
       word: currentWord.word,
       response: userResponse,
       isCorrect,
-    }
+    };
 
-    const updatedResponses = [...responses, newResponse]
-    setResponses(updatedResponses)
+    const updatedResponses = [...responses, newResponse];
+    setResponses(updatedResponses);
 
     if (isCorrect) {
-      setScore(score + 1)
+      setScore(score + 1);
     }
 
     if (isPracticeMode) {
-      setGameState("preTestInstructions")
+      setGameState("preTestInstructions");
     } else if (currentWordIndex === words.length - 1) {
       // Test completed - directly finish
-      handleFinishTest()
+      handleFinishTest();
     } else {
-      setCurrentWordIndex(currentWordIndex + 1)
+      setCurrentWordIndex(currentWordIndex + 1);
     }
-  }
+  };
 
   const handleSkipWord = () => {
-    const currentWord = isPracticeMode ? practiceWord : words[currentWordIndex]
+    const currentWord = isPracticeMode ? practiceWord : words[currentWordIndex];
     const newResponse = {
       wordId: currentWord.id,
       word: currentWord.word,
       response: "[skipped]",
       isCorrect: false,
-    }
+    };
 
-    const updatedResponses = [...responses, newResponse]
-    setResponses(updatedResponses)
+    const updatedResponses = [...responses, newResponse];
+    setResponses(updatedResponses);
 
     if (isPracticeMode) {
-      setGameState("preTestInstructions")
+      setGameState("preTestInstructions");
     } else if (currentWordIndex === words.length - 1) {
-      handleFinishTest()
+      handleFinishTest();
     } else {
-      setCurrentWordIndex(currentWordIndex + 1)
+      setCurrentWordIndex(currentWordIndex + 1);
     }
-  }
+  };
 
   const handleFinishTest = () => {
     if (onEntireTestComplete) {
-      onEntireTestComplete({ correct: score, total: totalWords })
+      onEntireTestComplete({ correct: score, total: totalWords });
     }
-  }
+  };
 
   const handleSkipTest = () => {
     if (onEntireTestComplete) {
-      onEntireTestComplete({ correct: 0, total: totalWords })
+      onEntireTestComplete({ correct: 0, total: totalWords });
     }
-  }
+  };
 
   const handleShowInfo = () => {
     // Could implement info dialog similar to other tests
-    console.log("Show info dialog")
-  }
+    console.log("Show info dialog");
+  };
 
   const renderContent = () => {
     switch (gameState) {
@@ -133,7 +133,10 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
         return (
           <>
             <div className="fixed inset-0 z-40">
-              <div className="absolute inset-0" style={{ filter: "blur(8px) brightness(0.7)" }} />
+              <div
+                className="absolute inset-0"
+                style={{ filter: "blur(8px) brightness(0.7)" }}
+              />
               <motion.div
                 className="absolute inset-0 bg-black/20"
                 initial={{ opacity: 0 }}
@@ -199,7 +202,9 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
                     transition={{ duration: 0.4 }}
                     className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-white mb-8 lg:mb-12 min-h-48 sm:min-h-56 lg:min-h-64 xl:min-h-72 flex items-center justify-center font-serif font-medium leading-relaxed text-center px-4"
                   >
-                    <span className="drop-shadow-lg">{dialogContent[currentDialogIndex]}</span>
+                    <span className="drop-shadow-lg">
+                      {dialogContent[currentDialogIndex]}
+                    </span>
                   </motion.div>
 
                   <div className="flex justify-center gap-3 mb-8 lg:mb-10">
@@ -234,12 +239,16 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
                     >
                       {currentDialogIndex < dialogContent.length - 1 ? (
                         <>
-                          <span className="drop-shadow-sm">{t("continue")}</span>
+                          <span className="drop-shadow-sm">
+                            {t("continue")}
+                          </span>
                           <span className="text-xl">⏳</span>
                         </>
                       ) : (
                         <>
-                          <span className="drop-shadow-sm">{t("letsBegin")}</span>
+                          <span className="drop-shadow-sm">
+                            {t("letsBegin")}
+                          </span>
                           <span className="text-xl">🐬</span>
                         </>
                       )}
@@ -249,12 +258,17 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
               </motion.div>
             </div>
           </>
-        )
+        );
 
       case "initialInstructions":
       case "preTestInstructions":
         return (
-          <motion.div key={gameState} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <motion.div
+            key={gameState}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
             <InstructionsScreen
               stage={gameState}
               onStartPractice={handleStartPractice}
@@ -262,7 +276,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
               t={t}
             />
           </motion.div>
-        )
+        );
 
       case "practice":
       case "test":
@@ -285,7 +299,9 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
             <div className="flex flex-col items-center justify-center min-h-screen relative px-2 sm:px-4 py-10 pt-20">
               <GameplayArea
                 key={`${gameState}-${currentWordIndex}`}
-                currentWord={isPracticeMode ? practiceWord : words[currentWordIndex]}
+                currentWord={
+                  isPracticeMode ? practiceWord : words[currentWordIndex]
+                }
                 wordIndex={currentWordIndex}
                 totalWords={totalWords}
                 onWordComplete={handleWordComplete}
@@ -295,12 +311,16 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
               />
             </div>
           </motion.div>
-        )
+        );
 
       default:
-        return <div className="text-white p-10">Error: Unknown game state: {gameState}</div>
+        return (
+          <div className="text-white p-10">
+            Error: Unknown game state: {gameState}
+          </div>
+        );
     }
-  }
+  };
 
   return (
     <div
@@ -309,7 +329,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
     >
       <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
     </div>
-  )
-}
+  );
+};
 
-export default WelcomeDialog
+export default WelcomeDialog;
