@@ -9,6 +9,10 @@ import { IoIosInformationCircleOutline } from "react-icons/io"
 const TopBar = ({ currentRound, totalRounds, score, onShowInfo, onSkipTest, t }) => {
   const router = useRouter()
 
+  const handleShowInfo = () => {
+    onShowInfo()
+  }
+
   return (
     <motion.div
       initial={{ y: -100, opacity: 0 }}
@@ -81,7 +85,7 @@ const TopBar = ({ currentRound, totalRounds, score, onShowInfo, onSkipTest, t })
           <motion.button
             whileHover={{ scale: 1.1, rotate: 10 }}
             whileTap={{ scale: 0.9 }}
-            onClick={onShowInfo}
+            onClick={handleShowInfo}
             className="p-3 bg-gradient-to-r from-[#d9a24b] to-[#f3c969] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-[#f3c969]/30"
           >
             <IoIosInformationCircleOutline className="text-3xl text-white" />

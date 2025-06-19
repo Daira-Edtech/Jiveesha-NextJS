@@ -106,12 +106,13 @@ const SymbolSequencePage = () => {
 
     try {
       const response = await axios.post(
-        "/api/symbol-sequence/submitResult",
+        "/api/symbolsequence-test/submitResult",
         {
           childId: childId,
+          difficulty: "medium", // You can determine this based on the selected difficulty
+          level: 1, // You can track this if needed
           score: finalScore.correct,
-          total_questions: finalScore.total,
-          test_name: "Symbol Sequence Test",
+          totalRounds: finalScore.total,
         },
         {
           headers: {
@@ -124,6 +125,7 @@ const SymbolSequencePage = () => {
       console.log("Test results saved by page.js:", response.data)
     } catch (error) {
       console.error("Error saving test results in page.js:", error.response?.data || error.message)
+      // Continue to results page even if save fails
     } finally {
       router.push("/take-tests")
     }
@@ -131,7 +133,18 @@ const SymbolSequencePage = () => {
 
   return (
     <div className="w-screen h-screen">
-      <WelcomeDialog t={t} speak={speak} onEntireTestComplete={handleEntireTestFlowComplete} initialChildId={childId} />
+      <WelcomeDialog
+        t={t}
+        speak={speak}
+        onEntireTestComplete={handleEntireTestFlowComplete}
+        initialChildId={childId}
+        dialogContent={[
+          "🔮 Greetings, young seeker! I am Mystara, guardian of the Ancient Symbols.",
+          "✨ These mystical runes hold the power of memory and concentration.",
+          "🌟 Your quest is to observe the sacred sequences and recreate them perfectly.",
+          "🎭 Are you ready to unlock the secrets of the Symbol Realm?",
+        ]}
+      />
     </div>
   )
 }

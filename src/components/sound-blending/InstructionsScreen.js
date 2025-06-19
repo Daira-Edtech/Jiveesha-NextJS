@@ -1,5 +1,6 @@
 "use client"
 
+// components/sound-blending/InstructionsScreen.js
 
 import { motion } from "framer-motion"
 import { IoClose } from "react-icons/io5"
@@ -182,24 +183,32 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
   } else if (stage === "infoOverlay") {
     stageContent = (
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 20, opacity: 0 }}
-        transition={{ delay: 0, type: "spring", stiffness: 200, damping: 25 }}
-        className={modalClassName}
-        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 flex items-center justify-center p-4 z-40"
       >
-        <div className={scrollableAreaClass}>
-          <HowToPlayContent />
-        </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-6 w-full shrink-0 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full text-md font-semibold shadow-lg hover:shadow-xl"
-          onClick={onClose}
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose}></div>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 20, opacity: 0 }}
+          transition={{ delay: 0, type: "spring", stiffness: 200, damping: 25 }}
+          className={modalClassName}
+          onClick={(e) => e.stopPropagation()}
         >
-          {t("close")}
-        </motion.button>
+          <div className={scrollableAreaClass}>
+            <HowToPlayContent />
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-6 w-full shrink-0 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full text-md font-semibold shadow-lg hover:shadow-xl"
+            onClick={onClose}
+          >
+            {t("close")}
+          </motion.button>
+        </motion.div>
       </motion.div>
     )
   }

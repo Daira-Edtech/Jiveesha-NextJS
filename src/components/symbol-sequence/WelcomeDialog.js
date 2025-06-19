@@ -5,8 +5,6 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
-
-import WelcomeScreen from "./WelcomeScreen.js"
 import ShowingScreen from "./ShowingScreen.js"
 import GuessingScreen from "./GuessingScreen.js"
 import ResultsScreen from "./ResultsScreen.js"
@@ -14,15 +12,16 @@ import FinalResultsScreen from "./FinalResultsScreen.js"
 import RewardsModal from "./RewardsModal.js"
 import TopBar from "./TopBar.js"
 import InstructionsScreen from "./InstructionsScreen.js"
-import InfoDialog from "./InfoDialog.js"
 import { symbols, difficultyLevels, practiceSequence } from "./symbolSequenceConstants.js"
+import WelcomeScreen from "./WelcomeScreen.js"
 
 import backgroundImage from "../../../public/symbol-sequence/Mystical-Runescape.png"
 
-const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
+const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId, dialogContent }) => {
   const router = useRouter()
 
   const [gameState, setGameState] = useState("welcome")
+  const [currentDialogIndex, setCurrentDialogIndex] = useState(0)
   const [level, setLevel] = useState(0)
   const [currentRound, setCurrentRound] = useState(0)
   const [score, setScore] = useState(0)
@@ -154,11 +153,11 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
     setUserSequence(newSequence)
   }
 
-  const checkAnswer = () => {
+  const checkAnswer = useCallback(() => {
     const isCorrect = JSON.stringify(userSequence) === JSON.stringify(currentSequence)
 
     if (isCorrect) {
-      setScore(score + 1)
+      setScore((prevScore) => prevScore + 1)
       setFeedback(t("correct"))
       setConfetti(true)
       setTimeout(() => setConfetti(false), 3000)
@@ -167,7 +166,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
     }
 
     setGameState("results")
-  }
+  }, [userSequence, currentSequence, t])
 
   const continueGame = () => {
     if (isPracticeMode) {
@@ -243,11 +242,144 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
     if (gameState === "guessing" && userSequence.length === currentSequence.length) {
       setTimeout(checkAnswer, 500)
     }
-  }, [userSequence, gameState, currentSequence.length])
+  }, [userSequence, gameState, currentSequence.length, checkAnswer])
+
+  useEffect(() => {
+    if (gameState === "welcome" && dialogContent && dialogContent.length > 0) {
+      speak(dialogContent[0])
+    }
+  }, [gameState, speak])
+
+  const handleNextDialog = () => {
+    if (currentDialogIndex < dialogContent.length - 1) {
+      speak(dialogContent[currentDialogIndex + 1])
+      setCurrentDialogIndex(currentDialogIndex + 1)
+    } else {
+      setGameState("difficultySelection")
+    }
+  }
 
   const renderContent = () => {
     switch (gameState) {
       case "welcome":
+        return (
+          <>
+            <div className="fixed inset-0 z-40">
+              <div className="absolute inset-0" style={{ filter: "blur(8px) brightness(0.7)" }} />
+              <motion.div
+                className="absolute inset-0 bg-black/20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
+
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, type: "spring" }}
+                className="relative max-w-7xl w-full flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:gap-12"
+              >
+                <motion.div
+                  initial={{ y: -40, opacity: 0 }}
+                  animate={{
+                    y: 0,
+                    opacity: 1,
+                    scale: [1, 1.03, 1],
+                    rotate: [0, 2, -2, 0],
+                  }}
+                  transition={{
+                    y: { duration: 0.6, ease: "backOut" },
+                    opacity: { duration: 0.8 },
+                    scale: {
+                      duration: 4,
+                      repeat: Number.POSITIVE_INFINITY,
+                      repeatType: "reverse",
+                      ease: "easeInOut",
+                    },
+                    rotate: {
+                      duration: 8,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                    },
+                  }}
+                  className="flex-shrink-0 order-2 lg:order-1"
+                >
+                  <div className="h-64 sm:h-80 lg:h-96 xl:h-112 w-64 sm:w-80 lg:w-96 xl:w-112 bg-gradient-to-br from-[#d9a24b] to-[#f3c969] rounded-full flex items-center justify-center text-8xl">
+                    🔮
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="bg-gradient-to-br from-[#1a2a3a]/70 via-[#3b2f1d]/70 to-[#1a2a3a]/70 backdrop-blur-lg rounded-3xl p-6 sm:p-8 lg:p-10 xl:p-12 border-2 border-[#d9a24b]/30 shadow-2xl flex-1 relative overflow-hidden w-full max-w-none lg:max-w-4xl order-1 lg:order-2"
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3, type: "spring" }}
+                >
+                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#d9a24b] via-[#f3c969] to-[#d9a24b]"></div>
+
+                  <motion.div
+                    key={currentDialogIndex}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-white mb-8 lg:mb-12 min-h-48 sm:min-h-56 lg:min-h-64 xl:min-h-72 flex items-center justify-center font-serif font-medium leading-relaxed text-center px-4"
+                  >
+                    <span className="drop-shadow-lg">{dialogContent[currentDialogIndex]}</span>
+                  </motion.div>
+
+                  <div className="flex justify-center gap-3 mb-8 lg:mb-10">
+                    {dialogContent.map((_, index) => (
+                      <motion.div
+                        key={index}
+                        className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-300 ${
+                          index <= currentDialogIndex
+                            ? "bg-gradient-to-r from-white to-[#f3c969] shadow-lg"
+                            : "bg-white/30"
+                        }`}
+                        initial={{ scale: 0.8 }}
+                        animate={{
+                          scale: index === currentDialogIndex ? 1.3 : 1,
+                          y: index === currentDialogIndex ? -4 : 0,
+                        }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      />
+                    ))}
+                  </div>
+
+                  <div className="flex justify-center">
+                    <motion.button
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleNextDialog}
+                      className={`flex items-center justify-center gap-3 py-4 px-8 lg:px-12 rounded-xl font-bold text-lg lg:text-xl shadow-2xl transition-all duration-300 ${
+                        currentDialogIndex < dialogContent.length - 1
+                          ? "bg-gradient-to-r from-white to-[#f3c969] text-[#3b2f1d] hover:from-[#f3c969] hover:to-white"
+                          : "bg-gradient-to-r from-[#f3c969] to-[#d9a24b] text-white hover:from-[#d9a24b] hover:to-[#f3c969]"
+                      }`}
+                    >
+                      {currentDialogIndex < dialogContent.length - 1 ? (
+                        <>
+                          <span className="drop-shadow-sm">{t("continue")}</span>
+                          <span className="text-xl">⏳</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="drop-shadow-sm">{t("letsBegin")}</span>
+                          <span className="text-xl">🔮</span>
+                        </>
+                      )}
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
+          </>
+        )
+
+      case "difficultySelection":
         return <WelcomeScreen onStartGame={startGame} t={t} />
 
       case "showing":
@@ -376,7 +508,11 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
       {showRewards && <RewardsModal show={showRewards} onClose={handleCloseRewards} t={t} />}
 
       {/* Info Dialog */}
-      {showInfoDialog && <InfoDialog show={showInfoDialog} onClose={handleCloseInfo} t={t} />}
+      {showInfoDialog && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <InstructionsScreen stage="infoOverlay" onClose={handleCloseInfo} t={t} />
+        </div>
+      )}
     </div>
   )
 }

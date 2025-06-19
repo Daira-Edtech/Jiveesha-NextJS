@@ -1,10 +1,26 @@
 "use client"
 
-// components/symbol-sequence/FinalResultsScreen.js
+// components/sound-blending/FinalResultsScreen.js
 
 import { motion } from "framer-motion"
 
 const FinalResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
+  const percentage = Math.round((score.correct / score.total) * 100)
+
+  const getPerformanceMessage = () => {
+    if (percentage >= 90) return t("excellentSoundBlending")
+    if (percentage >= 75) return t("veryGoodJob")
+    if (percentage >= 60) return t("goodEffort")
+    return t("keepPracticing")
+  }
+
+  const getPerformanceEmoji = () => {
+    if (percentage >= 90) return "🌟"
+    if (percentage >= 75) return "🐬"
+    if (percentage >= 60) return "🌊"
+    return "💪"
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -18,7 +34,7 @@ const FinalResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.85, opacity: 0 }}
         transition={{ type: "spring", stiffness: 200, damping: 25, duration: 0.4 }}
-        className="relative max-w-md sm:max-w-xl w-full bg-gradient-to-br from-[#1a2a3a]/90 to-[#3b2f1d]/90 rounded-3xl p-8 sm:p-10 border-4 border-[#d9a24b]/50 shadow-2xl text-[#f7f1e3]"
+        className="relative max-w-md sm:max-w-xl w-full bg-gradient-to-br from-cyan-900/90 to-blue-900/90 rounded-3xl p-8 sm:p-10 border-4 border-cyan-400/50 shadow-2xl text-white"
       >
         <div className="text-center">
           <motion.div
@@ -27,27 +43,36 @@ const FinalResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
             transition={{ delay: 0.1, type: "spring", stiffness: 180, damping: 12 }}
             className="mb-5"
           >
-            <span className="text-6xl sm:text-8xl drop-shadow-lg">🏆</span>
+            <span className="text-6xl sm:text-8xl drop-shadow-lg">{getPerformanceEmoji()}</span>
           </motion.div>
 
-          <h2 className="text-2xl sm:text-4xl font-bold text-[#f3c969] mb-3 drop-shadow-sm">{t("testResults")}</h2>
+          <h2 className="text-2xl sm:text-4xl font-bold text-cyan-300 mb-3 drop-shadow-sm">{t("testResults")}</h2>
 
-          <p className="text-base sm:text-lg text-[#f7f1e3]/80 mb-8">{t("testCompletedMessage")}</p>
+          <p className="text-base sm:text-lg text-white/80 mb-4">{t("soundBlendingCompleted")}</p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="text-lg text-cyan-200 mb-8"
+          >
+            {getPerformanceMessage()}
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="bg-black/30 rounded-2xl p-6 mb-10 shadow-lg border border-[#d9a24b]/30"
+            className="bg-black/30 rounded-2xl p-6 mb-10 shadow-lg border border-cyan-400/30"
           >
-            <p className="text-lg sm:text-xl text-[#f3c969] font-semibold mb-2">{t("yourScore")}</p>
+            <p className="text-lg sm:text-xl text-cyan-300 font-semibold mb-2">{t("yourScore")}</p>
             <div className="flex items-baseline justify-center gap-2">
               <motion.span
                 key={score.correct}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
-                className="text-6xl sm:text-8xl font-bold text-[#f3c969] drop-shadow-md"
+                className="text-6xl sm:text-8xl font-bold text-cyan-300 drop-shadow-md"
               >
                 {score.correct}
               </motion.span>
@@ -55,14 +80,22 @@ const FinalResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.4 }}
-                className="text-2xl sm:text-4xl text-[#d9a24b] font-medium"
+                className="text-2xl sm:text-4xl text-blue-400 font-medium"
               >
                 / {score.total}
               </motion.span>
             </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-lg text-cyan-200 mt-2"
+            >
+              {percentage}% {t("accuracy")}
+            </motion.div>
           </motion.div>
 
-          {score.correct > 7 && (
+          {score.correct >= Math.ceil(score.total * 0.8) && (
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0px 10px 25px rgba(34, 197, 94, 0.4)" }}
               whileTap={{ scale: 0.95 }}
@@ -74,9 +107,9 @@ const FinalResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
           )}
 
           <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0px 10px 25px rgba(217, 162, 75, 0.4)" }}
+            whileHover={{ scale: 1.05, boxShadow: "0px 10px 25px rgba(6, 182, 212, 0.4)" }}
             whileTap={{ scale: 0.95 }}
-            className="w-full px-8 py-3 sm:py-4 bg-gradient-to-r from-[#d9a24b] via-[#f3c969] to-[#d9a24b] text-[#3b2f1d] rounded-full text-lg sm:text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+            className="w-full px-8 py-3 sm:py-4 bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-600 text-white rounded-full text-lg sm:text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
             onClick={onFinishTest}
           >
             {t("finishTest")} <span className="text-xl">🏁</span>
