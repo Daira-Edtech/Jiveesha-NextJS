@@ -169,8 +169,8 @@ const FileUploadButton = ({ onFileUpload, t }) => (
   </div>
 );
 
-const SubmitButton = ({ isTranscribing, transcriptionReady, onSubmit, t }) => {
-  const isDisabled = isTranscribing || !transcriptionReady;
+const SubmitButton = ({ isTranscribing, onSubmit, t }) => {
+  const isDisabled = isTranscribing;
   return (
     <motion.button
       onClick={onSubmit}
@@ -292,14 +292,13 @@ export default function TestSessionView({
           {isLastPage ? (
             <SubmitButton
               isTranscribing={isTranscribing}
-              transcriptionReady={transcriptionReady}
               onSubmit={handleSubmitPageOrTest}
               t={t}
             />
           ) : (
             <motion.button
               onClick={handleSubmitPageOrTest}
-              disabled={!transcriptionReady}
+              disabled={isTranscribing}
               className="mt-4 flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-700 to-cyan-500 text-white rounded-full shadow-lg mx-auto disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

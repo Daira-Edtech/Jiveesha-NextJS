@@ -1077,8 +1077,11 @@ export default function Test6Controller({
         setCoralineAnimationState("happy");
         setIntroMessage(t("coralineHeardClearly"));
         const progress = Math.min(
-          ((currentPage + 1) / Math.ceil(currentWords.length / wordsPerBatch)) *
-            85,
+          Math.round(
+            ((currentPage + 1) /
+              Math.ceil(currentWords.length / wordsPerBatch)) *
+              85
+          ),
           85
         );
         setGameProgress(progress);
@@ -1133,8 +1136,13 @@ export default function Test6Controller({
   const handleSubmitPageOrTest = async () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> f6455aa (chore: clean up unused components and files in reading proficiency tests)
+=======
+    const isLastPage = (currentPage + 1) * wordsPerBatch >= currentWords.length;
+
+>>>>>>> bd0fdc9 (feat: Refactor TestSessionView and Test6Controller for improved button logic and add TestResults component)
     let currentTranscriptForPageToSubmit = transcript;
     if (selectedFile && allTranscriptions[currentPage]) {
       currentTranscriptForPageToSubmit = allTranscriptions[currentPage];
@@ -1151,7 +1159,11 @@ export default function Test6Controller({
 =======
 >>>>>>> f6455aa (chore: clean up unused components and files in reading proficiency tests)
     }
-    if (!transcriptionReady && !currentTranscriptForPageToSubmit) {
+    if (
+      isLastPage &&
+      !transcriptionReady &&
+      !currentTranscriptForPageToSubmit
+    ) {
       toast.info(t("transcriptionNotReady"));
       setShowEels(true);
       setCoralineAnimationState("warning");
@@ -1183,7 +1195,7 @@ export default function Test6Controller({
 =======
 >>>>>>> f6455aa (chore: clean up unused components and files in reading proficiency tests)
     }
-    const isLastPage = (currentPage + 1) * wordsPerBatch >= currentWords.length;
+
     if (isLastPage) {
       setCoralineAnimationState("focused");
       setIntroMessage(t("coralineCheckingPronunciation"));
