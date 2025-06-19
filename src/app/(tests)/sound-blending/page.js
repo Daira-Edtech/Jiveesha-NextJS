@@ -58,13 +58,7 @@ const translations = {
 
 const t = (key) => translations[key] || key
 
-const speak = (text) => {
-  console.log(`TTS (direct): ${text}`)
-  if (typeof window !== "undefined" && "speechSynthesis" in window) {
-    const utterance = new SpeechSynthesisUtterance(text)
-    window.speechSynthesis.speak(utterance)
-  }
-}
+
 
 const SoundBlendingPage = () => {
   const router = useRouter()
@@ -114,7 +108,7 @@ const SoundBlendingPage = () => {
 
   return (
     <div className="w-screen h-screen">
-      <WelcomeDialog t={t} speak={speak} onEntireTestComplete={handleEntireTestFlowComplete} initialChildId={childId} />
+      <WelcomeDialog t={t}  onEntireTestComplete={handleEntireTestFlowComplete} initialChildId={childId} />
     </div>
   )
 }
