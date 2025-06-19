@@ -88,8 +88,23 @@ model Children {
   symbolSequenceTests      SymbolSequenceResult[]          @relation("ChildrenSymbolSequenceTests")
   visualTests              VisualTestResult[]              @relation("ChildrenVisualTests")
   vocabularyTests          VocabularyTestResult[]          @relation("ChildrenVocabularyTests")
+  formResponses            ChildFormResponse[]             @relation("ChildrenFormResponses")
+  formAnalysis             ChildFormAnalysis[]             @relation("ChildrenFormAnalysis")
 
   @@map("children")
+}
+
+model ChildFormResponse {
+  id          String             @id @default(uuid())
+  childId     String
+  child       Children           @relation("ChildrenFormResponses", fields: [childId], references: [id], onDelete: Cascade)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @default(now())
+  responses   Json
+  formVersion String
+  analysis    ChildFormAnalysis? @relation("FormResponseAnalysis")
+
+  @@map("child_form_responses")
 }
 
 model VisualTestResult {
@@ -226,4 +241,24 @@ model ContinuousAssessment {
   child       Children? @relation("ChildrenContinuousAssessments", fields: [childId], references: [id])
 
   @@map("continuous_assessments")
+}
+
+model ChildFormAnalysis {
+  id                 String            @id @default(uuid())
+  childId            String
+  child              Children          @relation("ChildrenFormAnalysis", fields: [childId], references: [id], onDelete: Cascade)
+  formResponseId     String            @unique
+  formResponse       ChildFormResponse @relation("FormResponseAnalysis", fields: [formResponseId], references: [id], onDelete: Cascade)
+  overallAssessment  String
+  strengths          Json // Array of strengths
+  areasOfConcern     Json // Array of areas needing attention
+  learningStyle      String
+  recommendations    Json // Object with forParents and forTeachers arrays
+  riskFactors        Json // Array of risk factors
+  positiveIndicators Json // Array of positive indicators
+  nextSteps          Json // Array of suggested next steps
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now())
+
+  @@map("child_form_analysis")
 }

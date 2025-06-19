@@ -1,0 +1,587 @@
+{
+  "questions": [
+    {
+      "label": "Consent Form By Parent",
+      "name": "consent",
+      "type": "checkbox",
+      "options": ["I confirm that the information I am about to provide regarding my child's health is correct to the best of my knowledge. I authorize the Brio Kids team to use this information to plan the treatment needed to restore my child's health."],
+      "weight": 1
+    },
+    {
+      "label": "Child's Name",
+      "name": "childName",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Child's Date of Birth",
+      "name": "childDob",
+      "type": "date",
+      "weight": 1
+    },
+    {
+      "label": "Gender",
+      "name": "gender",
+      "type": "radio",
+      "options": ["Male", "Female", "Others"],
+      "weight": 1
+    },
+    {
+      "label": "Height",
+      "name": "height",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Weight",
+      "name": "weight",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Father's Name",
+      "name": "fatherName",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Father's Profession",
+      "name": "fatherProfession",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Mother's Name",
+      "name": "motherName",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Mother's Profession",
+      "name": "motherProfession",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Siblings Name & Age",
+      "name": "siblings",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Parent's Phone Number",
+      "name": "parentPhone",
+      "type": "tel",
+      "weight": 1
+    },
+    {
+      "label": "Place of Residence",
+      "name": "residence",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Parent's Email Id",
+      "name": "parentEmail",
+      "type": "email",
+      "weight": 1
+    },
+    {
+      "label": "Please mention your child's 3 challenges that are your Communication Target:",
+      "name": "communicationTarget",
+      "type": "checkbox",
+      "options": [
+        "Expressive & Receptive Language",
+        "Grammar - English & Hindi",
+        "Vocabulary & Articulation - Hindi",
+        "Narrative Skills",
+        "Sequencing Skills",
+        "Social Skills",
+        "Task Completion",
+        "Emotional Regulation",
+        "Following Daily Planner",
+        "Fine motor Skills",
+        "Self-care Skills",
+        "Self-advocacy Skills"
+      ],
+      "weight": 2
+    },
+    {
+      "label": "Which external therapy are you currently taking?",
+      "name": "externalTherapy",
+      "type": "checkbox",
+      "options": [
+        "Applied Behaviors Analysis (ABA)",
+        "Speech therapy",
+        "Sensory integration",
+        "Occupational therapy",
+        "Acupuncture",
+        "None of these"
+      ],
+      "weight": 2
+    },
+    {
+      "label": "Ante Natal History - Marriage Consanguinity",
+      "name": "marriageConsanguinity",
+      "type": "radio",
+      "options": ["Yes", "No"],
+      "weight": 1
+    },
+    {
+      "label": "Any Treatment taken to Conceive (If Yes Please Explain)",
+      "name": "treatmentToConceive",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Any Treatment taken during Pregnancy (If Yes Please Explain)",
+      "name": "treatmentDuringPregnancy",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Any Thyroid or Diabetic Problem during Pregnancy (If Yes Please Explain)",
+      "name": "thyroidDiabeticPregnancy",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Birth History - Delivery was Full Term or Pre Term (If Pre Term Please Explain)",
+      "name": "deliveryTerm",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Normal Delivery or Cesarean Delivery",
+      "name": "deliveryType",
+      "type": "radio",
+      "options": ["Normal Delivery", "Cesarean Delivery"],
+      "weight": 1
+    },
+    {
+      "label": "Baby Cried at Birth & Birth weight of the Child",
+      "name": "birthDetails",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "NICU Admission (If Yes Please Explain)",
+      "name": "nicuAdmission",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Post Natal History - Child Suffer from Jaundice after Birth (If Yes Please Explain)",
+      "name": "jaundiceAfterBirth",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Any other Treatment given to Child after Birth (If Yes Please Explain)",
+      "name": "treatmentAfterBirth",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "For how long was the Child Breast Fed?",
+      "name": "breastFeedingDuration",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Is your child able to express itself?",
+      "name": "canExpress",
+      "type": "radio",
+      "options": ["Yes", "No"],
+      "weight": 1
+    },
+    {
+      "label": "Is your child able to follow instructions?",
+      "name": "canFollowInstructions",
+      "type": "radio",
+      "options": ["Yes", "No"],
+      "weight": 1
+    },
+    {
+      "label": "How is the child's eye contact?",
+      "name": "eyeContact",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Is the child having social interactions normally?",
+      "name": "socialInteractions",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Does your Child Speak? Explain in detail whether speech is meaningful or not?",
+      "name": "speechDetails",
+      "type": "text",
+      "weight": 2
+    },
+    {
+      "label": "Any Obsessive or Compulsive Behaviors?",
+      "name": "obsessiveBehaviors",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Is your child having issues with attention / hyperactivity? Please explain in detail.",
+      "name": "attentionHyperactivity",
+      "type": "text",
+      "weight": 2
+    },
+    {
+      "label": "Please mention your child's current situation in fine (writing, drawing) and gross motor Skills (walking, running)",
+      "name": "motorSkills",
+      "type": "text",
+      "weight": 2
+    },
+    {
+      "label": "Please mention how your child is doing in Stereotypical Behaviors (stemming/self-Stimulation Behaviors)",
+      "name": "stereotypicalBehaviors",
+      "type": "text",
+      "weight": 2
+    },
+    {
+      "label": "What is the current diagnosis? (Speech delay, Fine Motor Delay, Gross motor delay, Global Delay, Intellectual Disability, Low I.Q, Other: Since when, Current treatment if any)",
+      "name": "currentDiagnosis",
+      "type": "text",
+      "weight": 2
+    },
+    {
+      "label": "Have you tried Behavioral and Educational Therapies till now? Please provide details and outcomes.",
+      "name": "previousTherapies",
+      "type": "text",
+      "weight": 2
+    },
+    {
+      "label": "Which of the following best describes your Child?",
+      "name": "developmentDescription",
+      "type": "radio",
+      "options": [
+        "A period of normal development followed by a loss in skills (Regression)",
+        "A period of normal development followed by a plateau, stagnation or non-progression in skills",
+        "Developmental delay from birth or early in life",
+        "Other (please describe)"
+      ],
+      "weight": 2
+    },
+    {
+      "label": "How often has your child taken courses of antibiotics?",
+      "name": "antibioticsFrequency",
+      "type": "radio",
+      "options": ["Less than 5 times", "More than 5 times", "Never"],
+      "weight": 1
+    },
+    {
+      "label": "How often has your child taken oral steroids?",
+      "name": "steroidsFrequency",
+      "type": "radio",
+      "options": ["Less than 5 times", "More than 5 times", "Never"],
+      "weight": 1
+    },
+    {
+      "label": "Please write how's your child's Bowel movements",
+      "name": "bowelMovements",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Does your child suffer with allergic issues?",
+      "name": "allergies",
+      "type": "checkbox",
+      "options": [
+        "Asthma",
+        "Allergic rhinitis",
+        "Seasonal allergies",
+        "Eczema",
+        "Food allergies",
+        "Other (please specify)"
+      ],
+      "weight": 2
+    },
+    {
+      "label": "List all medications (prescribed as well as over the counter)",
+      "name": "medications",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "List all Supplements",
+      "name": "supplements",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Is the child allergic to any medication, vitamin, mineral, or other nutritional supplement? If yes, please list.",
+      "name": "medicationAllergies",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Please share the child's immunization history",
+      "name": "immunizationHistory",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Hearing Test",
+      "name": "hearingTest",
+      "type": "radio",
+      "options": ["yes", "no"],
+      "weight": 1
+    },
+    {
+      "label": "If Yes, Please send details for Hearing Test",
+      "name": "hearingTestDetails",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Vision (Eye) Test",
+      "name": "visionTest",
+      "type": "radio",
+      "options": ["yes", "no"],
+      "weight": 1
+    },
+    {
+      "label": "If Yes, Please send details for Vision Test",
+      "name": "visionTestDetails",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "IQ Test",
+      "name": "iqTest",
+      "type": "radio",
+      "options": ["yes", "no"],
+      "weight": 1
+    },
+    {
+      "label": "If Yes, Please send details for IQ Test",
+      "name": "iqTestDetails",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Other Tests",
+      "name": "otherTests",
+      "type": "radio",
+      "options": ["yes", "no"],
+      "weight": 1
+    },
+    {
+      "label": "If Yes, Please send details for Other Tests",
+      "name": "otherTestsDetails",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "HOSPITALIZATIONS (fill mentioned columns as comma separated \"WHERE HOSPITALIZED, WHEN, REASON\" for multiple row write number for each row)",
+      "name": "hospitalizations",
+      "type": "text",
+      "weight": 2
+    },
+    {
+      "label": "Have you made any changes in your child's eating habits because of his/her health? If yes, what changes?",
+      "name": "dietChanges",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Preferred food choice (Salty/Sweet/Spicy)",
+      "name": "foodPreference",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Which food seems to aggravate the Child Symptom (If Yes, Please Explain)",
+      "name": "foodAggravation",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Your cooking vessels are made of which metals?",
+      "name": "cookingVessels",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Symptom Rating - Head",
+      "name": "symptomRatingHead",
+      "type": "table",
+      "options": ["Headaches", "Faintness", "Dizziness", "Insomnia", "Seizures"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Eyes",
+      "name": "symptomRatingEyes",
+      "type": "table",
+      "options": ["Watery or itchy eyes", "Swollen, reddened or sticky eyelids", "Bags or dark circles under eyes", "Blurred or tunnel vision"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Ears",
+      "name": "symptomRatingEars",
+      "type": "table",
+      "options": ["Itchy ears", "Earaches, ear infections", "Drainage from ear", "Ringing in ears, hearing loss"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Nose",
+      "name": "symptomRatingNose",
+      "type": "table",
+      "options": ["Stuffy nose", "Sinus problems", "High fever", "Sneezing attacks", "Excessive mucus formation"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Mouth/Throat",
+      "name": "symptomRatingMouthThroat",
+      "type": "table",
+      "options": ["Chronic coughing", "Gagging, frequent need to clear throat", "Sore throat, hoarseness, loss of voice", "Swollen or discoloured tongue, gums, lips"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Skin",
+      "name": "symptomRatingSkin",
+      "type": "table",
+      "options": ["Acne", "Hives, rashes, dry skin", "Hair loss", "Flushing, hot flashes", "Excessive sweating"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Heart",
+      "name": "symptomRatingHeart",
+      "type": "table",
+      "options": ["Irregular or skipped heartbeat", "Rapid or pounding heartbeat", "Chest pain"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Lungs",
+      "name": "symptomRatingLungs",
+      "type": "table",
+      "options": ["Chest congestion", "Asthma, bronchitis", "Shortness of breath", "Difficulty breathing"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Digestive Tract",
+      "name": "symptomRatingDigestive",
+      "type": "table",
+      "options": ["Nausea, vomiting", "Diarrhea", "Constipation", "Bloated feeling", "Belching, passing gas", "Heartburn", "Intestinal/stomach pain"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Joints/Muscles",
+      "name": "symptomRatingJoints",
+      "type": "table",
+      "options": ["Pain or aches in joints", "Arthritis", "Stiffness or limitation of movement", "Pain or aches in muscles", "Feeling of weakness or tiredness"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Weight",
+      "name": "symptomRatingWeight",
+      "type": "table",
+      "options": ["Binge eating/drinking", "Craving certain foods", "Excessive weight", "Compulsive eating", "Water retention", "Underweight"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Energy/Activity",
+      "name": "symptomRatingEnergy",
+      "type": "table",
+      "options": ["Fatigue, sluggishness", "Apathy, lethargy", "Hyperactivity", "Restlessness"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Mind",
+      "name": "symptomRatingMind",
+      "type": "table",
+      "options": ["Poor memory", "Confusion, poor comprehension", "Poor concentration", "Poor physical coordination", "Difficulty in making decisions", "Stuttering or stammering", "Slurred speech", "Learning disabilities"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Emotions",
+      "name": "symptomRatingEmotions",
+      "type": "table",
+      "options": ["Mood swings", "Anxiety, fear, nervousness", "Anger, irritability, aggressiveness", "Depression"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Symptom Rating - Other",
+      "name": "symptomRatingOther",
+      "type": "table",
+      "options": ["Frequent illness", "Frequent or urgent urination", "Genital itch or discharge"],
+      "scale": ["0", "1", "2", "3", "4"],
+      "weight": 3
+    },
+    {
+      "label": "Please list medicines you have taken in the past and/or are taking now",
+      "name": "pastMedications",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Please elaborate any of the symptoms you feel the need to explain in detail",
+      "name": "symptomDetails",
+      "type": "text",
+      "weight": 2
+    },
+    {
+      "label": "Family History - If anyone in family having any developmental issue (If yes, please explain and send all the patient reports related to treatment)",
+      "name": "familyDevelopmentalIssues",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Stress or hyperactivity disorder if any in family history (If yes, please explain)",
+      "name": "familyHyperactivity",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "From where did you got to know about Brio Kids",
+      "name": "brioKidsSource",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "Did you attend our Webinar?",
+      "name": "attendedWebinar",
+      "type": "radio",
+      "options": ["Yes", "No"],
+      "weight": 1
+    },
+    {
+      "label": "What did you liked most in the Webinar?",
+      "name": "webinarLikes",
+      "type": "text",
+      "weight": 1
+    },
+    {
+      "label": "What are your expectations from Brio Kids?",
+      "name": "expectations",
+      "type": "text",
+      "weight": 2
+    },
+    {
+      "label": "Child Multi Activity (3 Major Symptoms) Videos required",
+      "name": "activityVideosRequired",
+      "type": "text",
+      "weight": 1
+    }
+  ]
+}
