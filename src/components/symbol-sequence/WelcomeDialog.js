@@ -3,6 +3,7 @@
 "use client"
 
 import { AnimatePresence, motion } from "framer-motion"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import ShowingScreen from "./ShowingScreen.js"
@@ -16,6 +17,7 @@ import { symbols, difficultyLevels, practiceSequence } from "./symbolSequenceCon
 import WelcomeScreen from "./WelcomeScreen.js"
 
 import backgroundImage from "../../../public/symbol-sequence/Mystical-Runescape.png"
+import characterImage from "../../../public/symbol-sequence/Rune.png"
 
 const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId, dialogContent }) => {
   const router = useRouter()
@@ -306,9 +308,13 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId, dialogC
                   }}
                   className="flex-shrink-0 order-2 lg:order-1"
                 >
-                  <div className="h-64 sm:h-80 lg:h-96 xl:h-112 w-64 sm:w-80 lg:w-96 xl:w-112 bg-gradient-to-br from-[#d9a24b] to-[#f3c969] rounded-full flex items-center justify-center text-8xl">
-                    🔮
-                  </div>
+                  <Image
+                    src={characterImage || "/placeholder.svg"}
+                    alt="Mystara, Guardian of the Ancient Symbols"
+                    width={384}
+                    height={448}
+                    className="h-64 sm:h-80 lg:h-96 xl:h-112 object-contain"
+                  />
                 </motion.div>
 
                 <motion.div
