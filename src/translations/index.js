@@ -931,6 +931,59 @@ theCorrectAnswerWas: "The correct answer was:",
     practiceIncorrect: "Not quite. That wasn't the match.",
     practiceSelected: "You picked: \"{selection}\".", // {selection} is for i18next interpolation
     tryAgain: "Try Again",
+
+
+
+    labelProgress: "Overall Progress",
+    GenericInstruction1: "A large word will appear in the middle of your screen.",
+    GenericInstruction2: "Look at the two smaller words below it.",
+    GenericInstruction3: "Click on the smaller word that exactly matches the large word.",
+    GenericInstruction4: "A timer will count down for each question. Try to answer before it runs out!" ,
+    GenericInstruction5: "Focus and do your best! Good luck!",
+
+    visualTestSelectStudentError: "Please select a student first.",
+    testSubmittedSuccessfully: "Test submitted successfully!",
+    failedToSubmitTestPleaseTryAgain: "Failed to submit. Please try again.",
+    anErrorOccurredWhileSubmittingTheTestPleaseTryAgain: "An error occurred. Try again.",
+    backToTests: "Back to Tests",
+    showTestInstructions: "Show Test Instructions",
+    testInstructionsButton: "Instructions",
+    mainTestInstructionsTitle: "Test Instructions",
+    loadingTest: "Loading test...",
+    visualTestCompleted: "Test Finished! ✨",
+    submitting: "Submitting...",
+    loading: "Loading...",
+    submitResults: "Submit Results",
+
+    feedbackKeepPracticing: "Keep Practicing! 💪",
+    feedbackGoodEffort: "Good Effort! 😊",
+    feedbackGreatJob: "Great Job! 👍",
+    feedbackExcellent: "Excellent Work! 🎉",
+
+
+    closeInstructions: "Close Instructions",
+  gotIt: "Got It!",
+  visualTestDemoInstructionsTitle: "Practice Tips",
+  demoInstructionsButton: "Demo Tips",
+  showDemoInstructions: "Show Demo Instructions",
+  VisualDemoInstruction1: "A big word will appear in the center of the screen. Look at it carefully!",
+  VisualDemoInstruction2: "Below, you'll see two smaller words. Choose the one that matches the big word.",
+  VisualDemoInstruction3: "In the real test, there's a timer! But for practice, take your time.",
+  VisualDemoInstruction4: "Don't worry if you pick the wrong one here, it's just for practice!",
+  VisualDemoInstruction5: "This practice helps you understand how the test works.",
+  loadingPractice: "Getting Practice Ready...",
+  practiceRoundTitle: "Let's Practice! 🚀",
+  practiceRoundIntroVisual: "Before the real test, let's try a fun practice question together!",
+  practiceRoundTip: "This will show you exactly what to do. No scores here, just learning fun!",
+  startPracticeQuestion: "Start Practice!",
+  errorNoPracticeQuestion: "Oops! No practice question found. Please try refreshing.",
+  practiceCorrect: "That's Right!",
+  startMainTest: "Start Real Test!",
+  practiceIncorrect: "Not Quite...",
+  practiceSelected: "You picked: {selection}. The correct one was {correctAnswer}.",
+  notSelected: "nothing",
+  tryAgain: "Try Again!"
+    
         
 
 

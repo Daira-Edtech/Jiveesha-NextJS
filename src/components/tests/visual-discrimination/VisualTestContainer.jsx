@@ -1,52 +1,59 @@
 "use client";
 
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react"; // Added useMemo
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../../../contexts/LanguageContext";
-import questionsData from "./questions.json"; // Ensure this path is correct
-import { FaArrowLeft } from "react-icons/fa";
+import questionsData from "./questions.json"; 
+import { FaArrowLeft, FaRocket, FaInfoCircle } from "react-icons/fa"; // Added FaInfoCircle
 
-import CharacterDialog from "./CharacterDialog"; // Ensure this path is correct
-import QuestionRenderer from "./QuestionRenderer"; // Ensure this path is correct
-import VisualTestDemo from "./VisualTestDemo"; // IMPORT THE DEMO COMPONENT
+import CharacterDialog from "./CharacterDialog"; 
+import QuestionRenderer from "./QuestionRenderer"; 
+// Import VisualTestDemo and the EXPORTED InstructionsModal
+import VisualTestDemo, { InstructionsModal } from "./VisualTestDemo"; 
+import AnimatedScoreCircle from './AnimatedScoreCircle'; 
+import FeedbackMessage from './FeedbackMessage'; 
 
-const backgroundImage = "/visual-test/rockvision.png"; // Ensure this path is correct
 
+const backgroundImage = "/visual-test/rockvision.png"; 
+
+// ResultsProgressBar remains the same
 const ResultsProgressBar = ({ current, total }) => {
   const { t } = useLanguage();
   const progress = total > 0 ? (current / total) * 100 : 0;
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 px-2 w-full max-w-md mx-auto">
       <div className="flex justify-between items-center mb-3">
-        <span className="text-xl font-semibold text-white/90">
-          {t("labelProgress", "Progress")}
+        <span className="text-lg font-semibold text-white/90">
+          {t("labelProgress")}
         </span>
-        <span className="text-xl font-bold text-white">
-          {current}/{total} ({Math.round(progress)}%)
+        <span className="text-lg font-bold text-amber-200">
+          {current}/{total} <span className="text-sm text-white/80">({Math.round(progress)}%)</span>
         </span>
       </div>
-      <div className="w-full h-8 bg-gray-300/50 rounded-full overflow-hidden shadow-inner">
+      <div className="w-full h-5 bg-gray-300/30 rounded-full overflow-hidden shadow-inner border border-white/20 backdrop-blur-sm">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-600 relative"
+          className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-amber-500 relative"
           initial={{ width: "0%" }}
           animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.8 }}
         >
           <motion.div
             className="absolute inset-0 bg-white/20"
             animate={{ opacity: [0, 0.3, 0], x: ["-100%", "100%"] }}
             transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
           />
+           <div className="absolute right-1 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-md"></div>
         </motion.div>
       </div>
     </div>
   );
 };
+
 
 const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   const { language, t } = useLanguage();
@@ -56,50 +63,45 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCharacter, setShowCharacter] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [quizStarted, setQuizStarted] = useState(false); // For the main test
+  const [quizStarted, setQuizStarted] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const router = useRouter();
+  const [showDemo, setShowDemo] = useState(true);
+  const [showGenericInstructionsModal, setShowGenericInstructionsModal] = useState(false); // New state
 
-  const [showDemo, setShowDemo] = useState(true); // State to control demo visibility
+  // Define GENERIC instructions for the main test
+  const genericTestInstructions = useMemo(() => [
+    { text: t("GenericInstruction1")},
+    { text: t("GenericInstruction2") },
+    { text: t("GenericInstruction3") },
+    { text: t("GenericInstruction4") },
+    { text: t("GenericInstruction5") },
+  ], [t]);
+
 
   useEffect(() => {
     const langKey =
-      language === "ta"
-        ? "tamil"
-        : language === "hi"
-        ? "hindi"
-        : language === "kn"
-        ? "kannada"
-        : "english";
-
-    const questionsForLang = Array.isArray(questionsData[langKey])
-      ? questionsData[langKey]
-      : [];
+      language === "ta" ? "tamil" :
+      language === "hi" ? "hindi" :
+      language === "kn" ? "kannada" : "english";
+    const questionsForLang = Array.isArray(questionsData[langKey]) ? questionsData[langKey] : [];
     setQuizQuestions(questionsForLang);
-
-    // Reset all states for a new test run or language change
     setSelectedOptions(Array(questionsForLang.length).fill(null));
     setCurrentQuestionIndex(0);
     setScore(0);
     setQuizCompleted(false);
-    setQuizStarted(false);    // Main quiz not started yet
-    setShowCharacter(true);   // Always show character intro first
-    setShowDemo(true);        // Reset demo flag so it shows after character dialog
+    setQuizStarted(false);
+    setShowCharacter(true);
+    setShowDemo(true);
   }, [language]);
 
   const handleAnswer = (option) => {
-    // This logic is for the main test
     const newSelectedOptions = [...selectedOptions];
     newSelectedOptions[currentQuestionIndex] = option;
     setSelectedOptions(newSelectedOptions);
-
-    if (
-      quizQuestions[currentQuestionIndex] &&
-      option === quizQuestions[currentQuestionIndex].correct
-    ) {
+    if (quizQuestions[currentQuestionIndex] && option === quizQuestions[currentQuestionIndex].correct) {
       setScore(score + 1);
     }
-
     setTimeout(() => {
       if (currentQuestionIndex < quizQuestions.length - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -110,33 +112,24 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   };
 
   const handleTimeout = () => {
-    // This logic is for the main test
     const newSelectedOptions = [...selectedOptions];
     if (currentQuestionIndex < newSelectedOptions.length) {
-      newSelectedOptions[currentQuestionIndex] = null; // Mark as not answered or timed out
+      newSelectedOptions[currentQuestionIndex] = null;
       setSelectedOptions(newSelectedOptions);
     }
-    
-    // No score for timeout
-    
-    if (currentQuestionIndex < quizQuestions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      setQuizCompleted(true);
-    }
+    setTimeout(() => {
+        if (currentQuestionIndex < quizQuestions.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else {
+            setQuizCompleted(true);
+        }
+    }, 300);
   };
 
-  // Called when CharacterDialog is completed
-  const handleCharacterDialogComplete = () => {
-    setShowCharacter(false);
-    // Now the render logic will show the demo because showDemo is still true
-  };
-
-  // Called when VisualTestDemo is completed
+  const handleCharacterDialogComplete = () => setShowCharacter(false);
   const handleDemoComplete = () => {
     setShowDemo(false);
-    setQuizStarted(true); // Now start the main quiz
-    // Reset states specifically for the main test
+    setQuizStarted(true); 
     setCurrentQuestionIndex(0);
     setScore(0);
     setSelectedOptions(Array(quizQuestions.length).fill(null));
@@ -144,221 +137,162 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    const token =
-      typeof window !== "undefined"
-        ? localStorage.getItem("access_token")
-        : null;
-    const childId =
-      typeof window !== "undefined" ? localStorage.getItem("childId") : null;
+    const token = localStorage.getItem("access_token");
+    const childId = localStorage.getItem("childId");
 
     if (!childId) {
-      toast.error(t("visualTestSelectStudentError", "Please select a student first."));
+      toast.error(t("visualTestSelectStudentError"), { theme: "dark" });
       setIsSubmitting(false);
       return;
     }
-
     try {
-      const response = await axios.post(
-        "/api/visual-test/submitResult", // Replace with your actual API endpoint
-        {
-          childId: childId,
-          options: selectedOptions, // These are from the main test
-          score: score,             // This is from the main test
-        },
-        {
-          headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await axios.post("/api/visual-test/submitResult", 
+        { childId, options: selectedOptions, score },
+        { headers: { ...(token && { Authorization: `Bearer ${token}` }), "Content-Type": "application/json" } }
       );
-
       if (response.status === 201) {
         if (suppressResultPage && typeof onComplete === "function") {
           onComplete(score);
         } else {
-          toast.success(t("testSubmittedSuccessfully", "Test submitted successfully!"), {
-            position: "top-center",
-            onClose: () => router.push("/"), // Or your desired redirect path
+          toast.success(t("testSubmittedSuccessfully"), {
+            position: "top-center", theme: "dark", onClose: () => router.push("/")
           });
         }
       } else {
-        toast.error(t("failedToSubmitTestPleaseTryAgain", "Failed to submit test. Please try again."));
+        toast.error(t("failedToSubmitTestPleaseTryAgain"), { theme: "dark" });
       }
     } catch (error) {
       console.error("Error submitting test:", error);
-      toast.error(
-        t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain", "An error occurred while submitting. Please try again.") ||
-        t("errorOccurred", "An error occurred") // Fallback
-      );
+      toast.error(t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain"), { theme: "dark" });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Helper to wrap content with background and back button
-  const renderWithBackground = (content) => (
-    <div
-      className="fixed inset-0 overflow-y-auto flex items-center justify-center p-4 md:p-8 bg-cover bg-center"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
-    >
+  // Modified to include generic instructions button and modal
+  const renderWithBackground = (content, showInstructionsButton = false) => (
+    <div className="fixed inset-0 overflow-y-auto flex items-center justify-center p-4 md:p-8 bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
+      {/* Back Button */}
       <motion.button
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5 }}
-        onClick={() => router.push("/taketests")} // Ensure '/taketests' is the correct route
-        className="fixed top-4 left-4 z-[70] flex items-center gap-2 bg-white/90 hover:bg-white text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition-all"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}
+        onClick={() => router.push("/taketests")} 
+        className="fixed top-4 left-4 z-[70] flex items-center gap-2.5 bg-gradient-to-r from-white/90 to-lime-100/90 hover:from-white hover:to-lime-50 text-green-900 font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all backdrop-blur-sm border border-white/50"
+        whileHover={{ scale: 1.05, y: -1, shadow:"lg" }} whileTap={{ scale: 0.95 }}
       >
-        <FaArrowLeft className="text-blue-600" />
-        {t("backToTests", "Back to Tests")}
+        <FaArrowLeft className="text-green-700" /> {t("backToTests")}
       </motion.button>
+
+      {/* Generic Instructions Button (conditionally rendered) */}
+      {showInstructionsButton && (
+        <motion.button
+          aria-label={t("showTestInstructions")}
+          initial={{ opacity: 0, y: -20, x: 20 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
+          transition={{ delay: 0.6, type: 'spring', stiffness: 120 }}
+          onClick={() => setShowGenericInstructionsModal(true)}
+          className="fixed top-4 right-4 z-[70] flex items-center gap-2 bg-white/10 backdrop-blur-md border-2 border-amber-400/50 text-amber-200 hover:bg-white/20 hover:text-amber-100 font-semibold py-2.5 px-4 sm:px-5 rounded-lg shadow-lg transition-all"
+          whileHover={{ scale: 1.08, y: -2, x: -2, shadow: "0px 3px 15px rgba(251,191,36,0.3)" }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <FaInfoCircle size={20} /> <span className="hidden sm:inline">{t("testInstructionsButton")}</span>
+        </motion.button>
+      )}
+
       {content}
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+
+      {/* Generic Instructions Modal */}
+      <AnimatePresence>
+        {showGenericInstructionsModal && (
+            <InstructionsModal
+                isOpen={showGenericInstructionsModal}
+                onClose={() => setShowGenericInstructionsModal(false)}
+                title={t("mainTestInstructionsTitle")}
+                instructions={genericTestInstructions}
+                t={t} // Use 't' from VisualTestContainer for the modal
+            />
+        )}
+      </AnimatePresence>
+
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
     </div>
   );
+  // --- End of renderWithBackground ---
 
-  // 1. Show Character Dialog
-  if (showCharacter) {
-    // CharacterDialog handles its own background, so not using renderWithBackground here
-    return <CharacterDialog onComplete={handleCharacterDialogComplete} />;
-  }
 
-  // 2. Show Demo Round after Character Dialog
-  if (showDemo) {
-    return renderWithBackground(
-        <VisualTestDemo
-            onDemoComplete={handleDemoComplete}
-            language={language}
-            questionsData={questionsData} // Pass the full questions data for the demo to pick one
-        />
-    );
-  }
+  if (showCharacter) return <CharacterDialog onComplete={handleCharacterDialogComplete} />;
   
-  // 3. Loading state for the main test (after demo is complete)
-  // Check if quizQuestions are loaded and main quiz hasn't started and isn't completed.
+  // Pass generic instructions and 't' to VisualTestDemo if needed, though VisualTestDemo now has its own demo-specific text
+  if (showDemo) return renderWithBackground(
+    <VisualTestDemo 
+        onDemoComplete={handleDemoComplete} 
+        language={language} 
+        questionsData={questionsData}
+        // genericInstructions={genericTestInstructions} // No longer needed here as demo uses its own
+        // tForInstructions={t} // No longer needed here
+    />, 
+    false // Don't show generic instructions button during demo intro/question
+  ); 
+  
   if (quizQuestions.length === 0 && !quizStarted && !quizCompleted) {
     return renderWithBackground(
-      <div className="flex items-center justify-center h-full">
-        <p className="text-white text-2xl bg-black/50 p-6 rounded-lg">
-          {t("loadingTest", "Loading test...")}
-        </p>
+      <div className="flex flex-col items-center justify-center h-full text-white p-4">
+        <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="text-4xl text-amber-300 mb-4">↻</motion.div>
+        <p className="text-2xl bg-black/50 p-6 rounded-lg font-serif text-yellow-100">{t("loadingTest")}</p>
       </div>
     );
   }
 
   const currentQuestionData = quizQuestions[currentQuestionIndex];
-
-  // 4. Show Main Test Questions
   if (quizStarted && !quizCompleted && currentQuestionData) {
-    return renderWithBackground(
+    return renderWithBackground( // Pass true to show instructions button during main test
       <div className="w-full max-w-4xl mx-auto">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={currentQuestionIndex} // Key for re-animation on question change
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full"
-          >
-            <QuestionRenderer
-              questionData={currentQuestionData}
-              index={currentQuestionIndex}
-              totalQuestions={quizQuestions.length}
-              onAnswer={handleAnswer}
-              onTimeout={handleTimeout}
-            />
+          <motion.div key={currentQuestionIndex} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.4, ease: "easeInOut" }} className="w-full">
+            <QuestionRenderer questionData={currentQuestionData} index={currentQuestionIndex} totalQuestions={quizQuestions.length} onAnswer={handleAnswer} onTimeout={handleTimeout}/>
           </motion.div>
         </AnimatePresence>
-      </div>
+      </div>,
+      true // Show generic instructions button during the main test
     );
   }
 
-  // 5. Show Quiz Completion / Results Summary
+  // Quiz Completed Screen
   if (quizCompleted) {
-    return renderWithBackground(
-      <div className="w-full max-w-4xl mx-auto">
+    return renderWithBackground( // Don't show instructions button on completion screen
+      <div className="w-full max-w-2xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="bg-black/60 backdrop-blur-md rounded-2xl p-8 shadow-2xl text-center border-2 border-white/30"
+          initial={{ opacity: 0, scale: 0.8, y: 50 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.6, type: "spring", stiffness: 120, damping: 15 }}
+          className="relative bg-gradient-to-br from-green-800/70 via-green-900/60 to-yellow-800/70 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl text-center border-2 border-white/20 overflow-hidden"
         >
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="mb-6"
-          >
-            <h2 className="text-3xl font-bold text-white mb-2">
-              {t("visualTestCompleted", "Test Completed!")}
-            </h2>
-            <p className="text-xl text-blue-300">
-              {t("visualTestScoreOutOfTotal", "Your score: {score} out of {total}")
-                .replace("{score}", score.toString())
-                .replace("{total}", quizQuestions.length.toString())}
-            </p>
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-lime-300 to-amber-300 opacity-80"></div>
+          {[...Array(5)].map((_, i) => ( /* Particles */
+            <motion.div key={i} className="absolute w-2 h-2 bg-yellow-300 rounded-full opacity-0" style={{ top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`}}
+              animate={{ opacity: [0, 0.7, 0], scale: [0.5, 1.5, 0.5], y: [0, -Math.random() * 30 - 10, -Math.random() * 30 - 20]}}
+              transition={{ duration: Math.random() * 2 + 1, repeat: Infinity, delay: Math.random() * 1 + i * 0.2, ease: "easeInOut"}}/>
+          ))}
+          <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, type: "spring" }} className="mb-4 sm:mb-6 relative z-10">
+            <h2 className="text-3xl sm:text-4xl font-bold text-amber-200 mb-3 drop-shadow-md">{t("visualTestCompleted")}</h2>
           </motion.div>
-
-          <ResultsProgressBar current={score} total={quizQuestions.length} />
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="flex justify-center"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="bg-blue-600 text-white font-bold py-3 px-8 rounded-xl text-xl shadow-lg hover:bg-blue-700 disabled:opacity-70"
-            >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center">
-                  <motion.span
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 1,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    className="inline-block mr-2 text-2xl" // Made spinner larger
-                  >
-                    ↻
-                  </motion.span>
-                  {t("submitting", "Submitting...")}
-                </span>
-              ) : (
-                t("submitResults", "Submit Results")
-              )}
+          <div className="relative z-10 my-6 sm:my-8 flex justify-center"><AnimatedScoreCircle score={score} total={quizQuestions.length} /></div>
+          <div className="relative z-10"><FeedbackMessage score={score} total={quizQuestions.length} /></div>
+          <div className="relative z-10 my-6 sm:my-8"><ResultsProgressBar current={score} total={quizQuestions.length} /></div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.8, type: "spring" }} className="flex justify-center relative z-10 mt-2">
+            <motion.button whileHover={{ scale: 1.05, y: -2, boxShadow: "0px 5px 20px rgba(251, 191, 36, 0.5)" }} whileTap={{ scale: 0.95 }} onClick={handleSubmit} disabled={isSubmitting}
+              className="flex items-center justify-center gap-3 py-3.5 px-10 rounded-xl font-bold text-lg sm:text-xl shadow-xl transition-all duration-300 bg-gradient-to-r from-amber-500 to-yellow-500 text-white hover:from-amber-600 hover:to-yellow-600 hover:shadow-amber-500/60 disabled:opacity-60 disabled:cursor-not-allowed disabled:shadow-none">
+              {isSubmitting ? (<><motion.span animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="inline-block mr-1 text-2xl">↻</motion.span>{t("submitting")}</>) : (<>{t("submitResults")} <FaRocket /></>)}
             </motion.button>
           </motion.div>
         </motion.div>
-      </div>
+      </div>,
+      false // Do not show generic instructions button on completion screen
     );
   }
 
-  // Fallback for any unhandled state (should ideally not be reached if logic is correct)
   return renderWithBackground(
     <div className="flex items-center justify-center h-full">
-      <p className="text-white text-xl bg-black/50 p-4 rounded-lg">
-        {t("loading", "Loading...")}
-      </p>
+      <p className="text-white text-xl bg-black/50 p-4 rounded-lg font-serif text-yellow-100">{t("loading")}</p>
     </div>
   );
 };
