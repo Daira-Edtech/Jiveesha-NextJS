@@ -23,7 +23,6 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const WEIGHT_THRESHOLD = 4;
   useEffect(() => {
     const loadQuestions = async () => {
       try {
@@ -35,19 +34,29 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
         // Paginate questions based on weight
         const paginatedPages = [];
         let currentPageQuestions = [];
-        let currentWeight = 0;
+        let currentPageSlots = 0;
+        const MAX_SLOTS = 6;
+
+        const getSlots = (weight) => {
+          if (weight === 1) return 2; // 3 questions per page
+          if (weight === 2) return 3; // 2 questions per page
+          if (weight === 3) return 6; // 1 question per page
+          return 6; // Default for other weights
+        };
 
         for (const question of data.questions) {
+          const questionSlots = getSlots(question.weight);
+
           if (
-            currentWeight + question.weight > WEIGHT_THRESHOLD &&
+            currentPageSlots + questionSlots > MAX_SLOTS &&
             currentPageQuestions.length > 0
           ) {
             paginatedPages.push(currentPageQuestions);
             currentPageQuestions = [question];
-            currentWeight = question.weight;
+            currentPageSlots = questionSlots;
           } else {
             currentPageQuestions.push(question);
-            currentWeight += question.weight;
+            currentPageSlots += questionSlots;
           }
         }
 
@@ -90,12 +99,22 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
     });
   };
 
+  const handleTableInputChange = (questionName, option, value) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [questionName]: {
+        ...(prev[questionName] || {}),
+        [option]: value,
+      },
+    }));
+  };
+
   const renderInput = (question) => {
-    const { name, type, options, label } = question;
+    const { name, type, options, label, scale } = question;
     const value = answers[name] || (type === "checkbox" ? [] : "");
 
     const baseClasses =
-      "w-full transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500";
+      "w-full transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base";
 
     switch (type) {
       case "text":
@@ -124,8 +143,9 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
           <Textarea
             value={value}
             onChange={(e) => handleInputChange(name, e.target.value)}
-            className={`${baseClasses} border-gray-200 bg-white/80 backdrop-blur-sm min-h-[100px]`}
+            className={`${baseClasses} border-gray-200 bg-white/80 backdrop-blur-sm`}
             placeholder={`Enter ${label.toLowerCase()}`}
+            rows={4}
           />
         );
 
@@ -161,7 +181,7 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
                 />
                 <label
                   htmlFor={`${name}-${index}`}
-                  className="text-sm font-medium text-gray-700 cursor-pointer"
+                  className="text-base font-medium text-gray-700 cursor-pointer"
                 >
                   {option}
                 </label>
@@ -186,10 +206,111 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
                 />
                 <label
                   htmlFor={`${name}-${index}`}
-                  className="text-sm font-medium text-gray-700 cursor-pointer leading-5"
+                  className="text-base font-medium text-gray-700 cursor-pointer leading-5"
                 >
                   {option}
                 </label>
+              </div>
+            ))}
+          </div>
+        );
+
+      case "table":
+        return (
+          <div>
+            <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-gray-700">
+              <p className="font-semibold mb-2">Rating Scale:</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>
+                  <b>0</b> – Never or almost never have the symptom
+                </li>
+                <li>
+                  <b>1</b> – Occasionally have it, effect is not severe
+                </li>
+                <li>
+                  <b>2</b> – Occasionally have it, effect is severe
+                </li>
+                <li>
+                  <b>3</b> – Frequently have it, effect is not severe
+                </li>
+                <li>
+                  <b>4</b> – Frequently have it, effect is severe
+                </li>
+              </ul>
+            </div>
+            <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white/80 backdrop-blur-sm">
+              <table className="w-full text-base">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="text-left py-3 px-4 font-semibold text-gray-600">
+                      Symptom
+                    </th>
+                    {scale?.map((s, i) => (
+                      <th
+                        key={i}
+                        className="text-center py-3 px-2 font-semibold text-gray-600"
+                      >
+                        {s}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {options?.map((option, optionIndex) => (
+                    <tr
+                      key={optionIndex}
+                      className="border-b last:border-b-0 hover:bg-gray-100/50 transition-colors"
+                    >
+                      <td className="py-3 px-4 font-medium text-gray-800">
+                        {option}
+                      </td>
+                      {scale?.map((scaleValue, scaleIndex) => (
+                        <td key={scaleIndex} className="text-center py-3 px-2">
+                          <input
+                            type="radio"
+                            id={`${name}-${optionIndex}-${scaleIndex}`}
+                            name={`${name}-${option}`} // Unique name for each radio group
+                            value={scaleValue}
+                            checked={answers[name]?.[option] === scaleValue}
+                            onChange={(e) =>
+                              handleTableInputChange(
+                                name,
+                                option,
+                                e.target.value
+                              )
+                            }
+                            className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 cursor-pointer"
+                          />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+
+      case "scale":
+        return (
+          <div className="flex items-center justify-center space-x-4 pt-2">
+            {scale?.map((option, index) => (
+              <div key={index} className="flex flex-col items-center space-y-2">
+                <label
+                  htmlFor={`${name}-${index}`}
+                  className="text-base font-medium text-gray-700"
+                >
+                  {option}
+                </label>
+                <input
+                  type="radio"
+                  id={`${name}-${index}`}
+                  name={name}
+                  value={option}
+                  checked={value === option}
+                  onChange={(e) => handleInputChange(name, e.target.value)}
+                  className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+                />
               </div>
             ))}
           </div>
@@ -269,7 +390,7 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
               <User className="w-6 h-6 text-white" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Student Registration Form
           </CardTitle>
           <div className="flex items-center justify-center space-x-2 text-sm text-gray-600 mt-2">
@@ -296,7 +417,7 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
               <div key={question.name} className="space-y-3">
                 <Label
                   htmlFor={question.name}
-                  className="text-base font-semibold text-gray-800 flex items-center space-x-2"
+                  className="text-lg font-semibold text-gray-800 flex items-center space-x-2"
                 >
                   <span className="w-6 h-6 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
                     {pages

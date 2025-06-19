@@ -94,7 +94,6 @@ async function postHandler(req, context, { userId, user }) {
     const body = await req.json();
     const { childId, responses, formVersion = "1.0" } = body;
 
-    // Map responses to [{label, name, type, value}] using formData
     const questionAnswerPairs = formData.questions.map((q) => ({
       label: q.label,
       name: q.name,
@@ -105,7 +104,6 @@ async function postHandler(req, context, { userId, user }) {
     let child;
 
     if (childId) {
-      // If childId is provided, find existing child
       child = await prisma.children.findFirst({
         where: {
           id: childId,
@@ -120,7 +118,6 @@ async function postHandler(req, context, { userId, user }) {
         );
       }
     } else {
-      // If no childId, create a new child from form responses
       const childName = responses.childName;
       const childDob = responses.childDob;
       const gender = responses.gender;

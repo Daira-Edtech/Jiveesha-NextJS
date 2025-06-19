@@ -4,7 +4,7 @@
       "label": "Consent Form By Parent",
       "name": "consent",
       "type": "checkbox",
-      "options": ["I confirm that the information I am about to provide regarding my child's health is correct to the best of my knowledge. I authorize the Brio Kids team to use this information to plan the treatment needed to restore my child's health."],
+      "options": ["I confirm that the information I am about to provide regarding my child's health is correct to the best of my knowledge. I authorize the Jiveesha team to use this information to plan the treatment needed to restore my child's health."],
       "weight": 1
     },
     {
@@ -130,25 +130,25 @@
     {
       "label": "Any Treatment taken to Conceive (If Yes Please Explain)",
       "name": "treatmentToConceive",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "Any Treatment taken during Pregnancy (If Yes Please Explain)",
       "name": "treatmentDuringPregnancy",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "Any Thyroid or Diabetic Problem during Pregnancy (If Yes Please Explain)",
       "name": "thyroidDiabeticPregnancy",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "Birth History - Delivery was Full Term or Pre Term (If Pre Term Please Explain)",
       "name": "deliveryTerm",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
@@ -167,19 +167,19 @@
     {
       "label": "NICU Admission (If Yes Please Explain)",
       "name": "nicuAdmission",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "Post Natal History - Child Suffer from Jaundice after Birth (If Yes Please Explain)",
       "name": "jaundiceAfterBirth",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "Any other Treatment given to Child after Birth (If Yes Please Explain)",
       "name": "treatmentAfterBirth",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
@@ -217,7 +217,7 @@
     {
       "label": "Does your Child Speak? Explain in detail whether speech is meaningful or not?",
       "name": "speechDetails",
-      "type": "text",
+      "type": "textarea",
       "weight": 2
     },
     {
@@ -229,7 +229,7 @@
     {
       "label": "Is your child having issues with attention / hyperactivity? Please explain in detail.",
       "name": "attentionHyperactivity",
-      "type": "text",
+      "type": "textarea",
       "weight": 2
     },
     {
@@ -305,25 +305,25 @@
     {
       "label": "List all medications (prescribed as well as over the counter)",
       "name": "medications",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "List all Supplements",
       "name": "supplements",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "Is the child allergic to any medication, vitamin, mineral, or other nutritional supplement? If yes, please list.",
       "name": "medicationAllergies",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "Please share the child's immunization history",
       "name": "immunizationHistory",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
@@ -381,13 +381,13 @@
     {
       "label": "HOSPITALIZATIONS (fill mentioned columns as comma separated \"WHERE HOSPITALIZED, WHEN, REASON\" for multiple row write number for each row)",
       "name": "hospitalizations",
-      "type": "text",
+      "type": "textarea",
       "weight": 2
     },
     {
       "label": "Have you made any changes in your child's eating habits because of his/her health? If yes, what changes?",
       "name": "dietChanges",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
@@ -399,7 +399,7 @@
     {
       "label": "Which food seems to aggravate the Child Symptom (If Yes, Please Explain)",
       "name": "foodAggravation",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
@@ -531,54 +531,29 @@
     {
       "label": "Please list medicines you have taken in the past and/or are taking now",
       "name": "pastMedications",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "Please elaborate any of the symptoms you feel the need to explain in detail",
       "name": "symptomDetails",
-      "type": "text",
+      "type": "textarea",
       "weight": 2
     },
     {
       "label": "Family History - If anyone in family having any developmental issue (If yes, please explain and send all the patient reports related to treatment)",
       "name": "familyDevelopmentalIssues",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
       "label": "Stress or hyperactivity disorder if any in family history (If yes, please explain)",
       "name": "familyHyperactivity",
-      "type": "text",
+      "type": "textarea",
       "weight": 1
     },
     {
-      "label": "From where did you got to know about Brio Kids",
-      "name": "brioKidsSource",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Did you attend our Webinar?",
-      "name": "attendedWebinar",
-      "type": "radio",
-      "options": ["Yes", "No"],
-      "weight": 1
-    },
-    {
-      "label": "What did you liked most in the Webinar?",
-      "name": "webinarLikes",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "What are your expectations from Brio Kids?",
-      "name": "expectations",
-      "type": "text",
-      "weight": 2
-    },
-    {
-      "label": "Child Multi Activity (3 Major Symptoms) Videos required",
+      "label": "Child Multi Activity (3 Major Symptoms) Videos required [ Provide Links ]",
       "name": "activityVideosRequired",
       "type": "text",
       "weight": 1

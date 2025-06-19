@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import axios from "axios";
 import React, { useState, useEffect, useMemo } from "react";
@@ -8,7 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
 // PATH CHANGE: Adjust to your project structure
 import { useLanguage } from "../../../contexts/LanguageContext";
-import { FaArrowLeft, FaCheckCircle, FaPlayCircle, FaExclamationTriangle, FaInfoCircle } from "react-icons/fa";
+import {
+  FaArrowLeft,
+  FaCheckCircle,
+  FaPlayCircle,
+  FaExclamationTriangle,
+  FaInfoCircle,
+} from "react-icons/fa";
 
 // PATH CHANGE: Import from the same directory
 import CharacterDialog from "./CharacterDialog";
@@ -57,32 +63,52 @@ const SoundDiscriminationTestOrchestrator = ({
 
   const wordPairs = useMemo(
     () => [
-      ["dog", "hog"], ["gate", "cake"], ["bun", "bun"], ["let", "net"],
-      ["ride", "ride"], ["man", "man"], ["pit", "bit"], ["thing", "sing"],
-      ["nut", "ton"], ["big", "big"], ["no", "mow"], ["pot", "top"],
-      ["pat", "pat"], ["shut", "just"], ["name", "game"], ["raw", "war"],
-      ["feet", "seat"], ["fun", "fun"], ["day", "bay"], ["in", "on"],
-    ],[]);
+      ["dog", "hog"],
+      ["gate", "cake"],
+      ["bun", "bun"],
+      ["let", "net"],
+      ["ride", "ride"],
+      ["man", "man"],
+      ["pit", "bit"],
+      ["thing", "sing"],
+      ["nut", "ton"],
+      ["big", "big"],
+      ["no", "mow"],
+      ["pot", "top"],
+      ["pat", "pat"],
+      ["shut", "just"],
+      ["name", "game"],
+      ["raw", "war"],
+      ["feet", "seat"],
+      ["fun", "fun"],
+      ["day", "bay"],
+      ["in", "on"],
+    ],
+    []
+  );
   const demoPair = useMemo(() => wordPairs[0], [wordPairs]);
 
   // --- State Management ---
-  const [currentPhase, setCurrentPhase] = useState('characterDialog'); // 'characterDialog', 'instructions', 'demo', 'mainTest', 'completed'
+  const [currentPhase, setCurrentPhase] = useState("characterDialog"); // 'characterDialog', 'instructions', 'demo', 'mainTest', 'completed'
   const [showInstructionsOverlay, setShowInstructionsOverlay] = useState(false);
   const [score, setScore] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOptions, setSelectedOptions] = useState(Array(wordPairs.length).fill(null));
+  const [selectedOptions, setSelectedOptions] = useState(
+    Array(wordPairs.length).fill(null)
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [demoQuestionKey, setDemoQuestionKey] = useState(0);
-  const [demoQuestionAnsweredCorrectly, setDemoQuestionAnsweredCorrectly] = useState(false);
+  const [demoQuestionAnsweredCorrectly, setDemoQuestionAnsweredCorrectly] =
+    useState(false);
 
   // --- Phase Transition Handlers ---
   const handleCharacterDialogComplete = () => {
-    setCurrentPhase('instructions');
+    setCurrentPhase("instructions");
   };
 
   const handleInitialInstructionsComplete = () => {
-    setCurrentPhase('demo');
-    setDemoQuestionKey(prev => prev + 1);
+    setCurrentPhase("demo");
+    setDemoQuestionKey((prev) => prev + 1);
     setDemoQuestionAnsweredCorrectly(false);
   };
 
@@ -93,22 +119,24 @@ const SoundDiscriminationTestOrchestrator = ({
     if (isUserCorrect) {
       setDemoQuestionAnsweredCorrectly(true);
     } else {
-      toast.info(t("demoIncorrectToastMessage"), { 
-        autoClose: 2500, icon: <FaExclamationTriangle className="text-yellow-400" />
+      toast.info(t("demoIncorrectToastMessage"), {
+        autoClose: 2500,
+        icon: <FaExclamationTriangle className="text-yellow-400" />,
       });
-      setDemoQuestionKey(prevKey => prevKey + 1);
+      setDemoQuestionKey((prevKey) => prevKey + 1);
     }
   };
-  
+
   const handleDemoTimeout = () => {
-    toast.info(t("demoTimeoutRetry"), { 
-        autoClose: 2500, icon: <FaExclamationTriangle className="text-yellow-400" />
+    toast.info(t("demoTimeoutRetry"), {
+      autoClose: 2500,
+      icon: <FaExclamationTriangle className="text-yellow-400" />,
     });
-    setDemoQuestionKey(k => k + 1);
+    setDemoQuestionKey((k) => k + 1);
   };
 
   const handleProceedToMainTest = () => {
-    setCurrentPhase('mainTest');
+    setCurrentPhase("mainTest");
     setCurrentQuestionIndex(0);
     setScore(0);
     setSelectedOptions(Array(wordPairs.length).fill(null));
@@ -127,7 +155,7 @@ const SoundDiscriminationTestOrchestrator = ({
     if (currentQuestionIndex < wordPairs.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     } else {
-      setCurrentPhase('completed');
+      setCurrentPhase("completed");
     }
   };
 
@@ -137,9 +165,9 @@ const SoundDiscriminationTestOrchestrator = ({
     newSelectedOptions[currentQuestionIndex] = null;
     setSelectedOptions(newSelectedOptions);
     if (currentQuestionIndex < wordPairs.length - 1) {
-        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     } else {
-        setCurrentPhase('completed');
+      setCurrentPhase("completed");
     }
   };
 
@@ -156,7 +184,7 @@ const SoundDiscriminationTestOrchestrator = ({
 
     try {
       const response = await axios.post(
-        `/api/sound-test/submitResult`, 
+        `/api/sound-test/submitResult`,
         {
           childId: childId,
           test_name: t("soundTestApiName"),
@@ -182,30 +210,28 @@ const SoundDiscriminationTestOrchestrator = ({
       } else {
         toast.error(t("failedToSubmitTestPleaseTryAgain"));
       }
-    } catch (error)      {
+    } catch (error) {
       console.error("Error submitting test:", error);
       toast.error(t("errorOccurredGeneric"));
     } finally {
       setIsSubmitting(false);
     }
   };
-  
-   useEffect(() => {
-   }, [suppressResultPage, onComplete]);
 
+  useEffect(() => {}, [suppressResultPage, onComplete]);
 
   // --- Render Logic Based on Phase ---
 
-  if (currentPhase === 'characterDialog') {
+  if (currentPhase === "characterDialog") {
     return <CharacterDialog onComplete={handleCharacterDialogComplete} />;
   }
 
-  if (currentPhase === 'instructions') {
+  if (currentPhase === "instructions") {
     return (
-      <InstructionsComponent 
+      <InstructionsComponent
         onComplete={handleInitialInstructionsComplete}
-        proceedButtonTextKey={'proceedToDemoButton'}
-        isOverlay={false} 
+        proceedButtonTextKey={"proceedToDemoButton"}
+        isOverlay={false}
       />
     );
   }
@@ -218,63 +244,72 @@ const SoundDiscriminationTestOrchestrator = ({
     >
       {showTopButtons && (
         <div className="fixed top-4 left-4 right-4 z-[100] flex justify-between items-center">
-            <motion.button
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 }}
-                onClick={() => router.push("/taketests")}
-                className="flex items-center gap-2 bg-white/90 hover:bg-white text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition-all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-            >
-                <FaArrowLeft className="text-blue-600" />
-                {t("backToTests")}
-            </motion.button>
+          <motion.button
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+            onClick={() => router.push("/taketests")}
+            className="flex items-center gap-2 bg-white/90 hover:bg-white text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaArrowLeft className="text-blue-600" />
+            {t("backToTests")}
+          </motion.button>
 
-            {(currentPhase === 'demo' || currentPhase === 'mainTest') && (
-                <motion.button
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5 }}
-                    onClick={() => setShowInstructionsOverlay(true)}
-                    className="flex items-center gap-2 bg-blue-500/90 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all"
-                    whileHover={{ scale: 1.05, y: -1 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    <FaInfoCircle />
-                    {t("showInstructionsButton")}
-                </motion.button>
-            )}
+          {(currentPhase === "demo" || currentPhase === "mainTest") && (
+            <motion.button
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 }}
+              onClick={() => setShowInstructionsOverlay(true)}
+              className="flex items-center gap-2 bg-blue-500/90 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all"
+              whileHover={{ scale: 1.05, y: -1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaInfoCircle />
+              {t("showInstructionsButton")}
+            </motion.button>
+          )}
         </div>
       )}
-      
-      <div className="w-full max-w-4xl mx-auto mt-16 sm:mt-20">
-        {children}
-      </div>
+
+      <div className="w-full max-w-4xl mx-auto mt-16 sm:mt-20">{children}</div>
 
       <AnimatePresence>
         {showInstructionsOverlay && (
-            <InstructionsComponent 
-                onComplete={() => setShowInstructionsOverlay(false)}
-                proceedButtonTextKey={'gotItButton'}
-                isOverlay={true}
-            />
+          <InstructionsComponent
+            onComplete={() => setShowInstructionsOverlay(false)}
+            proceedButtonTextKey={"gotItButton"}
+            isOverlay={true}
+          />
         )}
       </AnimatePresence>
 
       <ToastContainer
-        position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop={false}
-        closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored"
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
       />
     </div>
   );
 
-  if (currentPhase === 'demo') {
+  if (currentPhase === "demo") {
     return (
       <TestScreenWrapper>
-        <motion.div 
-          key="demo-phase" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }} className="flex flex-col items-center"
+        <motion.div
+          key="demo-phase"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          className="flex flex-col items-center"
         >
           <h2 className="text-4xl font-bold text-white mb-4 text-center drop-shadow-lg">
             {t("demoRoundTitle")}
@@ -285,12 +320,17 @@ const SoundDiscriminationTestOrchestrator = ({
 
           {!demoQuestionAnsweredCorrectly ? (
             <SoundQuestionDisplay
-              key={`demo-${demoQuestionKey}`} pair={demoPair} index={0} totalQuestions={1}
-              onAnswer={handleDemoAnswer} onTimeout={handleDemoTimeout}
+              key={`demo-${demoQuestionKey}`}
+              pair={demoPair}
+              index={0}
+              totalQuestions={1}
+              onAnswer={handleDemoAnswer}
+              onTimeout={handleDemoTimeout}
             />
           ) : (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
               className="bg-black/60 backdrop-blur-md rounded-2xl p-8 shadow-2xl text-center border-2 border-green-400/50"
             >
@@ -302,8 +342,13 @@ const SoundDiscriminationTestOrchestrator = ({
                 {t("demoCorrectProceed")}
               </p>
               <motion.button
-                whileHover={{ scale: 1.05, y: -2, boxShadow: "0px 8px 20px rgba(0, 220, 150, 0.4)" }}
-                whileTap={{ scale: 0.95 }} onClick={handleProceedToMainTest}
+                whileHover={{
+                  scale: 1.05,
+                  y: -2,
+                  boxShadow: "0px 8px 20px rgba(0, 220, 150, 0.4)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleProceedToMainTest}
                 className="flex items-center justify-center gap-3 py-3 px-8 rounded-xl font-bold text-lg bg-gradient-to-r from-green-500 via-emerald-500 to-teal-600 text-white shadow-xl hover:from-green-600 hover:to-teal-700"
               >
                 <span>{t("startMainTestButton")}</span> <FaPlayCircle />
@@ -315,75 +360,128 @@ const SoundDiscriminationTestOrchestrator = ({
     );
   }
 
-  if (currentPhase === 'mainTest') {
+  if (currentPhase === "mainTest") {
     const currentPairForMainTest = wordPairs[currentQuestionIndex];
     return (
       <TestScreenWrapper>
-         {currentPairForMainTest && (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`main-${currentQuestionIndex}`}
-                initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.4 }}
-                className="w-full"
-              >
-                <ProgressBarLocalComponent
-                  current={currentQuestionIndex + 1} total={wordPairs.length} t={t}
-                />
-                <SoundQuestionDisplay
-                  pair={currentPairForMainTest} index={currentQuestionIndex}
-                  totalQuestions={wordPairs.length} onAnswer={handleMainTestAnswer}
-                  onTimeout={handleMainTestTimeout}
-                />
-              </motion.div>
-            </AnimatePresence>
-          )}
+        {currentPairForMainTest && (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`main-${currentQuestionIndex}`}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.4 }}
+              className="w-full"
+            >
+              <ProgressBarLocalComponent
+                current={currentQuestionIndex + 1}
+                total={wordPairs.length}
+                t={t}
+              />
+              <SoundQuestionDisplay
+                pair={currentPairForMainTest}
+                index={currentQuestionIndex}
+                totalQuestions={wordPairs.length}
+                onAnswer={handleMainTestAnswer}
+                onTimeout={handleMainTestTimeout}
+              />
+            </motion.div>
+          </AnimatePresence>
+        )}
       </TestScreenWrapper>
     );
   }
 
-  if (currentPhase === 'completed') {
+  if (currentPhase === "completed") {
     return (
-      <TestScreenWrapper showTopButtons={false}>
+      <TestScreenWrapper>
         <motion.div
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="bg-black/60 backdrop-blur-md rounded-2xl p-8 shadow-2xl text-center border-2 border-white/30"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, type: "spring" }}
+          className="bg-black/70 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl text-center border-2 border-cyan-400/30 max-w-2xl mx-auto"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1, rotate: 360 }}
+            transition={{ delay: 0.2, duration: 0.8, type: "spring" }}
+            className="mx-auto mb-6 w-24 h-24 flex items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-cyan-500"
           >
-            <motion.div
-              initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }} className="mb-6"
-            >
-              <h2 className="text-4xl font-bold text-white mb-3">
-                {t("testCompleted")}
-              </h2>
-              <p className="text-2xl text-blue-300">
-                {t("youGot")} {score} {t("outOf")} {wordPairs.length}{" "}
-                {t("correct")}
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }} className="flex justify-center"
-            >
-              <motion.button
-                whileHover={{ scale: 1.05, y:-2 }} whileTap={{ scale: 0.95 }}
-                onClick={handleSubmit} disabled={isSubmitting}
-                className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-bold py-3 px-8 rounded-xl text-xl shadow-lg hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all"
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center justify-center">
-                    <motion.span
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="inline-block mr-2 text-2xl"
-                    >↻</motion.span>
-                    {t("submitting")}
-                  </span>
-                ) : (t("submitResults"))}
-              </motion.button>
-            </motion.div>
+            <FaCheckCircle className="text-6xl text-white" />
           </motion.div>
+
+          <motion.h2
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-4xl md:text-5xl font-bold text-white mb-3"
+          >
+            {t("testCompleted")}
+          </motion.h2>
+
+          <motion.p
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-2xl md:text-3xl text-cyan-300 mb-8"
+          >
+            {t("youGot")}{" "}
+            <span className="font-bold text-yellow-300">{score}</span>{" "}
+            {t("outOf")}{" "}
+            <span className="font-bold text-yellow-300">
+              {wordPairs.length}
+            </span>{" "}
+            {t("correct")}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push("/taketests")}
+              className="flex items-center justify-center gap-2 bg-white/90 hover:bg-white text-gray-800 font-semibold py-3 px-6 rounded-xl shadow-md transition-all w-full sm:w-auto"
+            >
+              <FaArrowLeft />
+              {t("backToTests")}
+            </motion.button>
+            <motion.button
+              whileHover={{
+                scale: 1.05,
+                y: -2,
+                boxShadow: "0px 8px 25px rgba(80, 200, 255, 0.5)",
+              }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 text-white font-bold py-3 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all w-full sm:w-auto"
+            >
+              {isSubmitting ? (
+                <span className="flex items-center justify-center">
+                  <motion.span
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                    className="inline-block mr-2 text-2xl"
+                  >
+                    ↻
+                  </motion.span>
+                  {t("submitting")}
+                </span>
+              ) : (
+                t("submitResults")
+              )}
+            </motion.button>
+          </motion.div>
+        </motion.div>
       </TestScreenWrapper>
     );
   }
