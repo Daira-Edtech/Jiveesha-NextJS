@@ -216,7 +216,6 @@ const SubmitButton = ({ isTranscribing, transcriptionReady, onSubmit, t }) => {
   );
 };
 
-
 export default function TestSessionView({
   gameProgress,
   currentPage,
@@ -268,7 +267,7 @@ export default function TestSessionView({
             {visibleWords.map((wordObj, index) => (
               <div
                 key={wordObj.id || index} // Prefer a stable id if available
-                className={`flex items-center justify-center rounded-md shadow-sm p-4 transition-all duration-500 ${wordObj.glowing ? 'bg-yellow-200 scale-110' : 'bg-transparent'}`}
+                className={`flex items-center justify-center rounded-md shadow-sm p-4 transition-all duration-500 `}
               >
                 <span className="text-md md:text-base lg:text-xl font-bold text-black text-center leading-tight">
                   {wordObj.word}
@@ -291,21 +290,50 @@ export default function TestSessionView({
             />
           </div>
           {isLastPage ? (
-             <SubmitButton
-                isTranscribing={isTranscribing}
-                transcriptionReady={transcriptionReady}
-                onSubmit={handleSubmitPageOrTest}
-                t={t}
-             />
+            <SubmitButton
+              isTranscribing={isTranscribing}
+              transcriptionReady={transcriptionReady}
+              onSubmit={handleSubmitPageOrTest}
+              t={t}
+            />
           ) : (
             <motion.button
               onClick={handleSubmitPageOrTest}
-              disabled={isTranscribing || !transcriptionReady}
+              disabled={!transcriptionReady}
               className="mt-4 flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-700 to-cyan-500 text-white rounded-full shadow-lg mx-auto disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {t("nextWords") || "Next Words"} <ChevronRight className="h-5 w-5" />
+              {isTranscribing ? (
+                <>
+                  <span>Transcribing...</span>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    />
+                  </svg>
+                </>
+              ) : (
+                <>
+                  {t("nextWords") || "Next Words"}
+                  <ChevronRight className="h-5 w-5" />
+                </>
+              )}
             </motion.button>
           )}
           <div className="flex flex-col md:flex-row gap-6 w-full sm:w-auto">
