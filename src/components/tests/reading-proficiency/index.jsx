@@ -557,8 +557,11 @@ export default function Test6Controller({
         setCoralineAnimationState("happy");
         setIntroMessage(t("coralineHeardClearly"));
         const progress = Math.min(
-          ((currentPage + 1) / Math.ceil(currentWords.length / wordsPerBatch)) *
-            85,
+          Math.round(
+            ((currentPage + 1) /
+              Math.ceil(currentWords.length / wordsPerBatch)) *
+              85
+          ),
           85
         );
         setGameProgress(progress);
@@ -591,13 +594,19 @@ export default function Test6Controller({
   };
 
   const handleSubmitPageOrTest = async () => {
+    const isLastPage = (currentPage + 1) * wordsPerBatch >= currentWords.length;
+
     let currentTranscriptForPageToSubmit = transcript;
     if (selectedFile && allTranscriptions[currentPage]) {
       currentTranscriptForPageToSubmit = allTranscriptions[currentPage];
     } else if (allTranscriptions[currentPage]) {
       currentTranscriptForPageToSubmit = allTranscriptions[currentPage];
     }
-    if (!transcriptionReady && !currentTranscriptForPageToSubmit) {
+    if (
+      isLastPage &&
+      !transcriptionReady &&
+      !currentTranscriptForPageToSubmit
+    ) {
       toast.info(t("transcriptionNotReady"));
       setShowEels(true);
       setCoralineAnimationState("warning");
@@ -617,7 +626,7 @@ export default function Test6Controller({
       updatedAllTranscriptions[currentPage] = currentTranscriptForPageToSubmit;
       setAllTranscriptions(updatedAllTranscriptions);
     }
-    const isLastPage = (currentPage + 1) * wordsPerBatch >= currentWords.length;
+
     if (isLastPage) {
       setCoralineAnimationState("focused");
       setIntroMessage(t("coralineCheckingPronunciation"));
