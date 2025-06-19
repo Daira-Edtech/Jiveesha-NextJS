@@ -54,6 +54,7 @@ export default function PictureDialogContent({
   let imageContainerSpecificClasses = "";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   // The step 1 image size is 340px. This will take up a significant portion of the shorter dialog.
   if (step === 1) {
     const sizeStep1 = "340px"; // increased size for all steps
@@ -62,6 +63,11 @@ export default function PictureDialogContent({
   if (step === 1) {
     const sizeStep1 = "280px"; // approx 17.5rem
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+  // The step 1 image size is 340px. This will take up a significant portion of the shorter dialog.
+  if (step === 1) {
+    const sizeStep1 = "340px"; // increased size for all steps
+>>>>>>> 3cebf1d (Code bug fix)
     imageContainerStyle.height = sizeStep1;
     imageContainerStyle.width = sizeStep1;
     imageContainerSpecificClasses = `max-w-[${sizeStep1}]`;
@@ -74,10 +80,14 @@ export default function PictureDialogContent({
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
   const baseButtonClasses =
     "px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none flex items-center justify-center gap-1.5 transition-all duration-150";
   const primaryButtonColors =
     "bg-[#6CB4A3]/80 hover:bg-[#6CB4A3] focus:ring-2 focus:ring-[#6CB4A3] border-2 border-white/50";
+<<<<<<< HEAD
   // Using distinct color for "No, I can't" for better UX differentiation, matching PracticeRound
   const noButtonColors =
     "bg-[#A3D8D0]/70 hover:bg-[#A3D8D0]/90 border-2 border-white/70 focus:ring-2 focus:ring-white";
@@ -100,10 +110,23 @@ export default function PictureDialogContent({
       ? currentIndex
       : "unknown"
   }`;
+=======
+  // Using distinct color for "No, I can't" for better UX differentiation, matching PracticeRound
+  const noButtonColors =
+    "bg-[#A3D8D0]/70 hover:bg-[#A3D8D0]/90 border-2 border-white/70 focus:ring-2 focus:ring-white";
+  const secondaryButtonColors =
+    "bg-[#A3D8D0]/70 hover:bg-[#A3D8D0]/90 border-2 border-white/70 focus:ring-2 focus:ring-white"; // For other action buttons like voice input
+  const disabledButtonClasses = "opacity-50 cursor-not-allowed";
+  const submitButtonColors =
+    "!bg-green-600/70 hover:!bg-green-700/80 focus:!bg-green-700/80 border-2 !border-green-400/80";
+>>>>>>> 3cebf1d (Code bug fix)
 
   // Robust ID for the test image
-  const testImageId = `test-image-${currentIndex !== undefined && currentIndex !== null ? currentIndex : 'unknown'}`;
-
+  const testImageId = `test-image-${
+    currentIndex !== undefined && currentIndex !== null
+      ? currentIndex
+      : "unknown"
+  }`;
 
   return (
     <div className="h-screen w-full fixed inset-0 flex flex-col items-center justify-center p-4 sm:p-6 overflow-hidden">
@@ -123,10 +146,14 @@ export default function PictureDialogContent({
       )}
       <motion.div
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
         key={
           currentImage?.id + "-" + step || `card-key-${currentIndex}-${step}`
         }
         className="w-full max-w-3xl bg-[#FDF6E3]/10 backdrop-blur-lg rounded-3xl overflow-hidden shadow-2xl border border-[#6CB4A3]/50 relative"
+<<<<<<< HEAD
 =======
         key={currentImage?.id + '-' + step || `card-key-${currentIndex}-${step}`}
         // MODIFIED: Reduced height to h-[32.5rem] (520px).
@@ -135,6 +162,8 @@ export default function PictureDialogContent({
                    bg-[#FDF6E3]/20 backdrop-blur-xl rounded-3xl shadow-2xl border border-[#6CB4A3]/60
                    flex flex-col overflow-hidden"
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
@@ -146,21 +175,30 @@ export default function PictureDialogContent({
         <div className="bg-gradient-to-r from-[#3C6E71]/90 to-[#4B7F52]/90 p-6 text-center relative overflow-hidden">
           <motion.h2
 <<<<<<< HEAD
+<<<<<<< HEAD
             key={step} // Use step as key to re-animate on change
             className="text-2xl md:text-3xl font-bold text-white relative z-10"
 =======
             key={titleText} // Keying by titleText ensures animation on text change
             className="text-lg sm:text-xl md:text-2xl font-bold text-white"
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+            key={step} // Use step as key to re-animate on change
+            className="text-2xl md:text-3xl font-bold text-white relative z-10"
+>>>>>>> 3cebf1d (Code bug fix)
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
 <<<<<<< HEAD
+<<<<<<< HEAD
             {titleText}
 =======
             {titleText || (t("loadingTitle", "Loading Title..."))}
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+            {titleText}
+>>>>>>> 3cebf1d (Code bug fix)
           </motion.h2>
         </div>
 
@@ -173,6 +211,9 @@ export default function PictureDialogContent({
         </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
         {/* Image Container & Response Area */}
         <div className="p-6 flex flex-col items-center overflow-y-auto">
           <motion.div
@@ -183,6 +224,7 @@ export default function PictureDialogContent({
               width: "fit-content",
               backgroundColor: "rgba(253, 246, 227, 0.1)",
             }}
+<<<<<<< HEAD
 =======
         {/* This div is the main scrollable content area */}
         <div className="p-3 sm:p-4 flex flex-col items-center flex-1 overflow-y-auto">
@@ -190,12 +232,17 @@ export default function PictureDialogContent({
             className={`${imageContainerBaseClasses} ${imageContainerSpecificClasses}`}
             style={imageContainerStyle}
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
           >
             {hasValidImageUrl ? (
               <>
                 <Image
                   src={currentImage.imageUrl}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
                   alt={
                     t("altTidepoolReflection") ||
                     currentImage.correctAnswer ||
@@ -206,6 +253,7 @@ export default function PictureDialogContent({
                   className="max-h-80 sm:max-h-96 object-contain mx-auto"
                   style={{ maxWidth: "100%", height: "auto", display: "block" }}
                   priority={currentIndex === 0}
+<<<<<<< HEAD
 =======
                   alt={t("altTidepoolReflection") || currentImage.correctAnswer || "Test image"}
                   fill
@@ -217,11 +265,14 @@ export default function PictureDialogContent({
                     // Optionally, you could set a state here to show a "failed to load" message in the image container
                   }}
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
                   id={testImageId}
                 />
                 <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#3C6E71]/30 to-transparent pointer-events-none" />
               </>
             ) : (
+<<<<<<< HEAD
 <<<<<<< HEAD
               <div className="w-96 h-80 flex items-center justify-center text-gray-400 font-semibold p-4 border-2 border-dashed border-gray-400/50 rounded-xl bg-gray-50/10">
                 {currentImage ? t("imageNotAvailable") : t("loadingImage")}
@@ -231,15 +282,23 @@ export default function PictureDialogContent({
               >
                 {currentImage ? (t("imageNotAvailable", "Image not available or path is invalid.")) : (t("loadingImage", "Loading image..."))}
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+              <div className="w-96 h-80 flex items-center justify-center text-gray-400 font-semibold p-4 border-2 border-dashed border-gray-400/50 rounded-xl bg-gray-50/10">
+                {currentImage ? t("imageNotAvailable") : t("loadingImage")}
+>>>>>>> 3cebf1d (Code bug fix)
               </div>
             )}
           </motion.div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
           {/* Response Area */}
           <div className="mt-8 w-full max-w-md space-y-4">
             {step === 1 ? (
               <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+<<<<<<< HEAD
 =======
           <div className="w-full max-w-md space-y-2 mt-auto pt-2 sm:pt-3"> {/* mt-auto pushes this to the bottom */}
             {step === 1 && (
@@ -248,6 +307,8 @@ export default function PictureDialogContent({
                 className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3"
               >
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
                 <motion.button
                   whileHover={{
                     scale: 1.05,
@@ -264,16 +325,22 @@ export default function PictureDialogContent({
                 </motion.button>
                 <motion.button
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
                   whileHover={{
                     scale: 1.05,
                     boxShadow: "0 5px 15px rgba(255, 202, 212, 0.4)",
                   }}
                   whileTap={{ scale: 0.95 }}
                   className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#FFCAD4] to-[#FFE57F] text-[#3E2F2F] font-bold rounded-xl shadow-lg relative overflow-hidden"
+<<<<<<< HEAD
 =======
                   whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.97, opacity: 0.85 }} 
                   className={`${baseButtonClasses} ${noButtonColors}`} // Changed to noButtonColors
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
                   onClick={() => handleCanSeeSelection(false)}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
@@ -282,6 +349,9 @@ export default function PictureDialogContent({
                   </span>
                 </motion.button>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
               </div>
             ) : (
               <>
@@ -315,6 +385,7 @@ export default function PictureDialogContent({
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+<<<<<<< HEAD
                     onClick={toggleRecording}
                     disabled={isSubmitting}
                     className={`w-full flex items-center justify-center gap-3 py-4 px-6 rounded-xl font-bold relative overflow-hidden transition-all ${
@@ -402,29 +473,62 @@ export default function PictureDialogContent({
                 <motion.button
                     whileHover={{ scale: 1.03 }} 
                     whileTap={{ scale: 0.97, opacity: 0.85 }}
+=======
+>>>>>>> 3cebf1d (Code bug fix)
                     onClick={toggleRecording}
-                    // Updated disabled logic: disable if recording AND stream is inactive (e.g., mic permission denied after starting)
-                    // OR if isSubmitting (to prevent new recordings during final submission)
-                    disabled={(isRecording && !mediaRecorderRef?.current?.stream?.active) || isSubmitting}
-                    className={`w-full ${baseButtonClasses} ${secondaryButtonColors} group
-                                ${isRecording ? "ring-2 ring-red-500 ring-opacity-70 !bg-red-500/70 hover:!bg-red-600/80" : ""}`}
-                >
-                  {isRecording ? (
-                    <>
-                      <FaStopCircle className="text-sm sm:text-base" /> 
-                      <div className="flex space-x-0.5 items-center h-3.5 sm:h-4">
-                        {[1,2,3].map((i) => ( <motion.div key={i} className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-white rounded-full" animate={{height:[1,6,1], opacity: [0.5, 1, 0.5]}} transition={{duration:0.8,repeat:Infinity,delay:i*0.1}} /> ))}
-                      </div> 
-                      <span className="ml-1">{t("stopRecording") || "Stop Recording"}</span>
-                    </>
-                  ) : (
-                    <>
-                      <FaMicrophone className="text-sm sm:text-base" /> 
-                      {t("useVoiceInput") || "Use Voice Input"}
-                    </>
-                  )}
-                </motion.button>
+                    disabled={isSubmitting}
+                    className={`w-full flex items-center justify-center gap-3 py-4 px-6 rounded-xl font-bold relative overflow-hidden transition-all ${
+                      isRecording
+                        ? "bg-gradient-to-r from-[#FFCAD4] to-[#FFE57F] text-[#3E2F2F]"
+                        : "bg-gradient-to-r from-[#3C6E71] to-[#4B7F52] text-white"
+                    }`}
+                  >
+                    {isRecording ? (
+                      <div className="relative z-10 flex items-center gap-2">
+                        <div className="flex space-x-1 items-center">
+                          <motion.div
+                            key={1}
+                            className="w-2 h-2 bg-[#3E2F2F] rounded-full"
+                            animate={{ height: [2, 10, 2] }}
+                            transition={{
+                              duration: 1.2,
+                              repeat: Infinity,
+                              delay: 0.2,
+                            }}
+                          />
+                          <motion.div
+                            key={2}
+                            className="w-2 h-2 bg-[#3E2F2F] rounded-full"
+                            animate={{ height: [2, 10, 2] }}
+                            transition={{
+                              duration: 1.2,
+                              repeat: Infinity,
+                              delay: 0.4,
+                            }}
+                          />
+                          <motion.div
+                            key={3}
+                            className="w-2 h-2 bg-[#3E2F2F] rounded-full"
+                            animate={{ height: [2, 10, 2] }}
+                            transition={{
+                              duration: 1.2,
+                              repeat: Infinity,
+                              delay: 0.6,
+                            }}
+                          />
+                        </div>
+                        {t("stopRecording")}
+                      </div>
+                    ) : (
+                      <div className="relative z-10 flex items-center gap-2">
+                        <FaMicrophone />
+                        {t("useVoiceInput")}
+                      </div>
+                    )}
+                  </motion.button>
+                </motion.div>
                 <motion.button
+<<<<<<< HEAD
                     whileHover={{ scale: 1.03 }} 
                     whileTap={{ scale: 0.97, opacity: 0.85 }}
                     onClick={handleNext}
@@ -435,6 +539,20 @@ export default function PictureDialogContent({
                               ${(isSubmitting || (isLastImage && step === 3 && !description.trim() && !answer.trim() && (typeof currentImage?.canSee === 'boolean' ? currentImage.canSee : true))) ? disabledButtonClasses : ""}`
                             }
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+                  whileHover={{
+                    scale: 1.02,
+                    boxShadow: "0 5px 20px rgba(60, 110, 113, 0.5)",
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleNext}
+                  disabled={isSubmitting}
+                  className={`w-full py-4 px-6 rounded-xl font-bold text-white relative overflow-hidden transition-all ${
+                    isLastImage && step === 3
+                      ? "bg-gradient-to-r from-[#3C6E71] to-[#4B7F52]"
+                      : "bg-gradient-to-r from-[#3C6E71] to-[#6CB4A3]"
+                  } ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+>>>>>>> 3cebf1d (Code bug fix)
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     {isLastImage && step === 3

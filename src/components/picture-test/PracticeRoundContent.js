@@ -112,14 +112,20 @@ export default function PracticeRound({
       mediaRecorderRef.current.onstop = async () => {
         const mimeType = mediaRecorderRef.current?.mimeType;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
         const audioBlob = new Blob(audioChunksRef.current, {
           type: mimeType || undefined,
         });
 
+<<<<<<< HEAD
 =======
         const audioBlob = new Blob(audioChunksRef.current, { type: mimeType || undefined });
         
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
         if (audioChunksRef.current.length > 0) {
           audioChunksRef.current = [];
           await uploadAudio(audioBlob);
@@ -134,18 +140,24 @@ export default function PracticeRound({
       mediaRecorderRef.current.stop();
     } else {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
       if (mediaRecorderRef.current?.stream) {
         mediaRecorderRef.current.stream
           .getTracks()
           .forEach((track) => track.stop());
       }
       mediaRecorderRef.current = null;
+<<<<<<< HEAD
 =======
         if (mediaRecorderRef.current?.stream) { 
             mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
         }
         mediaRecorderRef.current = null;
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
     }
     setIsRecording(false);
   }, [uploadAudio]);
@@ -156,6 +168,7 @@ export default function PracticeRound({
       .getUserMedia({ audio: true })
       .then((stream) => {
         audioChunksRef.current = [];
+<<<<<<< HEAD
 <<<<<<< HEAD
         const options = { mimeType: "audio/webm;codecs=opus" };
         if (!MediaRecorder.isTypeSupported(options.mimeType)) {
@@ -170,12 +183,24 @@ export default function PracticeRound({
         );
 =======
         const options = { mimeType: 'audio/webm;codecs=opus' };
+=======
+        const options = { mimeType: "audio/webm;codecs=opus" };
+>>>>>>> 3cebf1d (Code bug fix)
         if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-            console.warn("audio/webm;codecs=opus not supported, falling back to default.");
-            options.mimeType = ''; 
+          console.warn(
+            "audio/webm;codecs=opus not supported, falling back to default."
+          );
+          options.mimeType = "";
         }
+<<<<<<< HEAD
         const newMediaRecorder = new MediaRecorder(stream, options.mimeType ? options : undefined);
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+        const newMediaRecorder = new MediaRecorder(
+          stream,
+          options.mimeType ? options : undefined
+        );
+>>>>>>> 3cebf1d (Code bug fix)
         mediaRecorderRef.current = newMediaRecorder;
         newMediaRecorder.ondataavailable = (event) => {
           if (event.data.size > 0) audioChunksRef.current.push(event.data);
@@ -218,17 +243,24 @@ export default function PracticeRound({
     let toastMessage = "";
     if (canSee === false) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
       toastMessage = t(
         "practiceFeedback.cantSee",
         "Practice: You indicated you couldn't see the image."
       );
+<<<<<<< HEAD
 =======
       toastMessage = t("practiceFeedback.cantSee", "Practice: You indicated you couldn't see the image.");
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
       evaluation.message = toastMessage;
       toast.info(toastMessage);
     } else {
       const userAnswerTrimmed = answer.trim().toLowerCase();
+<<<<<<< HEAD
 <<<<<<< HEAD
       const correctAnswerTrimmed = (currentCorrectAnswer || "")
         .trim()
@@ -250,15 +282,32 @@ export default function PracticeRound({
         );
 =======
       const correctAnswerTrimmed = (currentCorrectAnswer || "").trim().toLowerCase();
+=======
+      const correctAnswerTrimmed = (currentCorrectAnswer || "")
+        .trim()
+        .toLowerCase();
+>>>>>>> 3cebf1d (Code bug fix)
       if (userAnswerTrimmed === correctAnswerTrimmed) {
         evaluation.score = 2;
-        toastMessage = t("practiceFeedback.correct", "Practice: Great job! You identified it correctly.");
+        toastMessage = t(
+          "practiceFeedback.correct",
+          "Practice: Great job! You identified it correctly."
+        );
         evaluation.message = toastMessage;
         toast.success(toastMessage);
       } else {
+<<<<<<< HEAD
         evaluation.score = 1; 
         toastMessage = t("practiceFeedback.goodTry", "Practice: Good try! The correct answer was: {{correctAnswer}}.", { correctAnswer: currentCorrectAnswer });
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+        evaluation.score = 1;
+        toastMessage = t(
+          "practiceFeedback.goodTry",
+          "Practice: Good try! The correct answer was: {{correctAnswer}}.",
+          { correctAnswer: currentCorrectAnswer }
+        );
+>>>>>>> 3cebf1d (Code bug fix)
         evaluation.message = toastMessage;
         toast.warning(toastMessage);
       }
@@ -292,12 +341,21 @@ export default function PracticeRound({
     }
   };
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   
+=======
+
+>>>>>>> 3cebf1d (Code bug fix)
   useEffect(() => {
     if (speakText && step === 1) {
-        speakText((t("practiceRoundTitle") || "Practice Round") + ". " + (t("canYouSeeThisPicture") || "Can you see this picture?"));
+      speakText(
+        (t("practiceRoundTitle") || "Practice Round") +
+          ". " +
+          (t("canYouSeeThisPicture") || "Can you see this picture?")
+      );
     }
+<<<<<<< HEAD
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speakText, t, step]); 
 >>>>>>> ebbb870 (Added Instructions component)
@@ -313,6 +371,11 @@ export default function PracticeRound({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speakText, t, step]);
 
+=======
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speakText, t, step]);
+
+>>>>>>> 3cebf1d (Code bug fix)
   const imageContainerBaseClasses =
     "relative mb-3 sm:mb-4 w-full shadow-lg overflow-hidden rounded-xl mx-auto";
   const imageContainerBaseStyle = {
@@ -321,21 +384,24 @@ export default function PracticeRound({
   let imageContainerStyle = { ...imageContainerBaseStyle };
   let imageContainerSpecificClasses = "";
 
-  // The step 1 image size is 280px. If the dialog is much shorter, this takes up a large portion.
-  // Consider if this needs to be adjusted if the dialog height is very small.
-  // For now, I'll keep it as is, and scrolling will handle overflow.
   if (step === 1) {
     const sizeStep1 = "280px"; // This is approx 17.5rem
+<<<<<<< HEAD
 <<<<<<< HEAD
     imageContainerStyle.height = sizeStep1;
     imageContainerStyle.width = sizeStep1;
 =======
     imageContainerStyle.height = sizeStep1; imageContainerStyle.width = sizeStep1;
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+    imageContainerStyle.height = sizeStep1;
+    imageContainerStyle.width = sizeStep1;
+>>>>>>> 3cebf1d (Code bug fix)
     imageContainerSpecificClasses = `max-w-[${sizeStep1}]`;
   } else {
     imageContainerSpecificClasses = `max-w-md w-full`;
     imageContainerStyle.aspectRatio = "16/10";
+<<<<<<< HEAD
 <<<<<<< HEAD
     imageContainerStyle.height = undefined;
     imageContainerStyle.width = undefined;
@@ -359,6 +425,18 @@ export default function PracticeRound({
   const actionButtonClasses = "w-full px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none flex items-center justify-center gap-1.5 transition-all duration-150 bg-[#A3D8D0]/70 hover:bg-[#A3D8D0]/90 border-2 border-white/70 focus:ring-2 focus:ring-white";
   const recordingButtonActiveClasses = "ring-2 ring-red-500 ring-opacity-70 !bg-red-500/70 hover:!bg-red-600/80";
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+    imageContainerStyle.height = undefined;
+    imageContainerStyle.width = undefined;
+  }
+
+  if (!practiceImage)
+    return (
+      <div className="text-white p-4 text-center">
+        {t("loadingPracticeImage") || "Loading practice image..."}
+      </div>
+    );
+>>>>>>> 3cebf1d (Code bug fix)
 
   const yesButtonClasses =
     "px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none flex items-center justify-center gap-1.5 transition-all duration-150 bg-[#6CB4A3]/80 hover:bg-[#6CB4A3] focus:ring-2 focus:ring-[#6CB4A3] border-2 border-white/50";
@@ -385,11 +463,15 @@ export default function PracticeRound({
       <motion.div
         key={`practice-${practiceImage.id}-${step}`}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
         className="w-full max-w-3xl bg-[#FDF6E3]/10 backdrop-blur-lg rounded-3xl overflow-hidden shadow-2xl border border-[#6CB4A3]/50 relative"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
         style={{ boxShadow: "0 10px 30px -10px rgba(60, 110, 113, 0.3)" }}
+<<<<<<< HEAD
 =======
         // MODIFIED: Reduced height to h-[32.5rem] (520px).
         // Adjusted max-h slightly.
@@ -400,6 +482,8 @@ export default function PracticeRound({
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }}
         style={{ boxShadow: "0 10px 30px -10px rgba(60, 110, 113, 0.4)" }}
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
       >
         <div className="bg-gradient-to-r from-[#3C6E71]/90 to-[#4B7F52]/90 p-6 text-center relative overflow-hidden">
           <motion.h2
@@ -413,6 +497,9 @@ export default function PracticeRound({
           </motion.h2>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
         <div className="p-6 flex flex-col items-center overflow-y-auto">
           <motion.div
             className="relative rounded-xl overflow-hidden border-2 border-[#6CB4A3]/50 shadow-lg"
@@ -423,6 +510,7 @@ export default function PracticeRound({
               backgroundColor: "rgba(253, 246, 227, 0.1)",
             }}
           >
+<<<<<<< HEAD
             {practiceImage.imageUrl ? (
               <>
                 <Image
@@ -484,36 +572,74 @@ export default function PracticeRound({
 =======
         <div className="p-3 sm:p-4 flex flex-col items-center flex-1 overflow-y-auto">
           <div className={`${imageContainerBaseClasses} ${imageContainerSpecificClasses}`} style={imageContainerStyle}>
+=======
+>>>>>>> 3cebf1d (Code bug fix)
             {practiceImage.imageUrl ? (
-                <Image 
-                    src={practiceImage.imageUrl} 
-                    alt={t("altTidepoolReflection") || practiceImage.correctAnswer || "Practice image"} 
-                    fill 
-                    style={{ objectFit: "contain" }} 
-                    priority 
-                    sizes="(max-width: 640px) 280px, (max-width: 1024px) 448px, 512px"
-                    onError={(e) => console.error(`Practice Image Load Error: ${e.target.src}`)}
+              <>
+                <Image
+                  src={practiceImage.imageUrl}
+                  alt={
+                    t("altTidepoolReflection") ||
+                    practiceImage.correctAnswer ||
+                    "Practice image"
+                  }
+                  width={500}
+                  height={350}
+                  className="max-h-80 sm:max-h-96 object-contain mx-auto"
+                  style={{ maxWidth: "100%", height: "auto", display: "block" }}
+                  priority
                 />
+                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#3C6E71]/30 to-transparent pointer-events-none" />
+              </>
             ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-300">
-                    {t("imageNotAvailable", "Image not available")}
-                </div>
+              <div className="w-96 h-80 flex items-center justify-center text-gray-300">
+                {t("imageNotAvailable", "Image not available")}
+              </div>
             )}
-            <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-black/20 via-black/10 to-transparent pointer-events-none" />
-          </div>
-          <div className="w-full max-w-md space-y-2 mt-auto pt-2 sm:pt-3">
+          </motion.div>
+          <div className="mt-8 w-full max-w-md space-y-4">
             {step === 1 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
-                <motion.button whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.97 }} 
-                  className={yesButtonClasses}
-                  onClick={() => handleCanSeeSelection(true)}> 
-                  <FaEye className="text-white/90 text-sm sm:text-base" /> {t("yesICan") || "Yes, I can"}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
+              >
+                <motion.button
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 5px 15px rgba(75, 127, 82, 0.4)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#4B7F52] to-[#6CB4A3] text-white font-bold rounded-xl shadow-lg relative overflow-hidden"
+                  onClick={() => handleCanSeeSelection(true)}
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <FaEye className="text-white/90" />{" "}
+                    {t("yesICan") || "Yes, I can"}
+                  </span>
                 </motion.button>
+<<<<<<< HEAD
                 <motion.button whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.97, opacity: 0.85 }} 
                   className={noButtonClasses}
                   onClick={() => handleCanSeeSelection(false)}> 
                   <FaEyeSlash className="text-white text-sm sm:text-base" /> {t("noICan") || "No, I can't"}
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+                <motion.button
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 5px 15px rgba(255, 202, 212, 0.4)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#FFCAD4] to-[#FFE57F] text-[#3E2F2F] font-bold rounded-xl shadow-lg relative overflow-hidden"
+                  onClick={() => handleCanSeeSelection(false)}
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <FaEyeSlash className="text-[#3E2F2F]/90" />{" "}
+                    {t("noICan") || "No, I can't"}
+                  </span>
+>>>>>>> 3cebf1d (Code bug fix)
                 </motion.button>
               </motion.div>
             )}
@@ -542,6 +668,9 @@ export default function PracticeRound({
                 />
                 <motion.button
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={toggleRecording}
@@ -551,6 +680,7 @@ export default function PracticeRound({
                       ? "bg-gradient-to-r from-[#FFCAD4] to-[#FFE57F] text-[#3E2F2F]"
                       : "bg-gradient-to-r from-[#3C6E71] to-[#4B7F52] text-white"
                   }`}
+<<<<<<< HEAD
                 >
                   {isRecording ? (
                     <div className="relative z-10 flex items-center gap-2">
@@ -608,24 +738,67 @@ export default function PracticeRound({
                     onClick={toggleRecording}
                     disabled={isTranscribing}
                     className={`${actionButtonClasses} group ${isRecording ? recordingButtonActiveClasses : "" }`}
+=======
+>>>>>>> 3cebf1d (Code bug fix)
                 >
                   {isRecording ? (
-                    <> 
-                      <FaStopCircle className="text-sm sm:text-base" /> 
-                      <span className="ml-1">{t("stopRecording") || "Stop Recording"}</span>
-                    </>
+                    <div className="relative z-10 flex items-center gap-2">
+                      <div className="flex space-x-1 items-center">
+                        <motion.div
+                          key={1}
+                          className="w-2 h-2 bg-[#3E2F2F] rounded-full"
+                          animate={{ height: [2, 10, 2] }}
+                          transition={{
+                            duration: 1.2,
+                            repeat: Infinity,
+                            delay: 0.2,
+                          }}
+                        />
+                        <motion.div
+                          key={2}
+                          className="w-2 h-2 bg-[#3E2F2F] rounded-full"
+                          animate={{ height: [2, 10, 2] }}
+                          transition={{
+                            duration: 1.2,
+                            repeat: Infinity,
+                            delay: 0.4,
+                          }}
+                        />
+                        <motion.div
+                          key={3}
+                          className="w-2 h-2 bg-[#3E2F2F] rounded-full"
+                          animate={{ height: [2, 10, 2] }}
+                          transition={{
+                            duration: 1.2,
+                            repeat: Infinity,
+                            delay: 0.6,
+                          }}
+                        />
+                      </div>
+                      {t("stopRecording") || "Stop Recording"}
+                    </div>
                   ) : (
-                    <> 
-                      <FaMicrophone className="text-sm sm:text-base" /> 
+                    <div className="relative z-10 flex items-center gap-2">
+                      <FaMicrophone />
                       {t("useVoiceInput") || "Use Voice Input"}
-                    </>
+                    </div>
                   )}
                 </motion.button>
                 <motion.button
+<<<<<<< HEAD
                     whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97, opacity: 0.85 }}
                     onClick={handleNext}
                     className={`${actionButtonClasses} group`}
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+                  whileHover={{
+                    scale: 1.02,
+                    boxShadow: "0 5px 20px rgba(60, 110, 113, 0.5)",
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleNext}
+                  className={`w-full py-4 px-6 rounded-xl font-bold text-white relative overflow-hidden transition-all bg-gradient-to-r from-[#3C6E71] to-[#6CB4A3]`}
+>>>>>>> 3cebf1d (Code bug fix)
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     {step === 3

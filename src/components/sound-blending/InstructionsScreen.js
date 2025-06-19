@@ -1,6 +1,5 @@
 "use client"
 
-// components/sound-blending/InstructionsScreen.js
 
 import { motion } from "framer-motion"
 import { IoClose } from "react-icons/io5"

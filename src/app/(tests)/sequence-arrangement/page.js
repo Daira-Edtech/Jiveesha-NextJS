@@ -23,6 +23,7 @@ const SequenceArrangementTestContent = () => {
   }, []);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
   // Define the speak function here, using the 'language' from context
@@ -40,6 +41,9 @@ const SequenceArrangementTestContent = () => {
     }
   }, [language]);
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+
+>>>>>>> 3cebf1d (Code bug fix)
 
   const handleEntireTestFlowComplete = async (finalScore) => {
     console.log("Entire test flow completed. Final Score:", finalScore);
@@ -84,9 +88,12 @@ const SequenceArrangementTestContent = () => {
       <WelcomeDialog
         t={t}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         speak={speak} // Pass the newly defined speak function
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
         onEntireTestFlowComplete={handleEntireTestFlowComplete}
         initialChildId={childId}
       />

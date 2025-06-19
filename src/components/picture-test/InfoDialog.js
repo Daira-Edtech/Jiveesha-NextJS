@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -12,14 +13,24 @@ import {
 
 =======
 // components/PictureTest/InfoDialog.jsx
+=======
+>>>>>>> 3cebf1d (Code bug fix)
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useMemo } from "react"; // Added import for useMemo
-import { FaLightbulb, FaMicrophone, FaMousePointer, FaTimes } from "react-icons/fa";
+import { useMemo } from "react";
+import {
+  FaLightbulb,
+  FaMicrophone,
+  FaMousePointer,
+  FaTimes,
+} from "react-icons/fa";
 
+<<<<<<< HEAD
 // Ensure this path is correct and the image exists in your public folder
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
 const TIDEPOOL_BACKGROUND_IMG_PATH = "/picture-test/backgroundImage.png";
 
 export default function InfoDialog({ t, onClose, title }) {
@@ -27,6 +38,9 @@ export default function InfoDialog({ t, onClose, title }) {
   const dialogTitle = title || defaultTitle;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
   const instructions = useMemo(
     () => [
       {
@@ -56,6 +70,7 @@ export default function InfoDialog({ t, onClose, title }) {
     ],
     [t]
   );
+<<<<<<< HEAD
 =======
   // Memoize the instructions array. It will only recompute if 't' function instance changes.
   const instructions = useMemo(() => [
@@ -73,6 +88,8 @@ export default function InfoDialog({ t, onClose, title }) {
     },
   ], [t]); // Dependency array includes 't'
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
 
   return (
     <>
@@ -81,14 +98,20 @@ export default function InfoDialog({ t, onClose, title }) {
           <Image
             src={TIDEPOOL_BACKGROUND_IMG_PATH}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cebf1d (Code bug fix)
             alt={
               t
                 ? t("tidepoolBackgroundAlt", "Tidepool background")
                 : "Tidepool background"
             }
+<<<<<<< HEAD
 =======
             alt={t ? t('tidepoolBackgroundAlt', "Tidepool background") : "Tidepool background"}
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+>>>>>>> 3cebf1d (Code bug fix)
             fill
             style={{ objectFit: "cover" }}
             className="filter blur-md"
@@ -110,6 +133,7 @@ export default function InfoDialog({ t, onClose, title }) {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.4, type: "spring" }}
 <<<<<<< HEAD
+<<<<<<< HEAD
           className="bg-gradient-to-br from-[#1fc8db]/90 via-[#2cb5a0]/90 to-[#38ef7d]/90
                      backdrop-blur-xl rounded-2xl
                      p-7 sm:p-10
@@ -117,15 +141,23 @@ export default function InfoDialog({ t, onClose, title }) {
                      max-w-2xl w-full
 =======
           className="bg-gradient-to-br from-[#4A6D7C]/85 via-[#6A8A9A]/75 to-[#8AA7B4]/85
+=======
+          className="bg-gradient-to-br from-[#1fc8db]/90 via-[#2cb5a0]/90 to-[#38ef7d]/90
+>>>>>>> 3cebf1d (Code bug fix)
                      backdrop-blur-xl rounded-2xl
-                     p-5 sm:p-6
+                     p-7 sm:p-10
                      border-2 border-[#B0C4DE]/50 shadow-2xl
+<<<<<<< HEAD
                      max-w-lg w-full
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+                     max-w-2xl w-full
+>>>>>>> 3cebf1d (Code bug fix)
                      text-white relative"
         >
           <button
             onClick={onClose}
+<<<<<<< HEAD
 <<<<<<< HEAD
             className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors z-10"
             aria-label={t ? t("closeDialog", "Close dialog") : "Close dialog"}
@@ -137,19 +169,27 @@ export default function InfoDialog({ t, onClose, title }) {
             className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-10"
 =======
             className="absolute top-3.5 right-3.5 text-white/70 hover:text-white transition-colors z-10"
+=======
+            className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors z-10"
+>>>>>>> 3cebf1d (Code bug fix)
             aria-label={t ? t("closeDialog", "Close dialog") : "Close dialog"}
           >
-            <FaTimes size={22} />
+            <FaTimes size={28} />
           </button>
 
           <motion.h2
+<<<<<<< HEAD
             className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8"
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+            className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-10"
+>>>>>>> 3cebf1d (Code bug fix)
             style={{ textShadow: "0 1px 3px rgba(0,0,0,0.3)" }}
           >
             {dialogTitle}
           </motion.h2>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
           <div className="space-y-6 sm:space-y-7 mb-8 sm:mb-10">
             {instructions.map((item, index) => (
@@ -163,16 +203,27 @@ export default function InfoDialog({ t, onClose, title }) {
                 key={index} // Using index as key is acceptable here as the list is static and order doesn't change
                 className="flex items-start gap-3 sm:gap-4 p-3 bg-white/10 rounded-lg"
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+          <div className="space-y-6 sm:space-y-7 mb-8 sm:mb-10">
+            {instructions.map((item, index) => (
+              <motion.div
+                key={index}
+                className="flex items-start gap-4 sm:gap-5 p-4 bg-white/10 rounded-lg"
+>>>>>>> 3cebf1d (Code bug fix)
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 * (index + 1) }}
               >
                 <div className="flex-shrink-0 pt-1">{item.icon}</div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <p className="text-lg sm:text-xl leading-relaxed text-white/95">
 =======
                 <p className="text-sm sm:text-base leading-relaxed text-white/95">
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+                <p className="text-lg sm:text-xl leading-relaxed text-white/95">
+>>>>>>> 3cebf1d (Code bug fix)
                   {item.text}
                 </p>
               </motion.div>
@@ -180,6 +231,7 @@ export default function InfoDialog({ t, onClose, title }) {
           </div>
 
           <motion.button
+<<<<<<< HEAD
 <<<<<<< HEAD
             whileHover={{ scale: 1.07, y: -2 }}
             whileTap={{ scale: 0.96 }}
@@ -191,12 +243,20 @@ export default function InfoDialog({ t, onClose, title }) {
 =======
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
+=======
+            whileHover={{ scale: 1.07, y: -2 }}
+            whileTap={{ scale: 0.96 }}
+>>>>>>> 3cebf1d (Code bug fix)
             onClick={onClose}
             className="flex items-center justify-center gap-2
-                       py-2.5 px-5 sm:py-3 sm:px-6
+                       py-3 px-7 sm:py-4 sm:px-10
                        rounded-xl font-semibold
+<<<<<<< HEAD
                        text-sm sm:text-base
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+                       text-lg sm:text-xl
+>>>>>>> 3cebf1d (Code bug fix)
                        shadow-lg transition-all duration-300
                        bg-gradient-to-r from-[#6CB4A3] to-[#4B7F52]
                        text-white
@@ -212,7 +272,11 @@ export default function InfoDialog({ t, onClose, title }) {
     </>
   );
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> ebbb870 (Added Instructions component)
+=======
+}
+>>>>>>> 3cebf1d (Code bug fix)
