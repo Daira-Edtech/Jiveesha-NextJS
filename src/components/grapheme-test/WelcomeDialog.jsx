@@ -2,7 +2,9 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { FaCheck, FaChevronRight } from "react-icons/fa";
+import EnhanceExperience from "@/components/EnhanceExperience";
 
 // Import local images relative to this component's location
 import localBackgroundImageForDialog from "../../../public/grapheme-test/backgroundImage.webp";
@@ -15,6 +17,25 @@ const WelcomeDialog = ({
   onStartTest,
   t,
 }) => {
+  const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
+  
+  // Check if we're on the last dialog to show fullscreen option
+  const isLastDialog = currentDialog === dialog.length - 1;
+
+  const handleStartTest = () => {
+    setShowEnhanceExperience(false);
+    onStartTest();
+  };
+
+  const handleButtonClick = () => {
+    if (isLastDialog) {
+      // Show fullscreen enhancement option before starting test
+      setShowEnhanceExperience(true);
+    } else {
+      onNextDialog();
+    }
+  };
+
   return (
     <>
       {/* Background with local image */}
@@ -102,7 +123,7 @@ const WelcomeDialog = ({
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={currentDialog < dialog.length - 1 ? onNextDialog : onStartTest}
+                onClick={handleButtonClick}
                 className={`flex items-center justify-center gap-3 py-4 px-8 lg:px-12 rounded-2xl font-semibold text-lg lg:text-xl shadow-lg transition-all duration-300
                   ${ currentDialog < dialog.length - 1 ? "bg-gradient-to-r from-teal-300 via-blue-200 to-teal-400 text-blue-900 hover:from-teal-200 hover:via-blue-100 hover:to-teal-300 hover:shadow-blue-200/50" : "bg-gradient-to-r from-teal-400 to-blue-500 text-white hover:from-teal-500 hover:to-blue-600 hover:shadow-blue-300/50" }`}
               >
@@ -116,6 +137,15 @@ const WelcomeDialog = ({
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Enhance Experience Component for fullscreen option */}
+      {showEnhanceExperience && (
+        <EnhanceExperience
+          onClose={() => setShowEnhanceExperience(false)}
+          onConfirm={handleStartTest}
+          t={t}
+        />
+      )}
     </>
   );
 };
