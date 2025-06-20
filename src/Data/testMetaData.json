@@ -1,5 +1,5 @@
 {
-    "Grapheme/Phoneme Correspondence Test": {
+    "Grapheme/Phoneme Test": {
       "id": 5,
       "scoreRange": {
         "difficulty": [0, 7],
@@ -80,7 +80,7 @@
       ],
       "strongMessage": "Wonderful job! Your strong symbol sequencing skills will help with reading, spelling and mathematics!"
     },
-    "Schonell Test": {
+    "Reading Test": {
       "id": 6,
       "scoreRange": {
         "difficulty": [0, 7],
