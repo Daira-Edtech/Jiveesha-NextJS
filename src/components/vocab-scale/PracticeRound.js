@@ -48,14 +48,13 @@ const usePracticeAudioRecorder = (onAudioCaptured) => {
       } catch (err) {
         console.error("Upload error:", err);
         setError(
-          t("audioUploadFailed") ||
-            "Failed to process audio. Please try again.",
+          t("audioUploadFailed") || "Failed to process audio. Please try again."
         );
       } finally {
         setIsTranscribing(false);
       }
     },
-    [language, onAudioCaptured, t],
+    [language, onAudioCaptured, t]
   );
 
   const startListening = useCallback(async () => {
@@ -83,7 +82,7 @@ const usePracticeAudioRecorder = (onAudioCaptured) => {
       console.error("Microphone access error:", err);
       setError(
         t("microphoneAccessDenied") ||
-          "Microphone access denied. Please allow microphone access and try again.",
+          "Microphone access denied. Please allow microphone access and try again."
       );
     }
   }, [isRecording, uploadAudio, t]);
@@ -138,7 +137,7 @@ const PracticeRound = ({ language, t, onPracticeComplete }) => {
   const practiceWordData = {
     word: practiceWord.word,
     level: practiceWord.level,
-    translation: practiceWord[language] || practiceWord.word,
+    translation: practiceWord.translations[language] || practiceWord.word,
   };
 
   const handleSubmitPractice = useCallback(async () => {
@@ -154,7 +153,7 @@ const PracticeRound = ({ language, t, onPracticeComplete }) => {
         {
           definition: currentDefinition,
           language: language,
-        },
+        }
       );
 
       const {
@@ -185,7 +184,7 @@ const PracticeRound = ({ language, t, onPracticeComplete }) => {
       console.error("Practice evaluation error:", error);
       setFeedback(
         t("errorEvaluatingPractice") ||
-          "Error evaluating practice. Please try again.",
+          "Error evaluating practice. Please try again."
       );
     } finally {
       setIsEvaluating(false);
@@ -281,10 +280,10 @@ const PracticeRound = ({ language, t, onPracticeComplete }) => {
               isRecording
                 ? "border-red-400/50"
                 : isCorrect
-                  ? "border-green-400/50"
-                  : feedback && !isCorrect
-                    ? "border-red-400/50"
-                    : "border-white/20"
+                ? "border-green-400/50"
+                : feedback && !isCorrect
+                ? "border-red-400/50"
+                : "border-white/20"
             } rounded-xl focus:outline-none focus:border-blue-400 transition-all duration-300 placeholder-white/50`}
             disabled={
               isEvaluating || isRecording || isTranscribing || practiceComplete
@@ -390,7 +389,9 @@ const PracticeRound = ({ language, t, onPracticeComplete }) => {
               )}
               <div>
                 <p
-                  className={`${isCorrect ? "text-green-100" : "text-red-100"} text-sm`}
+                  className={`${
+                    isCorrect ? "text-green-100" : "text-red-100"
+                  } text-sm`}
                 >
                   {feedback}
                 </p>
