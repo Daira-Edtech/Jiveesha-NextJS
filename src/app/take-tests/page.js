@@ -1,5 +1,6 @@
 "use client";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { MdQuiz, MdSchool, MdSearch } from "react-icons/md";
@@ -33,6 +34,9 @@ const TakeTests = () => {
   });
 =======
 import React, { useState, useEffect } from "react";
+=======
+import React, { useState, useEffect, Suspense } from "react";
+>>>>>>> 5cd2ea4 (Enhance TakeTests component with Suspense for improved loading experience and refactor to separate content logic)
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -40,7 +44,7 @@ import MapLayout from "@/components/MapLayout";
 import testsData from "@/Data/tests.json";
 import "@/styles/fullscreen.css";
 
-const TakeTests = () => {
+const TakeTestsContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useLanguage();
@@ -71,7 +75,6 @@ const TakeTests = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoaded(true);
     }, 100);
     return () => clearTimeout(timer);
   }, []);
@@ -394,16 +397,12 @@ const TakeTests = () => {
   );
 };
 
-TakeTests.propTypes = {
-  tests: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      testName: PropTypes.string.isRequired,
-      testName_ta: PropTypes.string,
-      About: PropTypes.string,
-      About_ta: PropTypes.string,
-    })
-  ),
+const TakeTests = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TakeTestsContent />
+    </Suspense>
+  );
 };
 
 export default TakeTests;
