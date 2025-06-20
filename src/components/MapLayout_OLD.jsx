@@ -18,16 +18,16 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
 
   // Island names for each island
   const islandNames = [
-    "Reading Harbor",
-    "Vision Bay", 
-    "Sound Cove",
-    "Picture Port",
-    "Letter Isle",
-    "Memory Atoll",
-    "Sequence Shore",
-    "Symbol Sanctuary",
-    "Blend Beach",
-    "Vocab Valley"
+    "Goonj Tapu",
+    "Varnika Van", 
+    "Yantra Kanan",
+    "Svara Gufa",
+    "Akshara Parvat",
+    "Chitra Sarovar",
+    "Runa Pathar",
+    "Shabd Sagar",
+    "Shabd Mandir",
+    "Kaal Dhara"
   ];
 
   const handleAction = (type) => {
