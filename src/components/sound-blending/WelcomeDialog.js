@@ -12,6 +12,7 @@ import InstructionsScreen from "./InstructionsScreen.js"
 import FinalResultsScreen from "./FinalResultsScreen.js"
 import RewardsModal from "./RewardsModal.js"
 import TopBar from "./TopBar.js"
+import BackToMapButton from "../BackToMapButton.jsx"
 
 import {
   words,
@@ -357,6 +358,13 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
       className="fixed inset-0 overflow-y-auto bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
+      {/* Back to Map Button */}
+      <BackToMapButton 
+        variant="glass" 
+        position="top-left"
+        className="z-[70]"
+      />
+      
       <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
 
       {/* Info Dialog */}

@@ -9,6 +9,7 @@ export const translations = {
     language: "Language",
     account: "Account",
     BacktoTests: "Back to Tests",
+    backToMap: "Back to Map",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -219,6 +220,7 @@ export const translations = {
     tryAdjustingSearch: "Try adjusting your search criteria",
     selectStudentButton: "Select Student",
 
+
     // TestResultsPage
     viewingResultsFor: "Viewing Results for:",
     studentId: "ID:",
@@ -307,7 +309,8 @@ export const translations = {
     enterFullscreen: "Enter Fullscreen",
     startGame: "Start Game",
     quit: "Quit",
-
+    backToMap: "Back to Map",
+    
     // Map Layout
     adventureMap: "Adventure Map",
     chooseYourChallenge: "Choose Your Challenge",
@@ -1132,6 +1135,8 @@ export const translations = {
     language: "மொழி",
     account: "கணக்கு",
     word: "வார்த்தை",
+    backToMap: "மேப்பிற்குத் திரும்பு",
+    backToMap: "மேப்பிற்குத் திரும்பு",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -1865,6 +1870,8 @@ export const translations = {
     language: "भाषा",
     account: "खाता",
     word: "शब्द",
+    backToMap: "मैप पर वापस जाएँ",
+    backToMapAlt: "मैप पर वापस जाएँ",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -2740,7 +2747,7 @@ export const translations = {
     analytics: "വിശകലനം",
     language: "ഭാഷ",
     account: "അക്കൗണിക്ക്",
-
+backToMap: "മാപ്പിലേക്ക് തിരികെ",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -3025,7 +3032,7 @@ export const translations = {
     analytics: "విశ్లేషణ",
     language: "భాష",
     account: "ఖాతా",
-
+backToMap: "మ్యాప్‌కు వెళ్ళండి",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -3311,7 +3318,7 @@ export const translations = {
     tests: "ಪರೀಕ್ಷೆಗಳು",
     analytics: "ವಿಶ್ಲೇಷಣೆ",
     language: "ಭಾಷೆ",
-    account: "ಖಾತೆ",
+    account: "ಖಾತೆ",backToMap: "ನಕ್ಷೆಗೆ ಹಿಂತಿರುಗಿ",
 
     // Languages
     english: "English",
@@ -3947,7 +3954,7 @@ export const translations = {
     analytics: "विश्लेषण",
     language: "भाषा",
     account: "खाते",
-
+    backToMap: "नकाशावर परत जा",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -4231,7 +4238,7 @@ export const translations = {
     analytics: "বিশ্লেষণ",
     language: "ভাষা",
     account: "অ্যাকাউন্ট",
-
+backToMap: "মানচিত্র",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -4515,7 +4522,7 @@ export const translations = {
     analytics: "વિશ્લેષણ",
     language: "ભાષા",
     account: "ખાતા",
-
+backToMap: "નકશા પર પાછા જાઓ",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -4799,7 +4806,7 @@ export const translations = {
     analytics: "ਵਿਸ਼ਲੇਸ਼ਣ",
     language: "ਭਾਸ਼ਾ",
     account: "ਅਕਾਊਂਟ",
-
+backToMap: "ਨਕਸ਼ੇ ਤੇ ਵਾਪਸ ਜਾਓ",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -5082,7 +5089,7 @@ export const translations = {
     analytics: "تجزیہ",
     language: "زبان",
     account: "اکاؤنٹ",
-
+backToMap: "نقشے پر واپس جائیں",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -5365,7 +5372,7 @@ export const translations = {
     analytics: "ବିଶ୍ଳେଷଣ",
     language: "ଭାଷା",
     account: "ଖାତା",
-
+backToMap: "ମାନଚିତ୍ରକୁ ଫେରନ୍ତୁ",
     // Languages
     english: "English",
     tamil: "தமிழ்",
