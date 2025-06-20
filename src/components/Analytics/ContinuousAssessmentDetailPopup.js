@@ -385,13 +385,21 @@ const ContinuousAssessmentDetailPopup = ({
                     📊 Based on continuous assessment data:
                   </p>
                   <div className="bg-white p-4 rounded-lg border border-blue-100 shadow-sm">
-                    <p className="whitespace-pre-line text-gray-700 leading-relaxed">
-                      {assessment.analysis ||
+                    <ul className="list-disc pl-10 text-gray-700 leading-relaxed space-y-2">
+                      {(
+                        assessment.analysis ||
                         assessment.aiAnalysis ||
                         assessment.assessment_analysis ||
-                        t("Analysis not available for this assessment.")}
-                    </p>
+                        t("Analysis not available for this assessment.")
+                      )
+                        .split(/(?<=\.)\s+/)
+                        .filter((sentence) => sentence.trim().length > 0)
+                        .map((sentence, index) => (
+                          <li key={index}>{sentence.trim()}</li>
+                        ))}
+                    </ul>
                   </div>
+
                   <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                     <p className="text-xs text-amber-800 italic flex items-center">
                       <span className="mr-2">⚠️</span>
