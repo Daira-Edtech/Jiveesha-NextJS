@@ -4,13 +4,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
-<<<<<<< HEAD
-=======
 import EnhanceExperience from "@/components/EnhanceExperience";
 
->>>>>>> 69611e1 (map changes done)
 import GameplayArea from "./GameplayArea";
 import InfoDialog from "./InfoDialog.js"; // <<<<<< IMPORT InfoDialog
 import InstructionsScreen from "./InstructionsScreen.js";
@@ -33,14 +30,8 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
   const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [score, setScore] = useState({ correct: 0, total: 0 });
-<<<<<<< HEAD
-  const [currentSequence, setCurrentSequence] = useState(() => [
-    ...practiceSequenceData,
-  ]);
-=======
   const [currentSequence, setCurrentSequence] = useState(() => [...practiceSequenceData]);
   const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
->>>>>>> 69611e1 (map changes done)
 
   const [showInfoDialogOverlay, setShowInfoDialogOverlay] = useState(false);
 

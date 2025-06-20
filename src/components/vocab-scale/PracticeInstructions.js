@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Lightbulb, Volume2, Mic, Type, CheckCircle } from "lucide-react";
+import { CheckCircle, Lightbulb, Mic, Type, Volume2 } from "lucide-react";
 
 const PracticeInstructions = ({ onStartPractice, t, language }) => {
   const instructions = [
@@ -73,16 +73,27 @@ const PracticeInstructions = ({ onStartPractice, t, language }) => {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           <Lightbulb className="h-4 w-4" />
-          How to Take the Test
+          {language === "ta"
+            ? "பரீட்சையை எப்படிச் செய்ய வேண்டும்"
+            : language === "hi"
+            ? "परीक्षण कैसे देना है"
+            : "How to Take the Test"}
         </motion.div>
 
         <h2 className="text-3xl font-bold text-white mb-3">
-          Let&apos;s Learn How This Works!
+          {language === "ta"
+            ? "இது எவ்வாறு செயல்படுகிறது என்பதைப் பார்ப்போம்!"
+            : language === "hi"
+            ? "यह कैसे काम करता है चलिए सीखते हैं!"
+            : "Let's Learn How This Works!"}
         </h2>
 
         <p className="text-white/80 max-w-2xl mx-auto text-lg">
-          Before we start, let me show you how to take this vocabulary test.
-          It&apos;s easy and fun!
+          {language === "ta"
+            ? "தொடங்குவதற்கு முன், இந்த சொல்வள பரீட்சையை எப்படிச் செய்ய வேண்டும் என்பதை உங்களுக்குக் காட்டுகிறேன். இது எளிது மற்றும் மகிழ்ச்சியானது!"
+            : language === "hi"
+            ? "शुरू करने से पहले, मैं आपको दिखाता हूँ कि यह शब्द परीक्षण कैसे देना है। यह आसान और मजेदार है!"
+            : "Before we start, let me show you how to take this vocabulary test. It's easy and fun!"}
         </p>
       </motion.div>
 
@@ -126,18 +137,16 @@ const PracticeInstructions = ({ onStartPractice, t, language }) => {
       >
         <div className="text-center">
           <h3 className="text-white font-semibold text-lg mb-3">
-            Example: If we show you the word &quot;CAT&quot;
+            {language === "ta"
+              ? "உதாரணம்: நீங்கள் \"பூனை\" என்ற சொல்லைக் காண்பிப்போம்"
+              : language === "hi"
+              ? "उदाहरण: यदि हम आपको \"बिल्ली\" शब्द दिखाएँ"
+              : "Example: If we show you the word \"CAT\""}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div className="text-green-200">
-              &#x2705; &quot;A small furry animal&quot;
-            </div>
-            <div className="text-green-200">
-              &#x2705; &quot;Pet that says meow&quot;
-            </div>
-            <div className="text-green-200">
-              &#x2705; &quot;Animal with whiskers&quot;
-            </div>
+            <div className="text-green-200">✅ "A small furry animal"</div>
+            <div className="text-green-200">✅ "Pet that says meow"</div>
+            <div className="text-green-200">✅ "Animal with whiskers"</div>
           </div>
         </div>
       </motion.div>
@@ -156,7 +165,11 @@ const PracticeInstructions = ({ onStartPractice, t, language }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
         >
-          🎯 Start Practice Round
+          {language === "ta"
+            ? "🎯 பயிற்சி சுற்றத்தை தொடங்கு"
+            : language === "hi"
+            ? "🎯 अभ्यास चरण शुरू करें"
+            : "🎯 Start Practice Round"}
         </motion.button>
 
         <motion.p
@@ -165,7 +178,11 @@ const PracticeInstructions = ({ onStartPractice, t, language }) => {
           transition={{ delay: 1.2 }}
           className="text-white/60 text-sm mt-3"
         >
-          Don&apos;t worry, this is just for practice!
+          {language === "ta"
+            ? "கவலைப்பட வேண்டாம், இது வெறும் பயிற்சிக்காக தான்!"
+            : language === "hi"
+            ? "चिंता न करें, यह सिर्फ अभ्यास के लिए है!"
+            : "Don't worry, this is just for practice!"}
         </motion.p>
       </div>
     </div>
