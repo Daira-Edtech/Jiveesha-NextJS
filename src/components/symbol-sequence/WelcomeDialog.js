@@ -19,8 +19,18 @@ import WelcomeScreen from "./WelcomeScreen.js"
 import backgroundImage from "../../../public/symbol-sequence/Mystical-Runescape.png"
 import characterImage from "../../../public/symbol-sequence/Rune.png"
 
+<<<<<<< HEAD
 const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId, dialogContent }) => {
   const router = useRouter()
+=======
+const WelcomeDialog = ({
+  t,
+  onEntireTestComplete,
+  initialChildId,
+  dialogContent,
+}) => {
+  const router = useRouter();
+>>>>>>> 1c540ae (feat: Refactor WelcomeDialog components across multiple tests and improve styling in ContinuousAssessmentDetailPopup)
 
   const [gameState, setGameState] = useState("welcome")
   const [currentDialogIndex, setCurrentDialogIndex] = useState(0)
@@ -248,6 +258,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId, dialogC
 
   useEffect(() => {
     if (gameState === "welcome" && dialogContent && dialogContent.length > 0) {
+<<<<<<< HEAD
       speak(dialogContent[0])
     }
   }, [gameState, speak])
@@ -256,6 +267,16 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId, dialogC
     if (currentDialogIndex < dialogContent.length - 1) {
       speak(dialogContent[currentDialogIndex + 1])
       setCurrentDialogIndex(currentDialogIndex + 1)
+=======
+      dialogContent[0];
+    }
+  }, [gameState, , dialogContent]);
+
+  const handleNextDialog = () => {
+    if (currentDialogIndex < dialogContent.length - 1) {
+      dialogContent[currentDialogIndex + 1];
+      setCurrentDialogIndex(currentDialogIndex + 1);
+>>>>>>> 1c540ae (feat: Refactor WelcomeDialog components across multiple tests and improve styling in ContinuousAssessmentDetailPopup)
     } else {
       setGameState("difficultySelection")
     }

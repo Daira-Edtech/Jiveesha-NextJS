@@ -447,33 +447,6 @@ const TestReportPopup = ({
             </tbody>
           </table>
         );
-      case "sound":
-        return (
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-blue-50">
-                <th className="border border-blue-200 p-2 text-left">Test</th>
-                <th className="border border-blue-200 p-2 text-center">
-                  Score
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-blue-200 p-2 font-semibold">
-                  {test.testName || test.testName}
-                </td>
-                <td className="border border-blue-200 p-2 text-center">
-                  {test.score !== undefined
-                    ? test.score
-                    : test.totalScore !== undefined
-                    ? test.totalScore
-                    : "-"}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        );
 
       case "phoneme":
         return (
@@ -670,13 +643,13 @@ const TestReportPopup = ({
                   {test.testName}
                 </td>
                 <td className="border border-blue-200 p-2 text-center">
-                  {test.forward_correct !== undefined
-                    ? test.forward_correct
+                  {test.forwardCorrect !== undefined
+                    ? test.forwardCorrect
                     : "-"}
                 </td>
                 <td className="border border-blue-200 p-2 text-center">
-                  {test.reverse_correct !== undefined
-                    ? test.reverse_correct
+                  {test.reverseCorrect !== undefined
+                    ? test.reverseCorrect
                     : "-"}{" "}
                 </td>
                 <td className="border border-blue-200 p-2 text-center">
@@ -686,76 +659,46 @@ const TestReportPopup = ({
             </tbody>
           </table>
         );
-
+      case "vocabulary":
       case "sequence":
-        return (
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-blue-50">
-                <th className="border border-blue-200 p-2 text-left">Test</th>
-                <th className="border border-blue-200 p-2 text-center">
-                  Score
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {" "}
-                <td className="border border-blue-200 p-2 font-semibold">
-                  {getTestName()}
-                </td>
-                <td className="border border-blue-200 p-2 text-center">
-                  {getTestScore()}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        );
-
       case "symbol":
+      case "sound":
       case "soundBlending":
         return (
-          <table className="w-full border-collapse">
+          <table className="w-full">
             <thead>
-              <tr className="bg-blue-50">
-                <th className="border border-blue-200 p-2 text-left">Test</th>
-                <th className="border border-blue-200 p-2 text-center">
-                  Difficulty
-                </th>
-                <th className="border border-blue-200 p-2 text-center">
-                  Level
-                </th>
-                <th className="border border-blue-200 p-2 text-center">
-                  Grapheme
-                </th>
-                <th className="border border-blue-200 p-2 text-center">
-                  Student&apos;s Response
-                </th>
-                <th className="border border-blue-200 p-2 text-center">
-                  Result
-                </th>
+              <tr className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+                <th className="p-4 text-left font-semibold">Assessment Type</th>
+                <th className="p-4 text-center font-semibold">Score</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="border border-blue-200 p-2 font-semibold">
-                  {test.testName}
+              <tr className="hover:bg-gray-50 transition-colors duration-150">
+                <td className="p-4 border-b border-gray-100">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-blue-600 text-lg">📋</span>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800">
+                        {test.testName || "General Assessment"}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Standard evaluation
+                      </p>
+                    </div>
+                  </div>
                 </td>
-                <td className="border border-blue-200 p-2 text-center">
-                  {test.difficulty || "-"}
-                </td>
-                <td className="border border-blue-200 p-2 text-center">
-                  {test.level || "-"}
-                </td>
-                <td className="border border-blue-200 p-2 text-center">
-                  {getTestScore()}
+                <td className="p-4 text-center border-b border-gray-100">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-800 rounded-full font-bold text-lg">
+                    {getTestScore()}
+                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
         );
 
-      case "vocabulary":
         return (
           <table className="w-full border-collapse">
             <thead>

@@ -7,7 +7,10 @@ import { useCallback, useEffect, useState } from "react";
 
 import WelcomeDialog from "../../../components/sequence-arrangement/WelcomeDialog.js";
 // Import your existing LanguageProvider and useLanguage hook
-import { LanguageProvider, useLanguage } from "../../../contexts/LanguageContext";
+import {
+  LanguageProvider,
+  useLanguage,
+} from "../../../contexts/LanguageContext";
 
 // This inner component will consume the context
 const SequenceArrangementTestContent = () => {
@@ -22,6 +25,7 @@ const SequenceArrangementTestContent = () => {
     }
   }, []);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -45,6 +49,8 @@ const SequenceArrangementTestContent = () => {
 
 >>>>>>> 3cebf1d (Code bug fix)
 
+=======
+>>>>>>> 1c540ae (feat: Refactor WelcomeDialog components across multiple tests and improve styling in ContinuousAssessmentDetailPopup)
   const handleEntireTestFlowComplete = async (finalScore) => {
     console.log("Entire test flow completed. Final Score:", finalScore);
     const token = localStorage.getItem("access_token");
@@ -84,7 +90,6 @@ const SequenceArrangementTestContent = () => {
 
   return (
     <div className="w-screen h-screen">
-      
       <WelcomeDialog
         t={t}
 <<<<<<< HEAD

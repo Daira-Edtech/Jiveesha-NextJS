@@ -6,11 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
-<<<<<<< HEAD
-=======
-import EnhanceExperience from "@/components/EnhanceExperience";
-
->>>>>>> 69611e1 (map changes done)
 import GameplayArea from "./GameplayArea";
 import InfoDialog from "./InfoDialog.js"; // <<<<<< IMPORT InfoDialog
 import InstructionsScreen from "./InstructionsScreen.js";
@@ -33,14 +28,9 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
   const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [score, setScore] = useState({ correct: 0, total: 0 });
-<<<<<<< HEAD
   const [currentSequence, setCurrentSequence] = useState(() => [
     ...practiceSequenceData,
   ]);
-=======
-  const [currentSequence, setCurrentSequence] = useState(() => [...practiceSequenceData]);
-  const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
->>>>>>> 69611e1 (map changes done)
 
   const [showInfoDialogOverlay, setShowInfoDialogOverlay] = useState(false);
 
@@ -49,14 +39,8 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
       dialogContent[currentDialogIndex + 1];
       setCurrentDialogIndex(currentDialogIndex + 1);
     } else {
-      // Show fullscreen enhancement option before starting test
-      setShowEnhanceExperience(true);
+      setInternalGameState("initialInstructions");
     }
-  };
-
-  const handleStartInstructions = () => {
-    setShowEnhanceExperience(false);
-    setInternalGameState("initialInstructions");
   };
 
   const handleStartPractice = () => {
@@ -375,17 +359,8 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
           t={t}
         />
       )}
-
-      {/* Enhance Experience Component for fullscreen option */}
-      {showEnhanceExperience && (
-        <EnhanceExperience
-          onClose={() => setShowEnhanceExperience(false)}
-          onConfirm={handleStartInstructions}
-          t={t}
-        />
-      )}
     </div>
   );
-}; // <<<< Ensure this closing brace for the component is present
+};
 
 export default WelcomeDialog;

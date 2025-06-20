@@ -36,7 +36,7 @@ export async function POST(req) {
 
     // Format test results for analysis
     const formattedTestResults = results.map((result) => ({
-      test_name: result.name,
+      test_name: result.testName,
       score: result.score,
     }));
 

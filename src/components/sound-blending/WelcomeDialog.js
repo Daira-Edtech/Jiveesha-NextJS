@@ -26,7 +26,7 @@ import {
 } from "./soundBlendingConstants.js";
 
 import backgroundImage from "../../../public/sound-blending/background.png";
-import characterImage from "../../../public/sound-blending/dolphin.png";
+import characterImage from "../../../public/sound-blending/old-dolphin.png";
 
 const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
   const router = useRouter();
