@@ -13,6 +13,7 @@ import TestReportPopup from "@/components/Analytics/TestReportPopup";
 import ContinuousAssessmentDetailPopup from "@/components/Analytics/ContinuousAssessmentDetailPopup";
 import { useLanguage } from "@/contexts/LanguageContext";
 import axios from "axios";
+import Image from "next/image";
 
 const TestResultsTable = () => {
   const [data, setData] = useState([]);
@@ -493,10 +494,11 @@ const TestResultsTable = () => {
               <div className="relative">
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-white flex items-center justify-center overflow-hidden border-4 border-white shadow-md">
                   {userDetails.profilePic ? (
-                    <img
+                    <Image
                       src={userDetails.profilePic}
                       alt="Profile"
                       className="w-full h-full object-cover"
+                      fill={false}
                     />
                   ) : (
                     <FaUser className="w-16 h-16 text-blue-300" />
@@ -722,8 +724,7 @@ const TestResultsTable = () => {
                             : test.totalScore !== undefined
                             ? test.totalScore
                             : "N/A"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                        </td>                        <td className="px-6 py-4 whitespace-nowrap text-center">
                           <button
                             onClick={() => handleViewReport(test)}
                             className="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-colors duration-200"
