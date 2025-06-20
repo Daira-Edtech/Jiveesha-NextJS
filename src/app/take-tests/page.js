@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -7,7 +7,7 @@ import MapLayout from "@/components/MapLayout";
 import testsData from "@/Data/tests.json";
 import "@/styles/fullscreen.css";
 
-const TakeTests = () => {
+const TakeTestsContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useLanguage();
@@ -37,7 +37,6 @@ const TakeTests = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoaded(true);
     }, 100);
     return () => clearTimeout(timer);
   }, []);
@@ -246,16 +245,12 @@ const TakeTests = () => {
   );
 };
 
-TakeTests.propTypes = {
-  tests: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      testName: PropTypes.string.isRequired,
-      testName_ta: PropTypes.string,
-      About: PropTypes.string,
-      About_ta: PropTypes.string,
-    })
-  ),
+const TakeTests = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TakeTestsContent />
+    </Suspense>
+  );
 };
 
 export default TakeTests;
