@@ -158,14 +158,7 @@ const GraphemeTestContent = () => {
       resetMainTestLogic();
     }
     setLanguageDataLoaded(true);
-  }, [
-    language,
-    initialDataLoaded,
-    t,
-    resetMainTestLogic,
-    testStage,
-    languageDataLoaded,
-  ]); // Added languageDataLoaded to dependencies
+  }, [language, initialDataLoaded, t, resetMainTestLogic, testStage]); // Added testStage to dependency to ensure correct re-intro logic
 
   const onCompleteHandler = useCallback(
     (finalScore) => {
@@ -254,7 +247,7 @@ const GraphemeTestContent = () => {
   };
 
   const handleSubmitFinal = async () => {
-    if (!childId || !token) {
+    if (!childId) {
       toast.error(t("errorAuthMissing", "User info missing."));
       setIsProcessingFinalSubmit(false);
       return;
@@ -274,9 +267,8 @@ const GraphemeTestContent = () => {
     const payload = { childId, userResponses, language: langKey };
     try {
       const evalResponse = await axios.post(
-        `${backendURL}/api/grapheme-test/submitResult`,
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } }
+        `/api/grapheme-test/submitResult`,
+        payload
       );
       toast.dismiss(submissionToastId);
       if (
