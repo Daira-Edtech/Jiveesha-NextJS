@@ -459,7 +459,8 @@ const useTestSubmission = (onTestComplete, router, t) => {
 >>>>>>> f6455aa (chore: clean up unused components and files in reading proficiency tests)
         const tableData = validCorrectGroups.map((group, index) => ({
           continuousCorrectWords: group.join(" "),
-          errorWords: validErrorWords[index]?.join(" ") || "-",
+          errorWords: validErrorWords[index]?.join(" ") || "",
+          score: score / validCorrectGroups.length, // Distribute score evenly for demo purposes
         }));
         setTestResults(tableData);
         if (suppressResultPage && typeof onTestComplete === "function") {
@@ -471,13 +472,11 @@ const useTestSubmission = (onTestComplete, router, t) => {
             position: "top-center",
             onClose: () => {
               if (router && router.push) {
-                router.push({
-                  pathname: "/results",
-                  query: {
-                    score: score.toString(),
-                    tableData: JSON.stringify(tableData),
-                  },
+                const queryParams = new URLSearchParams({
+                  score: score.toString(),
+                  tableData: JSON.stringify(tableData),
                 });
+<<<<<<< HEAD
 =======
           toast.success(t("testSubmittedWithScore", { score: score }), {
             position: "top-center",
@@ -498,6 +497,11 @@ const useTestSubmission = (onTestComplete, router, t) => {
                   },
                 });
 >>>>>>> f6455aa (chore: clean up unused components and files in reading proficiency tests)
+=======
+                router.push(
+                  `/reading-proficiency/results?${queryParams.toString()}`
+                );
+>>>>>>> 143db2a (feat: Add ReadingProficiencyResults component and enhance TestResults with score distribution logic)
               }
             },
           });
@@ -753,10 +757,12 @@ export default function Test6Controller({
       );
       if (words.length > 0) {
         setGameProgress(
-          (wordsPerBatch / words.length) *
-            100 *
-            (1 / Math.ceil(words.length / wordsPerBatch)) *
-            0.85
+          Math.round(
+            (wordsPerBatch / words.length) *
+              100 *
+              (1 / Math.ceil(words.length / wordsPerBatch)) *
+              0.85
+          )
         );
       } else {
         setGameProgress(0);
@@ -1159,6 +1165,7 @@ export default function Test6Controller({
 =======
 >>>>>>> f6455aa (chore: clean up unused components and files in reading proficiency tests)
     }
+<<<<<<< HEAD
     if (
       isLastPage &&
       !transcriptionReady &&
@@ -1174,6 +1181,19 @@ export default function Test6Controller({
         setIntroMessage("");
       }, 3000);
       return;
+=======
+    if (!transcriptionReady && !currentTranscriptForPageToSubmit) {
+      //   toast.info(t("transcriptionNotReady"));
+      //   setShowEels(true);
+      //   setCoralineAnimationState("warning");
+      //   setIntroMessage(t("coralineNeedYourVoice"));
+      //   setTimeout(() => {
+      //     setShowEels(false);
+      //     setCoralineAnimationState("idle");
+      //     setIntroMessage("");
+      //   }, 3000);
+      //   return;
+>>>>>>> 143db2a (feat: Add ReadingProficiencyResults component and enhance TestResults with score distribution logic)
     }
     const updatedAllTranscriptions = [...allTranscriptions];
 <<<<<<< HEAD
@@ -1277,7 +1297,9 @@ export default function Test6Controller({
       setGlobalTranscriptionReady(false);
       setSelectedFile(null);
       const newProgress = Math.min(
-        (((currentPage + 2) * wordsPerBatch) / currentWords.length) * 85,
+        Math.round(
+          (((currentPage + 2) * wordsPerBatch) / currentWords.length) * 85
+        ),
         85
       );
       setGameProgress(newProgress);
