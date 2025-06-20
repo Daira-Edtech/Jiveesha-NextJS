@@ -4,7 +4,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import GameplayArea from "./GameplayArea";
 import InfoDialog from "./InfoDialog.js"; // <<<<<< IMPORT InfoDialog

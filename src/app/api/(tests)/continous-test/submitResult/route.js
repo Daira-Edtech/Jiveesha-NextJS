@@ -67,7 +67,7 @@ export async function POST(req) {
       const prompt = `
 Analyze these test results for a ${
         age ?? "?"
-      }-year-old child and provide a CONCISE clinical assessment.
+      }-year-old child and provide a comprehensive clinical assessment.
 
 ### Test Results:
 ${formattedTestResults
@@ -96,13 +96,16 @@ ${formattedTestResults
   .join("\n")}
 
 ### Instructions:
-Write ONE PARAGRAPH (5-6 lines maximum) that:
-1. Integrates all test results into a cohesive clinical assessment
-2. Highlights key strengths and potential concerns based on age-appropriate norms
-3. Uses professional clinical language while remaining concise
-4. Provides actionable insights for next steps or focus areas
+Provide a detailed clinical assessment with the following sections in a single cohesive report:
 
-Do NOT use bullet points. Maintain a professional clinical tone throughout.`;
+1. OVERALL ASSESSMENT (3-4 paragraphs):
+   - Synthesize all results into an integrated clinical picture
+   - Comment on the child's overall performance relative to age expectations
+   - Identify patterns across different domains
+   - For EACH test, provide specific interpretation of performance, how it compares to age-appropriate norms, and clinical significance
+   - Describe how results in different domains may relate to or influence each other
+
+Use professional clinical language throughout while remaining accessible. Format the response as continuous text with appropriate paragraph breaks and section headers.`;
 
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       const result = await model.generateContent({

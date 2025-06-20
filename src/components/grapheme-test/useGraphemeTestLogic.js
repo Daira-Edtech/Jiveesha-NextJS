@@ -1,3 +1,4 @@
+// components/grapheme-test/useGraphemeTestLogic.js
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -9,7 +10,7 @@ export const useGraphemeTestLogic = ({
   language,
   inputRef,
   onTestComplete,
-  isTestUIVisible, // *** NEW PROP: Crucial for controlling timer behavior ***
+  isTestUIVisible,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(LETTER_TIMER_DURATION);
@@ -27,7 +28,6 @@ export const useGraphemeTestLogic = ({
       setUserInputs(Array(letters.length).fill(""));
       setInputStatus({});
       setCurrentIndex(0);
-      // setTimeLeft will be handled by the effect watching currentIndex and isTestUIVisible
     } else {
       setUserInputs([]);
       setInputStatus({});
@@ -213,15 +213,22 @@ export const useGraphemeTestLogic = ({
 
   const handleNextInternal = useCallback(() => {
     if (!letters || currentIndex >= letters.length) return;
+
+    // *** MODIFICATION: Guard against advancing while transcription is pending ***
+    if (inputStatus[currentIndex] === "pending") {
+      toast.info("Please wait, transcription is in progress...");
+      return;
+    }
+
     stopListening(currentIndex);
     if (currentIndex < letters.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
+      // This advances currentIndex to letters.length, triggering onTestComplete
       setCurrentIndex((prev) => prev + 1);
     }
-  }, [currentIndex, letters, stopListening]);
+  }, [currentIndex, letters, stopListening, inputStatus]); // Added inputStatus to dependency array
 
-  // *** EFFECT 1: Reset timeLeft and focus when a new letter becomes active AND Test UI IS VISIBLE ***
   useEffect(() => {
     if (
       isTestUIVisible &&
@@ -229,43 +236,50 @@ export const useGraphemeTestLogic = ({
       letters.length > 0 &&
       currentIndex < letters.length
     ) {
-      // console.log(`useGraphemeTestLogic: Test UI visible for index ${currentIndex}. Resetting timer.`);
       setTimeLeft(LETTER_TIMER_DURATION);
       inputRef.current?.focus();
     }
   }, [currentIndex, letters, isTestUIVisible, LETTER_TIMER_DURATION, inputRef]);
 
-  // *** EFFECT 2: Countdown timer logic, active only when Test UI IS VISIBLE ***
   useEffect(() => {
+    const isPending = inputStatus[currentIndex] === "pending";
+
     if (
       !isTestUIVisible ||
       !letters ||
       letters.length === 0 ||
       currentIndex >= letters.length ||
-      timeLeft <= 0
+      timeLeft <= 0 ||
+      isPending
     ) {
       if (
         timeLeft <= 0 &&
         isTestUIVisible &&
         letters &&
-        currentIndex < letters.length
+        currentIndex < letters.length &&
+        !isPending
       ) {
-        // console.log(`useGraphemeTestLogic: Time ran out for index ${currentIndex}. Moving to next.`);
         handleNextInternal();
       }
       return;
     }
-    // console.log(`useGraphemeTestLogic: Timer ticking for index ${currentIndex}: ${timeLeft}`);
+
     const timerId = setTimeout(() => {
       setTimeLeft((prevTime) => prevTime - 1);
     }, 1000);
-    return () => clearTimeout(timerId);
-  }, [timeLeft, currentIndex, letters, isTestUIVisible, handleNextInternal]);
 
-  // EFFECT 3: Call onTestComplete when all letters are done (currentIndex reaches letters.length)
+    return () => clearTimeout(timerId);
+  }, [
+    timeLeft,
+    currentIndex,
+    letters,
+    isTestUIVisible,
+    handleNextInternal,
+    inputStatus,
+  ]);
+
   useEffect(() => {
     if (letters && letters.length > 0 && currentIndex === letters.length) {
-      // console.log("useGraphemeTestLogic: All letters processed by hook. Calling onTestComplete.");
       stopListening(-1);
       if (onTestComplete) {
         onTestComplete();
@@ -294,8 +308,9 @@ export const useGraphemeTestLogic = ({
   };
 
   const handleRecordButtonClick = () => {
-    if (isRecordingRef.current) stopListening(currentIndex);
-    else {
+    if (isRecordingRef.current) {
+      stopListening(currentIndex);
+    } else {
       const currentItemStatus = inputStatus[currentIndex] || "idle";
       if (["done_typed", "done_voice", "pending"].includes(currentItemStatus)) {
         toast.info(
@@ -329,7 +344,6 @@ export const useGraphemeTestLogic = ({
       streamRef.current = null;
     }
     mediaRecorderRef.current = null;
-    // console.log("useGraphemeTestLogic: Logic reset.");
   }, [letters, LETTER_TIMER_DURATION]);
 
   useEffect(() => () => stopListening(-1), [stopListening]);
