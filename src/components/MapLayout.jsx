@@ -17,18 +17,19 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
   const [confirmDialog, setConfirmDialog] = useState({ show: false, type: null });
 
   // Island names for each island
-  const islandNames = [
-    "Reading Harbor",
-    "Vision Bay", 
-    "Sound Cove",
-    "Picture Port",
-    "Letter Isle",
-    "Memory Atoll",
-    "Sequence Shore",
-    "Symbol Sanctuary",
-    "Blend Beach",
-    "Vocab Valley"
+    const islandNames = [
+    "Goonj Tapu",
+    "Varnika Van", 
+    "Yantra Kanan",
+    "Svara Gufa",
+    "Akshara Parvat",
+    "Chitra Sarovar",
+    "Runa Pathar",
+    "Shabd Sagar",
+    "Shabd Mandir",
+    "Kaal Dhara"
   ];
+
 
   const handleAction = (type) => {
     setConfirmDialog({
