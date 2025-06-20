@@ -3,7 +3,10 @@ import { exec } from "child_process";
 import { stat } from "fs/promises";
 import { existsSync, unlinkSync, writeFileSync, readFileSync } from "fs";
 import util from "util";
-import ffmpeg from "ffmpeg-static";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const ffmpeg = require("ffmpeg-static");
 
 const execPromise = util.promisify(exec);
 
