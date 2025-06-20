@@ -5,7 +5,7 @@
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import WelcomeDialog from "../../../components/auditory-sequential-memory/WelcomeDialog"
+import WelcomeDialog from "../../../components/auditory-sequential-memory/WelcomeDialog.js"
 
 // Direct Implementation of t() and speak()
 const translations = {
@@ -34,11 +34,28 @@ const translations = {
   letsTryNextOne: "Let's try the next one!",
   backToTests: "Back to Tests",
   progress: "Progress",
+  practice: "Practice", // Add this line
   mode: "Mode",
   skipTest: "Skip Test",
   errorProcessingAudio: "Error processing audio",
   errorRecording: "Error recording",
   errorMicAccess: "Microphone access denied",
+  testResults: "Test Results",
+  memoryTestCompleted: "You've completed the Memory Test! Here's how you did.",
+  yourScore: "Your Score:",
+  accuracy: "Accuracy",
+  excellentMemory: "Excellent Memory!",
+  veryGoodJob: "Very Good Job!",
+  goodEffort: "Good Effort!",
+  keepPracticing: "Keep Practicing!",
+  finishTest: "Finish Test",
+  viewRewards: "View Rewards",
+  forwardSequences: "Forward",
+  reverseSequences: "Reverse",
+  rewardsTitle: "Congratulations! You've mastered memory sequences!",
+  rewardEarned: "You've earned the",
+  memoryMasterTrophy: "Memory Master Trophy",
+  returnToResults: "Return to Results",
 }
 
 const t = (key) => translations[key] || key
