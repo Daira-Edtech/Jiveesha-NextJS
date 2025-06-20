@@ -96,9 +96,15 @@ const SymbolSequencePage = () => {
     const token = localStorage.getItem("access_token");
 
     if (!childId) {
+<<<<<<< HEAD
       console.warn("Child ID is missing. Cannot save results.");
       router.push("/take-tests");
       return;
+=======
+      console.warn("Child ID is missing. Cannot save results.")
+      router.push("/take-tests?skipStart=true")
+      return
+>>>>>>> 2792444 (all the best guys)
     }
 
     try {
@@ -127,7 +133,11 @@ const SymbolSequencePage = () => {
       );
       // Continue to results page even if save fails
     } finally {
+<<<<<<< HEAD
       router.push("/take-tests");
+=======
+      router.push("/take-tests?skipStart=true")
+>>>>>>> 2792444 (all the best guys)
     }
   };
 

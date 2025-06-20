@@ -3,7 +3,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import PropTypes from "prop-types";
 import { useState } from "react";
+<<<<<<< HEAD
 import { FaCheck, FaChevronRight } from "react-icons/fa";
+=======
+import { FaCheck, FaChevronRight, FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import EnhanceExperience from "@/components/EnhanceExperience";
+>>>>>>> 2792444 (all the best guys)
 
 // Import local images relative to this component's location
 import localBackgroundImageForDialog from "../../../public/grapheme-test/backgroundImage.webp";
@@ -16,6 +22,29 @@ const WelcomeDialog = ({
   onStartTest,
   t,
 }) => {
+<<<<<<< HEAD
+=======
+  const router = useRouter();
+  const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
+  
+  // Check if we're on the last dialog to show fullscreen option
+  const isLastDialog = currentDialog === dialog.length - 1;
+
+  const handleStartTest = () => {
+    setShowEnhanceExperience(false);
+    onStartTest();
+  };
+
+  const handleButtonClick = () => {
+    if (isLastDialog) {
+      // Show fullscreen enhancement option before starting test
+      setShowEnhanceExperience(true);
+    } else {
+      onNextDialog();
+    }
+  };
+
+>>>>>>> 2792444 (all the best guys)
   return (
     <>
       {/* Background with local image */}
@@ -38,6 +67,20 @@ const WelcomeDialog = ({
           transition={{ duration: 0.5 }}
         />
       </div>
+
+      {/* Back to Map Button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5 }}
+        onClick={() => router.push("/take-tests?skipStart=true")}
+        className="fixed top-4 left-4 z-[70] flex items-center gap-2.5 bg-gradient-to-r from-white/90 to-blue-100/90 hover:from-white hover:to-blue-50 text-blue-900 font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all backdrop-blur-sm border border-white/50"
+        whileHover={{ scale: 1.05, y: -1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <FaArrowLeft className="text-blue-700" />
+        {t("backToMap") || "Back to Map"}
+      </motion.button>
 
       {/* Main content container */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8">

@@ -138,7 +138,7 @@ const GraphemeTestContent = () => {
       toast.info(
         t("testCompletedWithScoreSuppressed", `Test completed: ${scoreValue}. Results page suppressed.`)
       );
-      router.push("/take-tests");
+      router.push("/take-tests?skipStart=true");
     },
     [router, t]
   );
@@ -249,7 +249,7 @@ const GraphemeTestContent = () => {
       case "intro":
       case "loading_init":
       case "error_state_no_letters":
-        router.push("/take-tests");
+        router.push("/take-tests?skipStart=true");
         break;
       case "info":
         setTestStage("intro");
@@ -265,19 +265,20 @@ const GraphemeTestContent = () => {
         if (typeof resetMainTestLogic === 'function') {
             resetMainTestLogic();
         }
-        router.push("/take-tests");
+        router.push("/take-tests?skipStart=true");
         break;
       case "results":
-        router.push("/take-tests");
+        router.push("/take-tests?skipStart=true");
         break;
       default:
-        router.push("/take-tests");
+        router.push("/take-tests?skipStart=true");
     }
   };
 
   const getBackButtonText = () => {
     // ... (getBackButtonText logic - no changes from previous full code)
     switch (testStage) {
+<<<<<<< HEAD
       case "intro": case "loading_init": case "error_state_no_letters": return t("backToMenu", "Back to Menu");
       case "info": return t("backToIntro", "Back to Intro"); // This button leads to "intro" stage. No alert was here.
       case "practice": return t("backToInfo", "Back to Instructions");
@@ -285,6 +286,25 @@ const GraphemeTestContent = () => {
       case "test": case "submit": return t("exitToMenu", "Exit to Menu"); // This button previously had confirm. Now removed.
       case "results": return t("backToMenu", "Back to Menu");
       default: return t("back", "Back");
+=======
+      case "intro":
+      case "loading_init":
+      case "error_state_no_letters":
+        return t("backToMap", "Back to Map");
+      case "info":
+        return t("backToIntro", "Back to Intro"); // This button leads to "intro" stage. No alert was here.
+      case "practice":
+        return t("backToInfo", "Back to Instructions");
+      case "practiceCompleted":
+        return t("backToInfo", "Back to Instructions");
+      case "test":
+      case "submit":
+        return t("backToMap", "Back to Map"); // This button previously had confirm. Now removed.
+      case "results":
+        return t("backToMap", "Back to Map");
+      default:
+        return t("back", "Back");
+>>>>>>> 2792444 (all the best guys)
     }
   };
 
@@ -298,12 +318,45 @@ const GraphemeTestContent = () => {
   } else if (testStage === "error_state_no_letters") {
     mainCardContent = (<div className="text-center py-12 min-h-[400px] flex flex-col items-center justify-center gap-4">
         <AlertTriangle size={48} className="text-red-400" />
+<<<<<<< HEAD
         <p className="text-lg text-red-300">{t("errorNoLettersForTestDisplay", "No letters for this language.")}</p>
         <p className="text-sm text-slate-400">{t("errorTryDifferentLangOrContactSupport", "Try different language or contact support.")}</p>
         <button onClick={() => router.push("/take-tests")} className="mt-4 py-2 px-4 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors">{t("backToTests", "Back to Tests")}</button>
     </div>);
   } else if (testStage === "practice" && !firstLetterForPractice && letters.length > 0) { 
      mainCardContent = (<div className="text-center py-12 min-h-[400px] flex flex-col items-center justify-center gap-4"><Loader2 size={36} className="animate-spin text-sky-400" /><p className="ml-3 text-lg text-slate-300">{t("loadingPracticeLetter", "Loading Practice Letter...")}</p></div>);
+=======
+        <p className="text-lg text-red-300">
+          {t("errorNoLettersForTestDisplay", "No letters for this language.")}
+        </p>
+        <p className="text-sm text-slate-400">
+          {t(
+            "errorTryDifferentLangOrContactSupport",
+            "Try different language or contact support."
+          )}
+        </p>
+        <button
+          onClick={() => router.push("/take-tests?skipStart=true")}
+          className="mt-4 py-2 px-4 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors"
+        >
+          {t("backToTests", "Back to Tests")}
+        </button>
+      </div>
+    );
+  } else if (
+    testStage === "practice" &&
+    !firstLetterForPractice &&
+    letters.length > 0
+  ) {
+    mainCardContent = (
+      <div className="text-center py-12 min-h-[400px] flex flex-col items-center justify-center gap-4">
+        <Loader2 size={36} className="animate-spin text-sky-400" />
+        <p className="ml-3 text-lg text-slate-300">
+          {t("loadingPracticeLetter", "Loading Practice Letter...")}
+        </p>
+      </div>
+    );
+>>>>>>> 2792444 (all the best guys)
   } else if (testStage === "practice") {
     mainCardContent = (<PracticeInterface practiceLetter={firstLetterForPractice} language={language} onPracticeAttemptComplete={handlePracticeAttemptComplete}/>);
   } else if (testStage === "practiceCompleted" || testStage === "info") { 

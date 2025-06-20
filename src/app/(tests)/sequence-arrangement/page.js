@@ -57,7 +57,7 @@ const SequenceArrangementTestContent = () => {
 
     if (!childId) {
       console.warn("Child ID is missing. Cannot save results.");
-      router.push("/take-tests");
+      router.push("/take-tests?skipStart=true");
       return;
     }
 
@@ -84,7 +84,7 @@ const SequenceArrangementTestContent = () => {
         error.response?.data || error.message
       );
     } finally {
-      router.push("/take-tests");
+      router.push("/take-tests?skipStart=true");
     }
   };
 

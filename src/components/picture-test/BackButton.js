@@ -9,7 +9,7 @@ import { FaArrowLeft } from "react-icons/fa";
 // allows the Link component to accept motion props.
 const MotionLink = motion(Link);
 
-export default function BackButton({ t, targetPath = "/take-tests" }) {
+export default function BackButton({ t, targetPath = "/take-tests?skipStart=true" }) {
   return (
     <MotionLink
       href={targetPath} // href is a prop of Link
@@ -27,11 +27,11 @@ export default function BackButton({ t, targetPath = "/take-tests" }) {
                  bg-black/20 hover:bg-black/30 focus:bg-black/30
                  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900/50
                  shadow-md hover:shadow-lg transition-colors duration-200 group"
-      aria-label={t("backToTestsAriaLabel") || "Back to Tests"}
+      aria-label={t("backToMap") || "Back to Map"}
     >
       {/* Children of the Link component */}
       <FaArrowLeft className="text-white transition-colors" />
-      {t("BacktoTests") || "Back to Tests"}
+      {t("backToMap") || "Back to Map"}
     </MotionLink>
   );
 }

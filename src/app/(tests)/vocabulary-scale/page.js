@@ -470,11 +470,11 @@ const dialog = [
       {/* Main content container */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8">
         <button
-          onClick={() => router.push("/take-tests")} // Updated path
+          onClick={() => router.push("/take-tests?skipStart=true")} // Updated path
           className="text-white hover:text-amber-100 text-lg flex items-center gap-1 border border-amber-800/20 rounded-full px-4 py-2 transition-colors duration-300 shadow-lg absolute top-4 left-4 z-50 backdrop-blur-md hover:bg-white/10"
         >
           <ArrowLeft className="h-4 w-4" />
-          {t("backToTests")}
+          {t("backToMap")}
         </button>
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}

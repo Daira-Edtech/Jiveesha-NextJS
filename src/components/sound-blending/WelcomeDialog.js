@@ -13,11 +13,15 @@ import InstructionsScreen from "./InstructionsScreen.js"
 import FinalResultsScreen from "./FinalResultsScreen.js"
 import RewardsModal from "./RewardsModal.js"
 import TopBar from "./TopBar.js"
+<<<<<<< HEAD
 =======
 import GameplayArea from "./GameplayArea.js";
 import InstructionsScreen from "./InstructionsScreen.js";
 import TopBar from "./TopBar.js";
 >>>>>>> 3cebf1d (Code bug fix)
+=======
+import BackToMapButton from "../BackToMapButton.jsx"
+>>>>>>> 2792444 (all the best guys)
 
 import {
   words,
@@ -377,6 +381,13 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
       className="fixed inset-0 overflow-y-auto bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
+      {/* Back to Map Button */}
+      <BackToMapButton 
+        variant="glass" 
+        position="top-left"
+        className="z-[70]"
+      />
+      
       <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
 
       {/* Info Dialog */}

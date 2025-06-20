@@ -2,6 +2,7 @@
 
 "use client"
 
+<<<<<<< HEAD
 import { AnimatePresence, motion } from "framer-motion"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -15,6 +16,26 @@ import TopBar from "./TopBar.js"
 import InstructionsScreen from "./InstructionsScreen.js"
 import { symbols, difficultyLevels, practiceSequence } from "./symbolSequenceConstants.js"
 import WelcomeScreen from "./WelcomeScreen.js"
+=======
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import ShowingScreen from "./ShowingScreen.js";
+import GuessingScreen from "./GuessingScreen.js";
+import ResultsScreen from "./ResultsScreen.js";
+import FinalResultsScreen from "./FinalResultsScreen.js";
+import RewardsModal from "./RewardsModal.js";
+import TopBar from "./TopBar.js";
+import InstructionsScreen from "./InstructionsScreen.js";
+import BackToMapButton from "../BackToMapButton.jsx";
+import {
+  symbols,
+  difficultyLevels,
+  practiceSequence,
+} from "./symbolSequenceConstants.js";
+import WelcomeScreen from "./WelcomeScreen.js";
+>>>>>>> 2792444 (all the best guys)
 
 import backgroundImage from "../../../public/symbol-sequence/Mystical-Runescape.png"
 import characterImage from "../../../public/symbol-sequence/Rune.png"
@@ -491,6 +512,13 @@ const WelcomeDialog = ({
       className="fixed inset-0 overflow-y-auto bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
+      {/* Back to Map Button */}
+      <BackToMapButton 
+        variant="glass" 
+        position="top-left"
+        className="z-[70]"
+      />
+      
       {/* Confetti Effect */}
       {confetti && (
         <div className="fixed inset-0 pointer-events-none z-50">
