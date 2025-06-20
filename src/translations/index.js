@@ -9,6 +9,7 @@ export const translations = {
     language: "Language",
     account: "Account",
     BacktoTests: "Back to Tests",
+    backToMap: "Back to Map",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -219,6 +220,7 @@ export const translations = {
     tryAdjustingSearch: "Try adjusting your search criteria",
     selectStudentButton: "Select Student",
 
+
     // TestResultsPage
     viewingResultsFor: "Viewing Results for:",
     studentId: "ID:",
@@ -299,6 +301,41 @@ export const translations = {
     differentSounds: "Different Sounds",
     imReady: "🌟 I’m Ready, O Guardian!",
     imReadysound: "🌬️ My ears are open, and I am ready.",
+
+    // Fullscreen functionality
+    enhanceExperience: "Enhance Experience",
+    fullScreenRecommendation:
+      "For the best experience, we recommend using fullscreen mode.",
+    enterFullscreen: "Enter Fullscreen",
+    startGame: "Start Game",
+    quit: "Quit",
+    backToMap: "Back to Map",
+    
+    // Map Layout
+    adventureMap: "Adventure Map",
+    chooseYourChallenge: "Choose Your Challenge",
+    level: "Level",
+    gameInfo: "Game Info",
+    gameInfoDescription:
+      "Welcome to the Adventure Map! Complete each level to unlock the next challenge.",
+    selectLanguage: "Select Language",
+    reportIssue: "Report Issue",
+    describeIssue: "Please describe the issue you encountered...",
+    confirmQuit: "Confirm Quit",
+    confirmQuitMessage: "Are you sure you want to quit?",
+    confirmInfo: "Show Information",
+    confirmInfoMessage: "Would you like to view the game information?",
+    confirmLanguage: "Change Language",
+    confirmLanguageMessage: "Would you like to change the language?",
+    confirmReport: "Report Issue",
+    confirmReportMessage: "Would you like to report an issue?",
+
+    // FullScreen Dialog
+    betterExperience: "Better Experience",
+    fullscreenDescription:
+      "For the best experience, we recommend using fullscreen mode. This will help you focus better and see everything clearly.",
+    maybeLater: "Maybe Later",
+
     //Symbol Sequence Game
     symbolSequenceTitle: "Symbol Sequence Memory Game",
     symbolSequenceDescription:
@@ -332,6 +369,162 @@ export const translations = {
     symbolSequenceAssessment: "Symbol Sequence Assessment",
     backToTests: "Back to Tests",
     //Sequence Arrangement
+
+    continue: "Continue",
+    letsBegin: "Let's Begin",
+    aboutTheGame: "About The Game",
+    howToPlay: "How to Play",
+    memoryGameDescription:
+      "This is a memory game. Watch the sequence of animals, remember their order, and then recreate it.",
+    watchSequence: "Watch the sequence of animals.",
+    rememberOrder: "Remember the order they appear in.",
+    recreateSequence:
+      "Recreate the sequence by selecting the animals in the correct order.",
+    fiveSecondsToMemorize: "You'll have 5 seconds to memorize each sequence.",
+    gameStructure: "Game Structure",
+    practiceRound: "Practice Round",
+    practiceRoundDescription: "Start with a practice round to get familiar.",
+    mainTest: "Main Test",
+    mainTestDescription: "The main test consists of 10 sequences.",
+    tips: "Tips",
+    focusOnOrder: "Focus on the order, not just the animals.",
+    lookForPatterns: "Look for patterns in the sequence.",
+    takeYourTime: "Take your time when recreating (no timer for selection).",
+    removeRearrange: "You can remove and rearrange selected animals.",
+    showAnimalsInOrder: "We'll show you some animals in a specific order.",
+    readyForTest: "Ready for the Real Test?",
+    testDescription:
+      "Great job on the practice! Now, let's start the main test. There will be 10 rounds.",
+    startTest: "Start Test",
+    startPracticeRound: "Start Practice Round",
+    backToTests: "Back to Tests",
+    progress: "Progress",
+    skipTest: "Skip Test",
+    round: "Round",
+    of: "of",
+    memorizeAndRecreate: "Memorize & Recreate!",
+    rememberSequence: "Remember this sequence!",
+    remove: "Remove",
+    availableChoices: "Available Choices",
+    tryAgain: "Try Again",
+    checkAnswer: "Check Answer",
+    greatJob: "Great Job!",
+    testResults: "Test Results",
+    testCompletedMessage: "You've completed the test! Here's how you did.",
+    yourScore: "Your Score:",
+    viewRewards: "View Rewards",
+    finishTest: "Finish Test",
+    rewardsTitle:
+      "Yay, you finished the challenge! Here's a little something for your effort!",
+    returnToResults: "Return to Results",
+    feedback: "Feedback",
+    testCompleted: "Test Completed",
+    thankYouForPlaying: "Thank you for playing!",
+    close: "Close",
+
+    continue: "Continue",
+    letsBegin: "Let's Begin",
+    aboutTheGame: "About The Game",
+    howToPlay: "How to Play",
+    memoryGameDescription:
+      "This is a memory game. Watch the sequence of animals, remember their order, and then recreate it.",
+    watchSequence: "Watch the sequence of animals.",
+    rememberOrder: "Remember the order they appear in.",
+    recreateSequence:
+      "Recreate the sequence by selecting the animals in the correct order.",
+    fiveSecondsToMemorize: "You'll have 5 seconds to memorize each sequence.",
+    gameStructure: "Game Structure",
+    practiceRound: "Practice Round",
+    practiceRoundDescription: "Start with a practice round to get familiar.",
+    mainTest: "Main Test",
+    mainTestDescription: "The main test consists of 10 sequences.",
+    tips: "Tips",
+    focusOnOrder: "Focus on the order, not just the animals.",
+    lookForPatterns: "Look for patterns in the sequence.",
+    takeYourTime: "Take your time when recreating (no timer for selection).",
+    removeRearrange: "You can remove and rearrange selected animals.",
+    showAnimalsInOrder: "We'll show you some animals in a specific order.",
+    readyForTest: "Ready for the Real Test?",
+    testDescription:
+      "Great job on the practice! Now, let's start the main test. There will be 10 rounds.",
+    startTest: "Start Test",
+    startPracticeRound: "Start Practice Round",
+    backToTests: "Back to Tests",
+    progress: "Progress",
+    skipTest: "Skip Test",
+    round: "Round",
+    of: "of",
+    memorizeAndRecreate: "Memorize & Recreate!",
+    rememberSequence: "Remember this sequence!",
+    remove: "Remove",
+    availableChoices: "Available Choices",
+    tryAgain: "Try Again",
+    checkAnswer: "Check Answer",
+    greatJob: "Great Job!",
+    testResults: "Test Results",
+    testCompletedMessage: "You've completed the test! Here's how you did.",
+    yourScore: "Your Score:",
+    viewRewards: "View Rewards",
+    finishTest: "Finish Test",
+    rewardsTitle:
+      "Yay, you finished the challenge! Here's a little something for your effort!",
+    returnToResults: "Return to Results",
+    feedback: "Feedback",
+    testCompleted: "Test Completed",
+    thankYouForPlaying: "Thank you for playing!",
+    close: "Close",
+
+    continue: "Continue",
+    letsBegin: "Let's Begin",
+    aboutTheGame: "About The Game",
+    howToPlay: "How to Play",
+    memoryGameDescription:
+      "This is a memory game. Watch the sequence of animals, remember their order, and then recreate it.",
+    watchSequence: "Watch the sequence of animals.",
+    rememberOrder: "Remember the order they appear in.",
+    recreateSequence:
+      "Recreate the sequence by selecting the animals in the correct order.",
+    fiveSecondsToMemorize: "You'll have 5 seconds to memorize each sequence.",
+    gameStructure: "Game Structure",
+    practiceRound: "Practice Round",
+    practiceRoundDescription: "Start with a practice round to get familiar.",
+    mainTest: "Main Test",
+    mainTestDescription: "The main test consists of 10 sequences.",
+    tips: "Tips",
+    focusOnOrder: "Focus on the order, not just the animals.",
+    lookForPatterns: "Look for patterns in the sequence.",
+    takeYourTime: "Take your time when recreating (no timer for selection).",
+    removeRearrange: "You can remove and rearrange selected animals.",
+    showAnimalsInOrder: "We'll show you some animals in a specific order.",
+    readyForTest: "Ready for the Real Test?",
+    testDescription:
+      "Great job on the practice! Now, let's start the main test. There will be 10 rounds.",
+    startTest: "Start Test",
+    startPracticeRound: "Start Practice Round",
+    backToTests: "Back to Tests",
+    progress: "Progress",
+    skipTest: "Skip Test",
+    round: "Round",
+    of: "of",
+    memorizeAndRecreate: "Memorize & Recreate!",
+    rememberSequence: "Remember this sequence!",
+    remove: "Remove",
+    availableChoices: "Available Choices",
+    tryAgain: "Try Again",
+    checkAnswer: "Check Answer",
+    greatJob: "Great Job!",
+    testResults: "Test Results",
+    testCompletedMessage: "You've completed the test! Here's how you did.",
+    yourScore: "Your Score:",
+    viewRewards: "View Rewards",
+    finishTest: "Finish Test",
+    rewardsTitle:
+      "Yay, you finished the challenge! Here's a little something for your effort!",
+    returnToResults: "Return to Results",
+    feedback: "Feedback",
+    testCompleted: "Test Completed",
+    thankYouForPlaying: "Thank you for playing!",
+    close: "Close",
     checkAnswer: "Check Answer",
     animalSequenceGame: "Animal Sequence Game",
     matchSequenceDescription:
@@ -394,6 +587,23 @@ export const translations = {
     yourFinalScoreIs: "Your final score is",
     thankYouForCompletingVocabularyScaleTest:
       "Thank you for completing the Vocabulary Scale Test.",
+    practiceTitle: "Let's Practice Together!",
+    clickToStop: "Click to Stop",
+    clickToSpeak: "Click to Speak",
+    practiceDescription:
+      "Before we start the real test, let's practice with one word. Try to explain what this word means. Don't worry if you don't get it right the first time - we'll help you!",
+    practiceComplete: "Practice Complete!",
+    readyForRealTest: "You're ready for the real test now!",
+    startingMainTest: "Starting main test",
+
+    shabdMandirGreeting: "🙏 Namaste, young wordsmith!",
+    shabdMandirWelcome:
+      "🏛️ Welcome to Shabd Mandir — a sacred place where every new word you grasp 📚 raises the temple closer to the stars ✨.",
+    shabdMandirVaniIntro:
+      "🐍 I am Vani Naga, serpent of knowledge and guardian of the final Codex fragment 📖.",
+    shabdMandirBeginPrompt:
+      "🗝️ Are you ready to awaken the power of words and complete your journey? Let's begin! 🚀",
+
     submissionError: "Submission Error",
     backTotests: "Back to Tests",
     vocabularyScaleTest: "Vocabulary Scale Test",
@@ -452,6 +662,7 @@ export const translations = {
     errorUploadingAudioTryAgain: "Error uploading audio. Please try again.",
     testSubmittedWithScore: "Test submitted! Score: {score}%", // {score} is a placeholder
     transcriptionNotReady: "Please record or upload audio before submitting.", // For toast.info(t("transcriptionNotReady"))
+    SkipDemo: "Skip Demo",
 
     // Test6 - Tutorial Messages (Coraline's dialogue)
     tutorialHelloExplorer: "🙏 Namaste, little seeker of stories!",
@@ -557,7 +768,21 @@ export const translations = {
     labelListeningCarefully: "Listening carefully...",
     soundTestApiName: "Test 16: Sound Discrimination",
 
-    //Picture Recognition Test
+    //Picture Recognition Test,
+    practiceRoundTitle: "Pratice Round",
+    finishPractice: "Submit Practice Round",
+    gotItButton: "Got it!",
+    howToPlayTitle: "How to Play",
+    infoStep1: "You will be shown a series of pictures one by one.",
+    infoStep2:
+      "For each picture, first tell us if you can see it clearly by clicking 'Yes' or 'No'.",
+    infoStep3:
+      "If you see it, you'll then be asked to say what it is and describe it. You can type or use your voice.",
+    practiceResultDidNotSee:
+      "Practice: You indicated you couldn't see the image.",
+    practiceResultCorrect: "Practice: Great job! You identified it correctly.",
+    practiceResultIncorrect: "Practice: Good try!",
+    theCorrectAnswerWas: "The correct answer was:",
     transcriptionReceived: "Transcription received!",
     errorUploadingAudioCheckConnection:
       "Error uploading audio. Please check connection.",
@@ -607,6 +832,7 @@ export const translations = {
     pictureTestProgressStatus: "{current} of {total} completed", // For dynamic progress text
 
     // Speech prompts (New, specific keys for clarity)
+
     speakGreatWhatIsIt: "Great! Can you tell me what it is?",
     speakCanYouSeeThisPictureInitial: "Can you see this picture?",
 
@@ -623,6 +849,32 @@ export const translations = {
     altBlendaTheDolphin: "Shabdamitra the Dolphin 🐬",
 
     // Game Screen UI
+
+    backToInfo: "Back to Instructions",
+    exitToMenu: "Back to Tests",
+    loading: "Loading...",
+    backToMenu: "Back to Menu",
+    progress: "Progress",
+    confirmExitMessage:
+      "Are you sure you want to exit? Your current progress will be lost.",
+    graphemeInfoStep1: "You will be shown a letter (grapheme).",
+    graphemeInfoStep2:
+      "Recall its sound (phoneme). Then, type or record the sound the letter makes.",
+    graphemeInfoStep3:
+      "You'll have a few seconds for each letter. Try your best to match them!",
+    howToPlayGraphemeTest: "How to Play: Letter Sounds",
+
+    practiceDoneTitle: "Practice Done!",
+    startFullTestButton: "Start Full Test",
+    reviewPracticeButton: "Review Practice",
+    practiceCompleteMessage:
+      "Practice complete! How did you find it? Ready for the full challenge?",
+
+    resultsTitle: " Results Are In!",
+    resultsScoreMessage:
+      "You got <strong class='text-white font-semibold'>{{score}}</strong> out of <strong class='text-white font-semibold'>{{totalLetters}}</strong> correct!",
+    progressTrackerLabelPrefix: "Item ",
+    progressTrackerLabelMiddle_Of: " of ",
     phonemeBlendingProgressBarStart: "Start",
     phonemeBlendingProgressBarWord: "Word",
     phonemeBlendingProgressBarFinish: "Finish",
@@ -688,7 +940,191 @@ export const translations = {
     continuousAssessmentResults: "Continuous Assessment Results",
     noTestResultsFoundAtAll: "No Test Results Found",
     noTestResultsFoundForFilter: "No Test Results Found",
+    visualDemoInstruction1: "You'll be shown a target character or word.",
+    visualDemoInstruction2: "Several options will appear below it.",
+    visualDemoInstruction3:
+      "Your goal: Find and click the option that exactly matches the target.",
+    visualDemoInstruction4:
+      "The main test questions are timed, so practice being quick and accurate!",
+    visualDemoInstruction5:
+      "In the main test, once you pick an answer, you can't change it.",
+    visualDemoPracticeNote:
+      "This practice question is untimed. If you get it wrong, you can try again!",
 
+    // For SoundDiscriminationTestOrchestrator.jsx & its sub-components
+    soundTestApiName: "Sound Discrimination Test",
+    progress: "Progress",
+    backToTests: "Back to Tests",
+    showInstructionsButton: "Instructions",
+    demoRoundTitle: "Demo Round",
+    demoRoundInstructions:
+      "Let's practice! Listen to the sounds and decide if they are the same or different. You can try again if you miss.",
+    demoIncorrectToastMessage: "Oops! Let's try that one again.",
+    demoTimeoutRetry: "Demo question timed out. Let's try it again!",
+    demoCorrect: "Excellent!",
+    demoCorrectProceed: "You've got it! Ready to start the main test?",
+    startMainTestButton: "Start Main Test",
+    testCompleted: "Test Completed!",
+    youGot: "You scored",
+    outOf: "out of",
+    correct: "correctly.",
+    submitResults: "Submit Results",
+    submitting: "Submitting...",
+    selectStudentFirst: "Please select a student first.",
+    testSubmittedSuccessfully: "Test submitted successfully!",
+    failedToSubmitTestPleaseTryAgain: "Failed to submit. Please try again.",
+    errorOccurredGeneric: "An error occurred. Please try again.",
+
+    // For InstructionsComponent.jsx
+    testInstructionsTitle: "Test Instructions",
+    instructionWelcome:
+      "Welcome, brave adventurer, to the Whispering Isle Sound Challenge!",
+    instructionHowToPlayTitle: "How to Play:",
+    instructionListenCarefully: "You will hear pairs of spoken words.",
+    instructionTwoWords:
+      "Listen carefully to both words in each pair played through the speaker bird.",
+    instructionSameOrDifferent:
+      "Click 'Same Sounds' if they are identical, or 'Different Sounds' if they are not.",
+    instructionDemoRoundFirst:
+      "First, you'll have a practice (demo) round with one question.",
+    instructionDemoRetry:
+      "If you get the demo question wrong, you can try it again.",
+    instructionDemoSuccess:
+      "Once you answer the demo correctly, the main test will begin.",
+    instructionMainTest:
+      "The main test consists of multiple questions. Give it your best shot!",
+    instructionGoodLuckTitle: "Ready?",
+    instructionGoodLuckMessage: "Focus, listen closely, and good luck!",
+    proceedToDemoButton: "Start Demo Round",
+    closeInstructionsAriaLabel: "Close Instructions",
+    gotItButton: "Got It!",
+
+    testInstructionsTitle: "Test Instructions",
+    instructionPoint1: "You will be shown a series of words.",
+    instructionPoint2: "Please read each word clearly into your microphone.",
+    instructionPoint3: "You can also upload an audio file of your recording.",
+    instructionPoint4: "First, you'll try a quick demo word to get familiar.",
+    instructionPoint5:
+      "In the demo, if your answer is incorrect, you can try again.",
+    instructionPoint6:
+      "Once the demo word is correct, you can proceed to the main test.",
+    instructionPoint7:
+      "Click 'Start Recording' (Mic icon) to begin, and 'Stop Recording' (Mic Off icon) when done.",
+    instructionPoint8: "Ensure your microphone is enabled and working.",
+    buttonStartDemo: "Start Demo",
+    buttonShowInstructions: "Show Instructions",
+    buttonHideInstructions: "Hide Instructions", // Or just use a close icon
+    demoRoundTitle: "Demo Round",
+    demoReadThisWord: "Please read this word aloud:",
+    demoYourAttempt: "Your attempt:",
+    demoCorrectMessage: "Great! That's correct.",
+    demoIncorrectMessage: 'Not quite. The word was "{word}". Please try again.',
+    demoIncorrectSimpleMessage: "Not quite. Please try again.",
+    buttonTryAgain: "Try Again",
+    buttonProceedToMainTest: "Proceed to Main Test",
+    buttonSubmitDemoAnswer: "Submit Demo Answer",
+    recordingInProgress: "Recording...",
+    transcribingInProgress: "Transcribing...",
+    uploadAudioPrompt: "Or upload an audio file",
+    instructionsButtonLabel: "Instructions",
+    demoReadTheseWords: "Please read these words aloud in order:",
+    demoAllWordsCorrectMessage: "Excellent! All demo words are correct.",
+    demoSomeWordsIncorrectMessage:
+      'Not quite. Please try reading all the words again clearly. The words were: "{words}".',
+    demoYourFullAttempt: "Your full attempt:",
+
+    gotIt: "Got It!",
+
+    VisualDemoInstruction1: "Examine the target image at the top.",
+    VisualDemoInstruction2: "Carefully look at the options provided below.",
+    VisualDemoInstruction3:
+      "Select the option that is an exact match to the target image.",
+    VisualDemoInstruction4:
+      "If your choice is incorrect, you will get a chance to try again.",
+    VisualDemoInstruction5:
+      "If your choice is correct, you can proceed to the main test.",
+    VisualDemoPracticeNote:
+      "This is a practice round. Your performance here does not affect your main test score.",
+
+    loadingPractice: "Loading Practice Round...",
+    practiceRoundTitle: "Welcome to the Practice Round!",
+    practiceRoundIntroVisual:
+      "Let's try a sample question to get you familiar with the Visual Discrimination test. Your performance here won't affect your main test score.",
+    practiceRoundTip:
+      'Remember, you can click the "Test Instructions" button anytime during this practice if you need a refresher.',
+    startPracticeQuestion: "Start Practice",
+    errorNoPracticeQuestion:
+      "Sorry, no practice question available for this language.",
+    showInstructions: "Show Test Instructions",
+    testInstructions: "Test Instructions",
+    visualTestInstructionsTitle: "Visual Discrimination: How to Play",
+    practiceCorrect: "Excellent! That's the correct one.",
+    startMainTest: "Start Main Test",
+    practiceIncorrect: "Not quite. That wasn't the match.",
+    practiceSelected: 'You picked: "{selection}".', // {selection} is for i18next interpolation
+    tryAgain: "Try Again",
+
+    labelProgress: "Overall Progress",
+    GenericInstruction1:
+      "A large word will appear in the middle of your screen.",
+    GenericInstruction2: "Look at the two smaller words below it.",
+    GenericInstruction3:
+      "Click on the smaller word that exactly matches the large word.",
+    GenericInstruction4:
+      "A timer will count down for each question. Try to answer before it runs out!",
+    GenericInstruction5: "Focus and do your best! Good luck!",
+
+    visualTestSelectStudentError: "Please select a student first.",
+    testSubmittedSuccessfully: "Test submitted successfully!",
+    failedToSubmitTestPleaseTryAgain: "Failed to submit. Please try again.",
+    anErrorOccurredWhileSubmittingTheTestPleaseTryAgain:
+      "An error occurred. Try again.",
+    backToTests: "Back to Tests",
+    showTestInstructions: "Show Test Instructions",
+    testInstructionsButton: "Instructions",
+    mainTestInstructionsTitle: "Test Instructions",
+    loadingTest: "Loading test...",
+    visualTestCompleted: "Test Finished! ✨",
+    submitting: "Submitting...",
+    loading: "Loading...",
+    submitResults: "Submit Results",
+
+    feedbackKeepPracticing: "Keep Practicing! 💪",
+    feedbackGoodEffort: "Good Effort! 😊",
+    feedbackGreatJob: "Great Job! 👍",
+    feedbackExcellent: "Excellent Work! 🎉",
+
+    closeInstructions: "Close Instructions",
+    gotIt: "Got It!",
+    visualTestDemoInstructionsTitle: "Practice Tips",
+    demoInstructionsButton: "Demo Tips",
+    showDemoInstructions: "Show Demo Instructions",
+    VisualDemoInstruction1:
+      "A big word will appear in the center of the screen. Look at it carefully!",
+    VisualDemoInstruction2:
+      "Below, you'll see two smaller words. Choose the one that matches the big word.",
+    VisualDemoInstruction3:
+      "In the real test, there's a timer! But for practice, take your time.",
+    VisualDemoInstruction4:
+      "Don't worry if you pick the wrong one here, it's just for practice!",
+    VisualDemoInstruction5:
+      "This practice helps you understand how the test works.",
+    loadingPractice: "Getting Practice Ready...",
+    practiceRoundTitle: "Let's Practice! 🚀",
+    practiceRoundIntroVisual:
+      "Before the real test, let's try a fun practice question together!",
+    practiceRoundTip:
+      "This will show you exactly what to do. No scores here, just learning fun!",
+    startPracticeQuestion: "Start Practice!",
+    errorNoPracticeQuestion:
+      "Oops! No practice question found. Please try refreshing.",
+    practiceCorrect: "That's Right!",
+    startMainTest: "Start Real Test!",
+    practiceIncorrect: "Not Quite...",
+    practiceSelected:
+      "You picked: {selection}. The correct one was {correctAnswer}.",
+    notSelected: "nothing",
+    tryAgain: "Try Again!",
   },
   ta: {
     mainMenu: "முதன்மை மெனு",
@@ -699,6 +1135,8 @@ export const translations = {
     language: "மொழி",
     account: "கணக்கு",
     word: "வார்த்தை",
+    backToMap: "மேப்பிற்குத் திரும்பு",
+    backToMap: "மேப்பிற்குத் திரும்பு",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -1279,6 +1717,22 @@ export const translations = {
     statusProcessing: "செயலாக்கத்தில் உள்ளது...",
 
     // Picture Recognition Test - Intro Dialog (Mira the Mirrorfish) - Tamil
+
+    practiceRoundTitle: "பயிற்சி சுற்று",
+    finishPractice: "பயிற்சி சுற்றை சமர்ப்பிக்கவும்",
+    gotItButton: "புரிந்தது!",
+    howToPlayTitle: "எப்படி விளையாடுவது",
+    infoStep1: "உங்களுக்கு ஒவ்வொன்றாக பல படங்கள் காண்பிக்கப்படும்.",
+    infoStep2:
+      "ஒவ்வொரு படத்திற்கும், முதலில் 'ஆம்' அல்லது 'இல்லை' என்பதைக் கிளிக் செய்வதன் மூலம் நீங்கள் அதை தெளிவாகக் காண முடியுமா என்பதை எங்களுக்குத் தெரியப்படுத்துங்கள்.",
+    infoStep3:
+      "நீங்கள் அதைப் பார்த்தால், அது என்னவென்று சொல்லவும், அதை விவரிக்கவும் கேட்கப்படுவீர்கள். நீங்கள் தட்டச்சு செய்யலாம் அல்லது உங்கள் குரலைப் பயன்படுத்தலாம்.",
+    practiceResultDidNotSee:
+      "பயிற்சி: நீங்கள் படத்தைப் பார்க்க முடியவில்லை என்று குறிப்பிட்டுள்ளீர்கள்.",
+    practiceResultCorrect:
+      "பயிற்சி: அருமை! நீங்கள் அதை சரியாக அடையாளம் கண்டுள்ளீர்கள்.",
+    practiceResultIncorrect: "பயிற்சி: நல்ல முயற்சி!",
+    theCorrectAnswerWas: "சரியான பதில்:",
     pictureTestIntroDialog1:
       "🌊 பயணியே, கிரிஸ்டல் ஷோல்ஸுக்கு வரவேற்கிறோம்! இங்குள்ள அலை குளங்கள் மேலிருந்து வரும் பிரதிபலிப்புகளால் மின்னுகின்றன.",
     pictureTestIntroDialog2:
@@ -1370,6 +1824,27 @@ export const translations = {
       "உங்கள் முடிவுகள் சமர்ப்பிக்கப்படுகின்றன...",
 
     // Results Card
+    backToInfo: "வழிமுறைகளுக்குத் திரும்பு",
+    exitToMenu: "சோதனைகளுக்குத் திரும்பு",
+    loading: "ஏற்றுகிறது...",
+    backToMenu: "மெனுவிற்குத் திரும்பு",
+    progress: "முன்னேற்றம்",
+    confirmExitMessage:
+      "நீங்கள் வெளியேற விரும்புகிறீர்களா, உறுதியாகவா? உங்கள் தற்போதைய முன்னேற்றம் இழக்கப்படும்.",
+    graphemeInfoStep1: "உங்களுக்கு ஒரு எழுத்து (எழுத்துருவம்) காட்டப்படும்.",
+    graphemeInfoStep2:
+      "அதன் ஒலியை (ஒலியன்) நினைவுபடுத்துங்கள். பிறகு, அந்த எழுத்து உருவாக்கும் ஒலியைத் தட்டச்சு செய்யவும் அல்லது பதிவு செய்யவும்.",
+    graphemeInfoStep3:
+      "ஒவ்வொரு எழுத்திற்கும் சில வினாடிகள் உங்களுக்கு வழங்கப்படும். அவற்றை பொருத்த உங்களால் முடிந்தவரை முயற்சி செய்யுங்கள்!",
+    howToPlayGraphemeTest: "விளையாடுவது எப்படி: எழுத்து ஒலிகள்",
+    practiceDoneTitle: "பயிற்சி முடிந்தது!",
+    startFullTestButton: "முழு சோதனையைத் தொடங்கு",
+    reviewPracticeButton: "பயிற்சியை மதிப்பாய்வு செய்",
+    practiceCompleteMessage:
+      "பயிற்சி முடிந்தது! அது உங்களுக்கு எப்படி இருந்தது? முழு சவாலுக்குத் தயாரா?",
+    resultsTitle: "முடிவுகள் வந்துவிட்டன!",
+    resultsScoreMessage:
+      "நீங்கள் <strong class='text-white font-semibold'>{{totalLetters}}</strong> இல் <strong class='text-white font-semibold'>{{score}}</strong> சரியாகப் பெற்றுள்ளீர்கள்!",
     phonemeBlendingResultCardWordLabel: "வார்த்தை {indexPlusOne}:",
     phonemeBlendingResultCardYouSaid: "நீங்கள் சொன்னது:",
     phonemeBlendingResultCardNoResponse: "பதில் இல்லை",
@@ -1395,6 +1870,8 @@ export const translations = {
     language: "भाषा",
     account: "खाता",
     word: "शब्द",
+    backToMap: "मैप पर वापस जाएँ",
+    backToMapAlt: "मैप पर वापस जाएँ",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -1770,6 +2247,24 @@ export const translations = {
     //vocab scale
     level: "स्तर",
     english: "अंग्रेज़ी",
+    practiceTitle: "आइए साथ में अभ्यास करें!",
+    clickToStop: "रोकने के लिए क्लिक करें",
+    clickToSpeak: "बोलने के लिए क्लिक करें",
+    checkAnswer: "उत्तर जांचें",
+    practiceDescription:
+      "वास्तविक परीक्षण शुरू करने से पहले, चलिए एक शब्द के साथ अभ्यास करते हैं। प्रयास करें कि आप इस शब्द का क्या अर्थ समझते हैं। पहली बार में सही नहीं हुआ तो कोई बात नहीं - हम आपकी मदद करेंगे!",
+    practiceComplete: "अभ्यास पूरा हुआ!",
+    readyForRealTest: "अब आप असली परीक्षण के लिए तैयार हैं!",
+    startingMainTest: "मुख्य परीक्षण शुरू हो रहा है",
+
+    shabdMandirGreeting: "🙏 नमस्ते, युवा शब्द साधक!",
+    shabdMandirWelcome:
+      "🏛️ स्वागत है शब्द मंदिर में — यह एक पवित्र स्थान है जहाँ हर नया शब्द जो आप सीखते हैं 📚, मंदिर को सितारों के और करीब ले जाता है ✨।",
+    shabdMandirVaniIntro:
+      "🐍 मैं वाणी नागा हूँ, ज्ञान की सर्पिणी और अंतिम कोडेक्स टुकड़े की रक्षक 📖।",
+    shabdMandirBeginPrompt:
+      "🗝️ क्या आप शब्दों की शक्ति को जगाने और अपनी यात्रा को पूरा करने के लिए तैयार हैं? आइए शुरू करें! 🚀",
+
     whatDoesThisWordMean: "इस शब्द का क्या अर्थ है?",
     enterDefinitionHere: "परिभाषा यहां दर्ज करें...",
     stopRecording: "रिकॉर्डिंग बंद करें",
@@ -1833,6 +2328,47 @@ export const translations = {
     transcription_failed: "ट्रांसक्रिप्शन विफल",
     audio_upload_error: "ऑडियो अपलोड त्रुटि",
     //Added new words for Hindi reading proficiency
+    testInstructionsTitle: "टेस्ट के निर्देश",
+    instructionPoint1: "आपको शब्दों की एक श्रृंखला दिखाई जाएगी।",
+    instructionPoint2:
+      "कृपया प्रत्येक शब्द को अपने माइक्रोफ़ोन में स्पष्ट रूप से पढ़ें।",
+    instructionPoint3:
+      "आप अपनी रिकॉर्डिंग की ऑडियो फ़ाइल भी अपलोड कर सकते हैं।",
+    instructionPoint4:
+      "सबसे पहले, आप अभ्यास के लिए एक डेमो शब्द का प्रयास करेंगे।",
+    instructionPoint5:
+      "डेमो में, यदि आपका उत्तर गलत है, तो आप फिर से प्रयास कर सकते हैं।",
+    instructionPoint6:
+      "एक बार डेमो शब्द सही हो जाने पर, आप मुख्य टेस्ट के लिए आगे बढ़ सकते हैं।",
+    instructionPoint7:
+      "शुरू करने के लिए 'रिकॉर्डिंग शुरू करें' (माइक आइकन) पर क्लिक करें, और समाप्त होने पर 'रिकॉर्डिंग बंद करें' (माइक ऑफ आइकन) पर क्लिक करें।",
+    instructionPoint8:
+      "सुनिश्चित करें कि आपका माइक्रोफ़ोन चालू है और ठीक से काम कर रहा है।",
+    buttonStartDemo: "डेमो शुरू करें",
+    buttonShowInstructions: "निर्देश देखें",
+    buttonHideInstructions: "निर्देश छिपाएँ",
+    nextWords: "अगले शब्द",
+    demoRoundTitle: "डेमो राउंड",
+    demoReadThisWord: "कृपया यह शब्द ज़ोर से पढ़ें:",
+    demoYourAttempt: "आपका प्रयास:",
+    demoCorrectMessage: "बहुत बढ़िया! यह सही है।",
+    demoIncorrectMessage:
+      'सही नहीं। यह शब्द था "{word}"। कृपया फिर से प्रयास करें।',
+    demoIncorrectSimpleMessage: "सही नहीं। कृपया फिर से प्रयास करें।",
+    buttonTryAgain: "फिर से प्रयास करें",
+    buttonProceedToMainTest: "मुख्य परीक्षण पर जाएं",
+    buttonSubmitDemoAnswer: "डेमो उत्तर सबमिट करें",
+    recordingInProgress: "रिकॉर्डिंग चालू है...",
+    transcribingInProgress: "ट्रांसक्रिप्शन हो रहा है...",
+    uploadAudioPrompt: "या एक ऑडियो फ़ाइल अपलोड करें",
+    instructionsButtonLabel: "निर्देश",
+    demoReadTheseWords: "कृपया इन शब्दों को क्रम में ज़ोर से पढ़ें:",
+    demoAllWordsCorrectMessage: "उत्तम! सभी डेमो शब्द सही हैं।",
+    demoSomeWordsIncorrectMessage:
+      'सही नहीं। कृपया सभी शब्दों को फिर से स्पष्ट रूप से पढ़ें। शब्द थे: "{words}"।',
+    demoYourFullAttempt: "आपका पूरा प्रयास:",
+    SkipDemo: "डेमो छोड़ें",
+    gotIt: "समझ गया!",
 
     transcriptionFailedTryAgain:
       "ट्रांसक्रिप्शन विफल रहा। कृपया पुनः प्रयास करें।",
@@ -1907,6 +2443,124 @@ export const translations = {
       "परीक्षा देने से पहले कृपया एक छात्र का चयन करें",
     visualTestCompleted: "परीक्षा पूरी हुई!",
     visualTestScoreOutOfTotal: "आपने {total} में से {score} सही किए",
+    visualTestGhadiyakshDialogWelcome:
+      "🕰️ नमस्ते, यात्री... मैं घड़ियाक्ष हूँ, यंत्र कानन का यंत्रवत संरक्षक।",
+
+    visualTestGhadiyakshDialogShiftingPatterns:
+      "🌿 यह उपवन चलने वाले हिस्सों और बदलते पैटर्नों से भरा हुआ है। हर टिक करने वाली चीज़ एक जैसी नहीं होती...",
+
+    visualTestGhadiyakshDialogWatchClosely:
+      "👁️ ध्यान से देखो। कुछ हिस्से तुम्हारी आँखों को धोखा दे सकते हैं। केवल एक ही पूरी तरह मेल खाता है।",
+
+    visualTestGhadiyakshDialogReward:
+      "🎁 दृष्टि की पहेलियाँ हल करो, और मैं तुम्हें ध्यान का पंख 🪶 और दर्पण गियर 🔍 दूँगा—ऐसे उपकरण जो छुपी चीजों को देखने में मदद करें।",
+
+    visualTestGhadiyakshDialogReadyPrompt:
+      "🦚 क्या तुम्हारी आँखें स्थिर और मन तेज है? तो फिर चुनौती शुरू हो!",
+
+    altGhadiyakshTheGuardian: "संरक्षक घड़ियाक्ष",
+
+    buttonImReady: "मैं तैयार हूँ!",
+
+    labelTimeRemaining: "शेष समय",
+    labelQuestionOutOfTotal: "प्रश्न {index} / {total}",
+    labelProgress: "प्रगति",
+
+    visualTestSelectStudentError:
+      "कृपया परीक्षण शुरू करने से पहले एक छात्र चुनें।",
+
+    visualTestCompleted: "परीक्षण समाप्त हुआ!",
+    visualTestScoreOutOfTotal: "आपने {total} में से {score} सही उत्तर दिए।",
+    VisualDemoInstruction1: "ऊपर दी गई लक्षित छवि को ध्यान से देखें।",
+    VisualDemoInstruction2: "नीचे दिए गए विकल्पों को ध्यानपूर्वक देखें।",
+    VisualDemoInstruction3:
+      "वह विकल्प चुनें जो लक्षित छवि से बिल्कुल मेल खाता हो।",
+    VisualDemoInstruction4:
+      "यदि आपका उत्तर गलत है, तो आप दोबारा प्रयास कर सकते हैं।",
+    VisualDemoInstruction5:
+      "यदि आपका उत्तर सही है, तो आप मुख्य परीक्षण पर आगे बढ़ सकते हैं।",
+    VisualDemoPracticeNote:
+      "यह एक अभ्यास चरण है। आपका प्रदर्शन मुख्य परीक्षण के स्कोर को प्रभावित नहीं करेगा।",
+
+    loadingPractice: "अभ्यास चरण लोड हो रहा है...",
+    practiceRoundTitle: "अभ्यास चरण में आपका स्वागत है!",
+    practiceRoundIntroVisual:
+      "दृश्य परीक्षण से परिचित होने के लिए एक नमूना प्रश्न आज़माएं। यहाँ का प्रदर्शन मुख्य स्कोर को प्रभावित नहीं करेगा।",
+    practiceRoundTip:
+      'याद रखें, यदि आपको ज़रूरत हो तो आप किसी भी समय "परीक्षण निर्देश" बटन पर क्लिक कर सकते हैं।',
+    startPracticeQuestion: "अभ्यास शुरू करें",
+    errorNoPracticeQuestion:
+      "क्षमा करें, इस भाषा के लिए कोई अभ्यास प्रश्न उपलब्ध नहीं है।",
+    showInstructions: "परीक्षण निर्देश दिखाएँ",
+    testInstructions: "परीक्षण निर्देश",
+    visualTestInstructionsTitle: "दृश्य भेदभाव: खेलने का तरीका",
+    practiceCorrect: "शानदार! यही सही उत्तर था।",
+    startMainTest: "मुख्य परीक्षण शुरू करें",
+    practiceIncorrect: "ठीक नहीं था। यह मेल नहीं खाता।",
+    practiceSelected: 'आपने चुना: "{selection}"।',
+    tryAgain: "फिर से प्रयास करें",
+
+    labelProgress: "कुल प्रगति",
+    GenericInstruction1: "एक बड़ा शब्द आपकी स्क्रीन के बीच में दिखाई देगा।",
+    GenericInstruction2: "नीचे दो छोटे शब्द होंगे, उन्हें देखें।",
+    GenericInstruction3:
+      "उस छोटे शब्द पर क्लिक करें जो बड़े शब्द से बिल्कुल मेल खाता हो।",
+    GenericInstruction4:
+      "हर प्रश्न के लिए एक टाइमर चलेगा। समय समाप्त होने से पहले उत्तर देने का प्रयास करें!",
+    GenericInstruction5:
+      "ध्यान केंद्रित करें और अपना सर्वश्रेष्ठ दें! शुभकामनाएँ!",
+
+    visualTestSelectStudentError: "कृपया पहले एक छात्र चुनें।",
+    testSubmittedSuccessfully: "परीक्षण सफलतापूर्वक सबमिट हुआ!",
+    failedToSubmitTestPleaseTryAgain:
+      "सबमिट नहीं हो सका। कृपया पुनः प्रयास करें।",
+    anErrorOccurredWhileSubmittingTheTestPleaseTryAgain:
+      "कोई त्रुटि हुई। कृपया फिर से प्रयास करें।",
+    backToTests: "परीक्षणों पर वापस जाएँ",
+    showTestInstructions: "परीक्षण निर्देश दिखाएँ",
+    testInstructionsButton: "निर्देश",
+    mainTestInstructionsTitle: "परीक्षण निर्देश",
+    loadingTest: "परीक्षण लोड हो रहा है...",
+    visualTestCompleted: "परीक्षण समाप्त हुआ! ✨",
+    submitting: "सबमिट किया जा रहा है...",
+    loading: "लोड हो रहा है...",
+    submitResults: "परिणाम सबमिट करें",
+
+    feedbackKeepPracticing: "अभ्यास करते रहें! 💪",
+    feedbackGoodEffort: "अच्छा प्रयास! 😊",
+    feedbackGreatJob: "शानदार काम! 👍",
+    feedbackExcellent: "उत्कृष्ट कार्य! 🎉",
+
+    closeInstructions: "निर्देश बंद करें",
+    gotIt: "समझ गया!",
+    visualTestDemoInstructionsTitle: "अभ्यास सुझाव",
+    demoInstructionsButton: "डेमो सुझाव",
+    showDemoInstructions: "डेमो निर्देश दिखाएँ",
+
+    VisualDemoInstruction1:
+      "एक बड़ा शब्द स्क्रीन के बीच में दिखाई देगा। ध्यान से देखें!",
+    VisualDemoInstruction2:
+      "नीचे दो छोटे शब्द होंगे। वह चुनें जो बड़े शब्द से मेल खाता हो।",
+    VisualDemoInstruction3:
+      "मुख्य परीक्षण में टाइमर होगा! लेकिन अभ्यास के लिए, आप आराम से करें।",
+    VisualDemoInstruction4:
+      "चिंता न करें यदि आप यहाँ गलत विकल्प चुनते हैं, यह सिर्फ अभ्यास है!",
+    VisualDemoInstruction5: "यह अभ्यास आपको परीक्षण को समझने में मदद करता है।",
+    loadingPractice: "अभ्यास तैयार किया जा रहा है...",
+    practiceRoundTitle: "आइए अभ्यास करें! 🚀",
+    practiceRoundIntroVisual:
+      "मुख्य परीक्षण से पहले, आइए एक मज़ेदार अभ्यास प्रश्न करें!",
+    practiceRoundTip:
+      "यह आपको बताएगा कि क्या करना है। यहाँ कोई स्कोर नहीं है, सिर्फ़ सीखने का मज़ा!",
+    startPracticeQuestion: "अभ्यास शुरू करें!",
+    errorNoPracticeQuestion:
+      "ओह! कोई अभ्यास प्रश्न नहीं मिला। कृपया पेज को रीफ़्रेश करें।",
+    practiceCorrect: "सही जवाब!",
+    startMainTest: "मुख्य परीक्षण शुरू करें!",
+    practiceIncorrect: "सही नहीं...",
+    practiceSelected: "आपने चुना: {selection}। सही उत्तर था: {correctAnswer}।",
+    notSelected: "कुछ नहीं चुना",
+    tryAgain: "फिर से प्रयास करें!",
 
     soundTestEchoDialogAhoy: "👋 नमस्ते, नन्हे अन्वेषक!",
     soundTestEchoDialogIntro: "मैं सर इको, प्रतिध्वनि केकड़ा हूँ! 🦀✨",
@@ -1940,6 +2594,7 @@ export const translations = {
       "परीक्षा परिणाम लोड करने में विफल। कृपया बाद में पुनः प्रयास करें।",
     processingYourResults: "आपके परिणामों को संसाधित किया जा रहा है...",
     pictureRecognitionTestResultsTitle: "चित्र पहचान परीक्षा परिणाम",
+
     imageColumn: "चित्र",
     yourAnswerColumn: "आपका उत्तर",
     correctAnswerColumn: "सही उत्तर",
@@ -1950,6 +2605,20 @@ export const translations = {
     sameSounds: "एक जैसी ध्वनियाँ",
     differentSounds: "अलग ध्वनियाँ",
 
+    practiceRoundTitle: "अभ्यास दौर",
+    finishPractice: "अभ्यास दौर जमा करें",
+    gotItButton: "समझ गया!",
+    howToPlayTitle: "कैसे खेलें",
+    infoStep1: "आपको एक-एक करके कई चित्र दिखाए जाएंगे।",
+    infoStep2:
+      "प्रत्येक चित्र के लिए, पहले हमें बताएं कि क्या आप इसे 'हाँ' या 'नहीं' पर क्लिक करके स्पष्ट रूप से देख सकते हैं।",
+    infoStep3:
+      "यदि आप इसे देखते हैं, तो आपसे पूछा जाएगा कि यह क्या है और इसका वर्णन करें। आप टाइप कर सकते हैं या अपनी आवाज का उपयोग कर सकते हैं।",
+    practiceResultDidNotSee:
+      "अभ्यास: आपने संकेत दिया कि आप चित्र नहीं देख सके।",
+    practiceResultCorrect: "अभ्यास: बहुत बढ़िया! आपने इसे सही पहचाना।",
+    practiceResultIncorrect: "अभ्यास: अच्छा प्रयास!",
+    theCorrectAnswerWas: "सही उत्तर था:",
     pictureTestIntroDialog1:
       "🌊 यात्री, क्रिस्टल शोल्स में आपका स्वागत है! यहाँ के ज्वार-भाटे ऊपर से आने वाले प्रतिबिंबों से झिलमिलाते हैं।",
     pictureTestIntroDialog2:
@@ -2035,6 +2704,27 @@ export const translations = {
     phonemeBlendingLoadingSubmitting: "आपके परिणाम जमा किए जा रहे हैं...",
 
     // Results Card
+    backToInfo: "निर्देशों पर वापस जाएं",
+    exitToMenu: "टेस्ट पर वापस जाएं",
+    loading: "लोड हो रहा है...",
+    backToMenu: "मेनू पर वापस जाएं",
+    progress: "प्रगति",
+    confirmExitMessage:
+      "क्या आप निश्चित रूप से बाहर निकलना चाहते हैं? आपकी वर्तमान प्रगति खो जाएगी।",
+    graphemeInfoStep1: "आपको एक अक्षर (ग्रेफीम) दिखाया जाएगा।",
+    graphemeInfoStep2:
+      "इसकी ध्वनि (स्वनिम) याद करें। फिर, अक्षर से बनने वाली ध्वनि को टाइप करें या रिकॉर्ड करें।",
+    graphemeInfoStep3:
+      "प्रत्येक अक्षर के लिए आपके पास कुछ सेकंड होंगे। उनका मिलान करने की पूरी कोशिश करें!",
+    howToPlayGraphemeTest: "कैसे खेलें: अक्षर ध्वनियाँ",
+    practiceDoneTitle: "अभ्यास पूरा हुआ!",
+    startFullTestButton: "पूर्ण टेस्ट शुरू करें",
+    reviewPracticeButton: "अभ्यास की समीक्षा करें",
+    practiceCompleteMessage:
+      "अभ्यास पूरा हुआ! आपको यह कैसा लगा? पूरी चुनौती के लिए तैयार हैं?",
+    resultsTitle: "परिणाम आ गए हैं!",
+    resultsScoreMessage:
+      "आपने <strong class='text-white font-semibold'>{{totalLetters}}</strong> में से <strong class='text-white font-semibold'>{{score}}</strong> सही किए!",
     phonemeBlendingResultCardWordLabel: "शब्द {indexPlusOne}:",
     phonemeBlendingResultCardYouSaid: "आपने कहा:",
     phonemeBlendingResultCardNoResponse: "कोई प्रतिक्रिया नहीं",
@@ -2057,7 +2747,7 @@ export const translations = {
     analytics: "വിശകലനം",
     language: "ഭാഷ",
     account: "അക്കൗണിക്ക്",
-
+backToMap: "മാപ്പിലേക്ക് തിരികെ",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -2342,7 +3032,7 @@ export const translations = {
     analytics: "విశ్లేషణ",
     language: "భాష",
     account: "ఖాతా",
-
+backToMap: "మ్యాప్‌కు వెళ్ళండి",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -2628,7 +3318,7 @@ export const translations = {
     tests: "ಪರೀಕ್ಷೆಗಳು",
     analytics: "ವಿಶ್ಲೇಷಣೆ",
     language: "ಭಾಷೆ",
-    account: "ಖಾತೆ",
+    account: "ಖಾತೆ",backToMap: "ನಕ್ಷೆಗೆ ಹಿಂತಿರುಗಿ",
 
     // Languages
     english: "English",
@@ -3264,7 +3954,7 @@ export const translations = {
     analytics: "विश्लेषण",
     language: "भाषा",
     account: "खाते",
-
+    backToMap: "नकाशावर परत जा",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -3548,7 +4238,7 @@ export const translations = {
     analytics: "বিশ্লেষণ",
     language: "ভাষা",
     account: "অ্যাকাউন্ট",
-
+backToMap: "মানচিত্র",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -3832,7 +4522,7 @@ export const translations = {
     analytics: "વિશ્લેષણ",
     language: "ભાષા",
     account: "ખાતા",
-
+backToMap: "નકશા પર પાછા જાઓ",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -4116,7 +4806,7 @@ export const translations = {
     analytics: "ਵਿਸ਼ਲੇਸ਼ਣ",
     language: "ਭਾਸ਼ਾ",
     account: "ਅਕਾਊਂਟ",
-
+backToMap: "ਨਕਸ਼ੇ ਤੇ ਵਾਪਸ ਜਾਓ",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -4399,7 +5089,7 @@ export const translations = {
     analytics: "تجزیہ",
     language: "زبان",
     account: "اکاؤنٹ",
-
+backToMap: "نقشے پر واپس جائیں",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -4682,7 +5372,7 @@ export const translations = {
     analytics: "ବିଶ୍ଳେଷଣ",
     language: "ଭାଷା",
     account: "ଖାତା",
-
+backToMap: "ମାନଚିତ୍ରକୁ ଫେରନ୍ତୁ",
     // Languages
     english: "English",
     tamil: "தமிழ்",

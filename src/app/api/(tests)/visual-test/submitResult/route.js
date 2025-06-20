@@ -4,26 +4,28 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function POST(req) {
+  let body;
   try {
-    const body = await req.json();
+    body = await req.json();
     const { childId, options, score } = body;
 
-    // Insert visual test result
+    const optionsString = Array.isArray(options)
+      ? JSON.stringify(options)
+      : options;
+
     const test = await prisma.visualTestResult.create({
       data: {
         childId,
-        options,
+        options: optionsString,
         score,
         testName: "Visual Discrimination Test",
       },
     });
 
-    // Increment testsTaken for the child
     await prisma.children.update({
       where: { id: childId },
       data: { testsTaken: { increment: 1 } },
     });
-
     return NextResponse.json(
       {
         message: "Visual Discrimination Test added successfully",
@@ -32,6 +34,8 @@ export async function POST(req) {
       { status: 201 }
     );
   } catch (error) {
+    console.error("Error in visual test submit:", error);
+    console.error("Request body:", body);
     return NextResponse.json(
       { message: "Server error", error: error.message },
       { status: 500 }
