@@ -7,7 +7,6 @@ export const useGraphemeTestLogic = ({
   LETTER_TIMER_DURATION,
   childId,
   language,
-  backendURL,
   inputRef,
   onTestComplete,
   isTestUIVisible, // *** NEW PROP: Crucial for controlling timer behavior ***
@@ -30,7 +29,9 @@ export const useGraphemeTestLogic = ({
       setCurrentIndex(0);
       // setTimeLeft will be handled by the effect watching currentIndex and isTestUIVisible
     } else {
-      setUserInputs([]); setInputStatus({}); setCurrentIndex(0);
+      setUserInputs([]);
+      setInputStatus({});
+      setCurrentIndex(0);
     }
   }, [letters]);
 
@@ -40,8 +41,15 @@ export const useGraphemeTestLogic = ({
 
   const stopListening = useCallback((indexToUpdate) => {
     const wasRecording = isRecordingRef.current;
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
-      try { mediaRecorderRef.current.stop(); } catch (e) { console.error("Error stopping MediaRecorder:", e); }
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      try {
+        mediaRecorderRef.current.stop();
+      } catch (e) {
+        console.error("Error stopping MediaRecorder:", e);
+      }
     }
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
@@ -51,85 +59,155 @@ export const useGraphemeTestLogic = ({
     if (wasRecording) setIsRecording(false);
   }, []);
 
-  const uploadAudio = useCallback(async (audioBlob, indexToUpdate) => {
-    if (!childId) {
-      toast.error("Child ID not found for audio upload.");
-      setInputStatus((prev) => ({ ...prev, [indexToUpdate]: "error" }));
-      setIsRecording(false); return;
-    }
-    if (!audioBlob || audioBlob.size === 0) {
-      setInputStatus((prev) => ({ ...prev, [indexToUpdate]: prev[indexToUpdate] === "done_typed" ? "done_typed" : "error" }));
-      return;
-    }
-    const formData = new FormData();
-    formData.append("file", new File([audioBlob], `grapheme_test_child_${childId}_index_${indexToUpdate}_${Date.now()}.wav`, { type: "audio/wav" }));
-    formData.append("language", language);
-    setInputStatus((prev) => ({ ...prev, [indexToUpdate]: "pending" }));
+  const uploadAudio = useCallback(
+    async (audioBlob, indexToUpdate) => {
+      if (!childId) {
+        toast.error("Child ID not found for audio upload.");
+        setInputStatus((prev) => ({ ...prev, [indexToUpdate]: "error" }));
+        setIsRecording(false);
+        return;
+      }
+      if (!audioBlob || audioBlob.size === 0) {
+        setInputStatus((prev) => ({
+          ...prev,
+          [indexToUpdate]:
+            prev[indexToUpdate] === "done_typed" ? "done_typed" : "error",
+        }));
+        return;
+      }
+      const formData = new FormData();
+      formData.append(
+        "file",
+        new File(
+          [audioBlob],
+          `grapheme_test_child_${childId}_index_${indexToUpdate}_${Date.now()}.wav`,
+          { type: "audio/wav" }
+        )
+      );
+      formData.append("language", language);
+      setInputStatus((prev) => ({ ...prev, [indexToUpdate]: "pending" }));
 
-    try {
-      const response = await fetch( "./api/speech-to-text/route.js", { method: "POST", body: formData });
-      const result = await response.json();
-      if (response.ok && result.transcription != null) {
-        const transcribedText = result.transcription.trim().toLowerCase();
-        setUserInputs((prevInputs) => {
-          const newInputs = [...prevInputs];
-          if ((inputStatus[indexToUpdate] || 'pending') !== "done_typed") {
-            newInputs[indexToUpdate] = transcribedText;
-            setInputStatus((prev) => ({ ...prev, [indexToUpdate]: transcribedText ? "done_voice" : "error" }));
-            if (!transcribedText && letters[indexToUpdate]) toast.error(`Heard nothing clearly for "${letters[indexToUpdate]}". Try typing.`);
-          }
-          return newInputs;
+      try {
+        const response = await fetch("/api/speech-to-text", {
+          method: "POST",
+          body: formData,
         });
-      } else {
-        if (letters[indexToUpdate]) toast.error(`Transcription failed for "${letters[indexToUpdate]}". Try typing.`);
-        setInputStatus((prev) => ({ ...prev, [indexToUpdate]: (inputStatus[indexToUpdate] || 'pending') !== "done_typed" ? "error" : "done_typed" }));
+        const result = await response.json();
+        if (response.ok && result.transcription != null) {
+          const transcribedText = result.transcription.trim().toLowerCase();
+          setUserInputs((prevInputs) => {
+            const newInputs = [...prevInputs];
+            if ((inputStatus[indexToUpdate] || "pending") !== "done_typed") {
+              newInputs[indexToUpdate] = transcribedText;
+              setInputStatus((prev) => ({
+                ...prev,
+                [indexToUpdate]: transcribedText ? "done_voice" : "error",
+              }));
+              if (!transcribedText && letters[indexToUpdate])
+                toast.error(
+                  `Heard nothing clearly for "${letters[indexToUpdate]}". Try typing.`
+                );
+            }
+            return newInputs;
+          });
+        } else {
+          if (letters[indexToUpdate])
+            toast.error(
+              `Transcription failed for "${letters[indexToUpdate]}". Try typing.`
+            );
+          setInputStatus((prev) => ({
+            ...prev,
+            [indexToUpdate]:
+              (inputStatus[indexToUpdate] || "pending") !== "done_typed"
+                ? "error"
+                : "done_typed",
+          }));
+        }
+      } catch (error) {
+        console.error("Audio Upload Error:", error);
+        if (letters[indexToUpdate])
+          toast.error(
+            `Error processing audio for "${letters[indexToUpdate]}". Try typing.`
+          );
+        setInputStatus((prev) => ({
+          ...prev,
+          [indexToUpdate]:
+            (inputStatus[indexToUpdate] || "pending") !== "done_typed"
+              ? "error"
+              : "done_typed",
+        }));
+      } finally {
+        if (
+          currentIndex === indexToUpdate &&
+          !(
+            inputStatus[currentIndex] === "done_voice" ||
+            isRecordingRef.current ||
+            inputStatus[currentIndex] === "done_typed"
+          )
+        ) {
+          inputRef.current?.focus();
+        }
       }
-    } catch (error) {
-      console.error("Audio Upload Error:", error);
-      if (letters[indexToUpdate]) toast.error(`Error processing audio for "${letters[indexToUpdate]}". Try typing.`);
-      setInputStatus((prev) => ({ ...prev, [indexToUpdate]: (inputStatus[indexToUpdate] || 'pending') !== "done_typed" ? "error" : "done_typed" }));
-    } finally {
-      if (currentIndex === indexToUpdate && !(inputStatus[currentIndex] === "done_voice" || isRecordingRef.current || inputStatus[currentIndex] === "done_typed")) {
-        inputRef.current?.focus();
-      }
-    }
-  }, [childId, language, letters, currentIndex, inputStatus, backendURL, inputRef]);
+    },
+    [childId, language, letters, currentIndex, inputStatus, inputRef]
+  );
 
   const startListening = useCallback(() => {
-    if (isRecordingRef.current || !letters || currentIndex >= letters.length) return;
+    if (isRecordingRef.current || !letters || currentIndex >= letters.length)
+      return;
     const currentStatus = inputStatus[currentIndex] || "idle";
     if (["done_voice", "pending", "done_typed"].includes(currentStatus)) {
-      toast.info("Input already processed or pending for this letter."); return;
+      toast.info("Input already processed or pending for this letter.");
+      return;
     }
-    setUserInputs((prev) => { const ni = [...prev]; ni[currentIndex] = ""; return ni; });
+    setUserInputs((prev) => {
+      const ni = [...prev];
+      ni[currentIndex] = "";
+      return ni;
+    });
     setInputStatus((prev) => ({ ...prev, [currentIndex]: "recording" }));
     setIsRecording(true);
     audioChunksRef.current = [];
 
-    navigator.mediaDevices.getUserMedia({ audio: true })
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
       .then((stream) => {
         streamRef.current = stream;
-        if(stream.getAudioTracks().length > 0) {
-            stream.getAudioTracks()[0].onended = () => { if (isRecordingRef.current) stopListening(currentIndex); };
+        if (stream.getAudioTracks().length > 0) {
+          stream.getAudioTracks()[0].onended = () => {
+            if (isRecordingRef.current) stopListening(currentIndex);
+          };
         }
         const recorder = new MediaRecorder(stream);
         mediaRecorderRef.current = recorder;
-        recorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) audioChunksRef.current.push(e.data); };
+        recorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) audioChunksRef.current.push(e.data);
+        };
         recorder.onstop = () => {
-          const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
-          if(inputStatus[currentIndex] === "recording" || inputStatus[currentIndex] === "pending") {
+          const audioBlob = new Blob(audioChunksRef.current, {
+            type: "audio/wav",
+          });
+          if (
+            inputStatus[currentIndex] === "recording" ||
+            inputStatus[currentIndex] === "pending"
+          ) {
             uploadAudio(audioBlob, currentIndex);
           }
           audioChunksRef.current = [];
         };
         recorder.onerror = (e) => {
-          console.error("MediaRecorder error:", e); toast.error("Recording error encountered.");
-          setInputStatus((prev) => ({ ...prev, [currentIndex]: "error" })); stopListening(currentIndex);
+          console.error("MediaRecorder error:", e);
+          toast.error("Recording error encountered.");
+          setInputStatus((prev) => ({ ...prev, [currentIndex]: "error" }));
+          stopListening(currentIndex);
         };
         recorder.start();
-      }).catch((err) => {
-        console.error("getUserMedia error:", err); toast.error("Microphone access denied or unavailable.");
-        setInputStatus((prev) => ({ ...prev, [currentIndex]: "error" })); setIsRecording(false);
+      })
+      .catch((err) => {
+        console.error("getUserMedia error:", err);
+        toast.error("Microphone access denied or unavailable.");
+        setInputStatus((prev) => ({ ...prev, [currentIndex]: "error" }));
+        setIsRecording(false);
       });
   }, [currentIndex, letters, stopListening, uploadAudio, inputStatus]);
 
@@ -145,7 +223,12 @@ export const useGraphemeTestLogic = ({
 
   // *** EFFECT 1: Reset timeLeft and focus when a new letter becomes active AND Test UI IS VISIBLE ***
   useEffect(() => {
-    if (isTestUIVisible && letters && letters.length > 0 && currentIndex < letters.length) {
+    if (
+      isTestUIVisible &&
+      letters &&
+      letters.length > 0 &&
+      currentIndex < letters.length
+    ) {
       // console.log(`useGraphemeTestLogic: Test UI visible for index ${currentIndex}. Resetting timer.`);
       setTimeLeft(LETTER_TIMER_DURATION);
       inputRef.current?.focus();
@@ -154,12 +237,23 @@ export const useGraphemeTestLogic = ({
 
   // *** EFFECT 2: Countdown timer logic, active only when Test UI IS VISIBLE ***
   useEffect(() => {
-    if (!isTestUIVisible || !letters || letters.length === 0 || currentIndex >= letters.length || timeLeft <= 0) {
-      if (timeLeft <= 0 && isTestUIVisible && letters && currentIndex < letters.length) {
+    if (
+      !isTestUIVisible ||
+      !letters ||
+      letters.length === 0 ||
+      currentIndex >= letters.length ||
+      timeLeft <= 0
+    ) {
+      if (
+        timeLeft <= 0 &&
+        isTestUIVisible &&
+        letters &&
+        currentIndex < letters.length
+      ) {
         // console.log(`useGraphemeTestLogic: Time ran out for index ${currentIndex}. Moving to next.`);
         handleNextInternal();
       }
-      return; 
+      return;
     }
     // console.log(`useGraphemeTestLogic: Timer ticking for index ${currentIndex}: ${timeLeft}`);
     const timerId = setTimeout(() => {
@@ -172,7 +266,7 @@ export const useGraphemeTestLogic = ({
   useEffect(() => {
     if (letters && letters.length > 0 && currentIndex === letters.length) {
       // console.log("useGraphemeTestLogic: All letters processed by hook. Calling onTestComplete.");
-      stopListening(-1); 
+      stopListening(-1);
       if (onTestComplete) {
         onTestComplete();
       }
@@ -183,11 +277,20 @@ export const useGraphemeTestLogic = ({
     const value = e.target.value;
     const currentItemStatus = inputStatus[currentIndex] || "idle";
     if (["pending", "done_voice", "recording"].includes(currentItemStatus)) {
-      if (currentItemStatus === "recording") toast.error("Stop recording before typing.");
-      else toast.error("Clear voice input to type, or wait for transcription."); return;
+      if (currentItemStatus === "recording")
+        toast.error("Stop recording before typing.");
+      else toast.error("Clear voice input to type, or wait for transcription.");
+      return;
     }
-    setUserInputs((prev) => { const ni = [...prev]; ni[currentIndex] = value; return ni; });
-    setInputStatus((prev) => ({ ...prev, [currentIndex]: value ? "done_typed" : "idle" }));
+    setUserInputs((prev) => {
+      const ni = [...prev];
+      ni[currentIndex] = value;
+      return ni;
+    });
+    setInputStatus((prev) => ({
+      ...prev,
+      [currentIndex]: value ? "done_typed" : "idle",
+    }));
   };
 
   const handleRecordButtonClick = () => {
@@ -195,12 +298,15 @@ export const useGraphemeTestLogic = ({
     else {
       const currentItemStatus = inputStatus[currentIndex] || "idle";
       if (["done_typed", "done_voice", "pending"].includes(currentItemStatus)) {
-        toast.info("Input already provided or pending. Clear or wait to re-record."); return;
+        toast.info(
+          "Input already provided or pending. Clear or wait to re-record."
+        );
+        return;
       }
       startListening();
     }
   };
-  
+
   const resetLogic = useCallback(() => {
     setCurrentIndex(0);
     setTimeLeft(LETTER_TIMER_DURATION);
@@ -208,12 +314,19 @@ export const useGraphemeTestLogic = ({
     setIsRecording(false);
     setInputStatus({});
     audioChunksRef.current = [];
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state === "recording") {
-        try { mediaRecorderRef.current.stop(); } catch(e) {/*ignore*/}
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      try {
+        mediaRecorderRef.current.stop();
+      } catch (e) {
+        /*ignore*/
+      }
     }
     if (streamRef.current) {
-        streamRef.current.getTracks().forEach(track => track.stop());
-        streamRef.current = null;
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
     }
     mediaRecorderRef.current = null;
     // console.log("useGraphemeTestLogic: Logic reset.");
@@ -221,5 +334,15 @@ export const useGraphemeTestLogic = ({
 
   useEffect(() => () => stopListening(-1), [stopListening]);
 
-  return { currentIndex, timeLeft, userInputs, isRecording, inputStatus, handleInputChange, handleRecordButtonClick, handleNext: handleNextInternal, resetLogic };
+  return {
+    currentIndex,
+    timeLeft,
+    userInputs,
+    isRecording,
+    inputStatus,
+    handleInputChange,
+    handleRecordButtonClick,
+    handleNext: handleNextInternal,
+    resetLogic,
+  };
 };

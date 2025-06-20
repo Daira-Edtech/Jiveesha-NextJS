@@ -126,7 +126,10 @@ const GraphemeTestContent = () => {
         resetMainTestLogic();
     }
     setLanguageDataLoaded(true);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 97d04a7 (Refactor Grapheme and Picture Test Components)
   }, [language, initialDataLoaded, t, resetMainTestLogic, testStage]); // Added testStage to dependency to ensure correct re-intro logic
 
   const onCompleteHandler = useCallback(
@@ -193,7 +196,15 @@ const GraphemeTestContent = () => {
   };
 
   const handleSubmitFinal = async () => {
+<<<<<<< HEAD
     if (!childId || !token) { toast.error(t("errorAuthMissing", "User info missing.")); setIsProcessingFinalSubmit(false); return; }
+=======
+    if (!childId) {
+      toast.error(t("errorAuthMissing", "User info missing."));
+      setIsProcessingFinalSubmit(false);
+      return;
+    }
+>>>>>>> 97d04a7 (Refactor Grapheme and Picture Test Components)
     setIsProcessingFinalSubmit(true);
     const submissionToastId = toast.loading(t("processingResponses", "Processing..."));
     const finalUserInputs = [...userInputs];
@@ -202,7 +213,14 @@ const GraphemeTestContent = () => {
     letters.forEach((letter, index) => { userResponses[letter] = finalUserInputs[index] || ""; });
     const payload = { childId, userResponses, language: langKey };
     try {
+<<<<<<< HEAD
       const evalResponse = await axios.post(`${backendURL}/api/grapheme-test/submitResult`, payload, { headers: { Authorization: `Bearer ${token}` } });
+=======
+      const evalResponse = await axios.post(
+        `/api/grapheme-test/submitResult`,
+        payload
+      );
+>>>>>>> 97d04a7 (Refactor Grapheme and Picture Test Components)
       toast.dismiss(submissionToastId);
       if (evalResponse.data && typeof evalResponse.data.score === "number" && typeof evalResponse.data.totalPossibleScore === "number") {
         const newScore = evalResponse.data.score;
