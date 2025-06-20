@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const AddStudentCard = ({ onClick }) => {
   return (
-    <Card 
+    <Card
       className="border-2 border-dashed border-gray-300 hover:border-blue-400 cursor-pointer transition-all duration-300 hover:shadow-lg group"
       onClick={onClick}
     >

@@ -152,7 +152,7 @@ export async function POST(req) {
         childId,
         results: JSON.stringify(geminiProcessedResponses),
         score: geminiTotalScore,
-        testName: "Grapheme/Phoneme Test (AI Evaluated)",
+        testName: "Grapheme/Phoneme Test",
       },
     });
 

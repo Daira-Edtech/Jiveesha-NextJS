@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Island Levels</title>
+    <!-- Tailwind CSS for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Apply Inter font to the body */
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #add8e6; /* Light blue background to simulate sea outside the board */
+            margin: 0;
+            overflow: hidden; /* Prevent body scrollbars */
+        }
+        /* Main container for the game board */
+        .game-container {
+            position: relative;
+            width: 90%; /* Responsive width */
+            max-width: 1000px; /* Makes the "board" small as requested */
+            aspect-ratio: 16/9; /* Maintain a widescreen aspect ratio for the board */
+            background: linear-gradient(to bottom, #87ceeb, #4682b4); /* Sea gradient inside the board */
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden; /* Ensures islands and lines stay within the board's bounds */
+            padding: 20px; /* Internal padding for aesthetic spacing */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        /* Header section for title and pilot anchor */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px; /* Padding inside header */
+            color: white; /* Text color for the title */
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10; /* Ensure header is above other elements */
+        }
+
+        /* Styling for the pilot anchor icon */
+        .pilot-anchor {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: black; /* Black color as requested */
+            width: 24px;
+            height: 24px;
+            z-index: 20; /* Ensure icon is on top */
+            /* Basic animation for a subtle pulsing effect */
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Styling for individual islands */
+        .island {
+            position: absolute;
+            width: 80px; /* Base size for islands */
+            height: 80px;
+            border-radius: 50%; /* Makes them circular */
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.7); /* White border */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* Smooth transition for hover effects */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer; /* Indicate interactivity */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 0.75rem;
+            z-index: 5; /* Islands should be above lines */
+        }
+
+        /* Hover effect for islands: scale up and shadow intensify */
+        .island:hover {
+            transform: scale(1.2); /* Scale up on hover as requested */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            z-index: 6; /* Bring hovered island slightly to front */
+        }
+
+        /* Inner circle for island background and text */
+        .island-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover; /* Ensure background image covers the circle */
+            background-position: center;
+            position: relative; /* For text positioning inside */
+        }
+
+        /* Text overlay on islands */
+        .island-text {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background for text */
+            padding: 5px;
+            border-radius: 5px;
+            bottom: 5px; /* Position text at the bottom of the island */
+            font-size: 0.6rem;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        /* SVG container for connections */
+        svg.connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Lines below islands */
+        }
+
+        /* Styling for SVG paths (lines) */
+        path {
+            stroke: #3498db; /* Blue color for lines as requested */
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 8 8; /* Dotted line as requested */
+        }
+
+        /* Styling for SVG arrowhead marker */
+        marker#arrowhead {
+            fill: #3498db; /* Arrowhead color matching the line */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 10px;
+                width: 95%;
+            }
+            .island {
+                width: 60px;
+                height: 60px;
+                font-size: 0.6rem;
+            }
+            .island-text {
+                font-size: 0.5rem;
+                padding: 3px;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-container {
+                padding: 5px;
+            }
+            .island {
+                width: 50px;
+                height: 50px;
+            }
+            .island-text {
+                font-size: 0.45rem;
+                padding: 2px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .pilot-anchor {
+                width: 20px;
+                height: 20px;
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header section with title and pilot anchor -->
+        <div class="header">
+            <h1 class="text-3xl font-bold">Island Levels</h1>
+            <!-- Pilot Anchor SVG Icon (simple circle with exclamation mark) -->
+            <svg class="pilot-anchor" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                <!-- A more common anchor/compass icon could also be used -->
+                <!-- Example: <path d="M12 11.5L6.5 17 9 17 9 22 15 22 15 17 17.5 17zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/> -->
+            </svg>
+        </div>
+
+        <!-- SVG element for drawing connections between islands -->
+        <svg class="connections">
+            <defs>
+                <!-- Define arrowhead marker for one-way paths -->
+                <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" />
+                </marker>
+            </defs>
+            <!-- Paths will be dynamically generated by JavaScript -->
+        </svg>
+
+        <!-- Islands will be dynamically generated and appended here by JavaScript -->
+    </div>
+
+    <script>
+        // Ensure the DOM is fully loaded before running script
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameContainer = document.querySelector('.game-container');
+            const connectionsSVG = document.querySelector('.connections');
+
+            // Data for each island, including position and terrain type
+            const islandsData = [
+                { id: 1, name: 'Forest Island', top: '10%', left: '10%', terrain: 'forest' },
+                { id: 2, name: 'Desert Island', top: '30%', left: '30%', terrain: 'desert' },
+                { id: 3, name: 'Snowy Peak', top: '15%', left: '60%', terrain: 'snow' },
+                { id: 4, name: 'Volcano Isle', top: '50%', left: '80%', terrain: 'volcano' },
+                { id: 5, name: 'Swamp Land', top: '70%', left: '55%', terrain: 'swamp' },
+                { id: 6, name: 'Mushroom Glade', top: '85%', left: '20%', terrain: 'mushroom' },
+                { id: 7, name: 'Crystal Cave', top: '60%', left: '10%', terrain: 'crystal' },
+                { id: 8, name: 'Sky Atoll', top: '40%', left: '45%', terrain: 'sky' },
+                { id: 9, name: 'Sunken City', top: '25%', left: '80%', terrain: 'sunken' },
+                { id: 10, name: 'Lost Temple', top: '80%', left: '75%', terrain: 'temple' }
+            ];
+
+            /**
+             * Calculates the center coordinates of an island element relative to the game container.
+             * This is crucial for accurately drawing SVG lines between islands.
+             * @param {HTMLElement} islandElement - The DOM element of the island.
+             * @returns {{x: number, y: number}} - The x and y coordinates of the island's center.
+             */
+            function getIslandCenter(islandElement) {
+                const rect = islandElement.getBoundingClientRect(); // Get island's size and position relative to viewport
+                const containerRect = gameContainer.getBoundingClientRect(); // Get container's size and position relative to viewport
+                // Calculate center relative to the game container's top-left corner
+                const x = (rect.left + rect.width / 2) - containerRect.left;
+                const y = (rect.top + rect.height / 2) - containerRect.top;
+                return { x, y };
+            }
+
+            /**
+             * Generates a distinct hexadecimal color code based on the terrain type.
+             * Used for placeholder images.
+             * @param {string} terrain - The terrain type string (e.g., 'forest', 'desert').
+             * @returns {string} - A hexadecimal color code.
+             */
+            function getTerrainColor(terrain) {
+                switch (terrain) {
+                    case 'forest': return '228B22'; // Forest Green
+                    case 'desert': return 'F4A460'; // Sandy Brown
+                    case 'snow': return 'ADD8E6';   // Light Blue (like ice/snow)
+                    case 'volcano': return '8B0000'; // Dark Red
+                    case 'swamp': return '556B2F';  // Dark Olive Green
+                    case 'mushroom': return 'DA70D6'; // Orchid
+                    case 'crystal': return 'AFEEEE'; // Pale Turquoise
+                    case 'sky': return '87CEEB';    // Sky Blue
+                    case 'sunken': return '191970';  // Midnight Blue
+                    case 'temple': return 'CD853F'; // Peru
+                    default: return 'cccccc'; // Default grey for unknown terrains
+                }
+            }
+
+            // Create each island element and append it to the game container
+            islandsData.forEach(island => {
+                const islandEl = document.createElement('div');
+                islandEl.className = 'island';
+                islandEl.style.top = island.top; // Position using percentages for responsiveness
+                islandEl.style.left = island.left;
+                islandEl.id = `island-${island.id}`; // Assign a unique ID for easy reference
+
+                // Construct placeholder URL with unique terrain color and text
+                const terrainPlaceholderUrl = `https://placehold.co/80x80/${getTerrainColor(island.terrain)}/white?text=${island.terrain.toUpperCase().replace(/\s/g, '+')}`;
+                islandEl.innerHTML = `
+                    <div class="island-circle" style="background-image: url('${terrainPlaceholderUrl}');">
+                        <span class="island-text">${island.name}</span>
+                    </div>
+                `;
+                gameContainer.appendChild(islandEl);
+
+                // Add click event listener for navigation
+                islandEl.addEventListener('click', () => {
+                    // For demonstration, logging and showing an alert. In a real game,
+                    // this would navigate or load level data.
+                    console.log(`Navigating to /test${island.id}`);
+                    // window.alert is used here as per instructions. For production, a custom modal is recommended.
+                    window.alert(`Entering ${island.name}! Navigating to /test${island.id}`);
+                    // Simulate navigation (e.g., window.location.href = `/test${island.id}`;)
+                    // For this environment, we'll just log and alert, as actual navigation might break the iframe.
+                });
+            });
+
+            /**
+             * Draws the curved, one-way dotted lines connecting the islands.
+             * This function recalculates and redraws paths, useful for initial load and window resize.
+             */
+            function drawConnections() {
+                // Clear any existing paths to redraw them
+                connectionsSVG.innerHTML = `
+                    <defs>
+                        <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" />
+                        </marker>
+                    </defs>
+                `;
+
+                // Loop through islands to draw connections from each island to the next
+                for (let i = 0; i < islandsData.length - 1; i++) {
+                    const fromIsland = document.getElementById(`island-${islandsData[i].id}`);
+                    const toIsland = document.getElementById(`island-${islandsData[i+1].id}`);
+
+                    // Basic error checking if an island element isn't found
+                    if (!fromIsland || !toIsland) {
+                        console.error(`Could not find island elements for connection between island ${islandsData[i].id} and ${islandsData[i+1].id}.`);
+                        continue;
+
+                        
