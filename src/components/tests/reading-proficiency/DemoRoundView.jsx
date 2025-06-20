@@ -7,14 +7,14 @@ import { motion } from "framer-motion";
 =======
 >>>>>>> f6455aa (chore: clean up unused components and files in reading proficiency tests)
 import {
+  AlertTriangle,
+  Check,
+  ChevronRight,
+  X as IconX,
   Mic,
   MicOff,
-  UploadCloud,
-  Check,
-  X as IconX,
-  AlertTriangle,
-  ChevronRight,
   RefreshCw,
+  UploadCloud,
 } from "lucide-react";
 <<<<<<< HEAD
 
@@ -446,7 +446,7 @@ export default function DemoRoundView({
               }}
               whileTap={{ scale: 0.95 }}
             >
-              {t("Skip Demo")} <ChevronRight />
+              {t("SkipDemo")} <ChevronRight />
             </motion.button>
           )}
           {isDemoCorrect === true && (

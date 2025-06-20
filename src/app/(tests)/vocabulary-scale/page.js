@@ -1,31 +1,26 @@
 "use client";
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useRouter } from "next/navigation"; // Changed from next/router
 import axios from "axios";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  Check,
-  ChevronRight,
-  AlertCircle,
-  ArrowRight,
-  ArrowLeft,
+  ArrowLeft
 } from "lucide-react";
+import dynamic from "next/dynamic";
+import Image from "next/image"; // Import next/image
+import { useRouter } from "next/navigation"; // Changed from next/router
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import toastify CSS
 import { useLanguage } from "../../../contexts/LanguageContext"; // Assuming path
-import Image from "next/image"; // Import next/image
-import dynamic from "next/dynamic";
 
-import WordDisplay from "../../../components/vocab-scale/WordDisplay";
-import RecordingButton from "../../../components/vocab-scale/RecordingButton";
 import DefinitionInput from "../../../components/vocab-scale/DefinitionInput";
-import NavigationButton from "../../../components/vocab-scale/NavigationButton";
-import TestComplete from "../../../components/vocab-scale/TestComplete";
-import LoadingState from "../../../components/vocab-scale/LoadingState";
-import ErrorState from "../../../components/vocab-scale/ErrorState";
 import DialogIntro from "../../../components/vocab-scale/DialogIntro";
-import PracticeRound from "../../../components/vocab-scale/PracticeRound";
+import ErrorState from "../../../components/vocab-scale/ErrorState";
+import LoadingState from "../../../components/vocab-scale/LoadingState";
+import NavigationButton from "../../../components/vocab-scale/NavigationButton";
 import PracticeInstructions from "../../../components/vocab-scale/PracticeInstructions";
+import PracticeRound from "../../../components/vocab-scale/PracticeRound";
+import TestComplete from "../../../components/vocab-scale/TestComplete";
+import WordDisplay from "../../../components/vocab-scale/WordDisplay";
 
 // Image paths from public directory
 const backgroundImage = "/vocab-scale/background-image.png";
@@ -221,13 +216,12 @@ const VocabularyScaleTestClient = () => {
   const [practiceComplete, setPracticeComplete] = useState(false);
 
   // Dialog content - kept here as it's specific to this test's narrative
-  const dialog = [
-    "🙏 Namaste, young wordsmith!",
-    "🏛️ Welcome to Shabd Mandir — a sacred place where every new word you grasp 📚 raises the temple closer to the stars ✨.",
-    "🐍 I am Vani Naga, serpent of knowledge and guardian of the final Codex fragment 📖.",
-    "🗝️ Are you ready to awaken the power of words and complete your journey? Let's begin! 🚀",
-  ];
-
+const dialog = [
+  t("shabdMandirGreeting"),
+  t("shabdMandirWelcome"),
+  t("shabdMandirVaniIntro"),
+  t("shabdMandirBeginPrompt")
+];
   useEffect(() => {
     setMounted(true);
     setChildId(localStorage.getItem("childId"));
