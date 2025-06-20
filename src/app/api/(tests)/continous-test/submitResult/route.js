@@ -65,11 +65,13 @@ export async function POST(req) {
     let analysis_results = "Analysis not available.";
     try {
       const prompt = `
-Analyze these test results for a ${
+You are a clinical psychologist analyzing test results for a ${
         age ?? "?"
-      }-year-old child and provide a comprehensive clinical assessment.
+      }-year-old child. Based on the data below, write a well-structured and professional **Overall Assessment** section of a clinical report.
 
-### Test Results:
+---
+
+### 🧪 Test Results:
 ${formattedTestResults
   .map((test) => {
     const meta = testMetaData[test.test_name];
@@ -89,23 +91,28 @@ ${formattedTestResults
         performanceMessage = "Score outside typical ranges.";
       }
     }
-    return `- ${test.test_name}: Score ${
+    return `- **${test.test_name}**: Score **${
       score ?? "N/A"
-    }, ${performanceMessage}`;
+    }** – ${performanceMessage}`;
   })
   .join("\n")}
 
-### Instructions:
-Provide a detailed clinical assessment with the following sections in a single cohesive report:
+---
 
-1. OVERALL ASSESSMENT (3-4 paragraphs):
-   - Synthesize all results into an integrated clinical picture
-   - Comment on the child's overall performance relative to age expectations
-   - Identify patterns across different domains
-   - For EACH test, provide specific interpretation of performance, how it compares to age-appropriate norms, and clinical significance
-   - Describe how results in different domains may relate to or influence each other
+### 🧠 Instructions:
+Write a detailed, paragraph-based **Overall Assessment** with the following features:
 
-Use professional clinical language throughout while remaining accessible. Format the response as continuous text with appropriate paragraph breaks and section headers.`;
+- Begin with a summary of the child’s **overall cognitive and academic profile**
+- Discuss the child’s performance **relative to age norms**
+- Identify any **notable strengths or difficulties**
+- Highlight **patterns across test domains**, and how certain weaknesses (e.g., in auditory or visual processing) might affect others (e.g., reading, memory)
+- Use **clinical, professional language**, but keep it **clear and readable**
+- Format as **structured paragraphs with optional bullet points** (avoid one big block of text)
+
+Only include the **"Overall Assessment"** section — do **not** add headings for other sections.
+Start the clinical report below this line:
+---
+`;
 
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       const result = await model.generateContent({
