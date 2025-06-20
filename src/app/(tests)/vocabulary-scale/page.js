@@ -82,7 +82,7 @@ const useAudioRecorder = (onAudioCaptured) => {
         setIsTranscribing(false);
       }
     },
-    [onAudioCaptured, language, t],
+    [onAudioCaptured, language, t]
   );
 
   const stopListening = useCallback(() => {
@@ -288,7 +288,7 @@ const VocabularyScaleTestClient = () => {
           "/api/vocabscale-test/getVocabularyWords",
           {
             params: { language: language }, // Pass language as a query parameter
-          },
+          }
         );
         console.log("API Response:", response.data);
         if (response.data && Array.isArray(response.data.words)) {
@@ -298,7 +298,7 @@ const VocabularyScaleTestClient = () => {
         } else {
           console.error(
             t("invalidDataFormatForVocabularyWords"),
-            response.data,
+            response.data
           );
           setError(t("failedToLoadVocabularyWordsInvalidFormat"));
           toast.error(t("failedToLoadVocabularyWordsInvalidFormat"));
@@ -339,7 +339,7 @@ const VocabularyScaleTestClient = () => {
           childId: childId,
           responses: finalResponses,
           language: language,
-        },
+        }
       );
 
       if (response.data && typeof response.data.score !== "undefined") {
@@ -411,8 +411,7 @@ const VocabularyScaleTestClient = () => {
     responses,
     incorrectStreak,
     stopListening,
-    t,
-    handleSubmit, // Added handleSubmit to dependency array
+    handleSubmit, // Removed t from dependency array as it's not used
   ]);
 
   // Prevent hydration mismatch by not rendering until mounted
@@ -640,8 +639,8 @@ const VocabularyScaleTestClient = () => {
                           language === "ta" && currentWord.ta
                             ? currentWord.ta
                             : language === "hi" && currentWord.hi
-                              ? currentWord.hi
-                              : currentWord.word
+                            ? currentWord.hi
+                            : currentWord.word
                         }
                         language={language}
                       />
@@ -680,7 +679,7 @@ const VocabularyScaleTest = dynamic(
         <p className="mt-4 text-blue-700 font-medium">Loading Test...</p>
       </div>
     ),
-  },
+  }
 );
 
 export default VocabularyScaleTest;

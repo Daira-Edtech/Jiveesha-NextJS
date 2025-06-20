@@ -263,7 +263,6 @@ export default function PracticeRound({
           (t("canYouSeeThisPicture") || "Can you see this picture?")
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speakText, t, step]);
 
   const imageContainerBaseClasses =

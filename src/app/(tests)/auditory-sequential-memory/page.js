@@ -78,7 +78,7 @@ const AuditorySequentialPage = () => {
 
     try {
       const response = await axios.post(
-        "/api/auditory-sequential/submitResult",
+        "/api/auditory-test/submitResult",
         {
           childId: childId,
           score: finalScore.final,

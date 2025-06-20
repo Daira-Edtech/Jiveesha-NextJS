@@ -63,7 +63,7 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCharacter, setShowCharacter] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [quizStarted, setQuizStarted] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false); // For the main test
   const [quizCompleted, setQuizCompleted] = useState(false);
   const router = useRouter();
   const [showDemo, setShowDemo] = useState(true);
@@ -86,6 +86,8 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
       language === "kn" ? "kannada" : "english";
     const questionsForLang = Array.isArray(questionsData[langKey]) ? questionsData[langKey] : [];
     setQuizQuestions(questionsForLang);
+
+    // Reset all states for a new test run or language change
     setSelectedOptions(Array(questionsForLang.length).fill(null));
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -96,6 +98,7 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   }, [language]);
 
   const handleAnswer = (option) => {
+    // This logic is for the main test
     const newSelectedOptions = [...selectedOptions];
     newSelectedOptions[currentQuestionIndex] = option;
     setSelectedOptions(newSelectedOptions);
@@ -112,9 +115,10 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   };
 
   const handleTimeout = () => {
+    // This logic is for the main test
     const newSelectedOptions = [...selectedOptions];
     if (currentQuestionIndex < newSelectedOptions.length) {
-      newSelectedOptions[currentQuestionIndex] = null;
+      newSelectedOptions[currentQuestionIndex] = null; // Mark as not answered or timed out
       setSelectedOptions(newSelectedOptions);
     }
     setTimeout(() => {
@@ -131,6 +135,8 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
     setShowDemo(false);
     setQuizStarted(true); 
     setCurrentQuestionIndex(0);
+    setScore(0);
+    setSelectedOptions(Array(quizQuestions.length).fill(null));
     setScore(0);
     setSelectedOptions(Array(quizQuestions.length).fill(null));
   };

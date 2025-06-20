@@ -1,10 +1,10 @@
 // Test6Controller.jsx (or your index.jsx)
+// Test6Controller.jsx (or your index.jsx)
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
 import { useLanguage } from "../../../contexts/LanguageContext"; // Adjust path if needed
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,11 +23,9 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
 import coralBackground from "../../../../public/reading-test/coralBackground.png"; // Adjust path
 import coralineImage from "../../../../public/reading-test/coralineImage.png"; // Adjust path
 import shellImage from "../../../../public/reading-test/shellImage.png"; // Adjust path
-
 import TutorialView from "./TutorialView";
 import TestSessionView from "./TestSessionView";
 import RewardView from "./RewardView";
@@ -594,19 +592,13 @@ export default function Test6Controller({
   };
 
   const handleSubmitPageOrTest = async () => {
-    const isLastPage = (currentPage + 1) * wordsPerBatch >= currentWords.length;
-
     let currentTranscriptForPageToSubmit = transcript;
     if (selectedFile && allTranscriptions[currentPage]) {
       currentTranscriptForPageToSubmit = allTranscriptions[currentPage];
     } else if (allTranscriptions[currentPage]) {
       currentTranscriptForPageToSubmit = allTranscriptions[currentPage];
     }
-    if (
-      isLastPage &&
-      !transcriptionReady &&
-      !currentTranscriptForPageToSubmit
-    ) {
+    if (!transcriptionReady && !currentTranscriptForPageToSubmit) {
       toast.info(t("transcriptionNotReady"));
       setShowEels(true);
       setCoralineAnimationState("warning");
@@ -626,7 +618,7 @@ export default function Test6Controller({
       updatedAllTranscriptions[currentPage] = currentTranscriptForPageToSubmit;
       setAllTranscriptions(updatedAllTranscriptions);
     }
-
+    const isLastPage = (currentPage + 1) * wordsPerBatch >= currentWords.length;
     if (isLastPage) {
       setCoralineAnimationState("focused");
       setIntroMessage(t("coralineCheckingPronunciation"));

@@ -7,9 +7,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import GameplayArea from "./GameplayArea.js";
-import InstructionsScreen from "./InstructionsScreen.js";
-import TopBar from "./TopBar.js";
+import GameplayArea from "./GameplayArea.js"
+import InstructionsScreen from "./InstructionsScreen.js"
+import FinalResultsScreen from "./FinalResultsScreen.js"
+import RewardsModal from "./RewardsModal.js"
+import TopBar from "./TopBar.js"
 
 import {
   words,
@@ -23,12 +25,14 @@ import characterImage from "../../../public/sound-blending/dolphin.png";
 const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
   const router = useRouter();
 
-  const [gameState, setGameState] = useState("welcome");
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [responses, setResponses] = useState([]);
-  const [isPracticeMode, setIsPracticeMode] = useState(false);
-  const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
+  const [gameState, setGameState] = useState("welcome")
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [score, setScore] = useState(0)
+  const [responses, setResponses] = useState([])
+  const [isPracticeMode, setIsPracticeMode] = useState(false)
+  const [currentDialogIndex, setCurrentDialogIndex] = useState(0)
+  const [showInfoDialog, setShowInfoDialog] = useState(false)
+  const [showRewards, setShowRewards] = useState(false)
 
   const totalWords = words.length;
 
@@ -82,8 +86,8 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
     if (isPracticeMode) {
       setGameState("preTestInstructions");
     } else if (currentWordIndex === words.length - 1) {
-      // Test completed - directly finish
-      handleFinishTest();
+      // Test completed - show results
+      setGameState("finalResults")
     } else {
       setCurrentWordIndex(currentWordIndex + 1);
     }
@@ -104,7 +108,7 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
     if (isPracticeMode) {
       setGameState("preTestInstructions");
     } else if (currentWordIndex === words.length - 1) {
-      handleFinishTest();
+      setGameState("finalResults")
     } else {
       setCurrentWordIndex(currentWordIndex + 1);
     }
@@ -123,9 +127,15 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
   };
 
   const handleShowInfo = () => {
-    // Could implement info dialog similar to other tests
-    console.log("Show info dialog");
-  };
+    setShowInfoDialog(true)
+  }
+
+  const handleCloseInfo = () => {
+    setShowInfoDialog(false)
+  }
+
+  const handleViewRewards = () => setShowRewards(true)
+  const handleCloseRewards = () => setShowRewards(false)
 
   const renderContent = () => {
     switch (gameState) {
@@ -313,6 +323,26 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
           </motion.div>
         );
 
+      case "finalResults":
+        return (
+          <FinalResultsScreen
+            score={{ correct: score, total: totalWords }}
+            onFinishTest={handleFinishTest}
+            onViewRewards={handleViewRewards}
+            t={t}
+          />
+        )
+
+      case "finalResults":
+        return (
+          <FinalResultsScreen
+            score={{ correct: score, total: totalWords }}
+            onFinishTest={handleFinishTest}
+            onViewRewards={handleViewRewards}
+            t={t}
+          />
+        )
+
       default:
         return (
           <div className="text-white p-10">
@@ -328,6 +358,16 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
       <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
+
+      {/* Info Dialog */}
+      {showInfoDialog && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <InstructionsScreen stage="infoOverlay" onClose={handleCloseInfo} t={t} />
+        </div>
+      )}
+
+      {/* Rewards Modal */}
+      {showRewards && <RewardsModal show={showRewards} onClose={handleCloseRewards} t={t} />}
     </div>
   );
 };

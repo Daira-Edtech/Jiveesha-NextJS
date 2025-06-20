@@ -12,6 +12,7 @@ const translations = {
   continue: "Continue",
   next: "Next",
   imReady: "I'm Ready!",
+  letsBegin: "Let's Begin!",
   soundBlendingTitle: "Sound Blending Adventure",
   howToPlay: "How to Play",
   listenToSounds: "Listen to the individual sounds carefully",
@@ -54,6 +55,21 @@ const translations = {
   errorStartRecording: "Error starting recording",
   errorMicAccess: "Microphone access denied",
   errorNoInputSubmit: "Please enter a word before submitting",
+  // New translations for results screen
+  testResults: "Test Results",
+  soundBlendingCompleted: "You've completed the Sound Blending test! Here's how you did.",
+  yourScore: "Your Score:",
+  accuracy: "Accuracy",
+  excellentSoundBlending: "Excellent Sound Blending!",
+  veryGoodJob: "Very Good Job!",
+  goodEffort: "Good Effort!",
+  keepPracticing: "Keep Practicing!",
+  finishTest: "Finish Test",
+  viewRewards: "View Rewards",
+  rewardsTitle: "Congratulations! You've mastered sound blending!",
+  rewardEarned: "You've earned the",
+  soundMasterShell: "Sound Master Shell",
+  returnToResults: "Return to Results",
 }
 
 const t = (key) => translations[key] || key
@@ -83,7 +99,7 @@ const SoundBlendingPage = () => {
 
     try {
       const response = await axios.post(
-        "/api/sound-blending/submitResult",
+        "/api/soundBlending-test/submitResult",
         {
           childId: childId,
           score: finalScore.correct,
@@ -101,6 +117,7 @@ const SoundBlendingPage = () => {
       console.log("Test results saved by page.js:", response.data)
     } catch (error) {
       console.error("Error saving test results in page.js:", error.response?.data || error.message)
+      // Continue to results page even if save fails
     } finally {
       router.push("/take-tests")
     }

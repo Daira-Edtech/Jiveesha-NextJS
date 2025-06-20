@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
-// PATH CHANGE: Adjust to your project structure
 import { useLanguage } from "../../../contexts/LanguageContext";
 import {
   FaArrowLeft,
@@ -395,71 +394,39 @@ const SoundDiscriminationTestOrchestrator = ({
 
   if (currentPhase === "completed") {
     return (
-      <TestScreenWrapper>
+      <TestScreenWrapper showTopButtons={false}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, type: "spring" }}
-          className="bg-black/70 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl text-center border-2 border-cyan-400/30 max-w-2xl mx-auto"
+          transition={{ duration: 0.5 }}
+          className="bg-black/60 backdrop-blur-md rounded-2xl p-8 shadow-2xl text-center border-2 border-white/30"
         >
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1, rotate: 360 }}
-            transition={{ delay: 0.2, duration: 0.8, type: "spring" }}
-            className="mx-auto mb-6 w-24 h-24 flex items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-cyan-500"
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mb-6"
           >
-            <FaCheckCircle className="text-6xl text-white" />
+            <h2 className="text-4xl font-bold text-white mb-3">
+              {t("testCompleted")}
+            </h2>
+            <p className="text-2xl text-blue-300">
+              {t("youGot")} {score} {t("outOf")} {wordPairs.length}{" "}
+              {t("correct")}
+            </p>
           </motion.div>
-
-          <motion.h2
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-3"
-          >
-            {t("testCompleted")}
-          </motion.h2>
-
-          <motion.p
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-2xl md:text-3xl text-cyan-300 mb-8"
-          >
-            {t("youGot")}{" "}
-            <span className="font-bold text-yellow-300">{score}</span>{" "}
-            {t("outOf")}{" "}
-            <span className="font-bold text-yellow-300">
-              {wordPairs.length}
-            </span>{" "}
-            {t("correct")}
-          </motion.p>
-
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="flex justify-center"
           >
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/taketests")}
-              className="flex items-center justify-center gap-2 bg-white/90 hover:bg-white text-gray-800 font-semibold py-3 px-6 rounded-xl shadow-md transition-all w-full sm:w-auto"
-            >
-              <FaArrowLeft />
-              {t("backToTests")}
-            </motion.button>
-            <motion.button
-              whileHover={{
-                scale: 1.05,
-                y: -2,
-                boxShadow: "0px 8px 25px rgba(80, 200, 255, 0.5)",
-              }}
-              whileTap={{ scale: 0.95 }}
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 text-white font-bold py-3 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all w-full sm:w-auto"
+              className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-bold py-3 px-8 rounded-xl text-xl shadow-lg hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center">

@@ -83,7 +83,7 @@ const DashboardPage = () => {
     refetch: refetchStudents,
   } = useChildren();
 
-  const students = childrenData?.children || [];
+  const students = useMemo(() => childrenData?.children || [], [childrenData]);
 
   const {
     data: dashboardData,
