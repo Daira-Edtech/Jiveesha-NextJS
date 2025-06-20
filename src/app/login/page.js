@@ -252,7 +252,7 @@ export default function LoginPage() {
               priority
             />
             <h1 className="text-3xl font-bold ml-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Daira
+              Daira 
             </h1>
           </div>
           <h2 className="text-3xl font-bold text-blue-600 mb-2">

@@ -2,7 +2,9 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from 'next/image';
+import { useState } from 'react';
 import { FaCheck, FaChevronRight } from "react-icons/fa";
+import EnhanceExperience from "@/components/EnhanceExperience";
 
 // Images from public/picture-test/ folder
 const TIDEPOOL_BACKGROUND_IMG_PATH = "/picture-test/backgroundImage.png";
@@ -14,6 +16,24 @@ export default function WelcomeDialog({
   handleNextDialog,
   t,
 }) {
+  const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
+
+  // Check if we're on the last dialog to show fullscreen option
+  const isLastDialog = currentDialog === dialogIntroTexts.length - 1;
+
+  const handleStartGame = () => {
+    handleNextDialog(); // Proceed to the game
+  };
+
+  const handleButtonClick = () => {
+    if (isLastDialog) {
+      // Show fullscreen enhancement option before starting
+      setShowEnhanceExperience(true);
+    } else {
+      handleNextDialog();
+    }
+  };
+
   return (
     <>
       {/* Background Image Container */}
@@ -94,7 +114,7 @@ export default function WelcomeDialog({
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={handleNextDialog}
+                onClick={handleButtonClick}
                 className={`flex items-center justify-center gap-3 py-3 px-6 sm:py-4 sm:px-8 lg:px-12 rounded-2xl font-semibold text-lg lg:text-xl shadow-lg transition-all duration-300
                   ${ currentDialog < dialogIntroTexts.length - 1
                     ? "bg-gradient-to-r from-[#FFCAD4] via-[#FDF6E3] to-[#FFE57F] text-[#3E2F2F] hover:from-[#FFCAD4]/90 hover:via-[#FDF6E3]/90 hover:to-[#FFE57F]/90 hover:shadow-[#FFE57F]/50"
@@ -117,6 +137,22 @@ export default function WelcomeDialog({
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Fullscreen Enhancement Modal */}
+      {showEnhanceExperience && (
+        <EnhanceExperience
+          onStartGame={handleStartGame}
+          translations={{
+            enhanceExperience: t("enhanceExperience"),
+            fullScreenRecommendation: t("fullScreenRecommendation"),
+            enterFullscreen: t("enterFullscreen"),
+            startGame: t("startGame"),
+            quit: t("quit")
+          }}
+          autoTrigger={true}
+          showButton={false}
+        />
+      )}
     </>
   );
 }

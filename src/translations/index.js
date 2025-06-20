@@ -299,6 +299,37 @@ export const translations = {
     differentSounds: "Different Sounds",
     imReady: "🌟 I’m Ready, O Guardian!",
     imReadysound: "🌬️ My ears are open, and I am ready.",
+    
+    // Fullscreen functionality
+    enhanceExperience: "Enhance Experience",
+    fullScreenRecommendation: "For the best experience, we recommend using fullscreen mode.",
+    enterFullscreen: "Enter Fullscreen",
+    startGame: "Start Game",
+    quit: "Quit",
+    
+    // Map Layout
+    adventureMap: "Adventure Map",
+    chooseYourChallenge: "Choose Your Challenge",
+    level: "Level",
+    gameInfo: "Game Info",
+    gameInfoDescription: "Welcome to the Adventure Map! Complete each level to unlock the next challenge.",
+    selectLanguage: "Select Language",
+    reportIssue: "Report Issue",
+    describeIssue: "Please describe the issue you encountered...",
+    confirmQuit: "Confirm Quit",
+    confirmQuitMessage: "Are you sure you want to quit?",
+    confirmInfo: "Show Information",
+    confirmInfoMessage: "Would you like to view the game information?",
+    confirmLanguage: "Change Language",
+    confirmLanguageMessage: "Would you like to change the language?",
+    confirmReport: "Report Issue",
+    confirmReportMessage: "Would you like to report an issue?",
+    
+    // FullScreen Dialog
+    betterExperience: "Better Experience",
+    fullscreenDescription: "For the best experience, we recommend using fullscreen mode. This will help you focus better and see everything clearly.",
+    maybeLater: "Maybe Later",
+    
     //Symbol Sequence Game
     symbolSequenceTitle: "Symbol Sequence Memory Game",
     symbolSequenceDescription:
