@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FaPrint, FaDownload, FaEnvelope } from "react-icons/fa";
 import logo from "../../../public/daira-logo.png";
 import testDataMap from "../../Data/inference.json";
 import axios from "axios";
 import { useLanguage } from "../../contexts/LanguageContext.jsx";
 import questions from "../../Data/questions.json";
+import Image from "next/image";
 
 const backendURL =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
@@ -30,23 +31,7 @@ const TestReportPopup = ({
   }
   `;
 
-  useEffect(() => {
-    // Add styles to document head
-    const styleSheet = document.createElement("style");
-    styleSheet.innerText = customStyles;
-    document.head.appendChild(styleSheet);
-
-    if (isCumulative && test.allTests) {
-      generateCumulativeInference();
-    }
-
-    // Cleanup
-    return () => {
-      document.head.removeChild(styleSheet);
-    };
-  }, [isCumulative, test]);
-
-  const generateCumulativeInference = async () => {
+  const generateCumulativeInference = useCallback(async () => {
     setIsLoading(true);
     try {
       const twentyMinutesAgo = new Date(Date.now() - 20 * 60 * 1000);
@@ -75,7 +60,23 @@ const TestReportPopup = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [test, childId, tokenId]);
+
+  useEffect(() => {
+    // Add styles to document head
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = customStyles;
+    document.head.appendChild(styleSheet);
+
+    if (isCumulative && test.allTests) {
+      generateCumulativeInference();
+    }
+
+    // Cleanup
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, [isCumulative, test, customStyles, generateCumulativeInference]);
 
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
@@ -209,7 +210,7 @@ const TestReportPopup = ({
     if (name.includes("visual discrimination")) return "visual";
     if (name.includes("sound discrimination")) return "sound";
     if (name.includes("grapheme") || name.includes("phoneme")) return "phoneme";
-    if (name.includes("Picture recognition")) return "picture";
+    if (name.includes("picture recognition")) return "picture";
     if (name.includes("auditory")) return "auditory";
     if (name.includes("sequence arrangement")) return "sequence";
     if (name.includes("symbol sequence")) return "symbol";
@@ -343,7 +344,7 @@ const TestReportPopup = ({
                       </span>
                       <span className="mx-2">•</span>
                       <span>
-                        Child's Age:{" "}
+                        Child&apos;s Age:{" "}
                         <span className="font-medium">
                           {childDetails.age} years
                         </span>
@@ -724,9 +725,14 @@ const TestReportPopup = ({
                 <th className="border border-blue-200 p-2 text-center">
                   Level
                 </th>
-
                 <th className="border border-blue-200 p-2 text-center">
-                  Score
+                  Grapheme
+                </th>
+                <th className="border border-blue-200 p-2 text-center">
+                  Student&apos;s Response
+                </th>
+                <th className="border border-blue-200 p-2 text-center">
+                  Result
                 </th>
               </tr>
             </thead>
@@ -741,7 +747,6 @@ const TestReportPopup = ({
                 <td className="border border-blue-200 p-2 text-center">
                   {test.level || "-"}
                 </td>
-
                 <td className="border border-blue-200 p-2 text-center">
                   {getTestScore()}
                 </td>
@@ -934,9 +939,11 @@ const TestReportPopup = ({
               <div className="flex justify-between items-start">
                 <div className="flex items-center">
                   <div className="w-16 h-16 mr-12 bg-white rounded-full p-2 shadow-lg">
-                    <img
+                    <Image
                       src="/daira-logo1.png"
                       alt="Logo"
+                      width={64}
+                      height={64}
                       className="w-full h-full object-contain"
                     />
                   </div>
@@ -1191,7 +1198,7 @@ const TestReportPopup = ({
                   ) : isCumulative ? (
                     "This comprehensive assessment evaluates multiple cognitive domains relevant to the student's learning profile. Results should be considered alongside overall educational performance."
                   ) : (
-                    "This assessment evaluates cognitive abilities relevant to the student's learning profile. Results should be considered alongside overall educational performance."
+                    "This assessment evaluates cognitive abilities relevant to the student&apos;s learning profile. Results should be considered alongside overall educational performance."
                   )}
                 </p>
               </div>
@@ -1226,9 +1233,11 @@ const TestReportPopup = ({
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
                     <div className="w-8 h-8 mr-2">
-                      <img
+                      <Image
                         src="/daira-logo1.png"
                         alt="Logo"
+                        width={32}
+                        height={32}
                         className="w-full h-full object-contain opacity-60"
                       />
                     </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { FaPrint } from "react-icons/fa";
+import Image from "next/image";
 import logo from "../../../public/daira-logo.png";
 
 const ContinuousAssessmentDetailPopup = ({
@@ -78,9 +79,11 @@ const ContinuousAssessmentDetailPopup = ({
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <div className="w-12 h-12 mr-4">
-                  <img
+                  <Image
                     src={logo}
                     alt="Logo"
+                    width={48}
+                    height={48}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -135,7 +138,6 @@ const ContinuousAssessmentDetailPopup = ({
                 </div>
               </div>
               <div className="col-span-1 border-l border-gray-200 pl-4">
-                
                 <div className="mt-2 text-sm space-y-1">
                   <div className="flex justify-between">
                     <span className="font-semibold">{t("Registered on")}:</span>
