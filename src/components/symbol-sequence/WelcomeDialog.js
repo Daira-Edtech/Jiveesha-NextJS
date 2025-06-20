@@ -25,7 +25,6 @@ import characterImage from "../../../public/symbol-sequence/Rune.png";
 
 const WelcomeDialog = ({
   t,
-  speak,
   onEntireTestComplete,
   initialChildId,
   dialogContent,
@@ -262,13 +261,13 @@ const WelcomeDialog = ({
 
   useEffect(() => {
     if (gameState === "welcome" && dialogContent && dialogContent.length > 0) {
-      speak(dialogContent[0]);
+      dialogContent[0];
     }
-  }, [gameState, speak, dialogContent]);
+  }, [gameState, , dialogContent]);
 
   const handleNextDialog = () => {
     if (currentDialogIndex < dialogContent.length - 1) {
-      speak(dialogContent[currentDialogIndex + 1]);
+      dialogContent[currentDialogIndex + 1];
       setCurrentDialogIndex(currentDialogIndex + 1);
     } else {
       setGameState("difficultySelection");

@@ -7,7 +7,10 @@ import { useCallback, useEffect, useState } from "react";
 
 import WelcomeDialog from "../../../components/sequence-arrangement/WelcomeDialog.js";
 // Import your existing LanguageProvider and useLanguage hook
-import { LanguageProvider, useLanguage } from "../../../contexts/LanguageContext";
+import {
+  LanguageProvider,
+  useLanguage,
+} from "../../../contexts/LanguageContext";
 
 // This inner component will consume the context
 const SequenceArrangementTestContent = () => {
@@ -21,8 +24,6 @@ const SequenceArrangementTestContent = () => {
       setChildId(storedChildId);
     }
   }, []);
-
-
 
   const handleEntireTestFlowComplete = async (finalScore) => {
     console.log("Entire test flow completed. Final Score:", finalScore);
@@ -63,7 +64,6 @@ const SequenceArrangementTestContent = () => {
 
   return (
     <div className="w-screen h-screen">
-      
       <WelcomeDialog
         t={t}
         onEntireTestFlowComplete={handleEntireTestFlowComplete}
