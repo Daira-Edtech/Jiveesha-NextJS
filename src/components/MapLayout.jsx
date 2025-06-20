@@ -164,154 +164,129 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
       <div className="absolute inset-0 flex items-center justify-center px-4">
         <div className="relative w-full h-full max-w-7xl">
           {/* Connection Lines between Islands */}
-    {/* Connection Lines between Islands */}
-<svg className="absolute w-full h-full pointer-events-none z-10" style={{ overflow: 'visible' }}>
-  {/* Connect islands in sequential order: 1→2→3→4→5→6→7→8→9→10 */}
-  {tests.slice(0, 10).map((_, index) => {
-    if (index === 9) return null; // Don't connect the last island to anything
-    
-    // Define island positions (percentages from top-left) - moved down
-    const islandPositions = [
-      { x: 15, y: 30 },  // Island 1 - Top left
-      { x: 35, y: 25 },  // Island 2 - Top center-left
-      { x: 55, y: 35 },  // Island 3 - Top center
-      { x: 75, y: 30 },  // Island 4 - Top right
-      { x: 85, y: 50 },  // Island 5 - Right side
-      { x: 70, y: 70 },  // Island 6 - Bottom right
-      { x: 45, y: 80 },  // Island 7 - Bottom center
-      { x: 25, y: 75 },  // Island 8 - Bottom left
-      { x: 10, y: 55 },  // Island 9 - Left side
-      { x: 50, y: 55 },  // Island 10 - Center (final boss)
-    ];
-    
-    const start = islandPositions[index];
-    const end = islandPositions[index + 1];
-    
-    if (!start || !end) return null;
-    
-    // Calculate control point for curved path
-    const midX = (start.x + end.x) / 2;
-    const midY = (start.y + end.y) / 2;
-    // Add curve by offsetting the control point - make curves more pronounced
-    const curveOffset = 15 + Math.abs(start.x - end.x) * 0.3;
-    const controlX = midX + (start.x < end.x ? -curveOffset : curveOffset);
-    const controlY = midY - 15 - Math.abs(start.x - end.x) * 0.15; // Curve upward
-    
-    const curvePath = `M${start.x}% ${start.y}% Q${controlX}% ${controlY}% ${end.x}% ${end.y}%`;
-    
-    return (
-      <g key={`path-${index}`}>
-        {/* Background shadow for depth */}
-        <path
-          d={curvePath}
-          stroke="rgba(101, 67, 33, 0.4)"
-          strokeWidth="10"
-          strokeLinecap="round"
-          strokeDasharray="15,10"
-          fill="none"
-          style={{ 
-            filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))',
-            transform: 'translate(1px, 1px)' 
-          }}
-        />
-        
-        {/* Main dotted brown line - more visible */}
-        <motion.path
-          d={curvePath}
-          stroke="#8B4513"
-          strokeWidth="6"
-          strokeLinecap="round"
-          strokeDasharray="15,10"
-          fill="none"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ 
-            pathLength: 1, 
-            opacity: 1,
-            strokeDashoffset: [0, -100]
-          }}
-          transition={{ 
-            pathLength: { duration: 2, delay: index * 0.3, ease: "easeInOut" },
-            opacity: { duration: 1.5, delay: index * 0.3 },
-            strokeDashoffset: { 
-              duration: 25, 
-              repeat: Infinity,
-              ease: "linear",
-              delay: index * 0.3 + 2
-            }
-          }}
-        />
-        
-        {/* Lighter brown accent line for better visibility */}
-        <motion.path
-          d={curvePath}
-          stroke="#D2691E"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeDasharray="10,15"
-          fill="none"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ 
-            pathLength: 1, 
-            opacity: 0.9,
-            strokeDashoffset: [0, 50]
-          }}
-          transition={{ 
-            pathLength: { duration: 2, delay: index * 0.3 + 0.3, ease: "easeInOut" },
-            opacity: { duration: 1.2, delay: index * 0.3 + 0.3 },
-            strokeDashoffset: { 
-              duration: 18, 
-              repeat: Infinity,
-              ease: "linear",
-              delay: index * 0.3 + 2.3
-            }
-          }}
-        />
-        
-        {/* Inner highlight for more definition */}
-        <motion.path
-          d={curvePath}
-          stroke="#CD853F"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeDasharray="8,12"
-          fill="none"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ 
-            pathLength: 1, 
-            opacity: 0.8,
-            strokeDashoffset: [0, -30]
-          }}
-          transition={{ 
-            pathLength: { duration: 2, delay: index * 0.3 + 0.6, ease: "easeInOut" },
-            opacity: { duration: 1, delay: index * 0.3 + 0.6 },
-            strokeDashoffset: { 
-              duration: 12, 
-              repeat: Infinity,
-              ease: "linear",
-              delay: index * 0.3 + 2.6
-            }
-          }}
-        />
-      </g>
-    );
-  })}
-</svg>
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-15" viewBox="-3 -3 106 106" preserveAspectRatio="none">
+            {/* Connect islands in sequential order: 1→2→3→4→5→6→7→8→9→10 */}
+            {tests.slice(0, 9).map((_, index) => {
+              // Define island positions for lines - shifted down and right
+              const islandPositions = [
+                { x: 18, y: 33 },  // Island 1 - Top left
+                { x: 38, y: 28 },  // Island 2 - Top center-left
+                { x: 58, y: 38 },  // Island 3 - Top center
+                { x: 78, y: 33 },  // Island 4 - Top right
+                { x: 88, y: 53 },  // Island 5 - Right side
+                { x: 73, y: 73 },  // Island 6 - Bottom right
+                { x: 48, y: 83 },  // Island 7 - Bottom center
+                { x: 28, y: 78 },  // Island 8 - Bottom left
+                { x: 13, y: 58 },  // Island 9 - Left side
+                { x: 53, y: 58 },  // Island 10 - Center (final boss)
+              ];
+              
+              const start = islandPositions[index];
+              const end = islandPositions[index + 1];
+              
+              if (!start || !end) return null;
+              
+              // Calculate control point for curved path
+              const midX = (start.x + end.x) / 2;
+              const midY = (start.y + end.y) / 2;
+              // Add curve by offsetting the control point
+              const curveOffset = 12;
+              const controlX = midX + (index % 2 === 0 ? curveOffset : -curveOffset);
+              const controlY = midY - 8;
+              
+              const curvePath = `M${start.x},${start.y} Q${controlX},${controlY} ${end.x},${end.y}`;
+              
+              return (
+                <g key={`connection-${index}`}>
+                  {/* Shadow/outline for better visibility */}
+                  <motion.path
+                    d={curvePath}
+                    stroke="#654321"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    strokeDasharray="1.5,3"
+                    fill="none"
+                    opacity="0.7"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ 
+                      duration: 2, 
+                      delay: index * 0.3,
+                      ease: "easeInOut"
+                    }}
+                  />
+                  
+                  {/* Main brown dotted line */}
+                  <motion.path
+                    d={curvePath}
+                    stroke="#8B4513"
+                    strokeWidth="0.8"
+                    strokeLinecap="round"
+                    strokeDasharray="1,2.5"
+                    fill="none"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ 
+                      pathLength: 1, 
+                      opacity: 1,
+                      strokeDashoffset: [0, -6]
+                    }}
+                    transition={{ 
+                      pathLength: { duration: 2, delay: index * 0.3, ease: "easeInOut" },
+                      opacity: { duration: 1, delay: index * 0.3 },
+                      strokeDashoffset: { 
+                        duration: 12, 
+                        repeat: Infinity,
+                        ease: "linear",
+                        delay: index * 0.3 + 2
+                      }
+                    }}
+                  />
+                  
+                  {/* Highlight line for better visibility */}
+                  <motion.path
+                    d={curvePath}
+                    stroke="#D2691E"
+                    strokeWidth="0.4"
+                    strokeLinecap="round"
+                    strokeDasharray="0.8,2"
+                    fill="none"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ 
+                      pathLength: 1, 
+                      opacity: 0.8,
+                      strokeDashoffset: [0, 4]
+                    }}
+                    transition={{ 
+                      pathLength: { duration: 2, delay: index * 0.3 + 0.5, ease: "easeInOut" },
+                      opacity: { duration: 1, delay: index * 0.3 + 0.5 },
+                      strokeDashoffset: { 
+                        duration: 8, 
+                        repeat: Infinity,
+                        ease: "linear",
+                        delay: index * 0.3 + 2.5
+                      }
+                    }}
+                  />
+                </g>
+              );
+            })}
+          </svg>
 
 
           {/* Islands positioned across the map */}
           {tests.slice(0, 10).map((test, index) => {
             // Define strategic positions for each island (moved down a bit)
             const islandPositions = [
-              { x: 15, y: 30 },  // Island 1 - Top left
-              { x: 35, y: 25 },  // Island 2 - Top center-left
-              { x: 55, y: 35 },  // Island 3 - Top center
-              { x: 75, y: 30 },  // Island 4 - Top right
-              { x: 85, y: 50 },  // Island 5 - Right side
-              { x: 70, y: 70 },  // Island 6 - Bottom right
-              { x: 45, y: 80 },  // Island 7 - Bottom center
-              { x: 25, y: 75 },  // Island 8 - Bottom left
-              { x: 10, y: 55 },  // Island 9 - Left side
-              { x: 50, y: 55 },  // Island 10 - Center (final boss)
+              { x: 12, y: 24 },  // Island 1 - Top left
+              { x: 32, y: 20 },  // Island 2 - Top center-left
+              { x: 50, y: 30 },  // Island 3 - Top center
+              { x: 70, y: 23 },  // Island 4 - Top right
+              { x: 80, y: 45 },  // Island 5 - Right side
+              { x: 65, y: 65 },  // Island 6 - Bottom right
+              { x: 40, y: 75 },  // Island 7 - Bottom center
+              { x: 20, y: 65 },  // Island 8 - Bottom left
+              { x: 5, y: 50 },  // Island 9 - Left side
+              { x: 45, y: 50 },  // Island 10 - Center (final boss)
             ];
             
             const position = islandPositions[index];
