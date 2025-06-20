@@ -694,12 +694,12 @@ export default function Test6Controller({
   const commonHeaderButtons = (
     <>
       <Link
-        href="/taketests"
+        href="/take-tests?skipStart=true"
         className="absolute top-4 left-4 z-[55] flex items-center gap-2 bg-white/80 hover:bg-white text-teal-800 font-medium py-2 px-3 rounded-full shadow-md transition-all"
       >
         {" "}
         <ChevronLeft className="h-5 w-5" />{" "}
-        <span className="hidden sm:inline">{t("backToTests")}</span>
+        <span className="hidden sm:inline">{t("backToMap")}</span>
       </Link>
       {currentScreen !== "instructionsScreen" && (
         <button

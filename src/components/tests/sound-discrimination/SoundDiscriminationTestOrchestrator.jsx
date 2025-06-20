@@ -247,13 +247,13 @@ const SoundDiscriminationTestOrchestrator = ({
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
-            onClick={() => router.push("/taketests")}
+            onClick={() => router.push("/take-tests?skipStart=true")}
             className="flex items-center gap-2 bg-white/90 hover:bg-white text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <FaArrowLeft className="text-blue-600" />
-            {t("backToTests")}
+            {t("backToMap")}
           </motion.button>
 
           {(currentPhase === "demo" || currentPhase === "mainTest") && (

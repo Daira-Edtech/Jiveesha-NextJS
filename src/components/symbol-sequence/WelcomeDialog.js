@@ -13,6 +13,7 @@ import FinalResultsScreen from "./FinalResultsScreen.js";
 import RewardsModal from "./RewardsModal.js";
 import TopBar from "./TopBar.js";
 import InstructionsScreen from "./InstructionsScreen.js";
+import BackToMapButton from "../BackToMapButton.jsx";
 import {
   symbols,
   difficultyLevels,
@@ -497,6 +498,13 @@ const WelcomeDialog = ({
       className="fixed inset-0 overflow-y-auto bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
+      {/* Back to Map Button */}
+      <BackToMapButton 
+        variant="glass" 
+        position="top-left"
+        className="z-[70]"
+      />
+      
       {/* Confetti Effect */}
       {confetti && (
         <div className="fixed inset-0 pointer-events-none z-50">

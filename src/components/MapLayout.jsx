@@ -1,17 +1,34 @@
 "use client";
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdClose, MdInfo, MdLanguage, MdBugReport } from 'react-icons/md';
 import { useLanguage } from '@/contexts/LanguageContext';
+import bg from "../../public/map.png"
 
 const MapLayout = ({ tests, onTestSelect, onQuit }) => {
+  const router = useRouter();
   const { t, setLanguage } = useLanguage();
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [showLanguageDialog, setShowLanguageDialog] = useState(false);
   const [showReportDialog, setShowReportDialog] = useState(false);
   const [hoveredIsland, setHoveredIsland] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState({ show: false, type: null });
+
+  // Island names for each island
+  const islandNames = [
+    "Reading Harbor",
+    "Vision Bay", 
+    "Sound Cove",
+    "Picture Port",
+    "Letter Isle",
+    "Memory Atoll",
+    "Sequence Shore",
+    "Symbol Sanctuary",
+    "Blend Beach",
+    "Vocab Valley"
+  ];
 
   const handleAction = (type) => {
     setConfirmDialog({
@@ -32,20 +49,52 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-blue-400 via-blue-500 to-blue-600">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img 
-          src="/Main-Map/image.png" 
-          alt="Map Background"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-20" />
-      </div>
-      
+      {/* Background Map Image */}
+<div className="relative w-full h-full">
+  {/* Blurred Background Image */}
+  <div className="absolute inset-0 z-0">
+    <img 
+      src="/map.png" 
+      alt="Adventure Map Background" 
+      className="w-full h-full object-cover" 
+    />
+    <div className="absolute inset-0 backdrop-blur-[5px] bg-white/10" />
+  </div>
+
+  {/* Board Map Overlay (Not Blurred) */}
+  <div className=" z-10 fixed top-0 flex items-center justify-center">
+    <motion.img 
+      src="/board-map.png" 
+      alt="Board Map" 
+      className="max-w-full max-h-full"
+      animate={{
+        rotate: [-0.5, 0.5, -0.5],
+        x: [-2, 2, -2],
+        y: [-1, 1, -1]
+      }}
+      transition={{
+        duration: 8,
+        repeat: Infinity,
+        ease: "easeInOut",
+        repeatType: "mirror"
+      }}
+    />
+  </div>
+</div>
+
       {/* Back Button */}
       <div className="absolute top-6 left-6 z-20">
         <motion.button
-          onClick={() => window.history.back()}
+          onClick={() => {
+            console.log('Back button clicked, navigating to /take-tests');
+            try {
+              router.replace('/take-tests');
+            } catch (error) {
+              console.error('Navigation error:', error);
+              // Fallback to window location
+              window.location.href = '/take-tests';
+            }
+          }}
           className="p-2.5 bg-white/10 backdrop-blur-md text-white rounded-xl hover:bg-white/20 transition-all shadow-lg flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -69,7 +118,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
       </div>
 
       {/* Control Panel */}
-      <div className="absolute top-6 right-6 z-20 flex gap-4 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl">
+      <div className="absolute top-6 right-6 z-20 flex gap-4 scale-110 p-3 rounded-2xl">
         <motion.button
           onClick={() => handleAction('quit')}
           className="p-2.5 bg-red-500/90 text-white rounded-xl hover:bg-red-600 transition-all shadow-lg hover:shadow-red-500/20"
@@ -108,140 +157,178 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
         </motion.button>
       </div>
 
-      {/* Title */}
-      <motion.div 
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="absolute top-6 left-1/2 -translate-x-1/2 z-10"
-      >
-        <h1 className="text-4xl font-black text-white text-center drop-shadow-lg">
-          {t('adventureMap')}
-        </h1>
-        <p className="text-lg font-medium text-white/90 text-center mt-2 drop-shadow-md">
-          {t('chooseYourChallenge')}
-        </p>
-      </motion.div>
+    
 
-      {/* Game Map */}
+      {/* Game Map with Islands */}
       <div className="absolute inset-0 flex items-center justify-center px-4">
-        <div className="relative max-w-7xl w-full">
-          {/* Connection Lines */}
-          <svg className="absolute w-full h-full pointer-events-none z-0">
-            {tests.map((_, index) => {
-              if (index === tests.length - 1) return null;
-              
-              const getPosition = (idx) => {
-                const row = idx < 4 ? 0 : idx < 8 ? 1 : 2;
-                const col = row === 2 ? (idx - 8) * 2 + 1 : idx % 4;
-                const x = 20 + (col * 20);
-                const y = 25 + (row * 25);
-                return { x, y };
-              };
-              
-              const start = getPosition(index);
-              const end = getPosition(index + 1);
-              const controlX = (start.x + end.x) / 2;
-              const controlY = (start.y + end.y) / 2 - 10;
-              
-              const path = `M${start.x}% ${start.y}% Q${controlX}% ${controlY}% ${end.x}% ${end.y}%`;
-              
-              return (
-                <g key={`path-${index}`}>
-                  <motion.path
-                    d={path}
-                    stroke="rgba(255, 255, 255, 0.4)"
-                    strokeWidth="6"
-                    strokeLinecap="round"
-                    filter="url(#glow)"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 0.4 }}
-                    transition={{ duration: 1.5, delay: index * 0.2 }}
-                  />
-                  <motion.path
-                    d={path}
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeDasharray="8,8"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ 
-                      pathLength: 1, 
-                      opacity: 0.8,
-                      strokeDashoffset: [0, -100]
-                    }}
-                    transition={{ 
-                      pathLength: { duration: 1.5, delay: index * 0.2 },
-                      opacity: { duration: 1, delay: index * 0.2 },
-                      strokeDashoffset: { 
-                        duration: 10, 
-                        repeat: Infinity,
-                        ease: "linear"
-                      }
-                    }}
-                  />
-                </g>
-              );
-            })}
-            <defs>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-            </defs>
-          </svg>
+        <div className="relative w-full h-full max-w-7xl">
+          {/* Connection Lines between Islands */}
+    {/* Connection Lines between Islands */}
+<svg className="absolute w-full h-full pointer-events-none z-10" style={{ overflow: 'visible' }}>
+  {/* Connect islands in sequential order: 1→2→3→4→5→6→7→8→9→10 */}
+  {tests.slice(0, 10).map((_, index) => {
+    if (index === 9) return null; // Don't connect the last island to anything
+    
+    // Define island positions (percentages from top-left) - moved down
+    const islandPositions = [
+      { x: 15, y: 30 },  // Island 1 - Top left
+      { x: 35, y: 25 },  // Island 2 - Top center-left
+      { x: 55, y: 35 },  // Island 3 - Top center
+      { x: 75, y: 30 },  // Island 4 - Top right
+      { x: 85, y: 50 },  // Island 5 - Right side
+      { x: 70, y: 70 },  // Island 6 - Bottom right
+      { x: 45, y: 80 },  // Island 7 - Bottom center
+      { x: 25, y: 75 },  // Island 8 - Bottom left
+      { x: 10, y: 55 },  // Island 9 - Left side
+      { x: 50, y: 55 },  // Island 10 - Center (final boss)
+    ];
+    
+    const start = islandPositions[index];
+    const end = islandPositions[index + 1];
+    
+    if (!start || !end) return null;
+    
+    // Calculate control point for curved path
+    const midX = (start.x + end.x) / 2;
+    const midY = (start.y + end.y) / 2;
+    // Add curve by offsetting the control point - make curves more pronounced
+    const curveOffset = 15 + Math.abs(start.x - end.x) * 0.3;
+    const controlX = midX + (start.x < end.x ? -curveOffset : curveOffset);
+    const controlY = midY - 15 - Math.abs(start.x - end.x) * 0.15; // Curve upward
+    
+    const curvePath = `M${start.x}% ${start.y}% Q${controlX}% ${controlY}% ${end.x}% ${end.y}%`;
+    
+    return (
+      <g key={`path-${index}`}>
+        {/* Background shadow for depth */}
+        <path
+          d={curvePath}
+          stroke="rgba(101, 67, 33, 0.4)"
+          strokeWidth="10"
+          strokeLinecap="round"
+          strokeDasharray="15,10"
+          fill="none"
+          style={{ 
+            filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))',
+            transform: 'translate(1px, 1px)' 
+          }}
+        />
+        
+        {/* Main dotted brown line - more visible */}
+        <motion.path
+          d={curvePath}
+          stroke="#8B4513"
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeDasharray="15,10"
+          fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ 
+            pathLength: 1, 
+            opacity: 1,
+            strokeDashoffset: [0, -100]
+          }}
+          transition={{ 
+            pathLength: { duration: 2, delay: index * 0.3, ease: "easeInOut" },
+            opacity: { duration: 1.5, delay: index * 0.3 },
+            strokeDashoffset: { 
+              duration: 25, 
+              repeat: Infinity,
+              ease: "linear",
+              delay: index * 0.3 + 2
+            }
+          }}
+        />
+        
+        {/* Lighter brown accent line for better visibility */}
+        <motion.path
+          d={curvePath}
+          stroke="#D2691E"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray="10,15"
+          fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ 
+            pathLength: 1, 
+            opacity: 0.9,
+            strokeDashoffset: [0, 50]
+          }}
+          transition={{ 
+            pathLength: { duration: 2, delay: index * 0.3 + 0.3, ease: "easeInOut" },
+            opacity: { duration: 1.2, delay: index * 0.3 + 0.3 },
+            strokeDashoffset: { 
+              duration: 18, 
+              repeat: Infinity,
+              ease: "linear",
+              delay: index * 0.3 + 2.3
+            }
+          }}
+        />
+        
+        {/* Inner highlight for more definition */}
+        <motion.path
+          d={curvePath}
+          stroke="#CD853F"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeDasharray="8,12"
+          fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ 
+            pathLength: 1, 
+            opacity: 0.8,
+            strokeDashoffset: [0, -30]
+          }}
+          transition={{ 
+            pathLength: { duration: 2, delay: index * 0.3 + 0.6, ease: "easeInOut" },
+            opacity: { duration: 1, delay: index * 0.3 + 0.6 },
+            strokeDashoffset: { 
+              duration: 12, 
+              repeat: Infinity,
+              ease: "linear",
+              delay: index * 0.3 + 2.6
+            }
+          }}
+        />
+      </g>
+    );
+  })}
+</svg>
 
-          {/* Islands Grid */}
-          <div className="grid gap-y-20">
-            {/* First Row - 4 islands */}
-            <div className="grid grid-cols-4 gap-x-8 md:gap-x-16">
-              {tests.slice(0, 4).map((test, index) => (
-                <IslandItem 
-                  key={test.id} 
-                  test={test} 
-                  index={index}
-                  isHovered={hoveredIsland === index}
-                  onHoverStart={() => setHoveredIsland(index)}
-                  onHoverEnd={() => setHoveredIsland(null)}
-                  onClick={() => onTestSelect(test.id)}
-                />
-              ))}
-            </div>
+
+          {/* Islands positioned across the map */}
+          {tests.slice(0, 10).map((test, index) => {
+            // Define strategic positions for each island (moved down a bit)
+            const islandPositions = [
+              { x: 15, y: 30 },  // Island 1 - Top left
+              { x: 35, y: 25 },  // Island 2 - Top center-left
+              { x: 55, y: 35 },  // Island 3 - Top center
+              { x: 75, y: 30 },  // Island 4 - Top right
+              { x: 85, y: 50 },  // Island 5 - Right side
+              { x: 70, y: 70 },  // Island 6 - Bottom right
+              { x: 45, y: 80 },  // Island 7 - Bottom center
+              { x: 25, y: 75 },  // Island 8 - Bottom left
+              { x: 10, y: 55 },  // Island 9 - Left side
+              { x: 50, y: 55 },  // Island 10 - Center (final boss)
+            ];
             
-            {/* Second Row - 4 islands */}
-            <div className="grid grid-cols-4 gap-x-8 md:gap-x-16">
-              {tests.slice(4, 8).map((test, index) => (
-                <IslandItem 
-                  key={test.id} 
-                  test={test} 
-                  index={index + 4}
-                  isHovered={hoveredIsland === index + 4}
-                  onHoverStart={() => setHoveredIsland(index + 4)}
-                  onHoverEnd={() => setHoveredIsland(null)}
-                  onClick={() => onTestSelect(test.id)}
-                />
-              ))}
-            </div>
+            const position = islandPositions[index];
             
-            {/* Third Row - remaining islands centered */}
-            {tests.length > 8 && (
-              <div className="grid grid-cols-2 gap-x-8 md:gap-x-16 w-1/2 mx-auto">
-                {tests.slice(8, 10).map((test, index) => (
-                  <IslandItem 
-                    key={test.id} 
-                    test={test} 
-                    index={index + 8}
-                    isHovered={hoveredIsland === index + 8}
-                    onHoverStart={() => setHoveredIsland(index + 8)}
-                    onHoverEnd={() => setHoveredIsland(null)}
-                    onClick={() => onTestSelect(test.id)}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+            return (
+              <IslandItem 
+                key={test.id} 
+                test={test} 
+                index={index}
+                position={position}
+                islandName={islandNames[index]}
+                isHovered={hoveredIsland === index}
+                onHoverStart={() => setHoveredIsland(index)}
+                onHoverEnd={() => setHoveredIsland(null)}
+                onClick={() => onTestSelect(test.id)}
+              />
+            );
+          })}
         </div>
       </div>
 
@@ -449,70 +536,159 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
   );
 };
 
-// Island Item Component
-const IslandItem = ({ test, index, isHovered, onHoverStart, onHoverEnd, onClick }) => {
+// Island Item Component - UNIFIED ANIMATION FOR ISLAND AND NAME BOARD
+const IslandItem = ({ test, index, position, islandName, isHovered, onHoverStart, onHoverEnd, onClick }) => {
   const { t } = useLanguage();
   
   return (
     <motion.div
-      className="relative cursor-pointer flex flex-col items-center"
+      className="absolute cursor-pointer"
+      style={{
+        left: `${position.x}%`,
+        top: `${position.y}%`,
+        transform: 'translate(-50%, -50%)',
+        zIndex: isHovered ? 30 : 20,
+      }}
       onClick={onClick}
       onMouseEnter={onHoverStart}
       onMouseLeave={onHoverEnd}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
+      whileHover={{ 
+        scale: 1.2, 
+        zIndex: 30,
+        transition: { type: "spring", stiffness: 400, damping: 25, duration: 0.3 }
+      }}
+      whileTap={{ scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.5, y: 100 }}
+      animate={{ 
+        opacity: 1, 
+        scale: 1, 
+        y: [0, -8, 0],
+        rotate: [0, 1, 0, -1, 0]
+      }}
+      transition={{ 
+        opacity: { delay: index * 0.15, duration: 0.6, type: "spring", stiffness: 300, damping: 20 },
+        scale: { delay: index * 0.15, duration: 0.6, type: "spring", stiffness: 300, damping: 20 },
+        y: { 
+          duration: 3 + index * 0.2, 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          delay: index * 0.15
+        },
+        rotate: {
+          duration: 4 + index * 0.3,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: index * 0.15
+        }
+      }}
     >
-      {/* Island Base - using a circular design as fallback for island image */}
-      <div className="relative w-24 h-24 md:w-32 md:h-32">
-        <div className="w-full h-full bg-gradient-to-b from-green-400 to-green-600 rounded-full shadow-2xl flex items-center justify-center">
-          <div className="w-4/5 h-4/5 bg-gradient-to-b from-green-300 to-green-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-xl md:text-2xl">{index + 1}</span>
+      {/* Unified Island and Name Board Container - both animated together as one component */}
+      <div className="relative">
+        {/* Island Image */}
+        <img
+          src={`/images/islands/island${index + 1}.png`}
+          alt={`Island ${index + 1} - ${test.testName}`}
+          className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 object-contain drop-shadow-2xl"
+        />
+        
+        {/* Magical Glow Effect */}
+        <motion.div
+          className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-30 blur-lg"
+          animate={{
+            opacity: isHovered ? [0.3, 0.6, 0.3] : [0.1, 0.3, 0.1],
+            scale: isHovered ? [1, 1.3, 1] : [0.8, 1.1, 0.8],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        {/* Level Badge */}
+        <motion.div
+          className="absolute -top-3 -right-3 w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full shadow-lg flex items-center justify-center border-2 border-white"
+          animate={{
+            scale: isHovered ? [1, 1.2, 1] : [0.9, 1, 0.9],
+            rotate: [0, 5, -5, 0]
+          }}
+          transition={{
+            scale: { duration: 1.5, repeat: Infinity },
+            rotate: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+          }}
+        >
+          <span className="text-white font-bold text-sm md:text-base lg:text-lg">
+            {index + 1}
+          </span>
+        </motion.div>
+        
+        {/* Brown Name Board - unified with island animation */}
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-6">
+          <div className="relative">
+            {/* Brown wooden board background - more rounded */}
+            <motion.div 
+              className="bg-gradient-to-b from-amber-800 via-amber-900 to-amber-950 rounded-xl px-2 py-1 md:px-3 md:py-1.5 shadow-lg border border-amber-700 min-w-max"
+              animate={{
+                scale: isHovered ? 1.05 : 1,
+                backgroundColor: isHovered ? ["#92400e", "#b45309", "#92400e"] : "#92400e"
+              }}
+              transition={{
+                scale: { duration: 0.2, ease: "easeOut" },
+                backgroundColor: { duration: 1, repeat: isHovered ? Infinity : 0, ease: "easeInOut" }
+              }}
+            >
+              {/* Wood grain effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-700/30 to-transparent rounded-xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-amber-600/20 to-transparent rounded-xl"></div>
+              
+              {/* Dynamic text - shows island name normally, test name on hover */}
+              <motion.p 
+                className="relative text-yellow-100 font-semibold text-xs md:text-sm text-center whitespace-nowrap drop-shadow-md"
+                animate={{
+                  color: isHovered ? "#fef3c7" : "#fef9e7",
+                  scale: isHovered ? 1.02 : 1
+                }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                {isHovered ? test.testName : islandName}
+              </motion.p>
+              
+              {/* Decorative brass corners - smaller */}
+              <div className="absolute -top-0.5 -left-0.5 w-1.5 h-1.5 bg-yellow-600 rounded-full border border-yellow-500"></div>
+              <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-yellow-600 rounded-full border border-yellow-500"></div>
+              <div className="absolute -bottom-0.5 -left-0.5 w-1.5 h-1.5 bg-yellow-600 rounded-full border border-yellow-500"></div>
+              <div className="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 bg-yellow-600 rounded-full border border-yellow-500"></div>
+            </motion.div>
           </div>
         </div>
-        {/* Floating animation */}
-        <motion.div
-          className="absolute inset-0"
-          animate={{ y: [0, -5, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        />
       </div>
       
-      {/* Level Number and Name */}
-      <div className="mt-4 text-center">
-        <motion.p 
-          className="font-bold text-white text-lg md:text-xl drop-shadow-lg mb-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 + index * 0.1 }}
-        >
-          {t('level')} {index + 1}
-        </motion.p>
-        <AnimatePresence>
-          {isHovered && (
+      {/* Sparkle Effects */}
+      {isHovered && (
+        <motion.div className="absolute inset-0 pointer-events-none">
+          {[...Array(6)].map((_, i) => (
             <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.8 }}
-              transition={{ duration: 0.2 }}
-              className="absolute left-1/2 transform -translate-x-1/2 mt-2 z-10"
-            >
-              <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg whitespace-nowrap max-w-xs">
-                <p className="text-gray-800 font-medium text-sm">
-                  {test.testName}
-                </p>
-                {test.About && (
-                  <p className="text-gray-600 text-xs mt-1 line-clamp-2">
-                    {test.About.substring(0, 100)}...
-                  </p>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+              key={i}
+              className="absolute w-1 h-1 bg-yellow-300 rounded-full"
+              style={{
+                left: `${20 + i * 15}%`,
+                top: `${10 + i * 10}%`,
+              }}
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [0, 1.5, 0],
+                y: [0, -20, -40],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                delay: i * 0.2,
+                ease: "easeOut"
+              }}
+            />
+          ))}
+        </motion.div>
+      )}
     </motion.div>
   );
 };
@@ -524,6 +700,11 @@ IslandItem.propTypes = {
     About: PropTypes.string,
   }).isRequired,
   index: PropTypes.number.isRequired,
+  position: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }).isRequired,
+  islandName: PropTypes.string.isRequired,
   isHovered: PropTypes.bool.isRequired,
   onHoverStart: PropTypes.func.isRequired,
   onHoverEnd: PropTypes.func.isRequired,

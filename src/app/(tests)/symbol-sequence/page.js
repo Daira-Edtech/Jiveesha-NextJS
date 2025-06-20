@@ -100,7 +100,7 @@ const SymbolSequencePage = () => {
 
     if (!childId) {
       console.warn("Child ID is missing. Cannot save results.")
-      router.push("/take-tests")
+      router.push("/take-tests?skipStart=true")
       return
     }
 
@@ -127,7 +127,7 @@ const SymbolSequencePage = () => {
       console.error("Error saving test results in page.js:", error.response?.data || error.message)
       // Continue to results page even if save fails
     } finally {
-      router.push("/take-tests")
+      router.push("/take-tests?skipStart=true")
     }
   }
 

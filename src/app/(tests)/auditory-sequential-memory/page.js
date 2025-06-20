@@ -72,7 +72,7 @@ const AuditorySequentialPage = () => {
 
     if (!childId) {
       console.warn("Child ID is missing. Cannot save results.")
-      router.push("/take-tests")
+      router.push("/take-tests?skipStart=true")
       return
     }
 
@@ -98,7 +98,7 @@ const AuditorySequentialPage = () => {
     } catch (error) {
       console.error("Error saving test results in page.js:", error.response?.data || error.message)
     } finally {
-      router.push("/take-tests")
+      router.push("/take-tests?skipStart=true")
     }
   }
 

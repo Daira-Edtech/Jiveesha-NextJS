@@ -181,11 +181,11 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
       {/* Back Button */}
       <motion.button
         initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}
-        onClick={() => router.push("/taketests")} 
+        onClick={() => router.push("/take-tests?skipStart=true")} 
         className="fixed top-4 left-4 z-[70] flex items-center gap-2.5 bg-gradient-to-r from-white/90 to-lime-100/90 hover:from-white hover:to-lime-50 text-green-900 font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all backdrop-blur-sm border border-white/50"
         whileHover={{ scale: 1.05, y: -1, shadow:"lg" }} whileTap={{ scale: 0.95 }}
       >
-        <FaArrowLeft className="text-green-700" /> {t("backToTests")}
+        <FaArrowLeft className="text-green-700" /> {t("backToMap")}
       </motion.button>
 
       {/* Generic Instructions Button (conditionally rendered) */}

@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import Image from 'next/image';
 import { useState } from 'react';
-import { FaCheck, FaChevronRight } from "react-icons/fa";
+import { FaCheck, FaChevronRight, FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 import EnhanceExperience from "@/components/EnhanceExperience";
 
 // Images from public/picture-test/ folder
@@ -16,6 +17,7 @@ export default function WelcomeDialog({
   handleNextDialog,
   t,
 }) {
+  const router = useRouter();
   const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
 
   // Check if we're on the last dialog to show fullscreen option
@@ -54,6 +56,20 @@ export default function WelcomeDialog({
           transition={{ duration: 0.5 }}
         />
       </div>
+
+      {/* Back to Map Button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5 }}
+        onClick={() => router.push("/take-tests?skipStart=true")}
+        className="fixed top-4 left-4 z-[70] flex items-center gap-2.5 bg-gradient-to-r from-white/90 to-teal-100/90 hover:from-white hover:to-teal-50 text-teal-900 font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all backdrop-blur-sm border border-white/50"
+        whileHover={{ scale: 1.05, y: -1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <FaArrowLeft className="text-teal-700" />
+        {t("backToMap") || "Back to Map"}
+      </motion.button>
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8">
         <motion.div

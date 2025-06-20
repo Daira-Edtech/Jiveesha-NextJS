@@ -177,7 +177,7 @@ const GraphemeTestContent = () => {
           `Test completed: ${scoreValue}. Results page suppressed.`
         )
       );
-      router.push("/take-tests");
+      router.push("/take-tests?skipStart=true");
     },
     [router, t]
   );
@@ -321,7 +321,7 @@ const GraphemeTestContent = () => {
       case "intro":
       case "loading_init":
       case "error_state_no_letters":
-        router.push("/take-tests");
+        router.push("/take-tests?skipStart=true");
         break;
       case "info":
         setTestStage("intro");
@@ -337,13 +337,13 @@ const GraphemeTestContent = () => {
         if (typeof resetMainTestLogic === "function") {
           resetMainTestLogic();
         }
-        router.push("/take-tests");
+        router.push("/take-tests?skipStart=true");
         break;
       case "results":
-        router.push("/take-tests");
+        router.push("/take-tests?skipStart=true");
         break;
       default:
-        router.push("/take-tests");
+        router.push("/take-tests?skipStart=true");
     }
   };
 
@@ -353,7 +353,7 @@ const GraphemeTestContent = () => {
       case "intro":
       case "loading_init":
       case "error_state_no_letters":
-        return t("backToMenu", "Back to Menu");
+        return t("backToMap", "Back to Map");
       case "info":
         return t("backToIntro", "Back to Intro"); // This button leads to "intro" stage. No alert was here.
       case "practice":
@@ -362,9 +362,9 @@ const GraphemeTestContent = () => {
         return t("backToInfo", "Back to Instructions");
       case "test":
       case "submit":
-        return t("exitToMenu", "Exit to Menu"); // This button previously had confirm. Now removed.
+        return t("backToMap", "Back to Map"); // This button previously had confirm. Now removed.
       case "results":
-        return t("backToMenu", "Back to Menu");
+        return t("backToMap", "Back to Map");
       default:
         return t("back", "Back");
     }
@@ -412,7 +412,7 @@ const GraphemeTestContent = () => {
           )}
         </p>
         <button
-          onClick={() => router.push("/take-tests")}
+          onClick={() => router.push("/take-tests?skipStart=true")}
           className="mt-4 py-2 px-4 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors"
         >
           {t("backToTests", "Back to Tests")}
