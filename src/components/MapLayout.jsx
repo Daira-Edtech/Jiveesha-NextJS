@@ -87,13 +87,13 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
       <div className="absolute top-6 left-6 z-20">
         <motion.button
           onClick={() => {
-            console.log('Back button clicked, navigating to /take-tests');
+            console.log('Back button clicked, navigating to /');
             try {
-              router.replace('/take-tests');
+              router.replace('/');
             } catch (error) {
               console.error('Navigation error:', error);
               // Fallback to window location
-              window.location.href = '/take-tests';
+              window.location.href = '/';
             }
           }}
           className="p-2.5 bg-white/10 backdrop-blur-md text-white rounded-xl hover:bg-white/20 transition-all shadow-lg flex items-center gap-2"
