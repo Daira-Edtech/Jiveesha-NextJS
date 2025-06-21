@@ -86,35 +86,26 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
       {/* Back Button */}
       <div className="absolute top-6 left-6 z-20">
         <motion.button
-          onClick={() => {
-            console.log('Back button clicked, navigating to /take-tests');
-            try {
-              router.replace('/take-tests');
-            } catch (error) {
-              console.error('Navigation error:', error);
-              // Fallback to window location
-              window.location.href = '/take-tests';
-            }
-          }}
+          onClick={() => router.push("/dashboard")}
           className="p-2.5 bg-white/10 backdrop-blur-md text-white rounded-xl hover:bg-white/20 transition-all shadow-lg flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            className="w-6 h-6" 
-            fill="none" 
-            viewBox="0 0 24 24" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M10 19l-7-7m0 0l7-7m-7 7h18" 
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
             />
           </svg>
-          <span className="font-medium">{t('back')}</span>
+          <span className="font-medium">{t("back")}</span>
         </motion.button>
       </div>
 
