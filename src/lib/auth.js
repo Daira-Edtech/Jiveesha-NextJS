@@ -19,12 +19,13 @@ export const auth = betterAuth({
   },
   trustedOrigins: [
     "http://localhost:3000",
-    "https://jiveesha-next-js-deploy.vercel.app"
+    "https://jiveesha-next-js-deploy.vercel.app",
+    "https://jiveesha-nextjs.onrender.com/",
   ],
-//   socialProviders: {
-//     github: {
-//       clientId: process.env.GITHUB_CLIENT_ID,
-//       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-//     },
-//   },
+  //   socialProviders: {
+  //     github: {
+  //       clientId: process.env.GITHUB_CLIENT_ID,
+  //       clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  //     },
+  //   },
 });
