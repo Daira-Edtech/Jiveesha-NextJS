@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import SearchbyName from "../../components/SearchByName";
 import StudentCard from "../../components/StudentCard";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { useChildren } from "../../hooks/useChildren";
 
 export default function Analytics() {
   const router = useRouter();
@@ -12,34 +13,8 @@ export default function Analytics() {
   const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
-  const [students, setStudents] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchStudents = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("/api/getChildrenByTeacher");
-      if (response.ok) {
-        const data = await response.json();
-        setStudents(Array.isArray(data.children) ? data.children : []);
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Failed to fetch students");
-        setStudents([]);
-      }
-    } catch (error) {
-      setError("Failed to fetch students. Please try again later.");
-      setStudents([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchStudents();
-  }, []);
+  const { data, isLoading, error, refetch } = useChildren();
+  const students = data?.children ?? [];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -124,9 +99,11 @@ export default function Analytics() {
                     />
                   </svg>
                 </div>
-                <p className="text-lg text-gray-600">{error}</p>
+                <p className="text-lg text-gray-600">
+                  {error.message || error}
+                </p>
                 <button
-                  onClick={fetchStudents}
+                  onClick={refetch}
                   className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   {t("tryAgain") || "Try Again"}

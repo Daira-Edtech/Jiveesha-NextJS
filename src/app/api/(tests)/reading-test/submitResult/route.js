@@ -82,11 +82,7 @@ export async function POST(req) {
         correctWords: JSON.stringify(formattedCorrectGroups),
         incorrectWords: JSON.stringify(errorWords),
         score: Number(score.toFixed(2)),
-        testName: {
-          en: "Reading English Test",
-          ta: "Reading Tamil Test",
-          hi: "Reading Hindi Test",
-        }[language],
+        testName: "Reading Proficiency Test",
       },
     });
 

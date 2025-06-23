@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { FaPrint, FaDownload, FaEnvelope } from "react-icons/fa";
-import logo from "../../../public/daira-logo.png";
 import testDataMap from "../../Data/inference.json";
 import axios from "axios";
 import { useLanguage } from "../../contexts/LanguageContext.jsx";
@@ -863,7 +862,7 @@ const TestReportPopup = ({
   };
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-start z-50 p-4 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0  bg-opacity-60 flex justify-center items-start z-50 p-4 backdrop-blur-sm overflow-y-auto"
       onClick={onClose}
     >
       <div
@@ -876,7 +875,7 @@ const TestReportPopup = ({
           style={{ maxHeight: "calc(100vh - 200px)" }}
         >
           {/* Header with report institution */}
-          <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 p-8 relative overflow-hidden">
+          <div className="bg-white p-8 relative overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
             <div className="relative z-10">
               <div className="flex justify-between items-start">

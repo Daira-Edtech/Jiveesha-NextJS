@@ -5,7 +5,7 @@ import { Calendar, Hash } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 
 const StudentCard = ({ student, onStudentClick }) => {
   const formatDate = (dateString) => {
@@ -21,22 +21,17 @@ const StudentCard = ({ student, onStudentClick }) => {
     const birthDate = new Date(dateOfBirth);
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
-    
+
     return age;
   };
 
-  const getInitials = (name) => {
-    return name
-      .split(" ")
-      .map((word) => word[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  };
 
   return (
     <Card
@@ -46,10 +41,11 @@ const StudentCard = ({ student, onStudentClick }) => {
       <CardHeader className="pb-3">
         <div className="flex flex-col items-center space-y-3">
           <Avatar className="w-16 h-16 border-2 border-blue-200 group-hover:border-blue-400 transition-colors">
-            <AvatarImage src={student.imageUrl} alt={student.name} />
-            <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold">
-              {getInitials(student.name)}
-            </AvatarFallback>
+            <img
+              src={student.profileImage || "/default-profile.jpg"}
+              alt={`${student.name || "Student"}`}
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            />
           </Avatar>
           <div className="text-center">
             <h3 className="font-semibold text-lg text-gray-800 group-hover:text-blue-600 transition-colors">
@@ -66,7 +62,9 @@ const StudentCard = ({ student, onStudentClick }) => {
               <Calendar className="w-4 h-4" />
               Age
             </span>
-            <Badge variant="secondary">{getAge(student.dateOfBirth)} years</Badge>
+            <Badge variant="secondary">
+              {getAge(student.dateOfBirth)} years
+            </Badge>
           </div>
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-600 flex items-center gap-1">
@@ -80,7 +78,7 @@ const StudentCard = ({ student, onStudentClick }) => {
             <span className="text-gray-800 font-medium">{student.gender}</span>
           </div>
         </div>
-        <Button 
+        <Button
           className="w-full mt-4 bg-blue-600 hover:bg-blue-700 transition-colors"
           onClick={(e) => {
             e.stopPropagation();
