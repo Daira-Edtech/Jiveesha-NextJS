@@ -83,7 +83,7 @@ const ContinuousAssessmentDetailPopup = ({
   };
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-start z-50 p-4 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 bg-opacity-60 flex justify-center items-start z-50 p-4 backdrop-blur-sm overflow-y-auto"
       onClick={onClose}
     >
       <div
@@ -96,7 +96,7 @@ const ContinuousAssessmentDetailPopup = ({
           style={{ maxHeight: "calc(100vh - 200px)" }}
         >
           {/* Header with report institution */}
-          <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 p-8 relative overflow-hidden">
+          <div className="bg-white p-8 relative overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
             <div className="relative z-10">
               <div className="flex justify-between items-start">
@@ -133,8 +133,8 @@ const ContinuousAssessmentDetailPopup = ({
                     ID: {childDetails?.id || "XXXX00000XX"}
                   </p>
                   <div className="border-t border-blue-300 border-opacity-30 pt-2 mt-2">
-                    <p className="text-md">support@jiveesha.com</p>
-                    <p className="text-md">www.jiveesha.com</p>
+                    <p className="text-md">director@dairaedtech.in</p>
+                    <p className="text-md">https://dairaedtech.in/</p>
                   </div>
                 </div>
               </div>

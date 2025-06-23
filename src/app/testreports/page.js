@@ -12,38 +12,26 @@ import {
 import TestReportPopup from "@/components/Analytics/TestReportPopup";
 import ContinuousAssessmentDetailPopup from "@/components/Analytics/ContinuousAssessmentDetailPopup";
 import { useLanguage } from "@/contexts/LanguageContext";
-import axios from "axios";
+import { useTestReports, useFilteredTests } from "@/hooks/useTestReports";
+import { LoadingSpinner, ErrorComponent } from "@/components/LoadingAndError";
 import Image from "next/image";
 
 const TestResultsTable = () => {
-  const [data, setData] = useState([]);
-  const [childDetails, setChildDetails] = useState({});
-  const [visualTestData, setVisualTestData] = useState([]);
-  const [soundTestData, setSoundTestData] = useState([]);
-  const [auditoryTestData, setAuditoryTestData] = useState([]);
-  const [graphemeTestData, setGraphemeTestData] = useState([]);
-  const [pictureTestData, setPictureTestData] = useState([]);
-  const [sequenceTestData, setSequenceTestData] = useState([]);
-  const [soundBlendingTestData, setSoundBlendingTestData] = useState([]);
-  const [symbolSequenceTestData, setSymbolSequenceTestData] = useState([]);
-  const [vocalTestData, setVocalTestData] = useState([]);
-  const [continuousAssessmentData, setContinuousAssessmentData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  // UI State
   const [selectedTestForReport, setSelectedTestForReport] = useState(null);
   const [showReportPopup, setShowReportPopup] = useState(false);
-
   const [selectedContinuousAssessment, setSelectedContinuousAssessment] =
     useState(null);
   const [showContinuousDetailPopup, setShowContinuousDetailPopup] =
     useState(false);
-
-  const [userDetails, setUserDetails] = useState({});
   const [showCumulativeReport, setShowCumulativeReport] = useState(false);
   const [currentView, setCurrentView] = useState("all");
   const [childId, setChildId] = useState(null);
+  const [userDetails, setUserDetails] = useState({});
+
   const { t } = useLanguage();
 
+  // Get childId and user details from localStorage
   useEffect(() => {
     setChildId(localStorage.getItem("childId"));
 
@@ -56,271 +44,29 @@ const TestResultsTable = () => {
       }
     }
   }, []);
-  useEffect(() => {
-    if (!childId) return;
 
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `/api/reading-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const fetchedData = response.data.tests;
-        setData(fetchedData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        // Set empty array as fallback when API returns 404
-        if (error.response && error.response.status === 404) {
-          setData([]);
-        }
-      }
-    };
-    const fetchVisualTestData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/visual-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setVisualTestData(response.data.tests);
-      } catch (error) {
-        console.error("Error fetching visual test data:", error);
-        if (error.response && error.response.status === 404) {
-          setVisualTestData([]);
-        }
-      }
-    };
+  // Use the optimized hook for fetching test reports
+  const {
+    data: testReportsData,
+    isLoading,
+    error,
+    refetch,
+  } = useTestReports(childId);
 
-    const fetchSoundTestData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/sound-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setSoundTestData(response.data.tests);
-      } catch (error) {
-        console.error("Error fetching sound test data:", error);
-        if (error.response && error.response.status === 404) {
-          setSoundTestData([]);
-        }
-      }
-    };
-    const fetchAuditoryTestData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/auditory-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setAuditoryTestData(response.data.tests);
-      } catch (error) {
-        console.error("Error fetching auditory test data:", error);
-        if (error.response && error.response.status === 404) {
-          setAuditoryTestData([]);
-        }
-      }
-    };
+  // Extract data from the unified response
+  const childDetails = testReportsData?.childDetails || {};
+  const allTests = testReportsData?.allTests || [];
+  const testsByType = testReportsData?.testsByType || {};
 
-    const fetchGraphemeTestData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/grapheme-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setGraphemeTestData(response.data.tests);
-      } catch (error) {
-        console.error("Error fetching grapheme test data:", error);
-        if (error.response && error.response.status === 404) {
-          setGraphemeTestData([]);
-        }
-      }
-    };
-    const fetchPictureTestData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/picture-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setPictureTestData(response.data.tests);
-      } catch (error) {
-        console.error("Error fetching picture test data:", error);
-        if (error.response && error.response.status === 404) {
-          setPictureTestData([]);
-        }
-      }
-    };
+  // Use the filtered tests hook
+  const displayedTests = useFilteredTests(allTests, currentView); // Handle loading and error states
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
-    const fetchSequenceTestData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/sequence-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setSequenceTestData(response.data.tests);
-      } catch (error) {
-        console.error("Error fetching sequence test data:", error);
-        if (error.response && error.response.status === 404) {
-          setSequenceTestData([]);
-        }
-      }
-    };
-    const fetchSoundBlendingTestData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/soundBlending-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setSoundBlendingTestData(response.data.tests);
-      } catch (error) {
-        console.error("Error fetching sound blending test data:", error);
-        if (error.response && error.response.status === 404) {
-          setSoundBlendingTestData([]);
-        }
-      }
-    };
-
-    const fetchSymbolSequenceTestData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/symbolsequence-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setSymbolSequenceTestData(response.data.tests);
-      } catch (error) {
-        console.error("Error fetching symbol sequence test data:", error);
-        if (error.response && error.response.status === 404) {
-          setSymbolSequenceTestData([]);
-        }
-      }
-    };
-    const fetchVocalTestData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/vocabscale-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setVocalTestData(response.data.tests);
-        console.log("Vocal test data:", response.data.tests);
-      } catch (error) {
-        console.error("Error fetching vocal test data:", error);
-        if (error.response && error.response.status === 404) {
-          setVocalTestData([]);
-        }
-      }
-    };
-
-    const fetchContinuousAssessmentData = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(
-          `/api/continous-test/getResultByChild?childId=${childId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        // console.log("Continuous Assessment Data:", response.data);
-        setContinuousAssessmentData(response.data.data || []);
-      } catch (error) {
-        console.error("Error fetching continuous assessment data:", error);
-        if (error.response && error.response.status === 404) {
-          setContinuousAssessmentData([]);
-        }
-      }
-    };
-
-    const fetchChildDetails = async () => {
-      if (!childId) return;
-      try {
-        const response = await axios.get(`/api/getChild?childId=${childId}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        setChildDetails(response.data.child);
-        console.log("Child details:", response.data.child);
-      } catch (error) {
-        console.error("Error fetching child details:", error);
-        if (error.response && error.response.status === 404) {
-          // Set some default values if child details aren't available
-          setChildDetails({
-            name: "Unknown Student",
-            age: "N/A",
-          });
-        }
-      }
-    };
-
-    setLoading(true); // Set loading to true before fetching data
-
-    // Use Promise.all to track all fetch operations
-    Promise.all([
-      fetchData(),
-      fetchVisualTestData(),
-      fetchSoundTestData(),
-      fetchAuditoryTestData(),
-      fetchGraphemeTestData(),
-      fetchPictureTestData(),
-      fetchSequenceTestData(),
-      fetchSoundBlendingTestData(),
-      fetchSymbolSequenceTestData(),
-      fetchVocalTestData(),
-      fetchContinuousAssessmentData(),
-      fetchChildDetails(),
-    ]).finally(() => {
-      // Set loading to false after all requests complete (success or error)
-      setLoading(false);
-    });
-  }, [childId]);
+  if (error) {
+    return <ErrorComponent error={error} onRetry={refetch} />;
+  }
   const formatDateTime = (dateString) => {
     if (!dateString) return { datePart: "N/A", timePart: "N/A" };
     const date = new Date(dateString);
@@ -382,107 +128,6 @@ const TestResultsTable = () => {
     setShowContinuousDetailPopup(false);
     setSelectedContinuousAssessment(null);
   };
-
-  const allTests = useMemo(
-    () =>
-      [
-        ...data.map((test) => ({
-          ...test,
-          type: "reading",
-          testName: test.testName || "Reading Proficiency Test",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...visualTestData.map((test) => ({
-          ...test,
-          type: "visual",
-          testName: test.testName || "Visual Discrimination",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...soundTestData.map((test) => ({
-          ...test,
-          type: "sound",
-          testName: test.testName || "Sound Discrimination",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...auditoryTestData.map((test) => ({
-          ...test,
-          type: "auditory",
-          testName: test.testName || "Auditory Memory",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...graphemeTestData.map((test) => ({
-          ...test,
-          type: "grapheme",
-          testName: test.testName || "Grapheme Matching",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...pictureTestData.map((test) => ({
-          ...test,
-          type: "picture",
-          testName: test.testName || "Picture Recognition",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...sequenceTestData.map((test) => ({
-          ...test,
-          type: "sequence",
-          testName: test.testName || "Sequence Arrangement",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...soundBlendingTestData.map((test) => ({
-          ...test,
-          type: "soundBlending",
-          testName: test.testName || "Sound Blending",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...symbolSequenceTestData.map((test) => ({
-          ...test,
-          type: "symbol",
-          testName: test.testName || "Symbol Sequence",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...vocalTestData.map((test) => ({
-          ...test,
-          type: "vocabulary",
-          testName: test.testName || "Vocabulary Scale Test",
-          created_at: test.createdAt || test.created_at,
-        })),
-        ...(Array.isArray(continuousAssessmentData)
-          ? continuousAssessmentData.map((test) => ({
-              ...test,
-              type: "continuous",
-              testName: "Continuous Assessment",
-              score: test.totalScore,
-              created_at: test.createdAt || test.created_at,
-            }))
-          : []),
-      ].sort(
-        (a, b) =>
-          new Date(b.created_at || b.createdAt) -
-          new Date(a.created_at || a.createdAt)
-      ),
-    [
-      data,
-      visualTestData,
-      soundTestData,
-      auditoryTestData,
-      graphemeTestData,
-      pictureTestData,
-      sequenceTestData,
-      soundBlendingTestData,
-      symbolSequenceTestData,
-      vocalTestData,
-      continuousAssessmentData,
-    ]
-  );
-
-  const displayedTests = useMemo(() => {
-    if (currentView === "continuous") {
-      return allTests.filter((test) => test.type === "continuous");
-    } else if (currentView === "individual") {
-      return allTests.filter((test) => test.type !== "continuous");
-    }
-    return allTests;
-  }, [allTests, currentView]);
   return (
     <div className="h-screen flex flex-col bg-gradient-to-b from-blue-50/80 to-white p-4 md:p-8 overflow-auto">
       <div className="max-w-7xl mx-auto">
@@ -507,10 +152,9 @@ const TestResultsTable = () => {
               </div>
               {/* User Information */}{" "}
               <div className="flex-1 text-white">
+                {" "}
                 <h1 className="text-2xl md:text-3xl font-bold text-center md:text-left">
-                  {loading
-                    ? "Loading..."
-                    : childDetails.name || "Unknown Student"}
+                  {childDetails.name || "Unknown Student"}
                 </h1>
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8">
                   {userDetails.role && (
@@ -544,7 +188,6 @@ const TestResultsTable = () => {
                     </div>
                   )}
                 </div>
-
                 {/* Student Info Banner */}
                 <div className="mt-4 flex flex-col md:flex-row gap-4 md:gap-8 bg-white/10 p-3 rounded-lg">
                   <div className="flex items-center">
@@ -598,7 +241,6 @@ const TestResultsTable = () => {
                 {displayedTests.length}
               </span>
             </div>
-
             {/* View Toggle Buttons */}
             <div className="flex flex-wrap gap-2 my-2 md:my-0">
               <button
@@ -631,10 +273,9 @@ const TestResultsTable = () => {
               >
                 {t("continuousAssessmentsView")}
               </button>
-            </div>
-
+            </div>{" "}
             {/* Cumulative Report Button */}
-            {!loading && allTests.length > 0 && (
+            {allTests.length > 0 && (
               <button
                 onClick={handleViewCumulativeReport}
                 className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-md shadow-sm transition-all duration-200 w-full md:w-auto justify-center"
@@ -672,19 +313,7 @@ const TestResultsTable = () => {
                 </tr>
               </thead>{" "}
               <tbody className="divide-y divide-blue-100">
-                {loading ? (
-                  <tr>
-                    <td
-                      colSpan="5"
-                      className="px-6 py-10 text-center text-gray-500"
-                    >
-                      <div className="flex flex-col items-center justify-center">
-                        <div className="w-8 h-8 border-4 border-t-blue-500 border-b-blue-300 border-blue-200 rounded-full animate-spin mb-2"></div>
-                        <p>Loading test results...</p>
-                      </div>
-                    </td>
-                  </tr>
-                ) : displayedTests.length === 0 ? (
+                {displayedTests.length === 0 ? (
                   <tr>
                     <td
                       colSpan="5"
@@ -724,7 +353,8 @@ const TestResultsTable = () => {
                             : test.totalScore !== undefined
                             ? test.totalScore
                             : "N/A"}
-                        </td>                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                        </td>{" "}
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
                           <button
                             onClick={() => handleViewReport(test)}
                             className="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-colors duration-200"

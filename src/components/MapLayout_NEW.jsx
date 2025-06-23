@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import PropTypes from 'prop-types';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MdClose, MdInfo, MdLanguage, MdBugReport } from 'react-icons/md';
-import { useLanguage } from '@/contexts/LanguageContext';
-import bg from "../../public/map.png"
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import PropTypes from "prop-types";
+import { motion, AnimatePresence } from "framer-motion";
+import { MdClose, MdInfo, MdLanguage, MdBugReport } from "react-icons/md";
+import { useLanguage } from "@/contexts/LanguageContext";
+import bg from "../../public/map.png";
 
 const MapLayout = ({ tests, onTestSelect, onQuit }) => {
   const router = useRouter();
@@ -14,12 +14,15 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
   const [showLanguageDialog, setShowLanguageDialog] = useState(false);
   const [showReportDialog, setShowReportDialog] = useState(false);
   const [hoveredIsland, setHoveredIsland] = useState(null);
-  const [confirmDialog, setConfirmDialog] = useState({ show: false, type: null });
+  const [confirmDialog, setConfirmDialog] = useState({
+    show: false,
+    type: null,
+  });
 
   // Island names for each island
   const islandNames = [
     "Goonj Tapu",
-    "Varnika Van", 
+    "Varnika Van",
     "Yantra Kanan",
     "Svara Gufa",
     "Akshara Parvat",
@@ -27,7 +30,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
     "Runa Pathar",
     "Shabd Sagar",
     "Shabd Mandir",
-    "Kaal Dhara"
+    "Kaal Dhara",
   ];
 
   const handleAction = (type) => {
@@ -35,121 +38,122 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
       show: true,
       type,
       title: t(`confirm${type.charAt(0).toUpperCase() + type.slice(1)}`),
-      message: t(`confirm${type.charAt(0).toUpperCase() + type.slice(1)}Message`),
+      message: t(
+        `confirm${type.charAt(0).toUpperCase() + type.slice(1)}Message`
+      ),
       onConfirm: () => {
-        switch(type) {
-          case 'quit': onQuit(); break;
-          case 'info': setShowInfoDialog(true); break;
-          case 'language': setShowLanguageDialog(true); break;
-          case 'report': setShowReportDialog(true); break;
+        switch (type) {
+          case "quit":
+            onQuit();
+            break;
+          case "info":
+            setShowInfoDialog(true);
+            break;
+          case "language":
+            setShowLanguageDialog(true);
+            break;
+          case "report":
+            setShowReportDialog(true);
+            break;
         }
-      }
+      },
     });
   };
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-blue-400 via-blue-500 to-blue-600">
       {/* Background Map Image */}
-<div className="relative w-full h-full">
-  {/* Blurred Background Image */}
-  <div className="absolute inset-0 z-0">
-    <img 
-      src="/map.png" 
-      alt="Adventure Map Background" 
-      className="w-full h-full object-cover" 
-    />
-    <div className="absolute inset-0 backdrop-blur-[5px] bg-white/10" />
-  </div>
+      <div className="relative w-full h-full">
+        {/* Blurred Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/map.png"
+            alt="Adventure Map Background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 backdrop-blur-[5px] bg-white/10" />
+        </div>
 
-  {/* Board Map Overlay (Not Blurred) */}
-  <div className=" z-10 fixed top-0 flex items-center justify-center">
-    <motion.img 
-      src="/board-map.png" 
-      alt="Board Map" 
-      className="max-w-full max-h-full"
-      animate={{
-        rotate: [-0.5, 0.5, -0.5],
-        x: [-2, 2, -2],
-        y: [-1, 1, -1]
-      }}
-      transition={{
-        duration: 8,
-        repeat: Infinity,
-        ease: "easeInOut",
-        repeatType: "mirror"
-      }}
-    />
-  </div>
-</div>
+        {/* Board Map Overlay (Not Blurred) */}
+        <div className=" z-10 fixed top-0 flex items-center justify-center">
+          <motion.img
+            src="/board-map.png"
+            alt="Board Map"
+            className="max-w-full max-h-full"
+            animate={{
+              rotate: [-0.5, 0.5, -0.5],
+              x: [-2, 2, -2],
+              y: [-1, 1, -1],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+              repeatType: "mirror",
+            }}
+          />
+        </div>
+      </div>
 
       {/* Back Button */}
       <div className="absolute top-6 left-6 z-20">
         <motion.button
-          onClick={() => {
-            console.log('Back button clicked, navigating to /take-tests');
-            try {
-              router.replace('/take-tests');
-            } catch (error) {
-              console.error('Navigation error:', error);
-              // Fallback to window location
-              window.location.href = '/take-tests';
-            }
-          }}
+          onClick={() => router.push("/dashboard")}
           className="p-2.5 bg-white/10 backdrop-blur-md text-white rounded-xl hover:bg-white/20 transition-all shadow-lg flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            className="w-6 h-6" 
-            fill="none" 
-            viewBox="0 0 24 24" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M10 19l-7-7m0 0l7-7m-7 7h18" 
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
             />
           </svg>
-          <span className="font-medium">{t('back')}</span>
+          <span className="font-medium">{t("back")}</span>
         </motion.button>
       </div>
 
       {/* Control Panel */}
       <div className="absolute top-6 right-6 z-20 flex gap-4 scale-110 p-3 rounded-2xl">
         <motion.button
-          onClick={() => handleAction('quit')}
+          onClick={() => handleAction("quit")}
           className="p-2.5 bg-red-500/90 text-white rounded-xl hover:bg-red-600 transition-all shadow-lg hover:shadow-red-500/20"
-          title={t('quit')}
+          title={t("quit")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           <MdClose className="w-6 h-6" />
         </motion.button>
         <motion.button
-          onClick={() => handleAction('info')}
+          onClick={() => handleAction("info")}
           className="p-2.5 bg-blue-500/90 text-white rounded-xl hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-500/20"
-          title={t('gameInfo')}
+          title={t("gameInfo")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           <MdInfo className="w-6 h-6" />
         </motion.button>
         <motion.button
-          onClick={() => handleAction('language')}
+          onClick={() => handleAction("language")}
           className="p-2.5 bg-green-500/90 text-white rounded-xl hover:bg-green-600 transition-all shadow-lg hover:shadow-green-500/20"
-          title={t('language')}
+          title={t("language")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           <MdLanguage className="w-6 h-6" />
         </motion.button>
         <motion.button
-          onClick={() => handleAction('report')}
+          onClick={() => handleAction("report")}
           className="p-2.5 bg-purple-500/90 text-white rounded-xl hover:bg-purple-600 transition-all shadow-lg hover:shadow-purple-500/20"
-          title={t('reportIssue')}
+          title={t("reportIssue")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -157,45 +161,48 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
         </motion.button>
       </div>
 
-    
-
       {/* Game Map with Islands */}
       <div className="absolute inset-0 flex items-center justify-center px-4">
         <div className="relative w-full h-full max-w-7xl">
           {/* Connection Lines between Islands */}
-          <svg className="absolute w-full h-full pointer-events-none z-15" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <svg
+            className="absolute w-full h-full pointer-events-none z-15"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
             {/* Connect islands in sequential order: 1→2→3→4→5→6→7→8→9→10 */}
             {tests.slice(0, 9).map((_, index) => {
               // Define island positions (percentages from top-left) - exact same as islands
               const islandPositions = [
-                { x: 15, y: 30 },  // Island 1 - Top left
-                { x: 35, y: 25 },  // Island 2 - Top center-left
-                { x: 55, y: 35 },  // Island 3 - Top center
-                { x: 75, y: 30 },  // Island 4 - Top right
-                { x: 85, y: 50 },  // Island 5 - Right side
-                { x: 70, y: 70 },  // Island 6 - Bottom right
-                { x: 45, y: 80 },  // Island 7 - Bottom center
-                { x: 25, y: 75 },  // Island 8 - Bottom left
-                { x: 10, y: 55 },  // Island 9 - Left side
-                { x: 50, y: 55 },  // Island 10 - Center (final boss)
+                { x: 15, y: 30 }, // Island 1 - Top left
+                { x: 35, y: 25 }, // Island 2 - Top center-left
+                { x: 55, y: 35 }, // Island 3 - Top center
+                { x: 75, y: 30 }, // Island 4 - Top right
+                { x: 85, y: 50 }, // Island 5 - Right side
+                { x: 70, y: 70 }, // Island 6 - Bottom right
+                { x: 45, y: 80 }, // Island 7 - Bottom center
+                { x: 25, y: 75 }, // Island 8 - Bottom left
+                { x: 10, y: 55 }, // Island 9 - Left side
+                { x: 50, y: 55 }, // Island 10 - Center (final boss)
               ];
-              
+
               const start = islandPositions[index];
               const end = islandPositions[index + 1];
-              
+
               if (!start || !end) return null;
-              
+
               // Calculate control point for curved path
               const midX = (start.x + end.x) / 2;
               const midY = (start.y + end.y) / 2;
               // Add curve by offsetting the control point for natural curves
               const curveOffset = 8 + Math.abs(start.x - end.x) * 0.15;
-              const controlX = midX + (start.x < end.x ? -curveOffset : curveOffset);
+              const controlX =
+                midX + (start.x < end.x ? -curveOffset : curveOffset);
               const controlY = midY - 5 - Math.abs(start.x - end.x) * 0.1;
-              
+
               // Create curved path that connects islands perfectly
               const curvePath = `M${start.x},${start.y} Q${controlX},${controlY} ${end.x},${end.y}`;
-              
+
               return (
                 <g key={`connection-${index}`}>
                   {/* Shadow/outline for depth */}
@@ -208,13 +215,13 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                     fill="none"
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
-                    transition={{ 
-                      duration: 1.5, 
+                    transition={{
+                      duration: 1.5,
                       delay: index * 0.2,
-                      ease: "easeInOut"
+                      ease: "easeInOut",
                     }}
                   />
-                  
+
                   {/* Main brown dotted line */}
                   <motion.path
                     d={curvePath}
@@ -224,23 +231,27 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                     strokeDasharray="1,2.5"
                     fill="none"
                     initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ 
-                      pathLength: 1, 
+                    animate={{
+                      pathLength: 1,
                       opacity: 1,
-                      strokeDashoffset: [0, -8]
+                      strokeDashoffset: [0, -8],
                     }}
-                    transition={{ 
-                      pathLength: { duration: 1.5, delay: index * 0.2, ease: "easeInOut" },
+                    transition={{
+                      pathLength: {
+                        duration: 1.5,
+                        delay: index * 0.2,
+                        ease: "easeInOut",
+                      },
                       opacity: { duration: 1, delay: index * 0.2 },
-                      strokeDashoffset: { 
-                        duration: 12, 
+                      strokeDashoffset: {
+                        duration: 12,
                         repeat: Infinity,
                         ease: "linear",
-                        delay: index * 0.2 + 1.5
-                      }
+                        delay: index * 0.2 + 1.5,
+                      },
                     }}
                   />
-                  
+
                   {/* Highlight line for better visibility */}
                   <motion.path
                     d={curvePath}
@@ -250,23 +261,27 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                     strokeDasharray="0.8,2"
                     fill="none"
                     initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ 
-                      pathLength: 1, 
+                    animate={{
+                      pathLength: 1,
                       opacity: 0.8,
-                      strokeDashoffset: [0, 5]
+                      strokeDashoffset: [0, 5],
                     }}
-                    transition={{ 
-                      pathLength: { duration: 1.5, delay: index * 0.2 + 0.3, ease: "easeInOut" },
+                    transition={{
+                      pathLength: {
+                        duration: 1.5,
+                        delay: index * 0.2 + 0.3,
+                        ease: "easeInOut",
+                      },
                       opacity: { duration: 0.8, delay: index * 0.2 + 0.3 },
-                      strokeDashoffset: { 
-                        duration: 8, 
+                      strokeDashoffset: {
+                        duration: 8,
                         repeat: Infinity,
                         ease: "linear",
-                        delay: index * 0.2 + 1.8
-                      }
+                        delay: index * 0.2 + 1.8,
+                      },
                     }}
                   />
-                  
+
                   {/* Connection points (small circles at each island) */}
                   <motion.circle
                     cx={start.x}
@@ -291,29 +306,28 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
             })}
           </svg>
 
-
           {/* Islands positioned across the map */}
           {tests.slice(0, 10).map((test, index) => {
             // Define strategic positions for each island (moved down a bit)
             const islandPositions = [
-              { x: 15, y: 30 },  // Island 1 - Top left
-              { x: 35, y: 25 },  // Island 2 - Top center-left
-              { x: 55, y: 35 },  // Island 3 - Top center
-              { x: 75, y: 30 },  // Island 4 - Top right
-              { x: 85, y: 50 },  // Island 5 - Right side
-              { x: 70, y: 70 },  // Island 6 - Bottom right
-              { x: 45, y: 80 },  // Island 7 - Bottom center
-              { x: 25, y: 75 },  // Island 8 - Bottom left
-              { x: 10, y: 55 },  // Island 9 - Left side
-              { x: 50, y: 55 },  // Island 10 - Center (final boss)
+              { x: 15, y: 30 }, // Island 1 - Top left
+              { x: 35, y: 25 }, // Island 2 - Top center-left
+              { x: 55, y: 35 }, // Island 3 - Top center
+              { x: 75, y: 30 }, // Island 4 - Top right
+              { x: 85, y: 50 }, // Island 5 - Right side
+              { x: 70, y: 70 }, // Island 6 - Bottom right
+              { x: 45, y: 80 }, // Island 7 - Bottom center
+              { x: 25, y: 75 }, // Island 8 - Bottom left
+              { x: 10, y: 55 }, // Island 9 - Left side
+              { x: 50, y: 55 }, // Island 10 - Center (final boss)
             ];
-            
+
             const position = islandPositions[index];
-            
+
             return (
-              <IslandItem 
-                key={test.id} 
-                test={test} 
+              <IslandItem
+                key={test.id}
+                test={test}
                 index={index}
                 position={position}
                 islandName={islandNames[index]}
@@ -357,7 +371,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                   onClick={() => setConfirmDialog({ show: false, type: null })}
                   className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                 >
-                  {t('cancel')}
+                  {t("cancel")}
                 </button>
                 <button
                   onClick={() => {
@@ -366,7 +380,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                   }}
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
                 >
-                  {t('confirm')}
+                  {t("confirm")}
                 </button>
               </div>
             </motion.div>
@@ -398,7 +412,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
               transition={{ type: "spring", duration: 0.5 }}
             >
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold">{t('gameInfo')}</h3>
+                <h3 className="text-2xl font-bold">{t("gameInfo")}</h3>
                 <button
                   onClick={() => setShowInfoDialog(false)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -407,11 +421,13 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                 </button>
               </div>
               <div className="space-y-4">
-                <p className="text-gray-600">{t('gameInfoDescription')}</p>
+                <p className="text-gray-600">{t("gameInfoDescription")}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {tests.map((test, index) => (
                     <div key={test.id} className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="font-semibold">Level {index + 1}: {test.testName}</h4>
+                      <h4 className="font-semibold">
+                        Level {index + 1}: {test.testName}
+                      </h4>
                       <p className="text-sm text-gray-600 mt-1">{test.About}</p>
                     </div>
                   ))}
@@ -446,7 +462,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
               transition={{ type: "spring", duration: 0.5 }}
             >
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold">{t('selectLanguage')}</h3>
+                <h3 className="text-xl font-bold">{t("selectLanguage")}</h3>
                 <button
                   onClick={() => setShowLanguageDialog(false)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -455,7 +471,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                 </button>
               </div>
               <div className="space-y-2">
-                {['en', 'ta', 'hi'].map((lang) => (
+                {["en", "ta", "hi"].map((lang) => (
                   <button
                     key={lang}
                     onClick={() => {
@@ -464,7 +480,11 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                     }}
                     className="w-full p-3 text-left hover:bg-gray-100 rounded-lg transition-colors"
                   >
-                    {lang === 'en' ? 'English' : lang === 'ta' ? 'தமிழ்' : 'हिंदी'}
+                    {lang === "en"
+                      ? "English"
+                      : lang === "ta"
+                      ? "தமிழ்"
+                      : "हिंदी"}
                   </button>
                 ))}
               </div>
@@ -497,7 +517,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
               transition={{ type: "spring", duration: 0.5 }}
             >
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold">{t('reportIssue')}</h3>
+                <h3 className="text-xl font-bold">{t("reportIssue")}</h3>
                 <button
                   onClick={() => setShowReportDialog(false)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -506,7 +526,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                 </button>
               </div>
               <textarea
-                placeholder={t('describeIssue')}
+                placeholder={t("describeIssue")}
                 className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none"
               />
               <div className="flex gap-3 justify-end mt-4">
@@ -514,13 +534,13 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                   onClick={() => setShowReportDialog(false)}
                   className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                 >
-                  {t('cancel')}
+                  {t("cancel")}
                 </button>
                 <button
                   onClick={() => setShowReportDialog(false)}
                   className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
                 >
-                  {t('submit')}
+                  {t("submit")}
                 </button>
               </div>
             </motion.div>
@@ -532,49 +552,75 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
 };
 
 // Island Item Component - UNIFIED ANIMATION FOR ISLAND AND NAME BOARD
-const IslandItem = ({ test, index, position, islandName, isHovered, onHoverStart, onHoverEnd, onClick }) => {
+const IslandItem = ({
+  test,
+  index,
+  position,
+  islandName,
+  isHovered,
+  onHoverStart,
+  onHoverEnd,
+  onClick,
+}) => {
   const { t } = useLanguage();
-  
+
   return (
     <motion.div
       className="absolute cursor-pointer"
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
-        transform: 'translate(-50%, -50%)',
+        transform: "translate(-50%, -50%)",
         zIndex: isHovered ? 30 : 20,
       }}
       onClick={onClick}
       onMouseEnter={onHoverStart}
       onMouseLeave={onHoverEnd}
-      whileHover={{ 
-        scale: 1.2, 
+      whileHover={{
+        scale: 1.2,
         zIndex: 30,
-        transition: { type: "spring", stiffness: 400, damping: 25, duration: 0.3 }
+        transition: {
+          type: "spring",
+          stiffness: 400,
+          damping: 25,
+          duration: 0.3,
+        },
       }}
       whileTap={{ scale: 0.9 }}
       initial={{ opacity: 0, scale: 0.5, y: 100 }}
-      animate={{ 
-        opacity: 1, 
-        scale: 1, 
+      animate={{
+        opacity: 1,
+        scale: 1,
         y: [0, -8, 0],
-        rotate: [0, 1, 0, -1, 0]
+        rotate: [0, 1, 0, -1, 0],
       }}
-      transition={{ 
-        opacity: { delay: index * 0.15, duration: 0.6, type: "spring", stiffness: 300, damping: 20 },
-        scale: { delay: index * 0.15, duration: 0.6, type: "spring", stiffness: 300, damping: 20 },
-        y: { 
-          duration: 3 + index * 0.2, 
-          repeat: Infinity, 
+      transition={{
+        opacity: {
+          delay: index * 0.15,
+          duration: 0.6,
+          type: "spring",
+          stiffness: 300,
+          damping: 20,
+        },
+        scale: {
+          delay: index * 0.15,
+          duration: 0.6,
+          type: "spring",
+          stiffness: 300,
+          damping: 20,
+        },
+        y: {
+          duration: 3 + index * 0.2,
+          repeat: Infinity,
           ease: "easeInOut",
-          delay: index * 0.15
+          delay: index * 0.15,
         },
         rotate: {
           duration: 4 + index * 0.3,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: index * 0.15
-        }
+          delay: index * 0.15,
+        },
       }}
     >
       {/* Unified Island and Name Board Container - both animated together as one component */}
@@ -585,7 +631,7 @@ const IslandItem = ({ test, index, position, islandName, isHovered, onHoverStart
           alt={`Island ${index + 1} - ${test.testName}`}
           className="w-20 h-20 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain drop-shadow-2xl"
         />
-        
+
         {/* Magical Glow Effect */}
         <motion.div
           className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-30 blur-lg"
@@ -596,27 +642,27 @@ const IslandItem = ({ test, index, position, islandName, isHovered, onHoverStart
           transition={{
             duration: 2,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
-        
+
         {/* Level Badge */}
         <motion.div
           className="absolute -top-3 -right-3 w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full shadow-lg flex items-center justify-center border-2 border-white"
           animate={{
             scale: isHovered ? [1, 1.2, 1] : [0.9, 1, 0.9],
-            rotate: [0, 5, -5, 0]
+            rotate: [0, 5, -5, 0],
           }}
           transition={{
             scale: { duration: 1.5, repeat: Infinity },
-            rotate: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            rotate: { duration: 2, repeat: Infinity, ease: "easeInOut" },
           }}
         >
           <span className="text-white font-bold text-sm md:text-base lg:text-lg">
             {index + 1}
           </span>
         </motion.div>
-        
+
         {/* Brown Name Board - unified with island animation */}
         <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-6">
           <div className="relative">
@@ -625,12 +671,12 @@ const IslandItem = ({ test, index, position, islandName, isHovered, onHoverStart
               {/* Wood grain effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-700/30 to-transparent rounded-xl"></div>
               <div className="absolute inset-0 bg-gradient-to-b from-amber-600/20 to-transparent rounded-xl"></div>
-              
+
               {/* Island name text - smaller font */}
               <p className="relative text-yellow-100 font-semibold text-xs md:text-sm text-center whitespace-nowrap drop-shadow-md">
                 {islandName}
               </p>
-              
+
               {/* Decorative brass corners - smaller */}
               <div className="absolute -top-0.5 -left-0.5 w-1.5 h-1.5 bg-yellow-600 rounded-full border border-yellow-500"></div>
               <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-yellow-600 rounded-full border border-yellow-500"></div>
@@ -640,7 +686,7 @@ const IslandItem = ({ test, index, position, islandName, isHovered, onHoverStart
           </div>
         </div>
       </div>
-      
+
       {/* Island Name on Hover (Enhanced tooltip) */}
       <AnimatePresence>
         {isHovered && (
@@ -668,7 +714,7 @@ const IslandItem = ({ test, index, position, islandName, isHovered, onHoverStart
           </motion.div>
         )}
       </AnimatePresence>
-      
+
       {/* Sparkle Effects */}
       {isHovered && (
         <motion.div className="absolute inset-0 pointer-events-none">
@@ -689,7 +735,7 @@ const IslandItem = ({ test, index, position, islandName, isHovered, onHoverStart
                 duration: 1.5,
                 repeat: Infinity,
                 delay: i * 0.2,
-                ease: "easeOut"
+                ease: "easeOut",
               }}
             />
           ))}
@@ -718,11 +764,13 @@ IslandItem.propTypes = {
 };
 
 MapLayout.propTypes = {
-  tests: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    testName: PropTypes.string.isRequired,
-    About: PropTypes.string,
-  })).isRequired,
+  tests: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      testName: PropTypes.string.isRequired,
+      About: PropTypes.string,
+    })
+  ).isRequired,
   onTestSelect: PropTypes.func.isRequired,
   onQuit: PropTypes.func.isRequired,
 };

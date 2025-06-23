@@ -1,12 +1,28 @@
 import { fileTypeFromBuffer } from "file-type";
 import { exec } from "child_process";
 import { stat } from "fs/promises";
-import { existsSync, unlinkSync, writeFileSync, readFileSync } from "fs";
+import {
+  existsSync,
+  unlinkSync,
+  writeFileSync,
+  readFileSync,
+  chmodSync,
+} from "fs";
 import util from "util";
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
 const ffmpeg = require("ffmpeg-static");
+
+// In some environments (like Render), the ffmpeg binary might not have execute permissions by default.
+try {
+  if (process.platform !== "win32") {
+    // No need to chmod on Windows
+    chmodSync(ffmpeg, "755");
+  }
+} catch (e) {
+  console.warn("Could not set executable permissions for ffmpeg:", e);
+}
 
 const execPromise = util.promisify(exec);
 

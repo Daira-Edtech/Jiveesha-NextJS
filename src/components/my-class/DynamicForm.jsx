@@ -26,22 +26,20 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
   useEffect(() => {
     const loadQuestions = async () => {
       try {
-        // Import the JSON data directly
         const formData = await import("@/Data/formData.json");
         const data = formData.default;
         setQuestions(data.questions);
 
-        // Paginate questions based on weight
         const paginatedPages = [];
         let currentPageQuestions = [];
         let currentPageSlots = 0;
         const MAX_SLOTS = 6;
 
         const getSlots = (weight) => {
-          if (weight === 1) return 2; // 3 questions per page
-          if (weight === 2) return 3; // 2 questions per page
-          if (weight === 3) return 6; // 1 question per page
-          return 6; // Default for other weights
+          if (weight === 1) return 2; 
+          if (weight === 2) return 3; 
+          if (weight === 3) return 6; 
+          return 6; 
         };
 
         for (const question of data.questions) {
@@ -346,7 +344,6 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
       Object.keys(answers).length
     );
 
-    // Basic validation for required fields
     const requiredFields = ["childName", "childDob", "gender"];
     const missingFields = requiredFields.filter((field) => !answers[field]);
 
