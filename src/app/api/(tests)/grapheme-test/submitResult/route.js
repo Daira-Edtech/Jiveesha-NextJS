@@ -166,7 +166,7 @@ export async function POST(req) {
         message: "Grapheme evaluation complete with AI.",
         resultsId: result.id,
         processedResponses: geminiProcessedResponses,
-        totalScore: geminiTotalScore,
+        score: geminiTotalScore,
       },
       { status: 200 }
     );

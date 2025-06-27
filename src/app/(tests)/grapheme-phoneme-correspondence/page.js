@@ -222,7 +222,11 @@ const GraphemeTestContent = () => {
       );
 >>>>>>> 97d04a7 (Refactor Grapheme and Picture Test Components)
       toast.dismiss(submissionToastId);
+<<<<<<< HEAD
       if (evalResponse.data && typeof evalResponse.data.score === "number" && typeof evalResponse.data.totalPossibleScore === "number") {
+=======
+      if (evalResponse.data && typeof evalResponse.data.score === "number") {
+>>>>>>> 3c6531f (enhance test result handling)
         const newScore = evalResponse.data.score;
         const totalPossible = evalResponse.data.totalPossibleScore;
         setScoreData({ score: newScore, total: totalPossible });
@@ -514,7 +518,11 @@ export default function GraphemePhonemeCorrespondencePage() {
 
   return (
     <Suspense fallback={staticFallbackContent}>
+<<<<<<< HEAD
       <LanguageProvider> {/* LanguageProvider wraps GraphemeTestContent */}
+=======
+      <LanguageProvider>
+>>>>>>> 3c6531f (enhance test result handling)
         <GraphemeTestContent />
       </LanguageProvider>
     </Suspense>

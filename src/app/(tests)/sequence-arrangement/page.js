@@ -53,6 +53,7 @@ const SequenceArrangementTestContent = () => {
 >>>>>>> 1c540ae (feat: Refactor WelcomeDialog components across multiple tests and improve styling in ContinuousAssessmentDetailPopup)
   const handleEntireTestFlowComplete = async (finalScore) => {
     console.log("Entire test flow completed. Final Score:", finalScore);
+    console.log("Child ID:", childId);
     const token = localStorage.getItem("access_token");
 
     if (!childId) {
@@ -61,15 +62,19 @@ const SequenceArrangementTestContent = () => {
       return;
     }
 
+    const payload = {
+      childId: childId,
+      score: finalScore.correct,
+      total_questions: finalScore.total,
+      test_name: "Sequential Memory Test",
+    };
+
+    console.log("Sending payload to API:", payload);
+
     try {
       const response = await axios.post(
         "/api/sequence-test/submitResult",
-        {
-          childId: childId,
-          score: finalScore.correct,
-          total_questions: finalScore.total,
-          test_name: "Sequence Test 7",
-        },
+        payload,
         {
           headers: {
             ...(token && { Authorization: `Bearer ${token}` }),
@@ -77,12 +82,13 @@ const SequenceArrangementTestContent = () => {
           },
         }
       );
-      console.log("Test results saved by page.js:", response.data);
+      console.log("Test results saved successfully:", response.data);
     } catch (error) {
       console.error(
         "Error saving test results in page.js:",
         error.response?.data || error.message
       );
+      console.error("Full error object:", error);
     } finally {
       router.push("/take-tests?skipStart=true");
     }
@@ -94,12 +100,16 @@ const SequenceArrangementTestContent = () => {
         t={t}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         speak={speak} // Pass the newly defined speak function
 >>>>>>> ebbb870 (Added Instructions component)
 =======
 >>>>>>> 3cebf1d (Code bug fix)
         onEntireTestFlowComplete={handleEntireTestFlowComplete}
+=======
+        onEntireTestComplete={handleEntireTestFlowComplete}
+>>>>>>> 3c6531f (enhance test result handling)
         initialChildId={childId}
       />
     </div>
