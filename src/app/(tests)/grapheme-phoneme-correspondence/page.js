@@ -271,11 +271,7 @@ const GraphemeTestContent = () => {
         payload
       );
       toast.dismiss(submissionToastId);
-      if (
-        evalResponse.data &&
-        typeof evalResponse.data.score === "number" &&
-        typeof evalResponse.data.totalPossibleScore === "number"
-      ) {
+      if (evalResponse.data && typeof evalResponse.data.score === "number") {
         const newScore = evalResponse.data.score;
         const totalPossible = evalResponse.data.totalPossibleScore;
         setScoreData({ score: newScore, total: totalPossible });
@@ -768,8 +764,6 @@ export default function GraphemePhonemeCorrespondencePage() {
   return (
     <Suspense fallback={staticFallbackContent}>
       <LanguageProvider>
-        {" "}
-        {/* LanguageProvider wraps GraphemeTestContent */}
         <GraphemeTestContent />
       </LanguageProvider>
     </Suspense>

@@ -27,6 +27,7 @@ const SequenceArrangementTestContent = () => {
 
   const handleEntireTestFlowComplete = async (finalScore) => {
     console.log("Entire test flow completed. Final Score:", finalScore);
+    console.log("Child ID:", childId);
     const token = localStorage.getItem("access_token");
 
     if (!childId) {
@@ -35,15 +36,19 @@ const SequenceArrangementTestContent = () => {
       return;
     }
 
+    const payload = {
+      childId: childId,
+      score: finalScore.correct,
+      total_questions: finalScore.total,
+      test_name: "Sequential Memory Test",
+    };
+
+    console.log("Sending payload to API:", payload);
+
     try {
       const response = await axios.post(
         "/api/sequence-test/submitResult",
-        {
-          childId: childId,
-          score: finalScore.correct,
-          total_questions: finalScore.total,
-          test_name: "Sequence Test 7",
-        },
+        payload,
         {
           headers: {
             ...(token && { Authorization: `Bearer ${token}` }),
@@ -51,12 +56,13 @@ const SequenceArrangementTestContent = () => {
           },
         }
       );
-      console.log("Test results saved by page.js:", response.data);
+      console.log("Test results saved successfully:", response.data);
     } catch (error) {
       console.error(
         "Error saving test results in page.js:",
         error.response?.data || error.message
       );
+      console.error("Full error object:", error);
     } finally {
       router.push("/take-tests?skipStart=true");
     }
@@ -66,7 +72,7 @@ const SequenceArrangementTestContent = () => {
     <div className="w-screen h-screen">
       <WelcomeDialog
         t={t}
-        onEntireTestFlowComplete={handleEntireTestFlowComplete}
+        onEntireTestComplete={handleEntireTestFlowComplete}
         initialChildId={childId}
       />
     </div>

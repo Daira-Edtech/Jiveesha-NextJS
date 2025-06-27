@@ -1221,12 +1221,6 @@ const TestReportPopup = ({
               >
                 <FaPrint className="mr-2" /> Print Report
               </button>
-              <button className="flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 font-medium shadow-sm">
-                <FaDownload className="mr-2" /> Download PDF
-              </button>
-              <button className="flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-200 font-medium shadow-sm">
-                <FaEnvelope className="mr-2" /> Email Report
-              </button>
             </div>
           </div>
         </div>
