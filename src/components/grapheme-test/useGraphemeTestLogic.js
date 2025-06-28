@@ -25,7 +25,8 @@ export const useGraphemeTestLogic = ({
 
   useEffect(() => {
     if (letters && letters.length > 0) {
-      setUserInputs(Array(letters.length).fill(""));
+      const initialInputs = Array(letters.length).fill("");
+      setUserInputs(initialInputs);
       setInputStatus({});
       setCurrentIndex(0);
     } else {
@@ -95,6 +96,7 @@ export const useGraphemeTestLogic = ({
         const result = await response.json();
         if (response.ok && result.transcription != null) {
           const transcribedText = result.transcription.trim().toLowerCase();
+
           setUserInputs((prevInputs) => {
             const newInputs = [...prevInputs];
             if ((inputStatus[indexToUpdate] || "pending") !== "done_typed") {
@@ -212,7 +214,9 @@ export const useGraphemeTestLogic = ({
   }, [currentIndex, letters, stopListening, uploadAudio, inputStatus]);
 
   const handleNextInternal = useCallback(() => {
-    if (!letters || currentIndex >= letters.length) return;
+    if (!letters || currentIndex >= letters.length) {
+      return;
+    }
 
     // *** MODIFICATION: Guard against advancing while transcription is pending ***
     if (inputStatus[currentIndex] === "pending") {
@@ -227,7 +231,7 @@ export const useGraphemeTestLogic = ({
       // This advances currentIndex to letters.length, triggering onTestComplete
       setCurrentIndex((prev) => prev + 1);
     }
-  }, [currentIndex, letters, stopListening, inputStatus]); // Added inputStatus to dependency array
+  }, [currentIndex, letters, stopListening, inputStatus, userInputs]); // Added userInputs to dependency array
 
   useEffect(() => {
     if (
@@ -285,17 +289,19 @@ export const useGraphemeTestLogic = ({
         onTestComplete();
       }
     }
-  }, [currentIndex, letters, onTestComplete, stopListening]);
+  }, [currentIndex, letters, onTestComplete, stopListening, userInputs]);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     const currentItemStatus = inputStatus[currentIndex] || "idle";
+
     if (["pending", "done_voice", "recording"].includes(currentItemStatus)) {
       if (currentItemStatus === "recording")
         toast.error("Stop recording before typing.");
       else toast.error("Clear voice input to type, or wait for transcription.");
       return;
     }
+
     setUserInputs((prev) => {
       const ni = [...prev];
       ni[currentIndex] = value;
@@ -323,9 +329,11 @@ export const useGraphemeTestLogic = ({
   };
 
   const resetLogic = useCallback(() => {
+    const initialInputs = Array(letters?.length || 0).fill("");
+
     setCurrentIndex(0);
     setTimeLeft(LETTER_TIMER_DURATION);
-    setUserInputs(Array(letters?.length || 0).fill(""));
+    setUserInputs(initialInputs);
     setIsRecording(false);
     setInputStatus({});
     audioChunksRef.current = [];

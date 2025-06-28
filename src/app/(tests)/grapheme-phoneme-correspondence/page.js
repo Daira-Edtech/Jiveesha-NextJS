@@ -120,17 +120,36 @@ const GraphemeTestContent = () => {
     } // Avoid resetting to intro if already past it and only minor language data re-fetch
 
     setCurrentDialog(0);
-    setScoreData({ score: 0, total: 0 });
+    // Only reset score data when starting fresh, not during results display
+    if (testStage !== "results") {
+      setScoreData({ score: 0, total: 0 });
+    }
     setIsProcessingFinalSubmit(false);
+<<<<<<< HEAD
     if (typeof resetMainTestLogic === 'function') {
         resetMainTestLogic();
+=======
+
+    // Only reset the test logic when loading initial data or when language changes
+    // Don't reset during test progression
+    if (
+      (testStage === "loading_init" || !languageDataLoaded) &&
+      typeof resetMainTestLogic === "function"
+    ) {
+      resetMainTestLogic();
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
     }
+
     setLanguageDataLoaded(true);
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 =======
 >>>>>>> 97d04a7 (Refactor Grapheme and Picture Test Components)
   }, [language, initialDataLoaded, t, resetMainTestLogic, testStage]); // Added testStage to dependency to ensure correct re-intro logic
+=======
+  }, [language, initialDataLoaded, t, testStage]); // Removed resetMainTestLogic from dependency array to prevent unnecessary resets
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
 
   const onCompleteHandler = useCallback(
     (finalScore) => {
@@ -206,12 +225,32 @@ const GraphemeTestContent = () => {
     }
 >>>>>>> 97d04a7 (Refactor Grapheme and Picture Test Components)
     setIsProcessingFinalSubmit(true);
+<<<<<<< HEAD
     const submissionToastId = toast.loading(t("processingResponses", "Processing..."));
     const finalUserInputs = [...userInputs];
     while (finalUserInputs.length < letters.length) { finalUserInputs.push(""); }
     const userResponses = {};
     letters.forEach((letter, index) => { userResponses[letter] = finalUserInputs[index] || ""; });
+=======
+    const submissionToastId = toast.loading(
+      t("processingResponses", "Processing...")
+    );
+
+    // Ensure we have all user inputs, fill missing ones with empty strings
+    const finalUserInputs = [...userInputs];
+    while (finalUserInputs.length < letters.length) {
+      finalUserInputs.push("");
+    }
+
+    // Create userResponses object mapping letters to responses
+    const userResponses = {};
+    letters.forEach((letter, index) => {
+      userResponses[letter] = finalUserInputs[index] || "";
+    });
+
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
     const payload = { childId, userResponses, language: langKey };
+
     try {
 <<<<<<< HEAD
       const evalResponse = await axios.post(`${backendURL}/api/grapheme-test/submitResult`, payload, { headers: { Authorization: `Bearer ${token}` } });
@@ -220,6 +259,7 @@ const GraphemeTestContent = () => {
         `/api/grapheme-test/submitResult`,
         payload
       );
+<<<<<<< HEAD
 >>>>>>> 97d04a7 (Refactor Grapheme and Picture Test Components)
       toast.dismiss(submissionToastId);
 <<<<<<< HEAD
@@ -235,6 +275,29 @@ const GraphemeTestContent = () => {
           onCompleteHandler({ score: newScore, total: totalPossible });
         } else { setTestStage("results"); }
       } else { toast.error(t("errorInvalidResponse", "Invalid server response.")); setTestStage("submit"); }
+=======
+
+      toast.dismiss(submissionToastId);
+
+      if (evalResponse.data && typeof evalResponse.data.score === "number") {
+        const correctCount = evalResponse.data.score; // Number of fully correct answers
+        const rawScore = evalResponse.data.rawScore || evalResponse.data.score; // Decimal score for storage
+        const totalPossible =
+          evalResponse.data.totalPossibleScore || letters.length;
+
+        setScoreData({ score: correctCount, total: totalPossible });
+        toast.success(t("resultsProcessed", "Results processed!"));
+        if (suppressResultPage && typeof onCompleteHandler === "function") {
+          onCompleteHandler({ score: correctCount, total: totalPossible });
+        } else {
+          setTestStage("results");
+        }
+      } else {
+        console.error("Invalid API response structure:", evalResponse.data);
+        toast.error(t("errorInvalidResponse", "Invalid server response."));
+        setTestStage("submit");
+      }
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
     } catch (error) {
       toast.dismiss(submissionToastId);
       toast.error(t("errorProcessingFailed", "Failed to process results."));

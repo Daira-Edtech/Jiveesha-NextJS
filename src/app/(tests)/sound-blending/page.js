@@ -1,11 +1,11 @@
 // app/(tests)/sound-blending/page.js
 
-"use client"
+"use client";
 
-import axios from "axios"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import WelcomeDialog from "../../../components/sound-blending/WelcomeDialog.js"
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import WelcomeDialog from "../../../components/sound-blending/WelcomeDialog.js";
 
 // Direct Implementation of t() and speak()
 const translations = {
@@ -21,7 +21,8 @@ const translations = {
   practiceWithManyWords: "Practice with many different words",
   startPracticeRound: "Start Practice Round",
   readyForTest: "Ready for the Real Test?",
-  testDescription: "Great job on the practice! Now let's test your sound blending skills with 20 words.",
+  testDescription:
+    "Great job on the practice! Now let's test your sound blending skills with 20 words.",
   startTest: "Start Test",
   close: "Close",
   backToTests: "Back to Tests",
@@ -57,7 +58,8 @@ const translations = {
   errorNoInputSubmit: "Please enter a word before submitting",
   // New translations for results screen
   testResults: "Test Results",
-  soundBlendingCompleted: "You've completed the Sound Blending test! Here's how you did.",
+  soundBlendingCompleted:
+    "You've completed the Sound Blending test! Here's how you did.",
   yourScore: "Your Score:",
   accuracy: "Accuracy",
   excellentSoundBlending: "Excellent Sound Blending!",
@@ -70,31 +72,29 @@ const translations = {
   rewardEarned: "You've earned the",
   soundMasterShell: "Sound Master Shell",
   returnToResults: "Return to Results",
-}
+};
 
-const t = (key) => translations[key] || key
-
-
+const t = (key) => translations[key] || key;
 
 const SoundBlendingPage = () => {
-  const router = useRouter()
-  const [childId, setChildId] = useState(null)
+  const router = useRouter();
+  const [childId, setChildId] = useState(null);
 
   useEffect(() => {
-    const storedChildId = localStorage.getItem("childId")
+    const storedChildId = localStorage.getItem("childId");
     if (storedChildId) {
-      setChildId(storedChildId)
+      setChildId(storedChildId);
     }
-  }, [])
+  }, []);
 
   const handleEntireTestFlowComplete = async (finalScore) => {
-    console.log("Entire test flow completed. Final Score:", finalScore)
-    const token = localStorage.getItem("access_token")
+    console.log("Entire test flow completed. Final Score:", finalScore);
+    const token = localStorage.getItem("access_token");
 
     if (!childId) {
-      console.warn("Child ID is missing. Cannot save results.")
-      router.push("/take-tests?skipStart=true")
-      return
+      console.warn("Child ID is missing. Cannot save results.");
+      router.push("/take-tests?skipStart=true");
+      return;
     }
 
     try {
@@ -105,29 +105,37 @@ const SoundBlendingPage = () => {
           score: finalScore.correct,
           total_questions: finalScore.total,
           test_name: "Sound Blending Test",
+          responses: finalScore.responses || {},
         },
         {
           headers: {
             ...(token && { Authorization: `Bearer ${token}` }),
             "Content-Type": "application/json",
           },
-        },
-      )
+        }
+      );
 
-      console.log("Test results saved by page.js:", response.data)
+      console.log("Test results saved by page.js:", response.data);
     } catch (error) {
-      console.error("Error saving test results in page.js:", error.response?.data || error.message)
+      console.error(
+        "Error saving test results in page.js:",
+        error.response?.data || error.message
+      );
       // Continue to results page even if save fails
     } finally {
-      router.push("/take-tests?skipStart=true")
+      router.push("/take-tests?skipStart=true");
     }
-  }
+  };
 
   return (
     <div className="w-screen h-screen">
-      <WelcomeDialog t={t}  onEntireTestComplete={handleEntireTestFlowComplete} initialChildId={childId} />
+      <WelcomeDialog
+        t={t}
+        onEntireTestComplete={handleEntireTestFlowComplete}
+        initialChildId={childId}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default SoundBlendingPage
+export default SoundBlendingPage;

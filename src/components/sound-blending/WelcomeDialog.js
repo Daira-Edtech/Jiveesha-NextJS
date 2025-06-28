@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import GameplayArea from "./GameplayArea.js"
 import InstructionsScreen from "./InstructionsScreen.js"
 import FinalResultsScreen from "./FinalResultsScreen.js"
@@ -22,6 +23,14 @@ import TopBar from "./TopBar.js";
 =======
 import BackToMapButton from "../BackToMapButton.jsx"
 >>>>>>> 2792444 (all the best guys)
+=======
+import GameplayArea from "./GameplayArea.js";
+import InstructionsScreen from "./InstructionsScreen.js";
+import FinalResultsScreen from "./FinalResultsScreen.js";
+import RewardsModal from "./RewardsModal.js";
+import TopBar from "./TopBar.js";
+import BackToMapButton from "../BackToMapButton.jsx";
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
 
 import {
   words,
@@ -36,6 +45,7 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
   const router = useRouter();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [gameState, setGameState] = useState("welcome")
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [score, setScore] = useState(0)
@@ -45,13 +55,20 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
   const [showInfoDialog, setShowInfoDialog] = useState(false)
   const [showRewards, setShowRewards] = useState(false)
 =======
+=======
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
   const [gameState, setGameState] = useState("welcome");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [responses, setResponses] = useState([]);
   const [isPracticeMode, setIsPracticeMode] = useState(false);
   const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
+<<<<<<< HEAD
 >>>>>>> 3cebf1d (Code bug fix)
+=======
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [showRewards, setShowRewards] = useState(false);
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
 
   const totalWords = words.length;
 
@@ -107,11 +124,15 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
     } else if (currentWordIndex === words.length - 1) {
 <<<<<<< HEAD
       // Test completed - show results
+<<<<<<< HEAD
       setGameState("finalResults")
 =======
       // Test completed - directly finish
       handleFinishTest();
 >>>>>>> 3cebf1d (Code bug fix)
+=======
+      setGameState("finalResults");
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
     } else {
       setCurrentWordIndex(currentWordIndex + 1);
     }
@@ -133,10 +154,14 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
       setGameState("preTestInstructions");
     } else if (currentWordIndex === words.length - 1) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       setGameState("finalResults")
 =======
       handleFinishTest();
 >>>>>>> 3cebf1d (Code bug fix)
+=======
+      setGameState("finalResults");
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
     } else {
       setCurrentWordIndex(currentWordIndex + 1);
     }
@@ -144,17 +169,26 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
 
   const handleFinishTest = () => {
     if (onEntireTestComplete) {
-      onEntireTestComplete({ correct: score, total: totalWords });
+      onEntireTestComplete({
+        correct: score,
+        total: totalWords,
+        responses: responses,
+      });
     }
   };
 
   const handleSkipTest = () => {
     if (onEntireTestComplete) {
-      onEntireTestComplete({ correct: 0, total: totalWords });
+      onEntireTestComplete({
+        correct: 0,
+        total: totalWords,
+        responses: responses,
+      });
     }
   };
 
   const handleShowInfo = () => {
+<<<<<<< HEAD
 <<<<<<< HEAD
     setShowInfoDialog(true)
   }
@@ -163,13 +197,17 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
     console.log("Show info dialog");
   };
 >>>>>>> 3cebf1d (Code bug fix)
+=======
+    setShowInfoDialog(true);
+  };
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
 
   const handleCloseInfo = () => {
-    setShowInfoDialog(false)
-  }
+    setShowInfoDialog(false);
+  };
 
-  const handleViewRewards = () => setShowRewards(true)
-  const handleCloseRewards = () => setShowRewards(false)
+  const handleViewRewards = () => setShowRewards(true);
+  const handleCloseRewards = () => setShowRewards(false);
 
   const renderContent = () => {
     switch (gameState) {
@@ -365,8 +403,21 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
             onViewRewards={handleViewRewards}
             t={t}
           />
-        )
+        );
 
+<<<<<<< HEAD
+=======
+      case "finalResults":
+        return (
+          <FinalResultsScreen
+            score={{ correct: score, total: totalWords }}
+            onFinishTest={handleFinishTest}
+            onViewRewards={handleViewRewards}
+            t={t}
+          />
+        );
+
+>>>>>>> 87807f6 (Refactor GraphemeTestContent and SoundBlending components; enhance API validation and error handling)
       default:
         return (
           <div className="text-white p-10">
@@ -382,23 +433,25 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
       {/* Back to Map Button */}
-      <BackToMapButton 
-        variant="glass" 
-        position="top-left"
-        className="z-[70]"
-      />
-      
+      <BackToMapButton variant="glass" position="top-left" className="z-[70]" />
+
       <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
 
       {/* Info Dialog */}
       {showInfoDialog && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <InstructionsScreen stage="infoOverlay" onClose={handleCloseInfo} t={t} />
+          <InstructionsScreen
+            stage="infoOverlay"
+            onClose={handleCloseInfo}
+            t={t}
+          />
         </div>
       )}
 
       {/* Rewards Modal */}
-      {showRewards && <RewardsModal show={showRewards} onClose={handleCloseRewards} t={t} />}
+      {showRewards && (
+        <RewardsModal show={showRewards} onClose={handleCloseRewards} t={t} />
+      )}
     </div>
   );
 };
