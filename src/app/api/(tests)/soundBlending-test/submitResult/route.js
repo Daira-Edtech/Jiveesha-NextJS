@@ -5,16 +5,16 @@ const prisma = new PrismaClient();
 
 export async function POST(req) {
   try {
-    const { childId, totalScore, responses, normalized_score } =
+    const { childId, score, total_questions, test_name, responses } =
       await req.json();
 
     const result = await prisma.soundBlendingResult.create({
       data: {
         childId,
-        totalScore,
-        responses: JSON.stringify(responses),
-        score: normalized_score,
-        testName: "Sound Blending Test",
+        totalScore: total_questions,
+        responses: JSON.stringify(responses || {}),
+        score: score,
+        testName: test_name,
       },
     });
 

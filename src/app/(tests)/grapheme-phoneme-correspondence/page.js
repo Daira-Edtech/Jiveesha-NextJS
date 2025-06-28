@@ -152,13 +152,23 @@ const GraphemeTestContent = () => {
     } // Avoid resetting to intro if already past it and only minor language data re-fetch
 
     setCurrentDialog(0);
-    setScoreData({ score: 0, total: 0 });
+    // Only reset score data when starting fresh, not during results display
+    if (testStage !== "results") {
+      setScoreData({ score: 0, total: 0 });
+    }
     setIsProcessingFinalSubmit(false);
-    if (typeof resetMainTestLogic === "function") {
+
+    // Only reset the test logic when loading initial data or when language changes
+    // Don't reset during test progression
+    if (
+      (testStage === "loading_init" || !languageDataLoaded) &&
+      typeof resetMainTestLogic === "function"
+    ) {
       resetMainTestLogic();
     }
+
     setLanguageDataLoaded(true);
-  }, [language, initialDataLoaded, t, resetMainTestLogic, testStage]); // Added testStage to dependency to ensure correct re-intro logic
+  }, [language, initialDataLoaded, t, testStage]); // Removed resetMainTestLogic from dependency array to prevent unnecessary resets
 
   const onCompleteHandler = useCallback(
     (finalScore) => {
@@ -256,32 +266,44 @@ const GraphemeTestContent = () => {
     const submissionToastId = toast.loading(
       t("processingResponses", "Processing...")
     );
+
+    // Ensure we have all user inputs, fill missing ones with empty strings
     const finalUserInputs = [...userInputs];
     while (finalUserInputs.length < letters.length) {
       finalUserInputs.push("");
     }
+
+    // Create userResponses object mapping letters to responses
     const userResponses = {};
     letters.forEach((letter, index) => {
       userResponses[letter] = finalUserInputs[index] || "";
     });
+
     const payload = { childId, userResponses, language: langKey };
+
     try {
       const evalResponse = await axios.post(
         `/api/grapheme-test/submitResult`,
         payload
       );
+
       toast.dismiss(submissionToastId);
+
       if (evalResponse.data && typeof evalResponse.data.score === "number") {
-        const newScore = evalResponse.data.score;
-        const totalPossible = evalResponse.data.totalPossibleScore;
-        setScoreData({ score: newScore, total: totalPossible });
+        const correctCount = evalResponse.data.score; // Number of fully correct answers
+        const rawScore = evalResponse.data.rawScore || evalResponse.data.score; // Decimal score for storage
+        const totalPossible =
+          evalResponse.data.totalPossibleScore || letters.length;
+
+        setScoreData({ score: correctCount, total: totalPossible });
         toast.success(t("resultsProcessed", "Results processed!"));
         if (suppressResultPage && typeof onCompleteHandler === "function") {
-          onCompleteHandler({ score: newScore, total: totalPossible });
+          onCompleteHandler({ score: correctCount, total: totalPossible });
         } else {
           setTestStage("results");
         }
       } else {
+        console.error("Invalid API response structure:", evalResponse.data);
         toast.error(t("errorInvalidResponse", "Invalid server response."));
         setTestStage("submit");
       }
