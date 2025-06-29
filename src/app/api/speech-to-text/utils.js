@@ -6,23 +6,11 @@ import {
   unlinkSync,
   writeFileSync,
   readFileSync,
-  chmodSync,
+  mkdirSync,
 } from "fs";
 import util from "util";
-import { createRequire } from "module";
-
-const require = createRequire(import.meta.url);
-const ffmpeg = require("ffmpeg-static");
-
-// In some environments (like Render), the ffmpeg binary might not have execute permissions by default.
-try {
-  if (process.platform !== "win32") {
-    // No need to chmod on Windows
-    chmodSync(ffmpeg, "755");
-  }
-} catch (e) {
-  console.warn("Could not set executable permissions for ffmpeg:", e);
-}
+import path from "path";
+import os from "os";
 
 const execPromise = util.promisify(exec);
 
@@ -67,39 +55,69 @@ export const validateAudioFile = async (buffer) => {
 export const convertToWav = async (inputPath) => {
   console.log("Converting audio to WAV:", inputPath);
 
-  const outputPath = `${inputPath}.converted.wav`;
-  const ffmpegPath = ffmpeg;
+  // Use temp directory for better compatibility with serverless environments
+  const tempDir = os.tmpdir();
+  const outputPath = path.join(tempDir, `${Date.now()}-converted.wav`);
 
+  // Use system ffmpeg (works better on Render than ffmpeg-static)
   const cmd = [
-    `"${ffmpegPath}" -y -i "${inputPath}"`,
+    `ffmpeg -y -i "${inputPath}"`,
     `-ac 1 -ar 16000`,
     `-af "areverse,silenceremove=start_periods=1:start_duration=0.05:start_threshold=-60dB,` +
       `areverse,silenceremove=start_periods=1:start_duration=0.05:start_threshold=-60dB,` +
       `loudnorm=I=-16:TP=-1.5:LRA=11"`,
-    `-c:a pcm_s16le`,
-    `"${outputPath}"`,
+    `-f wav "${outputPath}"`,
   ].join(" ");
 
   console.log("Executing FFmpeg command:", cmd);
 
   try {
-    const { stdout, stderr } = await execPromise(cmd);
+    const execOptions =
+      process.platform === "win32"
+        ? { timeout: 30000, windowsHide: true }
+        : { timeout: 30000 };
+
+    const { stdout, stderr } = await execPromise(cmd, execOptions);
+
     console.log("FFmpeg stdout:", stdout);
     if (stderr) {
       console.log("FFmpeg stderr:", stderr);
     }
 
-    const stats = await stat(outputPath);
-    if (stats.size === 0) {
-      throw new Error("FFmpeg conversion resulted in an empty file.");
+    // Check if output file exists and has content
+    if (!existsSync(outputPath)) {
+      throw new Error("FFmpeg conversion did not create output file.");
     }
-    console.log("Conversion successful, output file:", outputPath);
+
+    const stats = await stat(outputPath);
+    if (stats.size < 500) {
+      throw new Error("Converted file too small - likely conversion failed.");
+    }
+
+    console.log(
+      "Conversion successful, output file:",
+      outputPath,
+      "size:",
+      stats.size
+    );
+    return outputPath;
   } catch (error) {
     console.error("FFmpeg conversion failed:", error);
+
+    // Clean up failed output file
+    if (existsSync(outputPath)) {
+      try {
+        unlinkSync(outputPath);
+      } catch (cleanupError) {
+        console.warn(
+          "Failed to cleanup failed conversion file:",
+          cleanupError.message
+        );
+      }
+    }
+
     throw new Error(`Audio conversion failed: ${error.message}`);
   }
-
-  return outputPath;
 };
 
 export const hasAudioContent = (buffer) => {
@@ -112,15 +130,14 @@ export const hasAudioContent = (buffer) => {
 
   const header = 44; // WAV header size
   const sampleCount = Math.min(2000, buffer.length - header);
-  let hasContent = false;
 
   try {
     for (let i = header; i < header + sampleCount; i += 2) {
       if (i + 1 < buffer.length) {
         const sample = Math.abs(buffer.readInt16LE(i));
         if (sample > 50) {
-          hasContent = true;
-          break;
+          console.log("Audio content check result: true");
+          return true;
         }
       }
     }
@@ -130,6 +147,6 @@ export const hasAudioContent = (buffer) => {
     return true;
   }
 
-  console.log("Audio content check result:", hasContent);
-  return hasContent;
+  console.log("Audio content check result: false");
+  return false;
 };

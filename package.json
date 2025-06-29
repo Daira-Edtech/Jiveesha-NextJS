@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "prisma generate && next dev --turbopack",
-    "build": "next build",
+    "dev": "prisma generate && next dev",
+    "build": "apt-get update && apt-get install -y ffmpeg && next build",
     "start": "next start",
     "lint": "next lint"
   },
