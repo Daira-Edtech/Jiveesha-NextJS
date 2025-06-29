@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "src/app/api/speech-to-text/route.js": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "FFMPEG_PATH": "/usr/bin/ffmpeg"
+  }
+}

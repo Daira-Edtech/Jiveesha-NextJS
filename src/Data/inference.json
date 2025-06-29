@@ -1,5 +1,5 @@
 {
-    "Grapheme/Phoneme Correspondence Test": {
+    "Grapheme/Phoneme Test": {
       "id": 5,
       "scoreRange": {
         "difficulty": [0, 44],
@@ -32,7 +32,7 @@
       ],
       "strongMessage": "Excellent work! Your strong object naming and idea expression skills will help you communicate effectively!"
     },
-    "Visual Sequential Memory Test": {
+    "Sequential Memory Test": {
       "id": 12,
       "scoreRange": {
         "difficulty": [0, 7],
@@ -80,11 +80,11 @@
       ],
       "strongMessage": "Wonderful job! Your strong symbol sequencing skills will help with reading, spelling and mathematics!"
     },
-    "Schonell Test": {
+    "Reading Proficiency Test": {
       "id": 6,
       "scoreRange": {
-        "difficulty": [0, 7],
-        "strong": [8, 10]
+        "difficulty": [0, 60],
+        "strong": [60, 100]
       },
       "description": "Weak letter/sound recognition.",
       "remedies": [
@@ -145,6 +145,22 @@
         "Voice‑Enabled Daily Challenges"
       ],
       "strongMessage": "Well done! Your exceptional auditory memory will help you follow instructions and remember important information!"
+    },
+    "Vocabulary Scale": {
+      "id": 2,
+      "scoreRange": {
+        "difficulty": [0, 14],
+        "strong": [15, 20]
+      },
+      "description": "Limited vocabulary and word retrieval.",
+      "remedies": [
+        "Vocabulary Building Apps (e.g., Vocabulary.com)",
+        "Interactive Word Games (e.g., Scrabble GO)",
+        "Digital Thesaurus Tools",
+        "Online Reading Platforms (e.g., Raz-Kids)",
+        "Speech Therapy Digital Platforms"
+      ],
+      "strongMessage": "Fantastic! Your strong vocabulary skills will enhance your reading comprehension and communication abilities!"
     }
   }
   

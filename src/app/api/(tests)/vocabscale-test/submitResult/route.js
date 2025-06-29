@@ -68,8 +68,6 @@ async function evaluateDefinition(word, definition, language = "en") {
     const result = await model.generateContent(prompt);
     const responseText = result.response.text().trim();
 
-    console.log(`🔎 Gemini raw: ${responseText}`);
-
     const match = responseText.match(/^([01])\|(.*)$/);
     if (!match) {
       return {
@@ -91,11 +89,11 @@ async function evaluateDefinition(word, definition, language = "en") {
 export async function POST(req) {
   try {
     const { childId, responses, language } = await req.json();
-
+    console.log();
     if (!childId || !Array.isArray(responses)) {
       return NextResponse.json(
         { error: "Missing childId or responses" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -107,7 +105,7 @@ export async function POST(req) {
       const { score, feedback } = await evaluateDefinition(
         word,
         definition,
-        language
+        language,
       );
 
       totalScore += score;
@@ -142,13 +140,13 @@ export async function POST(req) {
         score: totalScore,
         language: language || "en",
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
       { error: err.message || "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
