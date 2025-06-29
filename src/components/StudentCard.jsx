@@ -95,7 +95,7 @@ const StudentCard = ({
           <div className="flex justify-between items-center w-full px-4 mb-5">
             <div className="flex flex-col items-center justify-center space-y-1 w-1/2 transition-transform duration-300 ease-out group-hover:transform group-hover:-translate-y-1">
               <p className="text-sm text-blue-500">{t("rollNo")}</p>
-              <p className="text-base font-semibold text-blue-700">
+              <p className="text-sm font-semibold text-blue-700">
                 {student.rollno || "N/A"}
               </p>
             </div>
