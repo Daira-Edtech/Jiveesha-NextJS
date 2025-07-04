@@ -30,7 +30,7 @@ export const reverseSequences = [
   [1, 4, 0, 4, 7, 2],
 ]
 
-export const digitMap = {
+export const digitMapEn = {
   zero: "0",
   oh: "0",
   o: "0",
@@ -50,7 +50,88 @@ export const digitMap = {
   ate: "8",
   nine: "9",
   nein: "9",
-}
+};
+
+// Hindi mappings (Devanagari + common Roman transliterations)
+// Additional helper arrays for Devanagari stripping diacritics will be handled in parseTranscript, but we include common spelling variants here
+export const digitMapHi = {
+  "शून्य": "0",
+  "सुन्ना": "0",
+  "सुन्या": "0",
+  sunya: "0",
+  shunya: "0",
+  ek: "1",
+  "एक": "1",
+  do: "2",
+  "दो": "2",
+  teen: "3",
+  tin: "3",
+  "तीन": "3",
+  char: "4",
+  chaar: "4",
+  "चार": "4",
+  paanch: "5",
+  "पांच": "5",
+  "पाँच": "5",
+  "पाच": "5",
+  panch: "5",
+  pach: "5",
+  chhe: "6",
+  chhah: "6",
+  "छह": "6",
+  saat: "7",
+  sat: "7",
+  saath: "7",
+  "सात": "7",
+  aath: "8",
+  ath: "8",
+  "आठ": "8",
+  nau: "9",
+  "नौ": "9",
+  zero: "0",
+  "ज़ीरो": "0",
+  "जीरो": "0",
+  shoonya: "0",
+};
+
+// Kannada mappings (Kannada script + common Roman transliterations)
+export const digitMapKn = {
+  "ಸೊನ್ನೆ": "0",
+  "ಶೂನ್ಯ": "0",
+  sonne: "0",
+  shunya: "0",
+  ondu: "1",
+  "ಒಂದು": "1",
+  eradu: "2",
+  "ಎರಡು": "2",
+  mooru: "3",
+  "ಮೂರು": "3",
+  naalku: "4",
+  "ನಾಲ್ಕು": "4",
+  aidu: "5",
+  "ಐದು": "5",
+  aaru: "6",
+  "ಆರು": "6",
+  elu: "7",
+  "ಏಳು": "7",
+  entu: "8",
+  "ಎಂಟು": "8",
+  ombattu: "9",
+  "ಒಂಬತ್ತು": "9",
+};
+
+export const getDigitMap = (lang) => {
+  if (lang === "hi") {
+    return { ...digitMapEn, ...digitMapHi };
+  }
+  if (lang === "kn") {
+    return { ...digitMapEn, ...digitMapKn };
+  }
+  return digitMapEn;
+};
+
+// Backward compatibility for existing imports
+export const digitMap = digitMapEn;
 
 export const dialogContent = [
   "🎶 Namaste, traveler. I am Svarini, the voice of the river and guardian of Svara Gufa.",

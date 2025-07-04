@@ -17,7 +17,7 @@ import {
   forwardSequences,
   reverseSequences,
   dialogContent,
-  digitMap,
+  getDigitMap,
   practiceForwardSequence,
   practiceReverseSequence,
   DIGIT_DISPLAY_TIME,
@@ -26,9 +26,11 @@ import {
 } from "./auditorySequentialConstants.js"
 
 import backgroundImage from "../../../public/auditory-test/backgroundImage.png"
+import { useLanguage } from "@/contexts/LanguageContext.jsx"
 import characterImage from "../../../public/auditory-test/characterImage.png"
 
 const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
+  const { language } = useLanguage();
   const router = useRouter()
 
   const [gameState, setGameState] = useState("welcome")
@@ -74,15 +76,17 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
     let processedTranscript = transcriptInput
       .toLowerCase()
       .replace(/[.,!?]/g, "")
+       .replace(/[ंँ]/g, "") // remove common Hindi diacritics
       .trim()
 
-    // Replace word numbers with digits
-    const sortedWords = Object.keys(digitMap).sort((a, b) => b.length - a.length)
+    // Replace word numbers with digits based on current language
+    const currentDigitMap = getDigitMap(language);
+    const sortedWords = Object.keys(currentDigitMap).sort((a, b) => b.length - a.length);
 
     for (const word of sortedWords) {
-      const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-      const regex = new RegExp(`\\b${escapedWord}\\b`, "gi")
-      processedTranscript = processedTranscript.replace(regex, String(digitMap[word]))
+      const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regex = new RegExp(`\\b${escapedWord}\\b`, "gi");
+      processedTranscript = processedTranscript.replace(regex, String(currentDigitMap[word]));
     }
 
     // Extract digits
@@ -106,7 +110,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
     }
 
     return []
-  }, [])
+  }, [language])
 
   const stablePresentNextDigit = useCallback((sequence, index) => {
     if (presentNextDigitLogicRef.current) {
