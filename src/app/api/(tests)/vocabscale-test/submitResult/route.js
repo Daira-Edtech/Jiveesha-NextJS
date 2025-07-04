@@ -77,6 +77,7 @@ async function evaluateDefinition(word, definition, language = "en") {
   }
 
   const prompt = buildPrompt(word, definition, language);
+  console.log(prompt)
 
   try {
     const result = await model.generateContent(prompt);

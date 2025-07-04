@@ -7,9 +7,9 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const evaluateResponse = async (userInput, correctAnswer, language = "en") => {
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  if (!userInput) {
-    return { score: 0, feedback: "No description provided" };
-  }
+  // if (!userInput) {
+  //   return { score: 0, feedback: "No description provided" };
+  // }
 
   const prompts = {
     en: `Evaluate if this description is correct for an image of '${correctAnswer}': ${userInput}. Respond with either "1|Correct" or "0|Incorrect".`,
