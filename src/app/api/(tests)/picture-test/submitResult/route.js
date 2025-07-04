@@ -15,6 +15,7 @@ const evaluateResponse = async (userInput, correctAnswer, language = "en") => {
     en: `Evaluate if this description is correct for an image of '${correctAnswer}': ${userInput}. Respond with either "1|Correct" or "0|Incorrect".`,
     ta: `மதிப்பீடு செய்யுங்கள்: '${correctAnswer}' படத்திற்கான இந்த விளக்கம் சரியானதா? ${userInput}. "1|சரி" அல்லது "0|தவறு" என பதிலளிக்கவும்.`,
     hi: `इस चित्र '${correctAnswer}' के लिए दिया गया वर्णन सही है या नहीं मूल्यांकन करें: ${userInput}. कृपया "1|सही" या "0|गलत" में उत्तर दें।`,
+    kn: `ಈ ಚಿತ್ರ '${correctAnswer}' ಗೆ ನೀಡಲಾದ ವಿವರಣೆ ಸರಿಯೇ ಎಂದು ಮೌಲ್ಯಮಾಪನ ಮಾಡಿ: ${userInput}. "1|ಸರಿಯಾಗಿದೆ" ಅಥವಾ "0|ತಪ್ಪಾಗಿದೆ" ಎಂದು ಉತ್ತರಿಸಿ.`,
   };
 
   const prompt = prompts[language] || prompts.en;

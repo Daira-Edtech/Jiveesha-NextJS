@@ -89,7 +89,9 @@ const PictureRecognitionTestPage = () => {
         ? imageItem.correctAnswerTamil || imageItem.correctAnswer
         : language === "hi"
         ? imageItem.correctAnswerHindi || imageItem.correctAnswer
-        : imageItem.correctAnswer;
+        : language === "kn"
+        ? imageItem.correctAnswerKannada || imageItem.correctAnswer
+        : imageItem.correctAnswer || ""; 
     },
     [language]
   );
