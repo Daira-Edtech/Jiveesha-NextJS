@@ -26,11 +26,21 @@ const VIEW_STATES = {
   RESULTS: "results",
   LOADING_SUBMISSION: "loading_submission",
   LOADING_DATA: "loading_data",
-  LOADING_RESULTS: "loading_results", // Added this as it was used but not defined in original
+  LOADING_RESULTS: "loading_results",
 };
 
 const PictureRecognitionTestPage = () => {
   const { language, t } = useLanguage();
+
+  useEffect(() => {
+    console.log('[DEBUG] Current language context:', language);
+    
+    const interval = setInterval(() => {
+      console.log('[DEBUG] Current language context (every 4s):', language);
+    }, 4000);
+    
+    return () => clearInterval(interval);
+  }, [language]);
 
   const [images, setImages] = useState([]);
   const [practiceImage, setPracticeImage] = useState(null);
@@ -130,6 +140,7 @@ const PictureRecognitionTestPage = () => {
         "file",
         new File([audioBlob], `audio_${Date.now()}.wav`, { type: "audio/wav" })
       );
+      console.log(language);
       formData.append("language", language);
 
       setIsTranscribing(true);
@@ -138,12 +149,14 @@ const PictureRecognitionTestPage = () => {
       );
 
       try {
+        console.log("transcribing")
         const response = await fetch("/api/speech-to-text", {
           method: "POST",
           body: formData,
         });
         const result = await response.json();
         toast.dismiss(ProzessToastId);
+        console.log(result)
 
         if (response.ok && result.transcription) {
           const transcription =
@@ -590,10 +603,4 @@ const PictureRecognitionTestPage = () => {
   );
 };
 
-export default function PictureTestPageContainer() {
-  return (
-    <LanguageProvider>
-      <PictureRecognitionTestPage />
-    </LanguageProvider>
-  );
-}
+export default PictureRecognitionTestPage;
