@@ -26,18 +26,28 @@ import {
   forwardSequences,
   reverseSequences,
   dialogContent,
-  digitMap,
+  getDigitMap,
   practiceForwardSequence,
   practiceReverseSequence,
   DIGIT_DISPLAY_TIME,
   PAUSE_BETWEEN_DIGITS,
 } from "./auditorySequentialConstants.js";
 
+<<<<<<< HEAD
 import backgroundImage from "../../../public/auditory-test/backgroundImage.png";
 import characterImage from "../../../public/auditory-test/characterImage.png";
 
 const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
   const router = useRouter();
+=======
+import backgroundImage from "../../../public/auditory-test/backgroundImage.png"
+import { useLanguage } from "@/contexts/LanguageContext.jsx"
+import characterImage from "../../../public/auditory-test/characterImage.png"
+
+const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
+  const { language } = useLanguage();
+  const router = useRouter()
+>>>>>>> 811f1a8 (add hi and kn for auditory)
 
   const [gameState, setGameState] = useState("welcome");
   const [mode, setMode] = useState("forward");
@@ -88,20 +98,33 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
     let processedTranscript = transcriptInput
       .toLowerCase()
       .replace(/[.,!?]/g, "")
+<<<<<<< HEAD
       .trim();
 
     // Replace word numbers with digits
     const sortedWords = Object.keys(digitMap).sort(
       (a, b) => b.length - a.length
     );
+=======
+       .replace(/[ंँ]/g, "") // remove common Hindi diacritics
+      .trim()
+
+    // Replace word numbers with digits based on current language
+    const currentDigitMap = getDigitMap(language);
+    const sortedWords = Object.keys(currentDigitMap).sort((a, b) => b.length - a.length);
+>>>>>>> 811f1a8 (add hi and kn for auditory)
 
     for (const word of sortedWords) {
       const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       const regex = new RegExp(`\\b${escapedWord}\\b`, "gi");
+<<<<<<< HEAD
       processedTranscript = processedTranscript.replace(
         regex,
         String(digitMap[word])
       );
+=======
+      processedTranscript = processedTranscript.replace(regex, String(currentDigitMap[word]));
+>>>>>>> 811f1a8 (add hi and kn for auditory)
     }
 
     // Extract digits
@@ -127,8 +150,13 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
       return concatenated.split("").map(Number);
     }
 
+<<<<<<< HEAD
     return [];
   }, []);
+=======
+    return []
+  }, [language])
+>>>>>>> 811f1a8 (add hi and kn for auditory)
 
   const stablePresentNextDigit = useCallback((sequence, index) => {
     if (presentNextDigitLogicRef.current) {

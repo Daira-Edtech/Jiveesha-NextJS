@@ -4,8 +4,9 @@
 
 import axios from "axios"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import WelcomeDialog from "../../../components/auditory-sequential-memory/WelcomeDialog.js"
+import { useEffect, useState, useCallback } from "react"
+import WelcomeDialog from "@/components/auditory-sequential-memory/WelcomeDialog.js"
+import { useLanguage } from "@/contexts/LanguageContext.jsx"
 
 // Direct Implementation of t() and speak()
 const translations = {
@@ -58,7 +59,7 @@ const translations = {
   returnToResults: "Return to Results",
 }
 
-const t = (key) => translations[key] || key
+
 
 const speak = (text, rate = 0.9, pitch = 1.1) => {
   console.log(`TTS (direct): ${text}`)
@@ -74,6 +75,20 @@ const speak = (text, rate = 0.9, pitch = 1.1) => {
 
 const AuditorySequentialPage = () => {
   const router = useRouter()
+const { language, t } = useLanguage()
+const speak = useCallback(
+  (text, rate = 0.9, pitch = 1.1) => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window && text) {
+      window.speechSynthesis.cancel()
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.rate = rate
+      utterance.pitch = pitch
+      utterance.lang = language
+      window.speechSynthesis.speak(utterance)
+    }
+  },
+  [language]
+)
   const [childId, setChildId] = useState(null)
 
   useEffect(() => {

@@ -4,9 +4,11 @@
 
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useRef, useCallback, useEffect } from "react"
+import { useLanguage } from "@/contexts/LanguageContext.jsx"
 import { Mic, MicOff, Loader2, CheckCircle, XCircle } from "lucide-react"
 
 const ListeningScreen = ({ mode, onResponseComplete, t }) => {
+  const { language } = useLanguage();
   const [isRecording, setIsRecording] = useState(false)
   const [isTranscribing, setIsTranscribing] = useState(false)
   const [transcript, setTranscript] = useState("")
@@ -27,7 +29,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
         const filename = `auditory_sequential_${Date.now()}.wav`
         const file = new File([audioBlob], filename, { type: "audio/wav" })
         formData.append("file", file)
-        formData.append("language", "en") // Using English for number recognition
+        formData.append("language", language)
 
         console.log("Uploading audio for transcription...")
 
@@ -63,7 +65,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
         setIsTranscribing(false)
       }
     },
-    [onResponseComplete, t],
+    [onResponseComplete, t, language],
   )
 
   const stopListening = useCallback(() => {
