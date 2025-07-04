@@ -2,15 +2,17 @@
 
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 // PATH CHANGE: Adjust to your project structure, e.g., ../../contexts/LanguageContext
 import { useLanguage } from "../../../contexts/LanguageContext";
-import { FaChevronRight, FaCheck } from "react-icons/fa";
+import { FaChevronRight, FaCheck, FaArrowLeft } from "react-icons/fa";
 
 const backgroundImage = "/sound-test/whispering-isle.png";
 const echoCharacter = "/sound-test/Goonjarishi.png";
 
 const CharacterDialog = ({ onComplete }) => {
   const { t } = useLanguage();
+  const router = useRouter();
   const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
 
   const dialogs = useMemo(
@@ -55,6 +57,20 @@ const CharacterDialog = ({ onComplete }) => {
           transition={{ duration: 0.5 }}
         />
       </div>
+
+      {/* Back to Map Button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }} 
+        animate={{ opacity: 1, x: 0 }} 
+        transition={{ delay: 0.5 }}
+        onClick={() => router.push("/take-tests?skipStart=true")} 
+        className="fixed top-4 left-4 z-[70] flex items-center gap-2.5 bg-gradient-to-r from-white/90 to-blue-100/90 hover:from-white hover:to-blue-50 text-blue-900 font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all backdrop-blur-sm border border-white/50"
+        whileHover={{ scale: 1.05, y: -1, shadow:"lg" }} 
+        whileTap={{ scale: 0.95 }}
+      >
+        <FaArrowLeft className="text-blue-700" /> {t("backToMap")}
+      </motion.button>
+
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}

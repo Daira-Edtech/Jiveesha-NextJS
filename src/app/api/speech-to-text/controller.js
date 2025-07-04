@@ -91,6 +91,8 @@ export const transcribeAudio = async (
           return process.env.SERVICE_ID_HINDI;
         case "en":
           return process.env.SERVICE_ID_ENGLISH;
+        case "kn":
+          return process.env.SERVICE_ID_KANNADA;
         default:
           throw new Error(`Unsupported language: ${lang}`);
       }

@@ -15,7 +15,7 @@ const TopBar = ({ mode, currentItem, score, onShowInfo, onSkipTest, t, totalTest
       <div className="flex justify-between items-center">
         <motion.button
           whileHover={{ scale: 1.05, x: -5 }} whileTap={{ scale: 0.95 }}
-          onClick={() => router.push("/take-tests")} 
+          onClick={() => router.push("/take-tests?skipStart=true")} 
           className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-700/80 to-yellow-600/80 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-yellow-400"
         >
           <motion.span animate={{ x: [-2, 0, -2] }} transition={{ duration: 2, repeat: Infinity }} className="text-xl">
@@ -23,7 +23,7 @@ const TopBar = ({ mode, currentItem, score, onShowInfo, onSkipTest, t, totalTest
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </motion.span>
-          <span className="font-semibold text-lg">{t("backToTests")}</span>
+          <span className="font-semibold text-lg">{t("backToMap")}</span>
         </motion.button>
 
         {mode === "test" && (

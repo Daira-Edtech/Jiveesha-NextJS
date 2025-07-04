@@ -2,7 +2,10 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import PropTypes from "prop-types";
-import { FaCheck, FaChevronRight } from "react-icons/fa";
+import { useState } from "react";
+import { FaCheck, FaChevronRight, FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import EnhanceExperience from "@/components/EnhanceExperience";
 
 // Import local images relative to this component's location
 import localBackgroundImageForDialog from "../../../public/grapheme-test/backgroundImage.webp";
@@ -15,6 +18,26 @@ const WelcomeDialog = ({
   onStartTest,
   t,
 }) => {
+  const router = useRouter();
+  const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
+  
+  // Check if we're on the last dialog to show fullscreen option
+  const isLastDialog = currentDialog === dialog.length - 1;
+
+  const handleStartTest = () => {
+    setShowEnhanceExperience(false);
+    onStartTest();
+  };
+
+  const handleButtonClick = () => {
+    if (isLastDialog) {
+      // Show fullscreen enhancement option before starting test
+      setShowEnhanceExperience(true);
+    } else {
+      onNextDialog();
+    }
+  };
+
   return (
     <>
       {/* Background with local image */}
@@ -38,6 +61,20 @@ const WelcomeDialog = ({
         />
       </div>
 
+      {/* Back to Map Button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5 }}
+        onClick={() => router.push("/take-tests?skipStart=true")}
+        className="fixed top-4 left-4 z-[70] flex items-center gap-2.5 bg-gradient-to-r from-white/90 to-blue-100/90 hover:from-white hover:to-blue-50 text-blue-900 font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all backdrop-blur-sm border border-white/50"
+        whileHover={{ scale: 1.05, y: -1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <FaArrowLeft className="text-blue-700" />
+        {t("backToMap") || "Back to Map"}
+      </motion.button>
+
       {/* Main content container */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8">
         <motion.div
@@ -49,7 +86,10 @@ const WelcomeDialog = ({
           {/* Character image */}
           <motion.div
             animate={{ y: [0, -10, 0], rotate: [0, 2, -2, 0] }}
-            transition={{ y: { duration: 4, repeat: Infinity, ease: "easeInOut" }, rotate: { duration: 8, repeat: Infinity, ease: "easeInOut" }}}
+            transition={{
+              y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+              rotate: { duration: 8, repeat: Infinity, ease: "easeInOut" },
+            }}
             className="flex-shrink-0 order-2 lg:order-1"
           >
             <Image
@@ -90,9 +130,20 @@ const WelcomeDialog = ({
               {dialog.map((_, index) => (
                 <motion.div
                   key={index}
-                  className={`w-3 h-3 rounded-full ${ index <= currentDialog ? "bg-blue-300 shadow-[0_0_10px_2px_rgba(100,200,255,0.7)]" : "bg-blue-300/30" }`}
-                  animate={{ scale: index === currentDialog ? [1, 1.3, 1] : 1, y: index === currentDialog ? [0, -5, 0] : 0 }}
-                  transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop" }}
+                  className={`w-3 h-3 rounded-full ${
+                    index <= currentDialog
+                      ? "bg-blue-300 shadow-[0_0_10px_2px_rgba(100,200,255,0.7)]"
+                      : "bg-blue-300/30"
+                  }`}
+                  animate={{
+                    scale: index === currentDialog ? [1, 1.3, 1] : 1,
+                    y: index === currentDialog ? [0, -5, 0] : 0,
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                  }}
                 />
               ))}
             </div>
@@ -102,14 +153,28 @@ const WelcomeDialog = ({
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={currentDialog < dialog.length - 1 ? onNextDialog : onStartTest}
+                onClick={
+                  currentDialog < dialog.length - 1 ? onNextDialog : onStartTest
+                }
                 className={`flex items-center justify-center gap-3 py-4 px-8 lg:px-12 rounded-2xl font-semibold text-lg lg:text-xl shadow-lg transition-all duration-300
-                  ${ currentDialog < dialog.length - 1 ? "bg-gradient-to-r from-teal-300 via-blue-200 to-teal-400 text-blue-900 hover:from-teal-200 hover:via-blue-100 hover:to-teal-300 hover:shadow-blue-200/50" : "bg-gradient-to-r from-teal-400 to-blue-500 text-white hover:from-teal-500 hover:to-blue-600 hover:shadow-blue-300/50" }`}
+                  ${
+                    currentDialog < dialog.length - 1
+                      ? "bg-gradient-to-r from-teal-300 via-blue-200 to-teal-400 text-blue-900 hover:from-teal-200 hover:via-blue-100 hover:to-teal-300 hover:shadow-blue-200/50"
+                      : "bg-gradient-to-r from-teal-400 to-blue-500 text-white hover:from-teal-500 hover:to-blue-600 hover:shadow-blue-300/50"
+                  }`}
               >
                 {currentDialog < dialog.length - 1 ? (
-                  <><span className="drop-shadow-sm text-blue-950">Next</span><FaChevronRight className="mt-0.5 drop-shadow-sm text-blue-950" /></>
+                  <>
+                    <span className="drop-shadow-sm text-blue-950">Next</span>
+                    <FaChevronRight className="mt-0.5 drop-shadow-sm text-blue-950" />
+                  </>
                 ) : (
-                  <><span className="drop-shadow-sm text-blue-950">{t("imReady")}</span><FaCheck className="mt-0.5 drop-shadow-sm text-blue-950" /></>
+                  <>
+                    <span className="drop-shadow-sm text-blue-950">
+                      {t("imReady")}
+                    </span>
+                    <FaCheck className="mt-0.5 drop-shadow-sm text-blue-950" />
+                  </>
                 )}
               </motion.button>
             </div>

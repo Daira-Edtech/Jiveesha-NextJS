@@ -14,8 +14,26 @@ export default function ConditionalLayout({ children }) {
   const authRoutes = ["/login", "/register", "/forgot-password"];
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
 
-  if (isAuthRoute) {
-    // Auth pages without sidebar
+  // Routes that should not have sidebar (fullscreen experiences)
+  const fullscreenRoutes = [
+    "/select-student",
+    "/take-tests", 
+    "/continuousassessment",
+    "/reading-proficiency",
+    "/visual-discrimination", 
+    "/sound-discrimination",
+    "/picture-recognition",
+    "/grapheme-phoneme-correspondence",
+    "/auditory-sequential-memory",
+    "/sequence-arrangement", 
+    "/symbol-sequence",
+    "/sound-blending",
+    "/vocabulary-scale"
+  ];
+  const isFullscreenRoute = fullscreenRoutes.some((route) => pathname.startsWith(route));
+
+  if (isAuthRoute || isFullscreenRoute) {
+    // Auth pages and fullscreen test pages without sidebar
     return children;
   }
 

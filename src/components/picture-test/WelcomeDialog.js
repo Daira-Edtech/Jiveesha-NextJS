@@ -2,7 +2,10 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from 'next/image';
-import { FaCheck, FaChevronRight } from "react-icons/fa";
+import { useState } from 'react';
+import { FaCheck, FaChevronRight, FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import EnhanceExperience from "@/components/EnhanceExperience";
 
 // Images from public/picture-test/ folder
 const TIDEPOOL_BACKGROUND_IMG_PATH = "/picture-test/backgroundImage.png";
@@ -14,13 +17,21 @@ export default function WelcomeDialog({
   handleNextDialog,
   t,
 }) {
+  const router = useRouter();
+  const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
+
+  // Check if we're on the last dialog to show fullscreen option
+  const isLastDialog = currentDialog === dialogIntroTexts.length - 1;
+
+
+
   return (
     <>
       {/* Background Image Container */}
       <div className="fixed inset-0 z-40">
         <Image
           src={TIDEPOOL_BACKGROUND_IMG_PATH}
-          alt={t('tidepoolBackgroundAlt') || "Tidepool background"}
+          alt={t("tidepoolBackgroundAlt") || "Tidepool background"}
           fill // Replaces layout="fill"
           style={{ objectFit: "cover" }} // Use style for objectFit
           className="filter blur-md"
@@ -34,6 +45,20 @@ export default function WelcomeDialog({
           transition={{ duration: 0.5 }}
         />
       </div>
+
+      {/* Back to Map Button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5 }}
+        onClick={() => router.push("/take-tests?skipStart=true")}
+        className="fixed top-4 left-4 z-[70] flex items-center gap-2.5 bg-gradient-to-r from-white/90 to-teal-100/90 hover:from-white hover:to-teal-50 text-teal-900 font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all backdrop-blur-sm border border-white/50"
+        whileHover={{ scale: 1.05, y: -1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <FaArrowLeft className="text-teal-700" />
+        {t("backToMap") || "Back to Map"}
+      </motion.button>
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8">
         <motion.div
@@ -53,7 +78,7 @@ export default function WelcomeDialog({
           >
             <Image
               src={MIRRORFISH_CHARACTER_IMG_PATH}
-              alt={t('mirrorfishCharacterAlt') || "Mira the Mirrorfish"}
+              alt={t("mirrorfishCharacterAlt") || "Mira the Mirrorfish"}
               fill // Replaces layout="fill"
               style={{ objectFit: "contain" }} // Use style for objectFit
               priority
@@ -72,7 +97,9 @@ export default function WelcomeDialog({
 
             <motion.div
               key={currentDialog}
-              initial={{ opacity: 0.5, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+              initial={{ opacity: 0.5, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
               className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-white mb-8 min-h-[10rem] sm:min-h-[12rem] flex items-center justify-center font-serif leading-relaxed text-center px-4"
               style={{ textShadow: "0 0 8px rgba(163, 216, 208, 0.7)" }}
             >
@@ -83,9 +110,21 @@ export default function WelcomeDialog({
               {dialogIntroTexts.map((_, index) => (
                 <motion.div
                   key={index}
-                  className={`w-3 h-3 rounded-full ${ index <= currentDialog ? "bg-[#FFE57F] shadow-[0_0_10px_2px_rgba(255,229,127,0.7)]" : "bg-[#FFE57F]/30"}`}
-                  animate={ index === currentDialog ? { scale: [1, 1.3, 1], y: [0, -5, 0] } : { scale: 1, y: 0 }}
-                  transition={ index === currentDialog ? { duration: 1.5, repeat: Infinity, repeatType: "loop" } : { duration: 0.3 }}
+                  className={`w-3 h-3 rounded-full ${
+                    index <= currentDialog
+                      ? "bg-[#FFE57F] shadow-[0_0_10px_2px_rgba(255,229,127,0.7)]"
+                      : "bg-[#FFE57F]/30"
+                  }`}
+                  animate={
+                    index === currentDialog
+                      ? { scale: [1, 1.3, 1], y: [0, -5, 0] }
+                      : { scale: 1, y: 0 }
+                  }
+                  transition={
+                    index === currentDialog
+                      ? { duration: 1.5, repeat: Infinity, repeatType: "loop" }
+                      : { duration: 0.3 }
+                  }
                 />
               ))}
             </div>
@@ -96,19 +135,24 @@ export default function WelcomeDialog({
                 whileTap={{ scale: 0.95 }}
                 onClick={handleNextDialog}
                 className={`flex items-center justify-center gap-3 py-3 px-6 sm:py-4 sm:px-8 lg:px-12 rounded-2xl font-semibold text-lg lg:text-xl shadow-lg transition-all duration-300
-                  ${ currentDialog < dialogIntroTexts.length - 1
-                    ? "bg-gradient-to-r from-[#FFCAD4] via-[#FDF6E3] to-[#FFE57F] text-[#3E2F2F] hover:from-[#FFCAD4]/90 hover:via-[#FDF6E3]/90 hover:to-[#FFE57F]/90 hover:shadow-[#FFE57F]/50"
-                    : "bg-gradient-to-r from-[#FFCAD4] to-[#6CB4A3] text-white hover:from-[#FFCAD4]/90 hover:to-[#3C6E71] hover:shadow-[#6CB4A3]/50"
+                  ${
+                    currentDialog < dialogIntroTexts.length - 1
+                      ? "bg-gradient-to-r from-[#FFCAD4] via-[#FDF6E3] to-[#FFE57F] text-[#3E2F2F] hover:from-[#FFCAD4]/90 hover:via-[#FDF6E3]/90 hover:to-[#FFE57F]/90 hover:shadow-[#FFE57F]/50"
+                      : "bg-gradient-to-r from-[#FFCAD4] to-[#6CB4A3] text-white hover:from-[#FFCAD4]/90 hover:to-[#3C6E71] hover:shadow-[#6CB4A3]/50"
                   }`}
               >
                 {currentDialog < dialogIntroTexts.length - 1 ? (
                   <>
-                    <span className="drop-shadow-sm text-[#3E2F2F]">{t("pictureTestButtonNextDialog")}</span>
+                    <span className="drop-shadow-sm text-[#3E2F2F]">
+                      {t("pictureTestButtonNextDialog")}
+                    </span>
                     <FaChevronRight className="mt-0.5 drop-shadow-sm text-[#3E2F2F]" />
                   </>
                 ) : (
                   <>
-                    <span className="drop-shadow-sm text-[#3E2F2F]">{t("imReady")}</span>
+                    <span className="drop-shadow-sm text-[#3E2F2F]">
+                      {t("imReady")}
+                    </span>
                     <FaCheck className="mt-0.5 drop-shadow-sm text-[#3E2F2F]" />
                   </>
                 )}

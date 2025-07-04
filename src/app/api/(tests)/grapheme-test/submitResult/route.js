@@ -127,6 +127,14 @@ export async function POST(req) {
   try {
     const { childId, userResponses, language } = await req.json();
 
+    // Validate childId
+    if (!childId || typeof childId !== "string") {
+      return NextResponse.json(
+        { error: "Invalid or missing childId" },
+        { status: 400 }
+      );
+    }
+
     if (
       !userResponses ||
       typeof userResponses !== "object" ||
@@ -147,26 +155,80 @@ export async function POST(req) {
       rawResponse: geminiRawResponse,
     } = await evaluateGraphemesBatchWithGemini(userResponses, language);
 
-    const result = await prisma.graphemeTestResult.create({
-      data: {
-        childId,
-        results: JSON.stringify(geminiProcessedResponses),
-        score: geminiTotalScore,
-        testName: "Grapheme/Phoneme Test (AI Evaluated)",
+    // Ensure score is properly converted to decimal and childId is valid
+    const scoreAsDecimal = parseFloat(geminiTotalScore.toString());
+
+    // Validate the score
+    if (isNaN(scoreAsDecimal)) {
+      return NextResponse.json(
+        { error: "Invalid score calculated" },
+        { status: 500 }
+      );
+    }
+
+    // Check for recent submissions to detect duplicates
+    const recentSubmissions = await prisma.graphemeTestResult.findMany({
+      where: {
+        childId: childId,
+        createdAt: {
+          gte: new Date(Date.now() - 60000), // Last 1 minute
+        },
       },
+      orderBy: { createdAt: "desc" },
+      take: 5,
     });
 
-    await prisma.children.update({
-      where: { id: childId },
-      data: { testsTaken: { increment: 1 } },
-    });
+    const dataToSave = {
+      childId: childId,
+      results: JSON.stringify(geminiProcessedResponses),
+      score: scoreAsDecimal,
+      testName: "Grapheme/Phoneme Test",
+    };
+
+    let result;
+    try {
+      result = await prisma.graphemeTestResult.create({
+        data: dataToSave,
+      });
+
+      // Verify what was actually saved by reading it back
+      const verifyResult = await prisma.graphemeTestResult.findUnique({
+        where: { id: result.id },
+      });
+    } catch (dbError) {
+      return NextResponse.json(
+        {
+          error: "Failed to save test results to database",
+          details: dbError.message,
+        },
+        { status: 500 }
+      );
+    }
+
+    try {
+      await prisma.children.update({
+        where: { id: childId },
+        data: { testsTaken: { increment: 1 } },
+      });
+    } catch (updateError) {
+      // Don't fail the entire request if this update fails
+    }
+
+    const totalPossibleScore = Object.keys(userResponses).length;
+
+    // Calculate number of correct answers for display (score >= 0.5 counts as correct)
+    const correctCount = geminiProcessedResponses.filter(
+      (result) => result.score >= 0.5
+    ).length;
 
     return NextResponse.json(
       {
         message: "Grapheme evaluation complete with AI.",
         resultsId: result.id,
         processedResponses: geminiProcessedResponses,
-        totalScore: geminiTotalScore,
+        score: correctCount, // Number of correct answers for display
+        rawScore: scoreAsDecimal, // Keep the decimal score for database storage
+        totalPossibleScore: totalPossibleScore,
       },
       { status: 200 }
     );

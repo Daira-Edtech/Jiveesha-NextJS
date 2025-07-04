@@ -5,7 +5,7 @@ import { getTranslation } from '../translations';
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-  const [language, setLanguage] = useState('en'); // 'en', 'ta', or 'hi'
+  const [language, setLanguage] = useState('en'); 
   
   const t = (key) => getTranslation(key, language);
   

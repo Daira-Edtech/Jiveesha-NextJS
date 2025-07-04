@@ -63,7 +63,7 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCharacter, setShowCharacter] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [quizStarted, setQuizStarted] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false); // For the main test
   const [quizCompleted, setQuizCompleted] = useState(false);
   const router = useRouter();
   const [showDemo, setShowDemo] = useState(true);
@@ -86,6 +86,8 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
       language === "kn" ? "kannada" : "english";
     const questionsForLang = Array.isArray(questionsData[langKey]) ? questionsData[langKey] : [];
     setQuizQuestions(questionsForLang);
+
+    // Reset all states for a new test run or language change
     setSelectedOptions(Array(questionsForLang.length).fill(null));
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -96,6 +98,7 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   }, [language]);
 
   const handleAnswer = (option) => {
+    // This logic is for the main test
     const newSelectedOptions = [...selectedOptions];
     newSelectedOptions[currentQuestionIndex] = option;
     setSelectedOptions(newSelectedOptions);
@@ -112,9 +115,10 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   };
 
   const handleTimeout = () => {
+    // This logic is for the main test
     const newSelectedOptions = [...selectedOptions];
     if (currentQuestionIndex < newSelectedOptions.length) {
-      newSelectedOptions[currentQuestionIndex] = null;
+      newSelectedOptions[currentQuestionIndex] = null; // Mark as not answered or timed out
       setSelectedOptions(newSelectedOptions);
     }
     setTimeout(() => {
@@ -131,6 +135,8 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
     setShowDemo(false);
     setQuizStarted(true); 
     setCurrentQuestionIndex(0);
+    setScore(0);
+    setSelectedOptions(Array(quizQuestions.length).fill(null));
     setScore(0);
     setSelectedOptions(Array(quizQuestions.length).fill(null));
   };
@@ -175,11 +181,11 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
       {/* Back Button */}
       <motion.button
         initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}
-        onClick={() => router.push("/taketests")} 
+        onClick={() => router.push("/take-tests?skipStart=true")} 
         className="fixed top-4 left-4 z-[70] flex items-center gap-2.5 bg-gradient-to-r from-white/90 to-lime-100/90 hover:from-white hover:to-lime-50 text-green-900 font-semibold py-2.5 px-5 rounded-lg shadow-md transition-all backdrop-blur-sm border border-white/50"
         whileHover={{ scale: 1.05, y: -1, shadow:"lg" }} whileTap={{ scale: 0.95 }}
       >
-        <FaArrowLeft className="text-green-700" /> {t("backToTests")}
+        <FaArrowLeft className="text-green-700" /> {t("backToMap")}
       </motion.button>
 
       {/* Generic Instructions Button (conditionally rendered) */}
@@ -292,7 +298,7 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
 
   return renderWithBackground(
     <div className="flex items-center justify-center h-full">
-      <p className="text-white text-xl bg-black/50 p-4 rounded-lg font-serif text-yellow-100">{t("loading")}</p>
+      <p className="text-white text-xl bg-black/50 p-4 rounded-lg font-serif ">{t("loading")}</p>
     </div>
   );
 };
