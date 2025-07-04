@@ -19,19 +19,19 @@ export default function PracticeCompleteModal({
     // Ensure t is available
     if (!evaluationResult.sawImage) {
       practiceFeedbackMessage =
-        "Practice: You indicated you couldn't see the image.";
+        t("practiceResultDidNotSee");
       feedbackMessageColor = "text-yellow-300/90";
     } else if (evaluationResult.score === 2) {
       practiceFeedbackMessage =
-        "Practice: Great job! You identified it correctly.";
+        t("practiceResultCorrect");
       feedbackMessageColor = "text-green-300/90";
     } else {
-      practiceFeedbackMessage = "Practice: Good try!";
+      practiceFeedbackMessage = t("practiceResultIncorrect");
       feedbackMessageColor = "text-red-300/90";
     }
   } else if (evaluationResult) {
     if (!evaluationResult.sawImage)
-      practiceFeedbackMessage = "Couldn't see image.";
+      practiceFeedbackMessage = t("answerCouldNotSeeImage");
     else if (evaluationResult.score === 2) practiceFeedbackMessage = "Correct!";
     else practiceFeedbackMessage = "Incorrect.";
   }
@@ -74,7 +74,7 @@ export default function PracticeCompleteModal({
             className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6"
             style={{ textShadow: "0 1px 3px rgba(0,0,0,0.3)" }}
           >
-            {"Practice Complete!"}
+            {t("practiceComplete")}
           </motion.h2>
 
           {practiceFeedbackMessage && (
@@ -86,7 +86,7 @@ export default function PracticeCompleteModal({
           )}
 
           <p className="text-base sm:text-lg text-white mb-6 sm:mb-8 leading-relaxed">
-            {"Well done! The main test will start now. Are you ready?"}
+            {t("pictureMainTestConfirmation")}
           </p>
 
           <motion.button
@@ -106,7 +106,7 @@ export default function PracticeCompleteModal({
                        mx-auto"
           >
             <FaPlay className="mt-0.5" />
-            {"Start Main Test"}
+            {t("pictureStartMainTest")}
           </motion.button>
         </motion.div>
       </div>

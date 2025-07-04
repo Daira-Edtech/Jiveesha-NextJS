@@ -43,7 +43,7 @@ const InstructionsScreen = ({ stage, onStartForward, onStartReverse, t }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          {t("memoryTest")}
+          {t("memory_test")}
         </motion.h2>
 
         <motion.div
@@ -52,7 +52,7 @@ const InstructionsScreen = ({ stage, onStartForward, onStartReverse, t }) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <p className="text-2xl text-white leading-relaxed text-center font-medium">{t("welcomeMemoryGame")}</p>
+          <p className="text-2xl text-white leading-relaxed text-center font-medium">{t("welcome_memory_game")}</p>
 
           <ul className="grid grid-cols-1 gap-6 max-w-3xl mx-auto">
             {[1, 2, 3].map((num) => (
@@ -68,9 +68,9 @@ const InstructionsScreen = ({ stage, onStartForward, onStartReverse, t }) => {
                   {num}
                 </span>
                 <span className="text-2xl text-white font-semibold">
-                  {num === 1 && t("listenCarefullyNumbers")}
-                  {num === 2 && t("repeatBackExactly")}
-                  {num === 3 && t("startEasyGetHarder")}
+                  {num === 1 && t("listen_carefully_numbers")}
+                  {num === 2 && t("repeat_back_exactly")}
+                  {num === 3 && t("start_easy_get_harder")}
                 </span>
               </motion.li>
             ))}
@@ -91,7 +91,7 @@ const InstructionsScreen = ({ stage, onStartForward, onStartReverse, t }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
           >
-            <span className="drop-shadow-sm">{t("startTest")}</span>
+            <span className="drop-shadow-sm">{t("start_test")}</span>
             <motion.div animate={{ x: [0, 5, 0] }} transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}>
               <FaPlay className="drop-shadow-sm" />
             </motion.div>
@@ -126,7 +126,7 @@ const InstructionsScreen = ({ stage, onStartForward, onStartReverse, t }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          {t("levelUpReverseChallenge")}
+          {t("level_up_reverse_challenge")}
         </motion.h2>
 
         <motion.div
@@ -135,16 +135,16 @@ const InstructionsScreen = ({ stage, onStartForward, onStartReverse, t }) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <p className="text-2xl text-white leading-relaxed font-medium">{t("nowExcitingTwist")}</p>
+          <p className="text-2xl text-white leading-relaxed font-medium">{t("now_exciting_twist")}</p>
 
           <motion.div
             className="p-10 rounded-2xl max-w-3xl mx-auto border-2 border-amber-400/30 backdrop-blur"
             whileHover={{ scale: 1.01 }}
           >
             <p className="text-2xl text-white font-medium">
-              {t("ifISay")} <span className="font-bold text-white px-3 py-1 rounded-lg">1 - 3 - 5</span>
+              {t("if_i_say")} <span className="font-bold text-white px-3 py-1 rounded-lg">1 - 3 - 5</span>
               <br />
-              {t("youSay")} <span className="font-bold text-white px-3 py-1 rounded-lg">5 - 3 - 1</span>
+              {t("you_say")} <span className="font-bold text-white px-3 py-1 rounded-lg">5 - 3 - 1</span>
             </p>
           </motion.div>
         </motion.div>
@@ -158,7 +158,7 @@ const InstructionsScreen = ({ stage, onStartForward, onStartReverse, t }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          {t("startReverseChallenge")}
+          {t("start_reverse_challenge")}
           <div className="absolute inset-0 rounded-xl bg-green-400/30 blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
         </motion.button>
       </motion.div>

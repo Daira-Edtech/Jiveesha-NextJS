@@ -136,7 +136,7 @@ const PresentingScreen = ({ displayedDigit, digitIndex, t }) => {
           transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
         />
 
-        <span className="relative z-10 drop-shadow-lg">{t("listenCarefully")}</span>
+        <span className="relative z-10 drop-shadow-lg">{t("listen_carefully")}</span>
 
         {/* Corner accents */}
         <div className="absolute top-3 left-3 w-4 h-4 border-l-2 border-t-2 border-amber-500/60" />
