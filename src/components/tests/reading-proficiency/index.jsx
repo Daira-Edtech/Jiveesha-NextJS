@@ -1,26 +1,26 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { useLanguage } from "../../../contexts/LanguageContext"; // Adjust path if needed
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import wordLists from "src/Data/wordLists.json"; // Assuming in the same directory
-import { improveTranscriptionAccuracy } from "./accuracyImprover"; // Assuming in the same directory
-import ancientPaper from "../../../../public/reading-test/ancientPaper.png"; // Adjust path
-import "react-toastify/dist/ReactToastify.css";
+import { AnimatePresence } from "framer-motion";
 import { ChevronLeft, HelpCircle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import wordLists from "src/Data/wordLists.json"; // Assuming in the same directory
+import ancientPaper from "../../../../public/reading-test/ancientPaper.png"; // Adjust path
 import coralBackground from "../../../../public/reading-test/coralBackground.png"; // Adjust path
 import coralineImage from "../../../../public/reading-test/coralineImage.png"; // Adjust path
 import shellImage from "../../../../public/reading-test/shellImage.png"; // Adjust path
-import TutorialView from "./TutorialView";
-import TestSessionView from "./TestSessionView";
+import { useLanguage } from "../../../contexts/LanguageContext"; // Adjust path if needed
+import { improveTranscriptionAccuracy } from "./accuracyImprover"; // Assuming in the same directory
+import DemoRoundView from "./DemoRoundView";
+import InstructionsModal from "./InstructionsModal";
 import RewardView from "./RewardView";
 import TestInstructionsScreen from "./TestInstructionsScreen";
-import InstructionsModal from "./InstructionsModal";
-import DemoRoundView from "./DemoRoundView";
+import TestSessionView from "./TestSessionView";
+import TutorialView from "./TutorialView";
 
 const useAudioRecorder = (onAudioRecorded) => {
   const [isRecording, setIsRecording] = useState(false);
