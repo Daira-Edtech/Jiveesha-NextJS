@@ -60,6 +60,23 @@ Examples:
 उदाहरण:
 1|बहुत अच्छा! आप जानते हैं कि बिल्ली क्या है। बिल्कुल सही!
 `,
+    kn: `
+ಅಭ್ಯಾಸ ಸುತ್ತು: ಮಕ್ಕಳಿಗೆ ಪರೀಕ್ಷೆ ಹೇಗೆ ಬರೆಯುವುದು ಎಂಬುದನ್ನು ಕಲಿಸುತ್ತಿದ್ದೇವೆ.
+
+ಪದ: "${word}"
+ಮಕ್ಕಳ ವಿವರಣೆ: "${definition}"
+
+ಇದು ಅಭ್ಯಾಸ ಸುತ್ತು, ಆದ್ದರಿಂದ ಪ್ರೋತ್ಸಾಹಕಾರಿ ಮತ್ತು ಸಹಾಯಕವಾಗಿರಿ.
+
+ನಿರ್ದೇಶನಗಳು:
+1. ಅರ್ಥಮಾಡಿಕೊಂಡಿದ್ದರೆ 1, ಸರಿ ತಪ್ಪಾಗಿದ್ದರೆ 0
+2. ಅಭ್ಯಾಸ ಹಂತವಾಗಿರುವುದರಿಂದ ಸ್ವಲ್ಪ ಸೌಮ್ಯವಾಗಿ ಅಂಕಕೊಡಿ
+3. ಪ್ರೋತ್ಸಾಹಿಸುವ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿ
+4. ಸ್ವರೂಪ: <score>|<feedback>
+
+ಉದಾಹರಣೆ:
+1|ಅತ್ಯುತ್ತಮ! ನೀವು 'ಬೆಕ್ಕು' ಅಂದರೆ ಏನು ಎಂಬುದನ್ನು ಚೆನ್ನಾಗಿ ಅರ್ಥಮಾಡಿಕೊಂಡಿದ್ದೀರಿ!
+`,
   };
 
   return prompts[language] || prompts.en;
@@ -71,9 +88,14 @@ async function evaluatePracticeDefinition(word, definition, language = "en") {
   if (!definition?.trim()) {
     return {
       score: 0,
-      feedback: language === "ta" ? "விளக்கம் இல்லை. மீண்டும் முயற்சிக்கவும்!" :
-               language === "hi" ? "कोई परिभाषा नहीं दी गई। फिर कोशिश करें!" :
-               "No definition provided. Please try again!"
+      feedback:
+        language === "ta"
+          ? "விளக்கம் இல்லை. மீண்டும் முயற்சிக்கவும்!"
+          : language === "hi"
+          ? "कोई परिभाषा नहीं दी गई। फिर कोशिश करें!"
+          : language === "kn"
+          ? "ವಿವರಣೆಯನ್ನು ನೀಡಲಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!"
+          : "No definition provided. Please try again!",
     };
   }
 
@@ -87,9 +109,14 @@ async function evaluatePracticeDefinition(word, definition, language = "en") {
     if (!match) {
       return {
         score: 0,
-        feedback: language === "ta" ? "மீண்டும் முயற்சிக்கவும்!" :
-                 language === "hi" ? "फिर कोशिश करें!" :
-                 "Please try again!"
+        feedback:
+          language === "ta"
+            ? "மீண்டும் முயற்சிக்கவும்!"
+            : language === "hi"
+            ? "फिर कोशिश करें!"
+            : language === "kn"
+            ? "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!"
+            : "Please try again!",
       };
     }
 
@@ -101,9 +128,14 @@ async function evaluatePracticeDefinition(word, definition, language = "en") {
     console.error("Gemini error in practice evaluation:", err);
     return {
       score: 0,
-      feedback: language === "ta" ? "தொழில்நுட்ப பிரச்சனை. மீண்டும் முயற்சிக்கவும்!" :
-               language === "hi" ? "तकनीकी समस्या। फिर कोशिश करें!" :
-               "Technical issue. Please try again!"
+      feedback:
+        language === "ta"
+          ? "தொழில்நுட்ப பிரச்சனை. மீண்டும் முயற்சிக்கவும்!"
+          : language === "hi"
+          ? "तकनीकी समस्या। फिर कोशिश करें!"
+          : language === "kn"
+          ? "ತಾಂತ್ರಿಕ ತೊಂದರೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!"
+          : "Technical issue. Please try again!",
     };
   }
 }
@@ -129,9 +161,8 @@ export async function POST(req) {
       score,
       feedback,
       word: practiceWord.word,
-      isCorrect: score === 1
+      isCorrect: score === 1,
     });
-
   } catch (err) {
     console.error("Practice evaluation error:", err);
     return NextResponse.json(
