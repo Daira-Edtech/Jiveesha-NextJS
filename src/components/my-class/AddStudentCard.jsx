@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
-import { Plus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Plus } from "lucide-react";
 
 const AddStudentCard = ({ onClick }) => {
+  const { t } = useLanguage();
   return (
     <Card
       className="border-2 border-dashed border-gray-300 hover:border-blue-400 cursor-pointer transition-all duration-300 hover:shadow-lg group"
@@ -17,10 +18,10 @@ const AddStudentCard = ({ onClick }) => {
           </div>
           <div className="text-center">
             <h3 className="font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">
-              Add New Student
+              {t('NewStudent')}
             </h3>
             <p className="text-sm text-gray-500 mt-1">
-              Click to add a student to your class
+              {t('NewStudentDesc')}
             </p>
           </div>
         </div>

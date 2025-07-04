@@ -11,6 +11,7 @@ import { FaArrowLeft, FaCheck, FaChevronRight } from "react-icons/fa"
 import InstructionsScreen from "./InstructionsScreen.js"
 import PresentingScreen from "./PresentingScreen.js"
 import ListeningScreen from "./ListeningScreen.js"
+import FinalResultsScreen from "./FinalResultsScreen.js"
 import TopBar from "./TopBar.js"
 
 import {
@@ -75,40 +76,126 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
 
     let processedTranscript = transcriptInput
       .toLowerCase()
-      .replace(/[.,!?]/g, "")
-       .replace(/[ंँ]/g, "") // remove common Hindi diacritics
+      // Handle newlines and multiple artifacts
+      .replace(/\n/g, " ")
+      .replace(/\r/g, " ")
+      // Remove common speech recognition artifacts and prefixes (more comprehensive)
+      .replace(/you\s*said\s*:?\s*/gi, "")
+      .replace(/user\s*said\s*:?\s*/gi, "")
+      .replace(/transcript\s*:?\s*/gi, "")
+      .replace(/result\s*:?\s*/gi, "")
+      .replace(/speech\s*:?\s*/gi, "")
+      .replace(/recognized\s*:?\s*/gi, "")
+      .replace(/output\s*:?\s*/gi, "")
+      .replace(/text\s*:?\s*/gi, "")
+      .replace(/listening\s*:?\s*/gi, "")
+      .replace(/heard\s*:?\s*/gi, "")
+      // Remove quotes and speech marks
+      .replace(/["'"`''""]/g, "")
+      // Remove punctuation but keep spaces
+      .replace(/[.,!?:;()[\]{}]/g, " ")
+      // Remove common Hindi diacritics that might confuse matching
+      .replace(/[ंँः]/g, "")
+      // Normalize whitespace
+      .replace(/\s+/g, " ")
       .trim()
+
+    console.log("Original transcript:", transcriptInput)
+    console.log("Processed transcript:", processedTranscript)
 
     // Replace word numbers with digits based on current language
     const currentDigitMap = getDigitMap(language);
+    
+    // Sort by length (longest first) to avoid partial matches
     const sortedWords = Object.keys(currentDigitMap).sort((a, b) => b.length - a.length);
 
     for (const word of sortedWords) {
       const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const regex = new RegExp(`\\b${escapedWord}\\b`, "gi");
-      processedTranscript = processedTranscript.replace(regex, String(currentDigitMap[word]));
+      // Use word boundaries for exact matching, but also try without for partial words
+      const regexWithBoundary = new RegExp(`\\b${escapedWord}\\b`, "gi");
+      const regexWithoutBoundary = new RegExp(escapedWord, "gi");
+      
+      if (processedTranscript.match(regexWithBoundary)) {
+        processedTranscript = processedTranscript.replace(regexWithBoundary, ` ${currentDigitMap[word]} `);
+      } else if (processedTranscript.match(regexWithoutBoundary)) {
+        processedTranscript = processedTranscript.replace(regexWithoutBoundary, ` ${currentDigitMap[word]} `);
+      }
     }
 
-    // Extract digits
-    const numbersAndSpaces = processedTranscript.replace(/[^\d\s]/g, "")
+    console.log("After word replacement:", processedTranscript)
+
+    // Special handling for concatenated Hindi/Kannada number sequences
+    // Try to split common patterns like "चारनौ" to "चार नौ"
+    if (language === "hi" || language === "kn") {
+      // Add spaces before known number words that might be concatenated
+      const numberWords = Object.keys(currentDigitMap).filter(word => word.length > 1);
+      for (const word of numberWords.sort((a, b) => b.length - a.length)) {
+        const regex = new RegExp(`(\\w)(${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
+        processedTranscript = processedTranscript.replace(regex, "$1 $2");
+      }
+      
+      // Re-apply digit mapping after splitting
+      for (const word of sortedWords) {
+        const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regexWithBoundary = new RegExp(`\\b${escapedWord}\\b`, "gi");
+        processedTranscript = processedTranscript.replace(regexWithBoundary, ` ${currentDigitMap[word]} `);
+      }
+    }
+
+    // Extract digits and clean up - now supporting multi-digit mappings
+    let finalResult = processedTranscript
+      .split(/\s+/) // Split by spaces
+      .filter(token => token.trim() !== "") // Remove empty tokens
+      .map(token => {
+        // Check if token is already a digit sequence (like "5 7")
+        if (/^[\d\s]+$/.test(token)) {
+          return token.split(/\s+/).filter(d => /^\d$/.test(d)).map(Number);
+        }
+        // Check if token is a single digit
+        if (/^\d$/.test(token)) {
+          return [Number(token)];
+        }
+        return [];
+      })
+      .flat() // Flatten the array
+      .filter(num => !isNaN(num)); // Remove any NaN values
+
+    console.log("After concatenation splitting:", processedTranscript)
+    console.log("Final result:", finalResult)
+
+    if (finalResult.length > 0) {
+      console.log("Final parsed result:", finalResult);
+      return finalResult;
+    }
+
+    // Fallback: try to extract just digits
+    const numbersAndSpaces = processedTranscript.replace(/[^\d\s]/g, " ")
     const cleaned = numbersAndSpaces.trim().replace(/\s+/g, " ")
 
+    console.log("Fallback cleaned numbers:", cleaned)
+
     if (cleaned === "") {
+      console.log("No digits found")
       return []
     }
 
     // Try space-separated first
-    const spaceSplit = cleaned.split(" ").filter((s) => s !== "")
-    if (spaceSplit.length > 0 && spaceSplit.every((item) => /^\d$/.test(item))) {
-      return spaceSplit.map(Number)
+    const spaceSplit = cleaned.split(" ").filter((s) => s !== "" && /^\d$/.test(s))
+    if (spaceSplit.length > 0) {
+      const result = spaceSplit.map(Number)
+      console.log("Space-separated result:", result)
+      return result
     }
 
     // Try concatenated digits
     const concatenated = cleaned.replace(/\s+/g, "")
     if (concatenated.length > 0 && /^\d+$/.test(concatenated)) {
-      return concatenated.split("").map(Number)
+      const result = concatenated.split("").map(Number)
+      console.log("Concatenated result:", result)
+      return result
     }
 
+    console.log("No valid digits found")
     return []
   }, [language])
 
@@ -162,12 +249,15 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
   }
 
   const moveToNextSequence = useCallback(() => {
+    console.log("moveToNextSequence called - sequenceIndex:", sequenceIndex, "sequences.length:", sequences.length, "isPracticeMode:", isPracticeMode, "mode:", mode)
+    
     if (sequenceIndex + 1 < sequences.length) {
       setSequenceIndex((prev) => prev + 1)
       setGameState("presenting")
     } else {
       // Check if we just completed practice
       if (isPracticeMode) {
+        console.log("Transitioning from practice to real test for mode:", mode)
         setIsPracticeMode(false)
         if (mode === "forward") {
           // Move to real forward test
@@ -182,86 +272,126 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
         }
       } else {
         // Real test completed
+        console.log("Real test completed for mode:", mode)
         if (mode === "forward") {
           setGameState("reverseInstructions")
         } else {
-          // Test completed
-          const finalScore = Math.round((forwardScore + reverseScore) / 2)
-          if (onEntireTestComplete) {
-            onEntireTestComplete({
-              final: finalScore,
-              forward: forwardScore,
-              reverse: reverseScore,
-            })
-          }
+          // Show results screen instead of immediately completing
+          setGameState("results")
         }
       }
     }
-  }, [sequenceIndex, sequences.length, mode, isPracticeMode, forwardScore, reverseScore, onEntireTestComplete])
+  }, [sequenceIndex, sequences.length, mode, isPracticeMode])
 
   const handleResponseComplete = useCallback(
     (transcript) => {
+      console.log("Response received:", transcript)
       const userAnswer = parseTranscript(transcript)
       const correctAnswer = mode === "forward" ? currentSequence : [...currentSequence].reverse()
 
-      const isCorrect =
-        userAnswer.length === correctAnswer.length && userAnswer.every((digit, i) => digit === correctAnswer[i])
+      console.log("User answer:", userAnswer)
+      console.log("Correct answer:", correctAnswer)
+      console.log("Current sequence being tested:", currentSequence)
+      console.log("Mode:", mode, "Practice mode:", isPracticeMode)
+
+      // More flexible matching - check if user answer matches the expected sequence
+      // Allow for partial matches if the beginning matches perfectly
+      let isCorrect = false;
+      
+      if (userAnswer.length === correctAnswer.length) {
+        // Perfect length match
+        isCorrect = userAnswer.every((digit, i) => digit === correctAnswer[i]);
+      } else if (userAnswer.length > correctAnswer.length) {
+        // User said more digits - check if the first part matches
+        const userPrefix = userAnswer.slice(0, correctAnswer.length);
+        isCorrect = userPrefix.every((digit, i) => digit === correctAnswer[i]);
+        console.log("User said more digits, checking prefix:", userPrefix);
+      } else if (userAnswer.length > 0 && userAnswer.length < correctAnswer.length) {
+        // User said fewer digits - check if what they said matches the beginning
+        isCorrect = userAnswer.every((digit, i) => digit === correctAnswer[i]);
+        console.log("User said fewer digits, checking partial match");
+      }
+
+      console.log("Is correct:", isCorrect)
 
       if (isCorrect) {
         if (isPracticeMode) {
           speak("Great job! Now let's start the real test.", 0.9, 1.3)
+          // Move to next sequence after a delay
+          setTimeout(() => {
+            moveToNextSequence()
+          }, 2000)
         } else {
           speak(t("correct"), 0.9, 1.3)
-        }
-        if (mode === "forward") {
-          setForwardScore((prev) => prev + 1)
-        } else {
-          setReverseScore((prev) => prev + 1)
+          // Only increment score in real test mode
+          if (mode === "forward") {
+            setForwardScore((prev) => {
+              const newScore = prev + 1;
+              console.log("Incrementing forward score from", prev, "to", newScore)
+              return newScore
+            })
+          } else {
+            setReverseScore((prev) => {
+              const newScore = prev + 1;
+              console.log("Incrementing reverse score from", prev, "to", newScore)
+              return newScore
+            })
+          }
+          // Move to next sequence after a delay
+          setTimeout(() => {
+            moveToNextSequence()
+          }, 2000)
         }
       } else {
         if (isPracticeMode) {
           speak("Let's try that again. Listen carefully and repeat the numbers.", 0.9, 1.0)
+          // Continue in practice mode after a delay
+          setTimeout(() => {
+            moveToNextSequence()
+          }, 2000)
         } else {
           speak(t("letsTryNextOne"), 0.9, 1.0)
+          // Only increment errors in real test mode
+          let newErrorCount = 0;
           if (mode === "forward") {
-            setForwardErrors((prev) => prev + 1)
+            setForwardErrors((prev) => {
+              newErrorCount = prev + 1;
+              console.log("Incrementing forward errors from", prev, "to", newErrorCount)
+              return newErrorCount
+            })
           } else {
-            setReverseErrors((prev) => prev + 1)
+            setReverseErrors((prev) => {
+              newErrorCount = prev + 1;
+              console.log("Incrementing reverse errors from", prev, "to", newErrorCount)
+              return newErrorCount
+            })
           }
 
-          // Check if max errors reached (only for real test, not practice)
-          const currentErrors = mode === "forward" ? forwardErrors + 1 : reverseErrors + 1
-          if (currentErrors >= MAX_ERRORS) {
-            if (mode === "forward") {
-              setGameState("reverseInstructions")
-            } else {
-              const finalScore = Math.round((forwardScore + reverseScore) / 2)
-              if (onEntireTestComplete) {
-                onEntireTestComplete({
-                  final: finalScore,
-                  forward: forwardScore,
-                  reverse: reverseScore,
-                })
+          // Check if max errors reached and handle appropriately
+          setTimeout(() => {
+            console.log("Current errors:", newErrorCount, "Max errors:", MAX_ERRORS)
+            if (newErrorCount >= MAX_ERRORS) {
+              if (mode === "forward") {
+                console.log("Max errors reached in forward mode, moving to reverse")
+                setGameState("reverseInstructions")
+              } else {
+                console.log("Max errors reached in reverse mode, showing results")
+                setGameState("results")
               }
+            } else {
+              // Move to next sequence if we haven't hit max errors
+              moveToNextSequence()
             }
-          }
+          }, 2000)
         }
       }
-      setTimeout(() => {
-        moveToNextSequence()
-      }, 2000)
     },
     [
       parseTranscript,
       mode,
       currentSequence,
       isPracticeMode,
-      forwardErrors,
-      reverseErrors,
-      forwardScore,
-      reverseScore,
       moveToNextSequence,
-      onEntireTestComplete,
       speak,
       t,
     ],
@@ -469,6 +599,16 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
               onSkipTest={handleSkipTest}
               t={t}
             />
+            {/* Debug info - remove this in production */}
+            <div className="fixed top-20 left-4 bg-black/80 text-white p-2 rounded text-xs z-50">
+              <div>Forward Score: {forwardScore}</div>
+              <div>Reverse Score: {reverseScore}</div>
+              <div>Forward Errors: {forwardErrors}</div>
+              <div>Reverse Errors: {reverseErrors}</div>
+              <div>Mode: {mode}</div>
+              <div>Practice: {isPracticeMode ? 'Yes' : 'No'}</div>
+              <div>Seq Index: {sequenceIndex}</div>
+            </div>
             <div className="flex flex-col items-center justify-center min-h-screen relative px-2 sm:px-4 py-10 pt-20">
               <PresentingScreen displayedDigit={displayedDigit} digitIndex={digitIndex} t={t} />
             </div>
@@ -493,9 +633,66 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
               onSkipTest={handleSkipTest}
               t={t}
             />
+            {/* Debug info - remove this in production */}
+            <div className="fixed top-20 left-4 bg-black/80 text-white p-2 rounded text-xs z-50">
+              <div>Forward Score: {forwardScore}</div>
+              <div>Reverse Score: {reverseScore}</div>
+              <div>Forward Errors: {forwardErrors}</div>
+              <div>Reverse Errors: {reverseErrors}</div>
+              <div>Mode: {mode}</div>
+              <div>Practice: {isPracticeMode ? 'Yes' : 'No'}</div>
+              <div>Seq Index: {sequenceIndex}</div>
+              <div>Current Sequence: [{currentSequence.join(', ')}]</div>
+            </div>
             <div className="flex flex-col items-center justify-center min-h-screen relative px-2 sm:px-4 py-10 pt-20">
               <ListeningScreen mode={mode} onResponseComplete={handleResponseComplete} t={t} />
             </div>
+          </motion.div>
+        )
+
+      case "results":
+        return (
+          <motion.div
+            key="results"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="w-full h-full"
+          >
+            <FinalResultsScreen
+              score={{
+                forward: forwardScore,
+                reverse: reverseScore,
+                forwardTotal: forwardSequences.length,
+                reverseTotal: reverseSequences.length,
+              }}
+              onFinishTest={() => {
+                const finalScore = Math.round((forwardScore + reverseScore) / 2)
+                if (onEntireTestComplete) {
+                  onEntireTestComplete({
+                    final: finalScore,
+                    forward: forwardScore,
+                    reverse: reverseScore,
+                    forwardTotal: forwardSequences.length,
+                    reverseTotal: reverseSequences.length,
+                  })
+                }
+              }}
+              onViewRewards={() => {
+                // Can add reward viewing logic here if needed
+                const finalScore = Math.round((forwardScore + reverseScore) / 2)
+                if (onEntireTestComplete) {
+                  onEntireTestComplete({
+                    final: finalScore,
+                    forward: forwardScore,
+                    reverse: reverseScore,
+                    forwardTotal: forwardSequences.length,
+                    reverseTotal: reverseSequences.length,
+                  })
+                }
+              }}
+              t={t}
+            />
           </motion.div>
         )
 
