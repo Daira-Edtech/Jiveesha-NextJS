@@ -6,7 +6,7 @@ import LoadingSpinner from "./LoadingSpinner";
 
 export default function ResultsDisplay({ testResults, t, onRetakeTest }) {
   if (!testResults) {
-    return <LoadingSpinner text={t("loadingResults")} />;
+    return <LoadingSpinner text={t("loadingResultsText")} />;
   }
   const isArray = Array.isArray(testResults);
 
@@ -68,22 +68,22 @@ export default function ResultsDisplay({ testResults, t, onRetakeTest }) {
               <thead className="bg-blue-100">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
-                    Image
+                    {t("tableHeaderImage")}
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
-                    User Answer
+                    {t("tableHeaderUserAnswer")}
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
-                    Correct Answer
+                    {t("tableHeaderCorrectAnswer")}
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
-                    Score
+                    {t("tableHeaderScore")}
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
-                    Description
+                    {t("tableHeaderDescription")}
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
-                    Feedback
+                    {t("tableHeaderFeedback")}
                   </th>
                 </tr>
               </thead>{" "}
@@ -116,7 +116,7 @@ export default function ResultsDisplay({ testResults, t, onRetakeTest }) {
                           />
                         ) : (
                           <div className="w-16 h-16 bg-gray-200 rounded-md flex items-center justify-center text-xs">
-                            No Image
+                            {t("noImagePlaceholder")}
                           </div>
                         )}
                       </td>
@@ -155,7 +155,7 @@ export default function ResultsDisplay({ testResults, t, onRetakeTest }) {
                       colSpan="6"
                       className="px-4 py-8 text-center text-gray-500"
                     >
-                      No responses found
+                      {t("noResponsesFound")}
                     </td>
                   </tr>
                 )}
@@ -175,7 +175,7 @@ export default function ResultsDisplay({ testResults, t, onRetakeTest }) {
             <div className="flex flex-col md:flex-row justify-between items-center">
               {" "}
               <div className="mb-4 md:mb-0 text-center md:text-left">
-                <h2 className="text-xl font-bold text-blue-800">Final Score</h2>
+                <h2 className="text-xl font-bold text-blue-800">{t("finalScoreTitle")}</h2>
                 <p className="text-4xl font-extrabold text-blue-600">
                   {score ?? 0}/{totalPossibleScore}
                 </p>
@@ -188,7 +188,7 @@ export default function ResultsDisplay({ testResults, t, onRetakeTest }) {
                   onClick={onRetakeTest}
                   className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-4 py-2 md:px-6 md:py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
                 >
-                  Take New Test
+                  {t("buttonTakeNewTest")}
                 </motion.button>
               </div>
             </div>

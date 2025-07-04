@@ -49,7 +49,6 @@ const TopBar = ({ currentSequence, totalSequences, score, onShowInfo, onSkipTest
           >
             <div className="flex items-center gap-2">
               <span className="text-amber-300 font-bold text-lg">
-                {/* Show "Practice" or "Progress" based on mode */}
                 {currentSequence === 1 && totalSequences === 1 ? t("practice") : t("progress")}:
               </span>
               <div className="flex gap-1">
@@ -84,7 +83,7 @@ const TopBar = ({ currentSequence, totalSequences, score, onShowInfo, onSkipTest
 
             <div className="flex items-center gap-2">
               <span className="text-amber-300 font-bold text-lg">{t("mode")}:</span>
-              <span className="text-white font-bold capitalize">{mode}</span>
+              <span className="text-white font-bold capitalize">{t(mode)}</span>
             </div>
           </motion.div>
         )}

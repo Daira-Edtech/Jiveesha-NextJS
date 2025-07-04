@@ -209,7 +209,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
 
       if (isCorrect) {
         if (isPracticeMode) {
-          speak("Great job! Now let's start the real test.", 0.9, 1.3)
+          speak(t("practice_correct_message"), 0.9, 1.3)
         } else {
           speak(t("correct"), 0.9, 1.3)
         }
@@ -220,9 +220,9 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
         }
       } else {
         if (isPracticeMode) {
-          speak("Let's try that again. Listen carefully and repeat the numbers.", 0.9, 1.0)
+          speak(t("practice_incorrect_message"), 0.9, 1.0)
         } else {
-          speak(t("letsTryNextOne"), 0.9, 1.0)
+          speak(t("lets_try_next_one"), 0.9, 1.0)
           if (mode === "forward") {
             setForwardErrors((prev) => prev + 1)
           } else {
@@ -325,7 +325,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
               whileTap={{ scale: 0.95 }}
             >
               <FaArrowLeft className="text-amber-700" />
-              {t("backToMap") || "Back to Map"}
+              {t("back_to_map")}
             </motion.button>
 
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8">
@@ -362,7 +362,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
                 >
                   <Image
                     src={characterImage || "/placeholder.svg"}
-                    alt="Svarini, Guardian of Svara Gufa"
+                    alt={t("alt_svarini_guardian")}
                     width={384}
                     height={448}
                     className="h-64 sm:h-80 lg:h-96 xl:h-112 object-contain"
@@ -425,7 +425,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
                         </>
                       ) : (
                         <>
-                          <span className="drop-shadow-sm">{t("imReady")}</span>
+                          <span className="drop-shadow-sm">{t("im_ready")}</span>
                           <span className="text-xl">🎶</span>
                         </>
                       )}
@@ -500,7 +500,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
         )
 
       default:
-        return <div className="text-white p-10">Error: Unknown game state: {gameState}</div>
+        return <div className="text-white p-10">{t("error_unknown_game_state", {gameState})}</div>
     }
   }
 
