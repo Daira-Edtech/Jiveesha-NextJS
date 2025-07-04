@@ -86,16 +86,16 @@ const TestIntroPage = ({ testName, testNumber, totalTests, description, onStart,
   return (
     <div className="w-full h-full bg-white flex items-center justify-center">
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.6 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
         className="text-center max-w-4xl mx-auto p-8"
       >
         {/* Header Section */}
         <motion.div
-          initial={{ y: -30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1 }}
           className="mb-8"
         >
           <div className="flex items-center justify-center mb-6">
@@ -117,9 +117,9 @@ const TestIntroPage = ({ testName, testNumber, totalTests, description, onStart,
 
         {/* Action Buttons */}
         <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
           className="space-y-4 mb-8"
         >
           <motion.button
@@ -143,9 +143,9 @@ const TestIntroPage = ({ testName, testNumber, totalTests, description, onStart,
 
         {/* Progress Section */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
           className="bg-gray-50 rounded-xl p-6 max-w-md mx-auto"
         >
           <div className="flex justify-between items-center mb-3">
@@ -157,7 +157,7 @@ const TestIntroPage = ({ testName, testNumber, totalTests, description, onStart,
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: `${(testNumber / totalTests) * 100}%` }}
-              transition={{ delay: 0.8, duration: 0.8 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
               className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full"
             />
           </div>
@@ -182,16 +182,16 @@ const TestCompletionPage = () => {
   return (
     <div className="w-full h-full bg-white flex items-center justify-center" style={{ marginTop: '80px', height: 'calc(100vh - 80px)' }}>
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
         className="text-center max-w-4xl mx-auto p-8"
       >
         {/* Success Icon */}
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1 }}
           className="mb-8"
         >
           <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -203,9 +203,9 @@ const TestCompletionPage = () => {
 
         {/* Completion Message */}
         <motion.div
-          initial={{ y: -30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
           className="mb-8"
         >
           <h1 className="text-5xl font-bold text-gray-800 mb-4">
@@ -221,9 +221,9 @@ const TestCompletionPage = () => {
 
         {/* Action Button */}
         <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
           className="mb-8"
         >
           <motion.button
@@ -241,9 +241,9 @@ const TestCompletionPage = () => {
 
         {/* Completion Stats */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.8 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
           className="bg-gray-50 rounded-xl p-6 max-w-md mx-auto"
         >
           <div className="flex justify-between items-center mb-3">
@@ -255,7 +255,7 @@ const TestCompletionPage = () => {
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: '100%' }}
-              transition={{ delay: 1, duration: 1.5 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
               className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full"
             />
           </div>
@@ -380,8 +380,9 @@ export default function Dummy() {
       <div className="fixed inset-0 bg-white">
         {/* Fixed Header - Professional Style */}
         <motion.div
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="fixed top-0 left-0 right-0 z-[9999] bg-white border-b border-gray-200 shadow-sm"
         >
           <div className="max-w-7xl mx-auto px-6 py-4">
@@ -415,8 +416,9 @@ export default function Dummy() {
     <div className="fixed inset-0 bg-white">
       {/* Fixed Header - Professional Style */}
       <motion.div
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
         className="fixed top-0 left-0 right-0 z-[9999] bg-white border-b border-gray-200 shadow-sm"
       >
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -460,9 +462,9 @@ export default function Dummy() {
       {/* Skip Test Button - Professional Style */}
       {showTest && (
         <motion.button
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleSkipTest}
@@ -474,40 +476,22 @@ export default function Dummy() {
 
       {/* Main Content */}
       <div className="w-full" style={{ marginTop: '80px', height: 'calc(100vh - 80px)' }}>
-        <AnimatePresence mode="wait">
-          {showIntro && (
-            <motion.div
-              key="intro"
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
-              className="w-full h-full"
-            >
-              <TestIntroPage
-                testName={currentTest.name}
-                testNumber={currentTestIndex + 1}
-                totalTests={totalTests}
-                description={currentTest.description}
-                onStart={handleStartTest}
-                onSkip={handleSkipTest}
-              />
-            </motion.div>
-          )}
+        {showIntro && (
+          <TestIntroPage
+            testName={currentTest.name}
+            testNumber={currentTestIndex + 1}
+            totalTests={totalTests}
+            description={currentTest.description}
+            onStart={handleStartTest}
+            onSkip={handleSkipTest}
+          />
+        )}
 
-          {showTest && CurrentTestComponent && (
-            <motion.div
-              key="test"
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
-              className="w-full h-full relative"
-            >
-              <CurrentTestComponent onTestComplete={handleTestComplete} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {showTest && CurrentTestComponent && (
+          <div className="w-full h-full">
+            <CurrentTestComponent onTestComplete={handleTestComplete} />
+          </div>
+        )}
       </div>
     </div>
   );
