@@ -188,4 +188,64 @@ async function postHandler(req, context, { userId, user }) {
   }
 }
 
+async function getHandler(req, context, { userId, user }) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const childId = searchParams.get("childId");
+
+    if (!childId) {
+      return NextResponse.json(
+        { message: "childId is required" },
+        { status: 400 }
+      );
+    }
+
+    // Verify the child belongs to the authenticated user
+    const child = await prisma.children.findFirst({
+      where: {
+        id: childId,
+        teacherId: userId,
+      },
+    });
+
+    if (!child) {
+      return NextResponse.json(
+        { message: "Child not found or unauthorized" },
+        { status: 404 }
+      );
+    }
+
+    // Fetch form responses and analysis for the child
+    const formData = await prisma.childFormResponse.findMany({
+      where: {
+        childId: childId,
+      },
+      include: {
+        analysis: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "Form data retrieved successfully",
+        data: {
+          childDetails: child,
+          formData: formData,
+        },
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error fetching form data:", error);
+    return NextResponse.json(
+      { message: "Error fetching form data", error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export const GET = withAuth(getHandler);
 export const POST = withAuth(postHandler);

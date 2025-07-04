@@ -12,6 +12,7 @@ const defaultTranslations = {
     takeIndividualTest: "Take Individual Test",
     close: "Close",
     performance: "Performance",
+    viewFormAnalysis: "View Form Analysis",
   },
   ta: {
     rollNo: "ரோல் எண்",
@@ -20,6 +21,7 @@ const defaultTranslations = {
     takeIndividualTest: "தனிப்பட்ட தேர்வு எடுக்கவும்",
     close: "மூடு",
     performance: "செயல்திறன்",
+    viewFormAnalysis: "படிவ பகுப்பாய்வு பார்க்கவும்",
   },
 };
 
@@ -109,7 +111,7 @@ const StudentCard = ({
           </div>
           {(pathname.includes("/analytics") ||
             pathname.includes("/selectstudent")) && (
-            <div className="mt-auto">
+            <div className="mt-auto space-y-2">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -119,6 +121,19 @@ const StudentCard = ({
                 aria-label={`View test report for ${student.name || "student"}`}
               >
                 {buttonLabel}
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  localStorage.setItem("childId", student.id);
+                  router.push("/formanalysis");
+                }}
+                className="w-full py-2 px-4 bg-blue-100 hover:bg-blue-600 text-blue-700 hover:text-white rounded-md border border-blue-300 hover:border-transparent transition-all duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                aria-label={`View form analysis for ${
+                  student.name || "student"
+                }`}
+              >
+                {t("viewFormAnalysis")}
               </button>
             </div>
           )}

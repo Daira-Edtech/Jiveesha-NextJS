@@ -75,7 +75,10 @@ const TopBar = ({ currentSequence, totalSequences, score, onShowInfo, onSkipTest
             <motion.div whileHover={{ scale: 1.1 }} className="flex items-center gap-2 text-amber-300">
               <span className="text-3xl">🏆</span>
               <span className="font-bold text-xl">
-                {score}/{totalSequences}
+                {currentSequence === 1 && totalSequences === 1 ? 
+                  t("practice") : 
+                  `${score}/${totalSequences}`
+                }
               </span>
             </motion.div>
 
