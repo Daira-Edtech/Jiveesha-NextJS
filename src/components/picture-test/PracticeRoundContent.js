@@ -45,6 +45,8 @@ export default function PracticeRound({
         ? imageItem.correctAnswerTamil || imageItem.correctAnswer
         : language === "hi"
         ? imageItem.correctAnswerHindi || imageItem.correctAnswer
+        : language === "kn"
+        ? imageItem.correctAnswerKannada || imageItem.correctAnswer
         : imageItem.correctAnswer;
     },
     [language]

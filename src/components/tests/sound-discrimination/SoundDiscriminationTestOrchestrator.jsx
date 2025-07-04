@@ -60,7 +60,8 @@ const SoundDiscriminationTestOrchestrator = ({
   const { t, language } = useLanguage();
   const router = useRouter();
 
-  const wordPairs = useMemo(
+  // Language-specific word pairs
+  const wordPairsEn = useMemo(
     () => [
       ["dog", "hog"],
       ["gate", "cake"],
@@ -85,6 +86,70 @@ const SoundDiscriminationTestOrchestrator = ({
     ],
     []
   );
+
+  const wordPairsHi = useMemo(
+    () => [
+      ["घर", "दर"], // ghar - dar
+      ["कला", "किला"], // kala - kila
+      ["बस", "बस"], // identical
+      ["राम", "नाम"], // ram - naam
+      ["खेल", "खेल"], // identical
+      ["मन", "वन"], // man - van
+      ["बत", "पत"], // bat - pat
+      ["सपना", "अपना"], // sapna - apna
+      ["चल", "कल"], // chal - kal
+      ["बड़ी", "गड़ी"], // badi - gadi
+      ["ना", "ता"], // naa - taa
+      ["राज", "साज"], // raaj - saaj
+      ["घर", "घर"], // identical
+      ["तल", "दल"], // tal - dal
+      ["नाम", "काम"], // naam - kaam
+      ["नील", "खील"], // neel - kheel
+      ["सही", "सही"], // identical
+      ["दिन", "पिन"], // din - pin
+      ["धूप", "रूप"], // dhoop - roop
+      ["लाल", "हाल"], // laal - haal
+    ],
+    []
+  );
+
+  const wordPairsKn = useMemo(
+    () => [
+      ["ಮನೆ", "ಹನೆ"], // mane - hane
+      ["ಕಥೆ", "ಪಥೆ"], // kathe - pathe
+      ["ಬಸ್", "ಬಸ್"], // identical
+      ["ರಾಮ", "ಶಾಮ"], // rama - shama
+      ["ಆಟ", "ಆಟ"], // identical
+      ["ಮನ", "ವನ"], // mana - vana
+      ["ಬಿಲ್", "ಹಿಲ್"], // bill - hill
+      ["ನೀರು", "ತೀರ"], // neeru - teeru
+      ["ಚೆಲ್ಲ", "ಮೆಲ್ಲ"], // chella - mella
+      ["ಬೆಳ್ಳಿ", "ಕೆಳ್ಳಿ"], // belli - kelli
+      ["ಹೆಸರು", "ಹುಸಿರು"], // hesaru - husiru
+      ["ಪಾಠ", "ಮಠ"], // paatha - matha
+      ["ಮಗು", "ಮಗು"], // identical
+      ["ಬಾನು", "ಜಾನು"], // baanu - jaanu
+      ["ಅನಿಲ", "ಅನುಲ"], // anila - anula
+      ["ಮೂಲ", "ಧೂಳ"], // moola - dhoola
+      ["ರವಿ", "ರವೀ"], // ravi - ravee
+      ["ದಿನ", "ಪಿನ್"], // dina - pin
+      ["ತಾಯಿ", "ನಾಯಿ"], // thaayi - naayi
+      ["ಹೃದಯ", "ವಿದ್ಯ"], // hrudaya - vidya
+    ],
+    []
+  );
+
+  // Select word pairs based on language
+  const wordPairs = useMemo(() => {
+    switch (language) {
+      case "hi":
+        return wordPairsHi;
+      case "kn":
+        return wordPairsKn;
+      default:
+        return wordPairsEn;
+    }
+  }, [language, wordPairsEn, wordPairsHi, wordPairsKn]);
   const demoPair = useMemo(() => wordPairs[0], [wordPairs]);
 
   // --- State Management ---
@@ -171,51 +236,74 @@ const SoundDiscriminationTestOrchestrator = ({
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-    const token = localStorage.getItem("access_token");
-    const childId = localStorage.getItem("childId");
+  setIsSubmitting(true);
+  const token = localStorage.getItem("access_token");
+  const childId = localStorage.getItem("childId");
 
-    if (!childId) {
-      toast.error(t("selectStudentFirst"));
-      setIsSubmitting(false);
-      return;
-    }
+  if (!childId) {
+    toast.error(t("selectStudentFirst"));
+    setIsSubmitting(false);
+    return;
+  }
 
-    try {
-      const response = await axios.post(
-        `/api/sound-test/submitResult`,
-        {
-          childId: childId,
+  try {
+    const currentRoute = pathname; // assume from `usePathname()`
+
+    // Set endpoint and payload conditionally
+    const isDummyRoute = currentRoute === "/dummy";
+
+    const apiUrl = isDummyRoute
+      ? "/api/continuous-test"
+      : "/api/sound-test/submitResult";
+
+    const payload = isDummyRoute
+      ? {
+          childId,
+          score,
+          testResults: JSON.stringify({ test: "SoundTest", score }), // optional structure
+          analysis: "", // optionally pass analysis string
+        }
+      : {
+          childId,
           test_name: t("soundTestApiName"),
-          score: score,
-        },
-        {
-          headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-            "Content-Type": "application/json",
-          },
-        }
-      );
+          score,
+        };
 
-      if (response.status === 201) {
-        if (suppressResultPage && typeof onComplete === "function") {
-          onComplete(score);
-        } else {
-          toast.success(t("testSubmittedSuccessfully"), {
-            position: "top-center",
-            onClose: () => router.push("/"),
-          });
-        }
+    const response = await axios.post(apiUrl, payload, {
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 201) {
+      if (suppressResultPage && typeof onComplete === "function") {
+        onComplete(score);
       } else {
-        toast.error(t("failedToSubmitTestPleaseTryAgain"));
+        toast.success(t("testSubmittedSuccessfully"), {
+          position: "top-center",
+          onClose: () => {
+            if (!isDummyRoute) {
+              router.push("/");
+            }
+          },
+        });
       }
-    } catch (error) {
-      console.error("Error submitting test:", error);
-      toast.error(t("errorOccurredGeneric"));
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      toast.error(t("failedToSubmitTestPleaseTryAgain"));
     }
-  };
+  } catch (error) {
+    console.error("Error submitting test:", error);
+    toast.error(t("errorOccurredGeneric"));
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+  // Reset selectedOptions when wordPairs change (due to language change)
+  useEffect(() => {
+    setSelectedOptions(Array(wordPairs.length).fill(null));
+  }, [wordPairs.length]);
 
   useEffect(() => {}, [suppressResultPage, onComplete]);
 
@@ -363,6 +451,7 @@ const SoundDiscriminationTestOrchestrator = ({
     const currentPairForMainTest = wordPairs[currentQuestionIndex];
     return (
       <TestScreenWrapper>
+        
         {currentPairForMainTest && (
           <AnimatePresence mode="wait">
             <motion.div

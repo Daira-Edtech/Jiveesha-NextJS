@@ -8,18 +8,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { translations } from "@/translations";
 import bg from "../../public/map.png";
 
-const MapLayout = ({ tests, onTestSelect, onQuit }) => {
-  const router = useRouter();
-  const { t, setLanguage, language } = useLanguage();
-  const [showInfoDialog, setShowInfoDialog] = useState(false);
-  const [showLanguageDialog, setShowLanguageDialog] = useState(false);
-  const [showReportDialog, setShowReportDialog] = useState(false);
-  const [hoveredIsland, setHoveredIsland] = useState(null);
-  const [confirmDialog, setConfirmDialog] = useState({
-    show: false,
-    type: null,
-  }); // Island names for each island
-  const islandNames = [
+// Translations for island names
+const islandNameTranslations = {
+  en: [
     "Goonj Tapu",
     "Varnika Van",
     "Yantra Kanan",
@@ -30,14 +21,123 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
     "Shabd Sagar",
     "Shabd Mandir",
     "Kaal Dhara",
-  ];
+  ],
+  hi: [
+    "गूंज टापू",
+    "वर्णिका वन",
+    "यंत्र कानन",
+    "स्वर गुफ़ा",
+    "अक्षर पर्वत",
+    "चित्र सरोवर",
+    "रूण पत्थर",
+    "शब्द सागर",
+    "शब्द मंदिर",
+    "काल धारा",
+  ],
+  ta: [
+    "எதிரொலி தீவு",
+    "வர்ணிகா வனம்",
+    "யந்திர கானம்",
+    "ஸ்வர குகை",
+    "அக்ஷர పర్వతం",
+    "சித்திர சரோவரம்",
+    "ரூன் கல்",
+    "ஷப்த சாகரம்",
+    "ஷப்த மந்திர்",
+    "கால தாரை",
+  ],
+  kn: [
+    "ಪ್ರತಿಧ್ವನಿ ದ್ವೀಪ",
+    "ವರ್ಣಿಕಾ ವನ",
+    "ಯಂತ್ರ ಕಾನನ",
+    "ಸ್ವರ ಗುಹೆ",
+    "ಅಕ್ಷರ ಪರ್ವತ",
+    "ಚಿತ್ರ ಸರೋವರ",
+    "ರೂನ್ ಕಲ್ಲು",
+    "ಶಬ್ದ ಸಾಗರ",
+    "ಶಬ್ದ ಮಂದಿರ",
+    "ಕಾಲ ಧಾರಾ",
+  ],
+};
 
-  // Get translated island name based on current language
-  const getTranslatedIslandName = (englishName) => {
-    // Access the nested translation directly from the translations object
-    const currentTranslations = translations[language] || translations.en;
-    return currentTranslations.islandNames?.[englishName] || englishName;
+const testNameTranslations = {
+  en: [
+    "Auditory Discrimination",
+    "Sound Blending",
+    "Grapheme-Phoneme Correspondence",
+    "Symbol-Sequence",
+    "Picture Recognition",
+    "Sequence Arrangement",
+    "Auditory Sequential Memory",
+    "Vocabulary Scale",
+    "Articulation Test",
+  ],
+  hi: [
+    "श्रवण भेदभाव",
+    "ध्वनि मिश्रण",
+    "ग्राफ़ीम-फ़ोनीम कॉरेस्पोंडेंस",
+    "प्रतीक-अनुक्रम",
+    "चित्र पहचान",
+    "अनुक्रम व्यवस्था",
+    "श्रवण अनुक्रमिक स्मृति",
+    "शब्दावली पैमाना",
+    "अभिव्यक्ति परीक्षण",
+  ],
+  ta: [
+    "செவிவழி பாகுபாடு",
+    "ஒலி கலவை",
+    "எழுத்து-ஒலி தொடர்பு",
+    "சின்ன-வரிசை",
+    "படத்தை அடையாளம் காணுதல்",
+    "வரிசை அமைப்பு",
+    "செவிவழி தொடர் স্মৃতি",
+    "சொற்களஞ்சிய அளவு",
+    "உச்சரிப்பு சோதனை",
+  ],
+  kn: [
+    "ಶ್ರವಣ ತಾರತಮ್ಯ",
+    "ಧ್ವನಿ ಮಿಶ್ರಣ",
+    "ಗ್ರಾಫೀಮ್-ಫೋನೀಮ್ ಕರೆಸ್ಪಾಂಡೆನ್ಸ್",
+    "ಚಿಹ್ನೆ- ಅನುಕ್ರಮ",
+    "ಚಿತ್ರ ಗುರುತಿಸುವಿಕೆ",
+    "ಅನುಕ್ರಮ ವ್ಯವಸ್ಥೆ",
+    "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣೆ",
+    "ಶಬ್ದಕೋಶ ಮಾಪಕ",
+    "ಉಚ್ಚಾರಣಾ ಪರೀಕ್ಷೆ",
+  ],
+};
+
+const MapLayout = ({ tests, onTestSelect, onQuit }) => {
+  const router = useRouter();
+  const { t, setLanguage, language } = useLanguage();
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [showLanguageDialog, setShowLanguageDialog] = useState(false);
+  const [showReportDialog, setShowReportDialog] = useState(false);
+  const [hoveredIsland, setHoveredIsland] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState({
+    show: false,
+    type: null,
+  });
+
+  const islandNames = islandNameTranslations[language] || islandNameTranslations.en;
+
+  // Filter out specific islands based on language
+  const getFilteredTests = () => {
+    const hiddenIslands = ["Akshara Parvat", "Shabd Mandir"]; // English names for logic
+    const englishIslandNames = islandNameTranslations.en;
+    const isNonEnglish =
+      language === "hi" || language === "ta" || language === "kn";
+
+    if (isNonEnglish) {
+      return tests.filter(
+        (test, index) => !hiddenIslands.includes(englishIslandNames[index])
+      );
+    }
+
+    return tests;
   };
+
+  const filteredTests = getFilteredTests();
 
   // Get language display text
   const getLanguageDisplay = () => {
@@ -48,6 +148,8 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
         return "தமி";
       case "hi":
         return "हि";
+      case "kn":
+        return "ಕನ್ನಡ";
       default:
         return "EN";
     }
@@ -254,20 +356,37 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
             preserveAspectRatio="none"
           >
             {/* Connect islands in sequential order: 1→2→3→4→5→6→7→8→9→10 */}
-            {tests.slice(0, 9).map((_, index) => {
+            {filteredTests.slice(0, 9).map((test, index) => {
               // Define island positions for lines - shifted down and right
-              const islandPositions = [
-                { x: 18, y: 33 }, // Island 1 - Top left
-                { x: 38, y: 28 }, // Island 2 - Top center-left
-                { x: 58, y: 38 }, // Island 3 - Top center
-                { x: 78, y: 33 }, // Island 4 - Top right
-                { x: 88, y: 53 }, // Island 5 - Right side
-                { x: 73, y: 73 }, // Island 6 - Bottom right
-                { x: 48, y: 83 }, // Island 7 - Bottom center
-                { x: 28, y: 78 }, // Island 8 - Bottom left
-                { x: 13, y: 58 }, // Island 9 - Left side
-                { x: 53, y: 58 }, // Island 10 - Center (final boss)
-              ];
+              const isNonEnglish =
+                language === "hi" || language === "ta" || language === "kn";
+
+              // Adjusted positions when hiding certain islands
+              const islandPositions = isNonEnglish
+                ? [
+                    { x: 18, y: 33 }, // Island 1 - Top left
+                    { x: 38, y: 28 }, // Island 2 - Top center-left
+                    { x: 58, y: 38 }, // Island 3 - Top center
+                    { x: 78, y: 33 }, // Island 4 - Top right
+                    // Skip Akshara Parvat (index 4)
+                    { x: 73, y: 73 }, // Island 6 - Bottom right (was index 5)
+                    { x: 48, y: 83 }, // Island 7 - Bottom center
+                    { x: 28, y: 78 }, // Island 8 - Bottom left
+                    // Skip Shabd Mandir (index 8)
+                    { x: 53, y: 58 }, // Island 10 - Center (final boss)
+                  ]
+                : [
+                    { x: 18, y: 33 }, // Island 1 - Top left
+                    { x: 38, y: 28 }, // Island 2 - Top center-left
+                    { x: 58, y: 38 }, // Island 3 - Top center
+                    { x: 78, y: 33 }, // Island 4 - Top right
+                    { x: 88, y: 53 }, // Island 5 - Right side
+                    { x: 73, y: 73 }, // Island 6 - Bottom right
+                    { x: 48, y: 83 }, // Island 7 - Bottom center
+                    { x: 28, y: 78 }, // Island 8 - Bottom left
+                    { x: 13, y: 58 }, // Island 9 - Left side
+                    { x: 53, y: 58 }, // Island 10 - Center (final boss)
+                  ];
 
               const start = islandPositions[index];
               const end = islandPositions[index + 1];
@@ -370,20 +489,40 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
           </svg>
 
           {/* Islands positioned across the map */}
-          {tests.slice(0, 10).map((test, index) => {
+          {filteredTests.map((test, index) => {
+            const isNonEnglish =
+              language === "hi" || language === "ta" || language === "kn";
+
+            // Get the original island index for proper naming and image mapping
+            const originalIndex = tests.findIndex((t) => t.id === test.id);
+
             // Define strategic positions for each island (moved down a bit)
-            const islandPositions = [
-              { x: 12, y: 24 }, // Island 1 - Top left
-              { x: 32, y: 20 }, // Island 2 - Top center-left
-              { x: 50, y: 30 }, // Island 3 - Top center
-              { x: 70, y: 23 }, // Island 4 - Top right
-              { x: 80, y: 45 }, // Island 5 - Right side
-              { x: 65, y: 65 }, // Island 6 - Bottom right
-              { x: 40, y: 75 }, // Island 7 - Bottom center
-              { x: 20, y: 65 }, // Island 8 - Bottom left
-              { x: 5, y: 50 }, // Island 9 - Left side
-              { x: 45, y: 50 }, // Island 10 - Center (final boss)
-            ];
+            // When hiding islands, adjust positions to maintain good layout
+            const islandPositions = isNonEnglish
+              ? [
+                  { x: 12, y: 24 }, // Island 1 - Top left
+                  { x: 32, y: 20 }, // Island 2 - Top center-left
+                  { x: 50, y: 30 }, // Island 3 - Top center
+                  { x: 70, y: 23 }, // Island 4 - Top right
+                  // Skip Akshara Parvat (original index 4)
+                  { x: 65, y: 65 }, // Island 6 - Bottom right (original index 5)
+                  { x: 40, y: 75 }, // Island 7 - Bottom center (original index 6)
+                  { x: 20, y: 65 }, // Island 8 - Bottom left (original index 7)
+                  // Skip Shabd Mandir (original index 8)
+                  { x: 45, y: 50 }, // Island 10 - Center (original index 9)
+                ]
+              : [
+                  { x: 12, y: 24 }, // Island 1 - Top left
+                  { x: 32, y: 20 }, // Island 2 - Top center-left
+                  { x: 50, y: 30 }, // Island 3 - Top center
+                  { x: 70, y: 23 }, // Island 4 - Top right
+                  { x: 80, y: 45 }, // Island 5 - Right side
+                  { x: 65, y: 65 }, // Island 6 - Bottom right
+                  { x: 40, y: 75 }, // Island 7 - Bottom center
+                  { x: 20, y: 65 }, // Island 8 - Bottom left
+                  { x: 5, y: 50 }, // Island 9 - Left side
+                  { x: 45, y: 50 }, // Island 10 - Center (final boss)
+                ];
 
             const position = islandPositions[index];
 
@@ -391,13 +530,14 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
               <IslandItem
                 key={test.id}
                 test={test}
-                index={index}
+                index={originalIndex} // Use original index for proper image and styling
                 position={position}
-                islandName={getTranslatedIslandName(islandNames[index])}
-                isHovered={hoveredIsland === index}
-                onHoverStart={() => setHoveredIsland(index)}
+                islandName={islandNames[originalIndex]} // Pass translated island name
+                isHovered={hoveredIsland === originalIndex}
+                onHoverStart={() => setHoveredIsland(originalIndex)}
                 onHoverEnd={() => setHoveredIsland(null)}
                 onClick={() => onTestSelect(test.id)}
+                displayIndex={index + 1} // New prop for display numbering
               />
             );
           })}
@@ -490,14 +630,21 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
               <div className="space-y-4">
                 <p className="text-gray-600">{t("gameInfoDescription")}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {tests.map((test, index) => (
-                    <div key={test.id} className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="font-semibold">
-                        Level {index + 1}: {test.testName}
-                      </h4>
-                      <p className="text-sm text-gray-600 mt-1">{test.About}</p>
-                    </div>
-                  ))}
+                  {filteredTests.map((test, index) => {
+                    const originalIndex = tests.findIndex(
+                      (t) => t.id === test.id
+                    );
+                    return (
+                      <div key={test.id} className="p-4 bg-gray-50 rounded-lg">
+                        <h4 className="font-semibold">
+                          Level {index + 1}: {test.testName}
+                        </h4>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {test.About}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
@@ -540,7 +687,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                 </button>
               </div>
               <div className="space-y-2">
-                {["en", "ta", "hi"].map((lang) => (
+                {["en", "ta", "hi", "kn"].map((lang) => (
                   <button
                     key={lang}
                     onClick={() => {
@@ -553,7 +700,11 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                       ? "English"
                       : lang === "ta"
                       ? "தமிழ்"
-                      : "हिंदी"}
+                      : lang === "hi"
+                      ? "हिंदी"
+                      : lang === "kn"
+                      ? "ಕನ್ನಡ"
+                      : "Unknown Language"}
                   </button>
                 ))}
               </div>
@@ -622,18 +773,23 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
   );
 };
 
-// Island Item Component - UNIFIED ANIMATION FOR ISLAND AND NAME BOARD
+// Island Item Component - NOW HANDLES TRANSLATION INTERNALLY
 const IslandItem = ({
   test,
   index,
   position,
-  islandName,
+  islandName, // Use translated island name
   isHovered,
   onHoverStart,
   onHoverEnd,
   onClick,
+  displayIndex, // New prop for display numbering
 }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage(); // Add useLanguage hook here
+
+  const islandImage =
+    test && test.islandImage ? test.islandImage : "/images/islands/default.png";
+
   return (
     <motion.div
       className="absolute cursor-pointer"
@@ -666,30 +822,30 @@ const IslandItem = ({
       }}
       transition={{
         opacity: {
-          delay: index * 0.15,
+          delay: (displayIndex || index) * 0.15,
           duration: 0.6,
           type: "spring",
           stiffness: 300,
           damping: 20,
         },
         scale: {
-          delay: index * 0.15,
+          delay: (displayIndex || index) * 0.15,
           duration: 0.6,
           type: "spring",
           stiffness: 300,
           damping: 20,
         },
         y: {
-          duration: 3 + index * 0.2,
+          duration: 3 + (displayIndex || index) * 0.2,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: index * 0.15,
+          delay: (displayIndex || index) * 0.15,
         },
         rotate: {
-          duration: 4 + index * 0.3,
+          duration: 4 + (displayIndex || index) * 0.3,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: index * 0.15,
+          delay: (displayIndex || index) * 0.15,
         },
       }}
     >
@@ -729,7 +885,7 @@ const IslandItem = ({
           }}
         >
           <span className="text-white font-bold text-sm md:text-base lg:text-lg">
-            {index + 1}
+            {displayIndex || index + 1}
           </span>
         </motion.div>
 
@@ -767,7 +923,7 @@ const IslandItem = ({
                 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
               >
-                {isHovered ? test.testName : islandName}
+                {islandName}
               </motion.p>
 
               {/* Decorative brass corners - smaller */}
@@ -821,11 +977,12 @@ IslandItem.propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }).isRequired,
-  islandName: PropTypes.string.isRequired,
+  islandName: PropTypes.string.isRequired, // Changed prop name
   isHovered: PropTypes.bool.isRequired,
   onHoverStart: PropTypes.func.isRequired,
   onHoverEnd: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  displayIndex: PropTypes.number, // New optional prop
 };
 
 MapLayout.propTypes = {

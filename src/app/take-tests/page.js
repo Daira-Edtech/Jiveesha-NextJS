@@ -7,15 +7,19 @@ import MapLayout from "@/components/MapLayout";
 import testsData from "@/Data/tests.json";
 import "@/styles/fullscreen.css";
 
+
 const TakeTestsContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useLanguage();
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showFullScreenDialog, setShowFullScreenDialog] = useState(true);
-  const [showStartScreen, setShowStartScreen] = useState(true);
+  const [showTestModeSelection, setShowTestModeSelection] = useState(true);
+  const [showStartScreen, setShowStartScreen] = useState(false);
   const [hasDeclinedFullScreen, setHasDeclinedFullScreen] = useState(false);
   const [startScreenExiting, setStartScreenExiting] = useState(false);
+  const [testModeExiting, setTestModeExiting] = useState(false);
+
 
   // Transform testsData from tests.json
   const tests = testsData.map((item) => ({
@@ -25,21 +29,25 @@ const TakeTestsContent = () => {
     About: item.About
   }));
 
+
   useEffect(() => {
-    // Check if user is coming from a test (skip start screen)
+    // Check if user is coming from a test (skip all screens)
     const skipStart = searchParams.get('skipStart');
     if (skipStart === 'true') {
+      setShowTestModeSelection(false);
       setShowStartScreen(false);
       setShowFullScreenDialog(false);
-      setIsFullScreen(true); // Skip fullscreen prompt when coming from tests
+      setIsFullScreen(true);
     }
   }, [searchParams]);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
     }, 100);
     return () => clearTimeout(timer);
   }, []);
+
 
   const enterFullScreen = async () => {
     try {
@@ -55,11 +63,25 @@ const TakeTestsContent = () => {
       setShowFullScreenDialog(false);
     } catch (err) {
       console.error('Error attempting to enter fullscreen:', err);
-      // If fullscreen fails, still proceed to the game
       setIsFullScreen(true);
       setShowFullScreenDialog(false);
     }
   };
+
+
+  const handleTestModeSelection = (mode) => {
+    if (mode === 'continuous') {
+      router.push('/dummy');
+    } else {
+      setTestModeExiting(true);
+      setTimeout(() => {
+        setShowTestModeSelection(false);
+        setShowStartScreen(true);
+        setTestModeExiting(false);
+      }, 1000);
+    }
+  };
+
 
   const handleStartGame = () => {
     setStartScreenExiting(true);
@@ -69,10 +91,12 @@ const TakeTestsContent = () => {
     }, 1000);
   };
 
+
   const handleTestClick = (testId) => {
     localStorage.setItem("selectedTestId", testId);
     router.push("/select-student");
   };
+
 
   const handleQuit = async () => {
     try {
@@ -87,6 +111,7 @@ const TakeTestsContent = () => {
       console.error('Error exiting fullscreen:', err);
     }
   };
+
 
   // Initial clean white screen with fullscreen option
   if (!isFullScreen) {
@@ -174,15 +199,142 @@ const TakeTestsContent = () => {
     );
   }
 
+
   // After entering fullscreen, show the game interface
   return (
     <div className="fullscreen-override">
       <div className="fullscreen-content">
         <AnimatePresence mode="wait">
+          {showTestModeSelection && (
+            <motion.div
+              key="test-mode-selection"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ 
+                opacity: 0,
+                transition: { duration: 1 }
+              }}
+              className="absolute inset-0 bg-white bg-opacity-95 backdrop-blur-sm flex items-center justify-center"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                className="text-center max-w-4xl mx-auto px-4"
+              >
+                {/* Logo and Company Name */}
+                <motion.div
+                  className="flex items-center justify-center gap-4 mb-8"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <motion.img
+                    src="/daira-logo1.png"
+                    alt="Daira Logo"
+                    className="w-10 h-10"
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  />
+                  <motion.h2
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-2xl font-semibold text-gray-700"
+                  >
+                    Daira Edtech
+                  </motion.h2>
+                </motion.div>
+             
+                <motion.h1
+                  initial={{ y: -30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-4xl font-bold text-gray-800 mb-4"
+                >
+                  Assessment Configuration
+                </motion.h1>
+                
+                <motion.p
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-gray-600 text-lg mb-12 max-w-2xl mx-auto"
+                >
+                  Please select your preferred assessment mode to proceed with the evaluation process.
+                </motion.p>
+                
+                <motion.div
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  className="flex flex-col lg:flex-row gap-6 justify-center items-center"
+                >
+                  {/* Individual Tests Button */}
+                  <motion.button
+                    whileHover={{ 
+                      scale: 1.02,
+                      boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+                      y: -2
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleTestModeSelection('individual')}
+                    className="group relative px-8 py-6 bg-white hover:bg-gray-50 text-gray-800 border-2 border-gray-200 hover:border-gray-300 rounded-xl shadow-lg transition-all duration-300 min-w-[280px]"
+                    disabled={testModeExiting}
+                  >
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-center mb-4">
+                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                          <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-semibold mb-2 text-gray-800">Individual Assessment</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        Take assessments individually with personalized pacing and detailed feedback for each test.
+                      </p>
+                    </div>
+                  </motion.button>
+
+
+                  {/* Continuous Tests Button */}
+                  <motion.button
+                    whileHover={{ 
+                      scale: 1.02,
+                      boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+                      y: -2
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleTestModeSelection('continuous')}
+                    className="group relative px-8 py-6 bg-white hover:bg-gray-50 text-gray-800 border-2 border-gray-200 hover:border-gray-300 rounded-xl shadow-lg transition-all duration-300 min-w-[280px]"
+                    disabled={testModeExiting}
+                  >
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-center mb-4">
+                        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                          <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-semibold mb-2 text-gray-800">Continuous Assessment</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        Complete multiple assessments in sequence with streamlined workflow and comprehensive reporting.
+                      </p>
+                    </div>
+                  </motion.button>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          )}
+
+
           {showStartScreen && (
             <motion.div
               key="start-screen"
-              initial={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ 
                 opacity: 0,
@@ -224,7 +376,9 @@ const TakeTestsContent = () => {
               </motion.div>
             </motion.div>
           )}
-          {!showStartScreen && (
+
+
+          {!showStartScreen && !showTestModeSelection && (
             <motion.div
               key="map-layout"
               initial={{ opacity: 0 }}
@@ -245,6 +399,7 @@ const TakeTestsContent = () => {
   );
 };
 
+
 const TakeTests = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -252,5 +407,6 @@ const TakeTests = () => {
     </Suspense>
   );
 };
+
 
 export default TakeTests;

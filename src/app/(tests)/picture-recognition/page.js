@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter, usePathname } from "next/navigation"; // Import useRouter and usePathname
 import { FaInfoCircle } from "react-icons/fa"; // New import
 import { toast, Toaster } from "sonner";
 import imagesData from "../../../Data/imageData"; // Ensure this path is correct
@@ -26,11 +27,23 @@ const VIEW_STATES = {
   RESULTS: "results",
   LOADING_SUBMISSION: "loading_submission",
   LOADING_DATA: "loading_data",
-  LOADING_RESULTS: "loading_results", // Added this as it was used but not defined in original
+  LOADING_RESULTS: "loading_results",
 };
 
 const PictureRecognitionTestPage = () => {
   const { language, t } = useLanguage();
+  const router = useRouter(); // Get router instance
+  const pathname = usePathname(); // Get pathname
+
+  useEffect(() => {
+    console.log('[DEBUG] Current language context:', language);
+    
+    const interval = setInterval(() => {
+      console.log('[DEBUG] Current language context (every 4s):', language);
+    }, 4000);
+    
+    return () => clearInterval(interval);
+  }, [language]);
 
   const [images, setImages] = useState([]);
   const [practiceImage, setPracticeImage] = useState(null);
@@ -81,7 +94,9 @@ const PictureRecognitionTestPage = () => {
         ? imageItem.correctAnswerTamil || imageItem.correctAnswer
         : language === "hi"
         ? imageItem.correctAnswerHindi || imageItem.correctAnswer
-        : imageItem.correctAnswer;
+        : language === "kn"
+        ? imageItem.correctAnswerKannada || imageItem.correctAnswer
+        : imageItem.correctAnswer || ""; 
     },
     [language]
   );
@@ -128,6 +143,7 @@ const PictureRecognitionTestPage = () => {
         "file",
         new File([audioBlob], `audio_${Date.now()}.wav`, { type: "audio/wav" })
       );
+      console.log(language);
       formData.append("language", language);
 
       setIsTranscribing(true);
@@ -136,12 +152,14 @@ const PictureRecognitionTestPage = () => {
       );
 
       try {
+        console.log("transcribing")
         const response = await fetch("/api/speech-to-text", {
           method: "POST",
           body: formData,
         });
         const result = await response.json();
         toast.dismiss(ProzessToastId);
+        console.log(result)
 
         if (response.ok && result.transcription) {
           const transcription =
@@ -381,39 +399,76 @@ const PictureRecognitionTestPage = () => {
     const token = localStorage.getItem("access_token");
     const childId = localStorage.getItem("childId");
     if (!childId) {
-      toast.error(t("authOrStudentDataMissing", "Student/Auth data missing."));
+      toast.error(
+        t(
+          "childIdMissingCannotSubmit",
+          "Child ID is missing. Cannot submit results."
+        )
+      );
       return;
     }
+
     setCurrentView(VIEW_STATES.LOADING_SUBMISSION);
 
+    const isDummyRoute = pathname === "/dummy";
+
     try {
-      const response = await fetch("/api/picture-test/submitResult", {
+      // Always submit to the original endpoint to get the score and full results
+      const resultResponse = await fetch("/api/picture-test/submitResult", {
         method: "POST",
         headers: {
-          ...(token && { Authorization: `Bearer ${token}` }),
           "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         body: JSON.stringify({
-          childId: childId,
+          childId,
           answers: finalResponsesData,
         }),
       });
-      const resultData = await response.json();
-      if (!response.ok)
-        throw new Error(
-          resultData.error || `Submission failed. Status: ${response.status}`
-        );
-      if (resultData.id) {
-        await fetchResultsById(resultData.id);
-      } else {
-        // If resultData itself contains the full results (as per original code)
-        setTestResults(resultData);
-        setCurrentView(VIEW_STATES.RESULTS);
+
+      const resultData = await resultResponse.json();
+
+      if (!resultResponse.ok) {
+        throw new Error(resultData.error || "Failed to submit results.");
       }
+
+      // If it's the dummy route, now send the structured payload to the continuous-test endpoint
+      if (isDummyRoute) {
+        const continuousTestPayload = {
+          childId,
+          totalScore: parseFloat(resultData?.score || 0),
+          testResults: JSON.stringify(resultData),
+          analysis: "Picture Recognition Test",
+        };
+
+        await fetch("/api/continuous-test", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+          body: JSON.stringify(continuousTestPayload),
+        });
+
+        // For dummy route, we don't redirect and don't show results immediately
+        toast.success(t("testSubmittedSuccessfully", "Test submitted successfully!"));
+        setCurrentView(VIEW_STATES.WELCOME); // Or some other appropriate state
+
+      } else {
+        // For the normal route, proceed to show results
+        fetchResultsById(resultData.id);
+      }
+
     } catch (error) {
-      console.error("Submit final results error:", error); // Added console log
-      toast.error(t("errorSubmittingResults", "Error submitting results.")); // Added toast
-      setCurrentView(VIEW_STATES.TEST); // Fallback to test
+      console.error("Submission error:", error);
+      toast.error(t("errorSubmittingResults", "Error submitting results."));
+      setCurrentView(VIEW_STATES.TEST); // Revert to the test view on error
+    } finally {
+      if (!isDummyRoute) {
+        // No automatic redirect here, it's handled by fetchResultsById success
+      } else {
+        // router.push("/"); // Or wherever the dummy route should go next
+      }
     }
   };
 
@@ -588,10 +643,4 @@ const PictureRecognitionTestPage = () => {
   );
 };
 
-export default function PictureTestPageContainer() {
-  return (
-    <LanguageProvider>
-      <PictureRecognitionTestPage />
-    </LanguageProvider>
-  );
-}
+export default PictureRecognitionTestPage;

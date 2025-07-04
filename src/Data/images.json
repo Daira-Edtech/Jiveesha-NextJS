@@ -4,69 +4,79 @@
     "imageUrl": "yellow.jpg",
     "correctAnswer": "Yellow",
     "correctAnswerTamil": "மஞ்சள்",
-    "correctAnswerHindi": "पीला"
+    "correctAnswerHindi": "पीला",
+    "correctAnswerKannada": "ಹಳದಿ"
   },
   {
     "id": 1,
     "imageUrl": "apple.jpg",
     "correctAnswer": "Apple",
     "correctAnswerTamil": "ஆப்பிள்",
-    "correctAnswerHindi": "सेब"
+    "correctAnswerHindi": "सेब",
+    "correctAnswerKannada": "ಸೇಬು"
   },
   {
     "id": 2,
     "imageUrl": "cat.jpg",
     "correctAnswer": "Cat",
     "correctAnswerTamil": "பூனை",
-    "correctAnswerHindi": "बिल्ली"
+    "correctAnswerHindi": "बिल्ली",
+    "correctAnswerKannada": "`ಮೋನಿಗೆ`"
   },
   {
     "id": 3,
     "imageUrl": "deer.jpg",
     "correctAnswer": "Deer",
     "correctAnswerTamil": "மான்",
-    "correctAnswerHindi": "हिरन"
+    "correctAnswerHindi": "हिरन",
+    "correctAnswerKannada": "ಜಿಂಕೆ"
   },
   {
     "id": 4,
     "imageUrl": "flower.jpg",
     "correctAnswer": "Flower",
     "correctAnswerTamil": "மலர்",
-    "correctAnswerHindi": "फूल"
+    "correctAnswerHindi": "फूल",
+    "correctAnswerKannada": "ಹೂವು"
   },
   {
     "id": 5,
     "imageUrl": "lion.jpg",
     "correctAnswer": "Lion",
     "correctAnswerTamil": "சிங்கம்",
-    "correctAnswerHindi": "शेर"
+    "correctAnswerHindi": "शेर",
+    "correctAnswerKannada": "ಸಿಂಹ"
   },
   {
     "id": 6,
     "imageUrl": "elephant.jpg",
     "correctAnswer": "Elephant",
     "correctAnswerTamil": "யானை",
-    "correctAnswerHindi": "हाथी"
+    "correctAnswerHindi": "हाथी",
+    "correctAnswerKannada": "ಆನೆ"
   },
   {
     "id": 7,
     "imageUrl": "tiger.jpg",
     "correctAnswer": "Tiger",
     "correctAnswerTamil": "புலி",
-    "correctAnswerHindi": "बाघ"
+    "correctAnswerHindi": "बाघ",
+    "correctAnswerKannada": "ಹುಲಿ"
   },
   {
     "id": 8,
     "imageUrl": "panda.jpg",
     "correctAnswer": "Panda",
     "correctAnswerTamil": "பாண்டா",
-    "correctAnswerHindi": "पांडा"
+    "correctAnswerHindi": "पांडा",
+    "correctAnswerKannada": "ಪಾಂಡಾ"
   },
   {
     "id": 9,
     "imageUrl": "monkey.jpg",
     "correctAnswer": "Monkey",
     "correctAnswerTamil": "குரங்கு",
-    "correctAnswerHindi": "बंदर"
+    "correctAnswerHindi": "बंदर",
+    "correctAnswerKannada": "ಕೋತಿ"
   }
 ]

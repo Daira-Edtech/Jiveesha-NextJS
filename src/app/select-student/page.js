@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { useChildren } from "@/hooks/useChildren";
 import { useLanguage } from "@/contexts/LanguageContext";
 import testsData from "@/Data/tests.json";
-import { MdSearch, MdClose, MdArrowBack, MdStars, MdSchool, MdFullscreen, MdFullscreenExit } from "react-icons/md";
+import { useChildren } from "@/hooks/useChildren";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { MdArrowBack, MdClose, MdFullscreen, MdSchool, MdSearch, MdStars } from "react-icons/md";
 
 export default function SelectStudentPage() {
   const router = useRouter();
@@ -488,7 +488,7 @@ export default function SelectStudentPage() {
               whileTap={{ scale: 0.95 }}
             >
               <MdArrowBack className="w-5 h-5" />
-              <span className="font-medium">Back to Map</span>
+              <span className="font-medium">{t("BacktoMap")}</span>
             </motion.button>
           </div>
 
@@ -505,10 +505,10 @@ export default function SelectStudentPage() {
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-             Choose Your Pirate
+             {t("ChooseYourPirate")}
             </motion.h1>
             <p className="text-white/80 text-lg">
-              Select a brave explorer to begin the learning quest!
+              {t("ChooseYourPirateDesc")}
             </p>
           </div>
 
@@ -523,7 +523,7 @@ export default function SelectStudentPage() {
               <MdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search for an Student..."
+                placeholder={t('searchStudentsPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => handleSearch(e.target.value)}
                 className="w-full pl-10 pr-10 py-3 bg-white/90 backdrop-blur-md rounded-full border-2 border-white/50 focus:border-yellow-400 focus:outline-none text-gray-800 placeholder-gray-500 shadow-lg"
@@ -648,20 +648,20 @@ export default function SelectStudentPage() {
                       </h3>
                       <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
                         <MdSchool className="w-4 h-4" />
-                        <span>Roll: {student.rollno}</span>
+                        <span>{t("labelRoll")}: {student.rollno}</span>
                       </div>
                     </div>
 
                     {/* Stats */}
                     <div className="grid grid-cols-2 gap-2 mb-4">
                       <div className="bg-gray-100 rounded-lg p-2 text-center">
-                        <div className="text-xs text-gray-600">Age</div>
+                        <div className="text-xs text-gray-600">{t("labelAge")}</div>
                         <div className="text-sm font-bold text-gray-800">
                           {getAge(student.dateOfBirth)}
                         </div>
                       </div>
                       <div className="bg-gray-100 rounded-lg p-2 text-center">
-                        <div className="text-xs text-gray-600">Gender</div>
+                        <div className="text-xs text-gray-600">{t("labelGender")}</div>
                         <div className="text-sm font-bold text-gray-800">
                           {student.gender}
                         </div>
@@ -675,7 +675,7 @@ export default function SelectStudentPage() {
                       className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold py-3 rounded-full shadow-lg hover:from-yellow-500 hover:to-orange-600 transition-all"
                       disabled={selectedCard === student.id}
                     >
-                      {selectedCard === student.id ? 'Selecting...' : 'Select Student'}
+                      {selectedCard === student.id ? t("Selecting") : t("SelectStudent")}
                     </motion.button>
 
                     {/* Sparkle Effects on Hover */}
@@ -720,12 +720,12 @@ export default function SelectStudentPage() {
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 max-w-md mx-auto shadow-xl">
                 <div className="text-6xl mb-4">🔍</div>
                     <h3 className="text-2xl font-bold text-white mb-2">
-                      {searchTerm ? 'No adventurers found' : 'No adventurers ready'}
+                      {searchTerm ? t('Nofound'): t('Noready')}
                     </h3>
                     <p className="text-white/80">
                       {searchTerm 
-                        ? 'Try searching for a different name or roll number'
-                        : 'No brave explorers are available for the quest yet'
+                        ?  t("diffnameroll")
+                        :  t("nobraveAvail")
                       }
                     </p>
                 {searchTerm && (
@@ -733,7 +733,7 @@ export default function SelectStudentPage() {
                     onClick={() => setSearchTerm("")}
                     className="mt-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg"
                   >
-                    Clear Search
+                    {t("ClearSearch")}
                   </button>
                 )}
               </div>

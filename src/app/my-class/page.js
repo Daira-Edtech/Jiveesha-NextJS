@@ -1,17 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useChildren } from "@/hooks/useChildren";
-import StudentCard from "@/components/my-class/StudentCard";
-import AddStudentDialog from "@/components/my-class/AddStudentDialog";
-import StudentDetailsDialog from "@/components/my-class/StudentDetailsDialog";
 import AddStudentCard from "@/components/my-class/AddStudentCard";
-import SearchBar from "@/components/my-class/SearchBar";
+import AddStudentDialog from "@/components/my-class/AddStudentDialog";
 import EmptyStates from "@/components/my-class/EmptyStates";
-import LoadingSkeletons from "@/components/my-class/LoadingSkeletons";
 import ErrorState from "@/components/my-class/ErrorState";
+import LoadingSkeletons from "@/components/my-class/LoadingSkeletons";
+import SearchBar from "@/components/my-class/SearchBar";
+import StudentCard from "@/components/my-class/StudentCard";
+import StudentDetailsDialog from "@/components/my-class/StudentDetailsDialog";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useChildren } from "@/hooks/useChildren";
+import { useEffect, useState } from "react";
 
 export default function MyClass() {
+   const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -57,9 +59,10 @@ export default function MyClass() {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-blue-800 mb-2">My Class</h1>
+              <h1 className="text-3xl font-bold text-blue-800 mb-2">{t('Myclass')}</h1>
               <p className="text-blue-800">
-                Manage your students and track their progress
+                {t('MyclassDesc')}
+                
               </p>
             </div>
             

@@ -3,7 +3,7 @@
 "use client";
 
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import WelcomeDialog from "../../../components/sound-blending/WelcomeDialog.js";
 
@@ -78,6 +78,7 @@ const t = (key) => translations[key] || key;
 
 const SoundBlendingPage = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const [childId, setChildId] = useState(null);
 
   useEffect(() => {
@@ -86,34 +87,46 @@ const SoundBlendingPage = () => {
       setChildId(storedChildId);
     }
   }, []);
+  //vimalchangesdonehere
 
   const handleEntireTestFlowComplete = async (finalScore) => {
-    console.log("Entire test flow completed. Final Score:", finalScore);
     const token = localStorage.getItem("access_token");
 
     if (!childId) {
       console.warn("Child ID is missing. Cannot save results.");
-      router.push("/take-tests?skipStart=true");
+      if (pathname !== "/dummy") {
+        router.push("/take-tests?skipStart=true");
+      }
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "/api/soundBlending-test/submitResult",
-        {
+    const isDummyRoute = pathname === "/dummy";
+    const apiUrl = isDummyRoute
+      ? "/api/continuous-test"
+      : "/api/soundBlending-test/submitResult";
+
+    const payload = isDummyRoute
+      ? {
+          childId,
+          totalScore: parseFloat(finalScore?.correct || 0),
+          testResults: JSON.stringify(finalScore),
+          analysis: "Sound Blending Test",
+        }
+      : {
           childId: childId,
           score: finalScore.correct,
           total_questions: finalScore.total,
           test_name: "Sound Blending Test",
           responses: finalScore.responses || {},
+        };
+
+    try {
+      const response = await axios.post(apiUrl, payload, {
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      });
 
       console.log("Test results saved by page.js:", response.data);
     } catch (error) {
@@ -121,9 +134,10 @@ const SoundBlendingPage = () => {
         "Error saving test results in page.js:",
         error.response?.data || error.message
       );
-      // Continue to results page even if save fails
     } finally {
-      router.push("/take-tests?skipStart=true");
+      if (!isDummyRoute) {
+        router.push("/take-tests?skipStart=true");
+      }
     }
   };
 

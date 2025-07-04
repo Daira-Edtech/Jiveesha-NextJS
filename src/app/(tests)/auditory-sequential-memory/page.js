@@ -3,9 +3,10 @@
 "use client"
 
 import axios from "axios"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import WelcomeDialog from "../../../components/auditory-sequential-memory/WelcomeDialog.js"
+import { useRouter, usePathname } from "next/navigation"
+import { useEffect, useState, useCallback } from "react"
+import WelcomeDialog from "@/components/auditory-sequential-memory/WelcomeDialog.js"
+import { useLanguage } from "@/contexts/LanguageContext.jsx"
 
 // Direct Implementation of t() and speak()
 const translations = {
@@ -58,7 +59,7 @@ const translations = {
   returnToResults: "Return to Results",
 }
 
-const t = (key) => translations[key] || key
+
 
 const speak = (text, rate = 0.9, pitch = 1.1) => {
   console.log(`TTS (direct): ${text}`)
@@ -71,9 +72,24 @@ const speak = (text, rate = 0.9, pitch = 1.1) => {
     window.speechSynthesis.speak(utterance)
   }
 }
-
+//vimalchangesdonehere
 const AuditorySequentialPage = () => {
   const router = useRouter()
+  const pathname = usePathname()
+  const { language, t } = useLanguage()
+  const speak = useCallback(
+    (text, rate = 0.9, pitch = 1.1) => {
+      if (typeof window !== "undefined" && "speechSynthesis" in window && text) {
+        window.speechSynthesis.cancel()
+        const utterance = new SpeechSynthesisUtterance(text)
+        utterance.rate = rate
+        utterance.pitch = pitch
+        utterance.lang = language
+        window.speechSynthesis.speak(utterance)
+      }
+    },
+    [language]
+)
   const [childId, setChildId] = useState(null)
 
   useEffect(() => {
@@ -84,38 +100,51 @@ const AuditorySequentialPage = () => {
   }, [])
 
   const handleEntireTestFlowComplete = async (finalScore) => {
-    console.log("Entire test flow completed. Final Score:", finalScore)
     const token = localStorage.getItem("access_token")
 
     if (!childId) {
       console.warn("Child ID is missing. Cannot save results.")
-      router.push("/take-tests?skipStart=true")
+      if (pathname !== "/dummy") {
+        router.push("/take-tests?skipStart=true")
+      }
       return
     }
 
-    try {
-      const response = await axios.post(
-        "/api/auditory-test/submitResult",
-        {
+    const isDummyRoute = pathname === "/dummy";
+    const apiUrl = isDummyRoute
+      ? "/api/continuous-test"
+      : "/api/auditory-test/submitResult";
+
+    const payload = isDummyRoute
+      ? {
+          childId,
+          totalScore: parseFloat(finalScore?.final || 0),
+          testResults: JSON.stringify(finalScore),
+          analysis: "Auditory Sequential Memory Test",
+        }
+      : {
           childId: childId,
           score: finalScore.final,
           forwardCorrect: finalScore.forward,
           reverseCorrect: finalScore.reverse,
           test_name: "Auditory Sequential Memory Test",
+        };
+
+    try {
+      const response = await axios.post(apiUrl, payload, {
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-            "Content-Type": "application/json",
-          },
-        },
-      )
+      })
 
       console.log("Test results saved by page.js:", response.data)
     } catch (error) {
       console.error("Error saving test results in page.js:", error.response?.data || error.message)
     } finally {
-      router.push("/take-tests?skipStart=true")
+      if (!isDummyRoute) {
+        router.push("/take-tests?skipStart=true")
+      }
     }
   }
 

@@ -1,8 +1,9 @@
 "use client";
 
 import axios from "axios";
+
 import React, { useState, useEffect, useMemo } from "react"; // Added useMemo
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -57,6 +58,8 @@ const ResultsProgressBar = ({ current, total }) => {
 
 const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   const { language, t } = useLanguage();
+  const router = useRouter();
+  const pathname = usePathname();
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [score, setScore] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -65,7 +68,6 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizStarted, setQuizStarted] = useState(false); // For the main test
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const router = useRouter();
   const [showDemo, setShowDemo] = useState(true);
   const [showGenericInstructionsModal, setShowGenericInstructionsModal] = useState(false); // New state
 
@@ -96,6 +98,9 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
     setShowCharacter(true);
     setShowDemo(true);
   }, [language]);
+
+  const urlroute = pathname;
+
 
   const handleAnswer = (option) => {
     // This logic is for the main test
@@ -142,38 +147,62 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-    const token = localStorage.getItem("access_token");
-    const childId = localStorage.getItem("childId");
+  setIsSubmitting(true);
 
-    if (!childId) {
-      toast.error(t("visualTestSelectStudentError"), { theme: "dark" });
-      setIsSubmitting(false);
-      return;
-    }
-    try {
-      const response = await axios.post("/api/visual-test/submitResult", 
-        { childId, options: selectedOptions, score },
-        { headers: { ...(token && { Authorization: `Bearer ${token}` }), "Content-Type": "application/json" } }
-      );
-      if (response.status === 201) {
-        if (suppressResultPage && typeof onComplete === "function") {
-          onComplete(score);
-        } else {
-          toast.success(t("testSubmittedSuccessfully"), {
-            position: "top-center", theme: "dark", onClose: () => router.push("/")
-          });
-        }
-      } else {
-        toast.error(t("failedToSubmitTestPleaseTryAgain"), { theme: "dark" });
+  const token = localStorage.getItem("access_token");
+  const childId = localStorage.getItem("childId");
+
+  if (!childId) {
+    toast.error(t("visualTestSelectStudentError"), { theme: "dark" });
+    setIsSubmitting(false);
+    return;
+  }
+
+  try {
+    const currentRoute = pathname; // make sure pathname is accessible from usePathname or props
+
+    const apiUrl = currentRoute === "/dummy" 
+      ? "/api/continuous-test" 
+      : "/api/visual-test/submitResult";
+
+    const response = await axios.post(
+      apiUrl,
+      { childId, options: selectedOptions, score },
+      {
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+          "Content-Type": "application/json",
+        },
       }
-    } catch (error) {
-      console.error("Error submitting test:", error);
-      toast.error(t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain"), { theme: "dark" });
-    } finally {
-      setIsSubmitting(false);
+    );
+
+    if (response.status === 201) {
+      if (suppressResultPage && typeof onComplete === "function") {
+        onComplete(score);
+      } else {
+        toast.success(t("testSubmittedSuccessfully"), {
+          position: "top-center",
+          theme: "dark",
+          onClose: () => {
+            if (currentRoute !== "/dummy") {
+              router.push("/");
+            }
+          },
+        });
+      }
+    } else {
+      toast.error(t("failedToSubmitTestPleaseTryAgain"), { theme: "dark" });
     }
-  };
+  } catch (error) {
+    console.error("Error submitting test:", error);
+    toast.error(t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain"), {
+      theme: "dark",
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   // Modified to include generic instructions button and modal
   const renderWithBackground = (content, showInstructionsButton = false) => (
@@ -298,7 +327,7 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
 
   return renderWithBackground(
     <div className="flex items-center justify-center h-full">
-      <p className="text-white text-xl bg-black/50 p-4 rounded-lg font-serif text-yellow-100">{t("loading")}</p>
+      <p className="text-white text-xl bg-black/50 p-4 rounded-lg font-serif ">{t("loading")}</p>
     </div>
   );
 };

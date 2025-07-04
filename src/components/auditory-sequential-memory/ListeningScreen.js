@@ -4,9 +4,11 @@
 
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useRef, useCallback, useEffect } from "react"
+import { useLanguage } from "@/contexts/LanguageContext.jsx"
 import { Mic, MicOff, Loader2, CheckCircle, XCircle } from "lucide-react"
 
 const ListeningScreen = ({ mode, onResponseComplete, t }) => {
+  const { language } = useLanguage();
   const [isRecording, setIsRecording] = useState(false)
   const [isTranscribing, setIsTranscribing] = useState(false)
   const [transcript, setTranscript] = useState("")
@@ -27,7 +29,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
         const filename = `auditory_sequential_${Date.now()}.wav`
         const file = new File([audioBlob], filename, { type: "audio/wav" })
         formData.append("file", file)
-        formData.append("language", "en") // Using English for number recognition
+        formData.append("language", language)
 
         console.log("Uploading audio for transcription...")
 
@@ -59,11 +61,11 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
         }, 1000)
       } catch (error) {
         console.error("Error uploading/transcribing audio:", error)
-        setError(t("errorProcessingAudio"))
+        setError(t("audio_upload_error"))
         setIsTranscribing(false)
       }
     },
-    [onResponseComplete, t],
+    [onResponseComplete, t, language],
   )
 
   const stopListening = useCallback(() => {
@@ -110,7 +112,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
 
         recorder.onerror = (event) => {
           console.error("MediaRecorder error:", event.error)
-          setError(t("errorRecording"))
+          setError(t("recording_error"))
           stopListening()
         }
 
@@ -119,7 +121,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
       })
       .catch((error) => {
         console.error("getUserMedia error:", error)
-        setError(t("errorMicAccess"))
+        setError(t("microphone_access_error"))
       })
   }, [isRecording, stopListening, uploadAudio, t])
 
@@ -183,7 +185,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <span className="drop-shadow-lg">{mode === "forward" ? t("repeatNumbersOrder") : t("sayNumbersReverse")}</span>
+        <span className="drop-shadow-lg">{mode === "forward" ? t("your_turn_say_numbers") : t("your_turn_say_numbers_backwards")}</span>
       </motion.h3>
 
       {/* Error Display */}
@@ -265,7 +267,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
                 </div>
               </div>
 
-              <div className="text-2xl relative z-10 mt-2">Click to Stop!</div>
+              <div className="text-2xl relative z-10 mt-2">{t("click_to_stop")}</div>
             </motion.div>
           )}
         </div>
@@ -334,7 +336,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
               <Loader2 className="w-8 h-8 text-amber-400" />
             </div>
           </motion.div>
-          <div className="text-2xl text-white font-bold drop-shadow-lg">{t("processingYourAnswer")}</div>
+          <div className="text-2xl text-white font-bold drop-shadow-lg">{t("processing_your_answer")}</div>
         </motion.div>
       )}
 
@@ -345,7 +347,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
           animate={{ opacity: 1, y: 0 }}
           className="text-2xl text-center relative z-10"
         >
-          <div className="text-xl text-white/80 mb-2 drop-shadow">{t("youSaid")}:</div>
+          <div className="text-xl text-white/80 mb-2 drop-shadow">{t("you_said")}:</div>
           <motion.div
             className="text-3xl font-bold text-white px-6 py-4 rounded-xl backdrop-blur-lg border border-amber-500/30 relative overflow-hidden"
             style={{
@@ -437,7 +439,7 @@ const ListeningScreen = ({ mode, onResponseComplete, t }) => {
                     background: "linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(120, 53, 15, 0.1) 100%)",
                   }}
                 >
-                  <span className="text-3xl font-bold drop-shadow-lg">{t("letsTryNextOne")}</span>
+                  <span className="text-3xl font-bold drop-shadow-lg">{t("lets_try_next_one")}</span>
                 </motion.div>
                 <motion.div
                   className="text-4xl"

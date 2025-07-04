@@ -2,7 +2,7 @@
 "use client";
 
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 import WelcomeDialog from "../../../components/sequence-arrangement/WelcomeDialog.js";
@@ -15,6 +15,7 @@ import {
 // This inner component will consume the context
 const SequenceArrangementTestContent = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const { language, t } = useLanguage(); // Get language and t from your existing context
   const [childId, setChildId] = useState(null);
 
@@ -24,47 +25,56 @@ const SequenceArrangementTestContent = () => {
       setChildId(storedChildId);
     }
   }, []);
+  //vimalchangesdonehere
 
   const handleEntireTestFlowComplete = async (finalScore) => {
-    console.log("Entire test flow completed. Final Score:", finalScore);
-    console.log("Child ID:", childId);
     const token = localStorage.getItem("access_token");
 
     if (!childId) {
       console.warn("Child ID is missing. Cannot save results.");
-      router.push("/take-tests?skipStart=true");
+      // For non-dummy routes, redirect if no childId
+      if (pathname !== "/dummy") {
+        router.push("/take-tests?skipStart=true");
+      }
       return;
     }
 
-    const payload = {
-      childId: childId,
-      score: finalScore.correct,
-      total_questions: finalScore.total,
-      test_name: "Sequential Memory Test",
-    };
+    const isDummyRoute = pathname === "/dummy";
+    const apiUrl = isDummyRoute
+      ? "/api/continuous-test"
+      : "/api/sequence-test/submitResult";
 
-    console.log("Sending payload to API:", payload);
+    const payload = isDummyRoute
+      ? {
+          childId,
+          totalScore: parseFloat(finalScore?.correct || 0),
+          testResults: JSON.stringify(finalScore),
+          analysis: "Sequential Memory Test",
+        }
+      : {
+          childId: childId,
+          score: finalScore.correct,
+          total_questions: finalScore.total,
+          test_name: "Sequential Memory Test",
+        };
 
     try {
-      const response = await axios.post(
-        "/api/sequence-test/submitResult",
-        payload,
-        {
-          headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(apiUrl, payload, {
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+          "Content-Type": "application/json",
+        },
+      });
       console.log("Test results saved successfully:", response.data);
     } catch (error) {
       console.error(
-        "Error saving test results in page.js:",
+        "Error saving test results:",
         error.response?.data || error.message
       );
-      console.error("Full error object:", error);
     } finally {
-      router.push("/take-tests?skipStart=true");
+      if (!isDummyRoute) {
+        router.push("/take-tests?skipStart=true");
+      }
     }
   };
 
