@@ -669,7 +669,7 @@ const GraphemeTestContent = () => {
 
   // ----- Main Test UI -----
   return (
-    <div className="fixed inset-0">
+    <div className="fixed inset-0 mt-12">
       <Image
         src={localAppBackgroundImage}
         alt={t("graphemeTestBackgroundAlt", "Grapheme test background")}
