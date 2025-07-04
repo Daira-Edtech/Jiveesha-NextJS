@@ -879,7 +879,7 @@ theCorrectAnswerWas: "The correct answer was:",
     feedbackExcellent: "Excellent Work! 🎉",
 
 
-    closeInstructions: "Close Instructions",
+  closeInstructions: "Close Instructions",
   gotIt: "Got It!",
   visualTestDemoInstructionsTitle: "Practice Tips",
   demoInstructionsButton: "Demo Tips",
