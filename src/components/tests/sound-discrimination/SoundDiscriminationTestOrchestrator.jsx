@@ -236,51 +236,69 @@ const SoundDiscriminationTestOrchestrator = ({
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-    const token = localStorage.getItem("access_token");
-    const childId = localStorage.getItem("childId");
+  setIsSubmitting(true);
+  const token = localStorage.getItem("access_token");
+  const childId = localStorage.getItem("childId");
 
-    if (!childId) {
-      toast.error(t("selectStudentFirst"));
-      setIsSubmitting(false);
-      return;
-    }
+  if (!childId) {
+    toast.error(t("selectStudentFirst"));
+    setIsSubmitting(false);
+    return;
+  }
 
-    try {
-      const response = await axios.post(
-        `/api/sound-test/submitResult`,
-        {
-          childId: childId,
+  try {
+    const currentRoute = pathname; // assume from `usePathname()`
+
+    // Set endpoint and payload conditionally
+    const isDummyRoute = currentRoute === "/dummy";
+
+    const apiUrl = isDummyRoute
+      ? "/api/continuous-test"
+      : "/api/sound-test/submitResult";
+
+    const payload = isDummyRoute
+      ? {
+          childId,
+          score,
+          testResults: JSON.stringify({ test: "SoundTest", score }), // optional structure
+          analysis: "", // optionally pass analysis string
+        }
+      : {
+          childId,
           test_name: t("soundTestApiName"),
-          score: score,
-        },
-        {
-          headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-            "Content-Type": "application/json",
-          },
-        }
-      );
+          score,
+        };
 
-      if (response.status === 201) {
-        if (suppressResultPage && typeof onComplete === "function") {
-          onComplete(score);
-        } else {
-          toast.success(t("testSubmittedSuccessfully"), {
-            position: "top-center",
-            onClose: () => router.push("/"),
-          });
-        }
+    const response = await axios.post(apiUrl, payload, {
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 201) {
+      if (suppressResultPage && typeof onComplete === "function") {
+        onComplete(score);
       } else {
-        toast.error(t("failedToSubmitTestPleaseTryAgain"));
+        toast.success(t("testSubmittedSuccessfully"), {
+          position: "top-center",
+          onClose: () => {
+            if (!isDummyRoute) {
+              router.push("/");
+            }
+          },
+        });
       }
-    } catch (error) {
-      console.error("Error submitting test:", error);
-      toast.error(t("errorOccurredGeneric"));
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      toast.error(t("failedToSubmitTestPleaseTryAgain"));
     }
-  };
+  } catch (error) {
+    console.error("Error submitting test:", error);
+    toast.error(t("errorOccurredGeneric"));
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // Reset selectedOptions when wordPairs change (due to language change)
   useEffect(() => {
@@ -433,6 +451,7 @@ const SoundDiscriminationTestOrchestrator = ({
     const currentPairForMainTest = wordPairs[currentQuestionIndex];
     return (
       <TestScreenWrapper>
+        
         {currentPairForMainTest && (
           <AnimatePresence mode="wait">
             <motion.div

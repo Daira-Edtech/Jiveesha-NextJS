@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image"; // Import next/image
-import { useRouter } from "next/navigation"; // Changed from next/router
+import { useRouter, usePathname } from "next/navigation"; // Changed from next/router
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import toastify CSS
@@ -197,6 +197,7 @@ const VocabularyScaleTestClient = () => {
   const [childId, setChildId] = useState(null);
   const [mounted, setMounted] = useState(false);
   const router = useRouter(); // No change needed here
+  const pathname = usePathname();
   const [words, setWords] = useState([]);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentDefinition, setCurrentDefinition] = useState("");
@@ -326,9 +327,15 @@ const dialog = [
       setResponses(finalResponses); // Update state if last definition was added
     }
 
+    const isDummyRoute = pathname === "/dummy";
+    const apiUrl = isDummyRoute
+      ? "/api/continuous-test"
+      : "/api/vocabscale-test/submitResult";
+
     try {
-      const response = await axios.post(
-        "/api/vocabscale-test/submitResult", // Updated to Next.js API route
+      // First, always get the score from the original endpoint
+      const scoreResponse = await axios.post(
+        "/api/vocabscale-test/submitResult",
         {
           childId: childId,
           responses: finalResponses,
@@ -336,10 +343,21 @@ const dialog = [
         }
       );
 
-      if (response.data && typeof response.data.score !== "undefined") {
-        setFinalScore(response.data.score);
+      if (scoreResponse.data && typeof scoreResponse.data.score !== "undefined") {
+        const score = scoreResponse.data.score;
+        setFinalScore(score);
         setTestComplete(true);
         toast.success(t("testSubmittedSuccessfully"));
+
+        // If it's the dummy route, send score to the continuous-test endpoint
+        if (isDummyRoute) {
+          await axios.post(apiUrl, {
+            childId: childId,
+            testName: "vocabulary-scale",
+            score: score,
+            language: language,
+          });
+        }
       } else {
         setError(t("failedToSubmitTestUnknownError"));
         toast.error(t("failedToSubmitTestUnknownError"));
@@ -353,6 +371,9 @@ const dialog = [
       toast.error(errorMsg);
     } finally {
       setSubmitting(false);
+      if (!isDummyRoute) {
+        router.push("/take-tests");
+      }
     }
   }, [
     stopListening,
@@ -365,6 +386,8 @@ const dialog = [
     childId,
     language,
     t,
+    pathname,
+    router,
   ]);
 
   const handleNextWord = useCallback(() => {

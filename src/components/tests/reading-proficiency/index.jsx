@@ -184,78 +184,89 @@ const useTranscriptionService = (t, language) => {
     setTranscriptionReady,
   };
 };
-
+//vimalchangesdonehere
 const useTestSubmission = (onTestComplete, router, t) => {
   const [testResults, setTestResults] = useState([]);
   const submitTest = async (
-    transcriptToSubmit,
-    suppressResultPage,
-    language = "en"
-  ) => {
-    const spokenWords = transcriptToSubmit.trim().toLowerCase();
-    const childId = localStorage.getItem("childId") || null;
-    const token = localStorage.getItem("access_token");
-    if (!spokenWords) {
-      toast.info(t("nothingToSubmit") || "Nothing to submit.");
-      return { success: false, score: 0 };
-    }
-    try {
-      const responseFromApi = await axios.post(
-        "/api/reading-test/submitResult",
-        { childId, spokenWords, language },
-        {
-          headers: {
-            ...(token && { Authorization: `Bearer ${token}` }),
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (responseFromApi.status === 201) {
-        const { score, correctGroups, errorWords } = responseFromApi.data;
-        const validCorrectGroups = Array.isArray(correctGroups)
-          ? correctGroups.map((g) => (Array.isArray(g) ? g : [g]))
-          : [];
-        const validErrorWords = Array.isArray(errorWords)
-          ? errorWords.map((w) => (Array.isArray(w) ? w : [w]))
-          : [];
-        const tableData = validCorrectGroups.map((group, index) => ({
-          continuousCorrectWords: group.join(" "),
-          errorWords: validErrorWords[index]?.join(" ") || "",
-          score: score / validCorrectGroups.length, // Distribute score evenly for demo purposes
-        }));
-        setTestResults(tableData);
-        if (suppressResultPage && typeof onTestComplete === "function") {
-          onTestComplete(score);
-        } else {
-          toast.success(`Test submitted with score: ${score}`, {
-            position: "top-center",
-            onClose: () => {
-              if (router && router.push) {
-                const queryParams = new URLSearchParams({
-                  score: score.toString(),
-                  tableData: JSON.stringify(tableData),
-                });
-                router.push(
-                  `/reading-proficiency/results?${queryParams.toString()}`
-                );
-              }
-            },
-          });
-        }
-        return { success: true, score };
-      } else {
-        toast.error(t("failedToSubmitTestPleaseTryAgain"));
-        return { success: false, score: 0 };
+  transcriptToSubmit,
+  suppressResultPage,
+  language = "en"
+) => {
+  const spokenWords = transcriptToSubmit.trim().toLowerCase();
+  const childId = localStorage.getItem("childId") || null;
+  const token = localStorage.getItem("access_token");
+
+  if (!spokenWords) {
+    toast.info(t("nothingToSubmit") || "Nothing to submit.");
+    return { success: false, score: 0 };
+  }
+
+  try {
+    const currentRoute = pathname; // make sure you get this via usePathname or pass as a prop
+
+    const responseFromApi = await axios.post(
+      "/api/reading-test/submitResult",
+      { childId, spokenWords, language },
+      {
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+          "Content-Type": "application/json",
+        },
       }
-    } catch (error) {
-      console.error("Full error details:", error);
-      toast.error(
-        t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain") ||
-          t("errorOccurred")
-      );
+    );
+
+    if (responseFromApi.status === 201) {
+      const { score, correctGroups, errorWords } = responseFromApi.data;
+
+      const validCorrectGroups = Array.isArray(correctGroups)
+        ? correctGroups.map((g) => (Array.isArray(g) ? g : [g]))
+        : [];
+      const validErrorWords = Array.isArray(errorWords)
+        ? errorWords.map((w) => (Array.isArray(w) ? w : [w]))
+        : [];
+
+      const tableData = validCorrectGroups.map((group, index) => ({
+        continuousCorrectWords: group.join(" "),
+        errorWords: validErrorWords[index]?.join(" ") || "",
+        score: score / validCorrectGroups.length,
+      }));
+
+      setTestResults(tableData);
+
+      if (suppressResultPage && typeof onTestComplete === "function") {
+        onTestComplete(score);
+      } else {
+        toast.success(`Test submitted with score: ${score}`, {
+          position: "top-center",
+          onClose: () => {
+            if (currentRoute !== "/dummy") {
+              const queryParams = new URLSearchParams({
+                score: score.toString(),
+                tableData: JSON.stringify(tableData),
+              });
+              router.push(
+                `/reading-proficiency/results?${queryParams.toString()}`
+              );
+            }
+          },
+        });
+      }
+
+      return { success: true, score };
+    } else {
+      toast.error(t("failedToSubmitTestPleaseTryAgain"));
       return { success: false, score: 0 };
     }
-  };
+  } catch (error) {
+    console.error("Full error details:", error);
+    toast.error(
+      t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain") ||
+        t("errorOccurred")
+    );
+    return { success: false, score: 0 };
+  }
+};
+
   return { testResults, submitTest };
 };
 

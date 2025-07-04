@@ -8,18 +8,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { translations } from "@/translations";
 import bg from "../../public/map.png";
 
-const MapLayout = ({ tests, onTestSelect, onQuit }) => {
-  const router = useRouter();
-  const { t, setLanguage, language } = useLanguage();
-  const [showInfoDialog, setShowInfoDialog] = useState(false);
-  const [showLanguageDialog, setShowLanguageDialog] = useState(false);
-  const [showReportDialog, setShowReportDialog] = useState(false);
-  const [hoveredIsland, setHoveredIsland] = useState(null);
-  const [confirmDialog, setConfirmDialog] = useState({
-    show: false,
-    type: null,
-  }); // Island names for each island
-  const islandNames = [
+// Translations for island names
+const islandNameTranslations = {
+  en: [
     "Goonj Tapu",
     "Varnika Van",
     "Yantra Kanan",
@@ -30,17 +21,116 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
     "Shabd Sagar",
     "Shabd Mandir",
     "Kaal Dhara",
-  ];
+  ],
+  hi: [
+    "गूंज टापू",
+    "वर्णिका वन",
+    "यंत्र कानन",
+    "स्वर गुफ़ा",
+    "अक्षर पर्वत",
+    "चित्र सरोवर",
+    "रूण पत्थर",
+    "शब्द सागर",
+    "शब्द मंदिर",
+    "काल धारा",
+  ],
+  ta: [
+    "எதிரொலி தீவு",
+    "வர்ணிகா வனம்",
+    "யந்திர கானம்",
+    "ஸ்வர குகை",
+    "அக்ஷர పర్వతం",
+    "சித்திர சரோவரம்",
+    "ரூன் கல்",
+    "ஷப்த சாகரம்",
+    "ஷப்த மந்திர்",
+    "கால தாரை",
+  ],
+  kn: [
+    "ಪ್ರತಿಧ್ವನಿ ದ್ವೀಪ",
+    "ವರ್ಣಿಕಾ ವನ",
+    "ಯಂತ್ರ ಕಾನನ",
+    "ಸ್ವರ ಗುಹೆ",
+    "ಅಕ್ಷರ ಪರ್ವತ",
+    "ಚಿತ್ರ ಸರೋವರ",
+    "ರೂನ್ ಕಲ್ಲು",
+    "ಶಬ್ದ ಸಾಗರ",
+    "ಶಬ್ದ ಮಂದಿರ",
+    "ಕಾಲ ಧಾರಾ",
+  ],
+};
+
+const testNameTranslations = {
+  en: [
+    "Auditory Discrimination",
+    "Sound Blending",
+    "Grapheme-Phoneme Correspondence",
+    "Symbol-Sequence",
+    "Picture Recognition",
+    "Sequence Arrangement",
+    "Auditory Sequential Memory",
+    "Vocabulary Scale",
+    "Articulation Test",
+  ],
+  hi: [
+    "श्रवण भेदभाव",
+    "ध्वनि मिश्रण",
+    "ग्राफ़ीम-फ़ोनीम कॉरेस्पोंडेंस",
+    "प्रतीक-अनुक्रम",
+    "चित्र पहचान",
+    "अनुक्रम व्यवस्था",
+    "श्रवण अनुक्रमिक स्मृति",
+    "शब्दावली पैमाना",
+    "अभिव्यक्ति परीक्षण",
+  ],
+  ta: [
+    "செவிவழி பாகுபாடு",
+    "ஒலி கலவை",
+    "எழுத்து-ஒலி தொடர்பு",
+    "சின்ன-வரிசை",
+    "படத்தை அடையாளம் காணுதல்",
+    "வரிசை அமைப்பு",
+    "செவிவழி தொடர் স্মৃতি",
+    "சொற்களஞ்சிய அளவு",
+    "உச்சரிப்பு சோதனை",
+  ],
+  kn: [
+    "ಶ್ರವಣ ತಾರತಮ್ಯ",
+    "ಧ್ವನಿ ಮಿಶ್ರಣ",
+    "ಗ್ರಾಫೀಮ್-ಫೋನೀಮ್ ಕರೆಸ್ಪಾಂಡೆನ್ಸ್",
+    "ಚಿಹ್ನೆ- ಅನುಕ್ರಮ",
+    "ಚಿತ್ರ ಗುರುತಿಸುವಿಕೆ",
+    "ಅನುಕ್ರಮ ವ್ಯವಸ್ಥೆ",
+    "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣೆ",
+    "ಶಬ್ದಕೋಶ ಮಾಪಕ",
+    "ಉಚ್ಚಾರಣಾ ಪರೀಕ್ಷೆ",
+  ],
+};
+
+const MapLayout = ({ tests, onTestSelect, onQuit }) => {
+  const router = useRouter();
+  const { t, setLanguage, language } = useLanguage();
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [showLanguageDialog, setShowLanguageDialog] = useState(false);
+  const [showReportDialog, setShowReportDialog] = useState(false);
+  const [hoveredIsland, setHoveredIsland] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState({
+    show: false,
+    type: null,
+  });
+
+  const islandNames = islandNameTranslations[language] || islandNameTranslations.en;
 
   // Filter out specific islands based on language
   const getFilteredTests = () => {
-    const hiddenIslands = ["Akshara Parvat", "Shabd Mandir"];
+    const hiddenIslands = ["Akshara Parvat", "Shabd Mandir"]; // English names for logic
+    const englishIslandNames = islandNameTranslations.en;
     const isNonEnglish =
       language === "hi" || language === "ta" || language === "kn";
 
     if (isNonEnglish) {
       return tests.filter(
-        (test, index) => !hiddenIslands.includes(islandNames[index])
+        (test, index) => !hiddenIslands.includes(englishIslandNames[index])
       );
     }
 
@@ -48,13 +138,6 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
   };
 
   const filteredTests = getFilteredTests();
-
-  // Get translated island name based on current language
-  const getTranslatedIslandName = (englishName) => {
-    // Access the nested translation directly from the translations object
-    const currentTranslations = translations[language] || translations.en;
-    return currentTranslations.islandNames?.[englishName] || englishName;
-  };
 
   // Get language display text
   const getLanguageDisplay = () => {
@@ -449,7 +532,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                 test={test}
                 index={originalIndex} // Use original index for proper image and styling
                 position={position}
-                islandName={getTranslatedIslandName(islandNames[originalIndex])}
+                islandName={islandNames[originalIndex]} // Pass translated island name
                 isHovered={hoveredIsland === originalIndex}
                 onHoverStart={() => setHoveredIsland(originalIndex)}
                 onHoverEnd={() => setHoveredIsland(null)}
@@ -543,7 +626,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                 >
                   <MdClose className="w-6 h-6" />
                 </button>
-              </div>{" "}
+              </div>
               <div className="space-y-4">
                 <p className="text-gray-600">{t("gameInfoDescription")}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -690,19 +773,23 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
   );
 };
 
-// Island Item Component - UNIFIED ANIMATION FOR ISLAND AND NAME BOARD
+// Island Item Component - NOW HANDLES TRANSLATION INTERNALLY
 const IslandItem = ({
   test,
   index,
   position,
-  islandName,
+  islandName, // Use translated island name
   isHovered,
   onHoverStart,
   onHoverEnd,
   onClick,
   displayIndex, // New prop for display numbering
 }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage(); // Add useLanguage hook here
+
+  const islandImage =
+    test && test.islandImage ? test.islandImage : "/images/islands/default.png";
+
   return (
     <motion.div
       className="absolute cursor-pointer"
@@ -836,7 +923,7 @@ const IslandItem = ({
                 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
               >
-                {isHovered ? test.testName : islandName}
+                {islandName}
               </motion.p>
 
               {/* Decorative brass corners - smaller */}
@@ -890,7 +977,7 @@ IslandItem.propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }).isRequired,
-  islandName: PropTypes.string.isRequired,
+  islandName: PropTypes.string.isRequired, // Changed prop name
   isHovered: PropTypes.bool.isRequired,
   onHoverStart: PropTypes.func.isRequired,
   onHoverEnd: PropTypes.func.isRequired,
