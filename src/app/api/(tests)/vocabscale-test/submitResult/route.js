@@ -50,6 +50,20 @@ Example:
 उदाहरण:
 1|परिभाषा सटीक है और अर्थ स्पष्ट है।
 `,
+    kn: `
+ಮಕ್ಕಳ ವಾಕ್ಯ ವಿವರಣೆಯ ಮೌಲ್ಯಮಾಪನ.
+
+ಪದ: "${word}"
+ಮಕ್ಕಳ ವ್ಯಾಖ್ಯೆ: "${definition}"
+
+ನಿರ್ದೇಶನಗಳು:
+1. ವ್ಯಾಖ್ಯೆ ಸರಿಯಿದ್ದರೆ 1, ತಪ್ಪಿದ್ದರೆ ಅಥವಾ ಹೊಂದಿಕೊಳ್ಳದಿದ್ದರೆ 0 ಅಂಕ ನೀಡಿ.
+2. ಕಾರಣವನ್ನು ತಿಳಿಸುವ ಸಂಕ್ಷಿಪ್ತ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿ.
+3. ಕೇವಲ ಈ ಸ್ವರೂಪದಲ್ಲಿ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿ: <score>|<feedback>
+
+ಉದಾಹರಣೆ:
+1|ಚೆನ್ನಾದ ವ್ಯಾಖ್ಯೆ, ಪದದ ಅರ್ಥವನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ಹಿಡಿದಿದೆ.
+`,
   };
 
   return prompts[language] || prompts.en;
@@ -93,7 +107,7 @@ export async function POST(req) {
     if (!childId || !Array.isArray(responses)) {
       return NextResponse.json(
         { error: "Missing childId or responses" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -105,7 +119,7 @@ export async function POST(req) {
       const { score, feedback } = await evaluateDefinition(
         word,
         definition,
-        language,
+        language
       );
 
       totalScore += score;
@@ -140,13 +154,13 @@ export async function POST(req) {
         score: totalScore,
         language: language || "en",
       },
-      { status: 201 },
+      { status: 201 }
     );
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
       { error: err.message || "Internal Server Error" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
