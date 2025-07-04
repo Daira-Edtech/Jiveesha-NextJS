@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // Test6Controller.jsx (or your index.jsx)
+=======
+>>>>>>> f9f23e9 (Add Kannada language support; update word lists and language handling)
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -8,10 +11,11 @@ import Link from "next/link";
 import { useLanguage } from "../../../contexts/LanguageContext"; // Adjust path if needed
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import wordLists from "./wordLists.json"; // Assuming in the same directory
+import wordLists from "src/Data/wordLists.json"; // Assuming in the same directory
 import { improveTranscriptionAccuracy } from "./accuracyImprover"; // Assuming in the same directory
 import ancientPaper from "../../../../public/reading-test/ancientPaper.png"; // Adjust path
 import "react-toastify/dist/ReactToastify.css";
+<<<<<<< HEAD
 import {
   ArrowRightCircle,
   Mic,
@@ -30,6 +34,9 @@ import {
   HelpCircle,
 >>>>>>> f6455aa (chore: clean up unused components and files in reading proficiency tests)
 } from "lucide-react";
+=======
+import { ChevronLeft, HelpCircle } from "lucide-react";
+>>>>>>> f9f23e9 (Add Kannada language support; update word lists and language handling)
 import { motion, AnimatePresence } from "framer-motion";
 
 import coralBackground from "../../../../public/reading-test/coralBackground.png"; // Adjust path

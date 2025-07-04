@@ -48,6 +48,8 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
         return "தமி";
       case "hi":
         return "हि";
+      case "kn":
+        return "ಕನ್ನಡ";
       default:
         return "EN";
     }
@@ -540,7 +542,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                 </button>
               </div>
               <div className="space-y-2">
-                {["en", "ta", "hi"].map((lang) => (
+                {["en", "ta", "hi", "kn"].map((lang) => (
                   <button
                     key={lang}
                     onClick={() => {
@@ -553,7 +555,11 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                       ? "English"
                       : lang === "ta"
                       ? "தமிழ்"
-                      : "हिंदी"}
+                      : lang === "hi"
+                      ? "हिंदी"
+                      : lang === "kn"
+                      ? "ಕನ್ನಡ"
+                      : "Unknown Language"}
                   </button>
                 ))}
               </div>
