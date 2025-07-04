@@ -1,5 +1,3 @@
-// Test6Controller.jsx (or your index.jsx)
-// Test6Controller.jsx (or your index.jsx)
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -8,20 +6,11 @@ import Link from "next/link";
 import { useLanguage } from "../../../contexts/LanguageContext"; // Adjust path if needed
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import wordLists from "./wordLists.json"; // Assuming in the same directory
+import wordLists from "src/Data/wordLists.json"; // Assuming in the same directory
 import { improveTranscriptionAccuracy } from "./accuracyImprover"; // Assuming in the same directory
 import ancientPaper from "../../../../public/reading-test/ancientPaper.png"; // Adjust path
 import "react-toastify/dist/ReactToastify.css";
-import {
-  ArrowRightCircle,
-  Mic,
-  MicOff,
-  UploadCloud,
-  Award,
-  ChevronRight,
-  ChevronLeft,
-  HelpCircle,
-} from "lucide-react";
+import { ChevronLeft, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import coralBackground from "../../../../public/reading-test/coralBackground.png"; // Adjust path
 import coralineImage from "../../../../public/reading-test/coralineImage.png"; // Adjust path

@@ -9,7 +9,7 @@ export async function POST(req) {
   try {
     let { childId, spokenWords, language } = await req.json();
 
-    if (!language || !["en", "ta", "hi"].includes(language)) {
+    if (!language || !["en", "ta", "hi", "kn"].includes(language)) {
       return NextResponse.json(
         { message: "Invalid or missing language. Use 'en', 'ta', or 'hi'." },
         { status: 400 }
