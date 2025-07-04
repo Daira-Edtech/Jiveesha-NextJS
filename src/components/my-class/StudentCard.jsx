@@ -1,13 +1,15 @@
 "use client";
 
-import React from "react";
-import { Calendar, Hash } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Calendar, Hash } from "lucide-react";
 
-const StudentCard = ({ student, onStudentClick }) => {
+const StudentCard = ({ student, onStudentClick }) => { 
+  const { language, t } = useLanguage();
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -51,7 +53,7 @@ const StudentCard = ({ student, onStudentClick }) => {
             <h3 className="font-semibold text-lg text-gray-800 group-hover:text-blue-600 transition-colors">
               {student.name}
             </h3>
-            <p className="text-sm text-gray-500">Roll: {student.rollno}</p>
+            <p className="text-sm text-gray-500">{t('labelRoll')}: {student.rollno}</p>
           </div>
         </div>
       </CardHeader>
@@ -60,21 +62,21 @@ const StudentCard = ({ student, onStudentClick }) => {
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-600 flex items-center gap-1">
               <Calendar className="w-4 h-4" />
-              Age
+             {t('labelAge')}
             </span>
             <Badge variant="secondary">
-              {getAge(student.dateOfBirth)} years
+               {getAge(student.dateOfBirth)} years
             </Badge>
           </div>
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-600 flex items-center gap-1">
               <Hash className="w-4 h-4" />
-              Tests Taken
+              {t('labelTestsTaken')}
             </span>
             <Badge variant="outline">{student.testsTaken || 0}</Badge>
           </div>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">Gender</span>
+            <span className="text-gray-600">{t('labelGender')}</span>
             <span className="text-gray-800 font-medium">{student.gender}</span>
           </div>
         </div>
@@ -85,7 +87,7 @@ const StudentCard = ({ student, onStudentClick }) => {
             onStudentClick(student);
           }}
         >
-          View Details
+         {t('buttonViewDetails')}
         </Button>
       </CardContent>
     </Card>
