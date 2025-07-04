@@ -298,7 +298,7 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
 
   return renderWithBackground(
     <div className="flex items-center justify-center h-full">
-      <p className="text-white text-xl bg-black/50 p-4 rounded-lg font-serif text-yellow-100">{t("loading")}</p>
+      <p className="text-white text-xl bg-black/50 p-4 rounded-lg font-serif ">{t("loading")}</p>
     </div>
   );
 };

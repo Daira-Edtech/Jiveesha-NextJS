@@ -32,6 +32,23 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
     "Kaal Dhara",
   ];
 
+  // Filter out specific islands based on language
+  const getFilteredTests = () => {
+    const hiddenIslands = ["Akshara Parvat", "Shabd Mandir"];
+    const isNonEnglish =
+      language === "hi" || language === "ta" || language === "kn";
+
+    if (isNonEnglish) {
+      return tests.filter(
+        (test, index) => !hiddenIslands.includes(islandNames[index])
+      );
+    }
+
+    return tests;
+  };
+
+  const filteredTests = getFilteredTests();
+
   // Get translated island name based on current language
   const getTranslatedIslandName = (englishName) => {
     // Access the nested translation directly from the translations object
@@ -256,20 +273,37 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
             preserveAspectRatio="none"
           >
             {/* Connect islands in sequential order: 1→2→3→4→5→6→7→8→9→10 */}
-            {tests.slice(0, 9).map((_, index) => {
+            {filteredTests.slice(0, 9).map((test, index) => {
               // Define island positions for lines - shifted down and right
-              const islandPositions = [
-                { x: 18, y: 33 }, // Island 1 - Top left
-                { x: 38, y: 28 }, // Island 2 - Top center-left
-                { x: 58, y: 38 }, // Island 3 - Top center
-                { x: 78, y: 33 }, // Island 4 - Top right
-                { x: 88, y: 53 }, // Island 5 - Right side
-                { x: 73, y: 73 }, // Island 6 - Bottom right
-                { x: 48, y: 83 }, // Island 7 - Bottom center
-                { x: 28, y: 78 }, // Island 8 - Bottom left
-                { x: 13, y: 58 }, // Island 9 - Left side
-                { x: 53, y: 58 }, // Island 10 - Center (final boss)
-              ];
+              const isNonEnglish =
+                language === "hi" || language === "ta" || language === "kn";
+
+              // Adjusted positions when hiding certain islands
+              const islandPositions = isNonEnglish
+                ? [
+                    { x: 18, y: 33 }, // Island 1 - Top left
+                    { x: 38, y: 28 }, // Island 2 - Top center-left
+                    { x: 58, y: 38 }, // Island 3 - Top center
+                    { x: 78, y: 33 }, // Island 4 - Top right
+                    // Skip Akshara Parvat (index 4)
+                    { x: 73, y: 73 }, // Island 6 - Bottom right (was index 5)
+                    { x: 48, y: 83 }, // Island 7 - Bottom center
+                    { x: 28, y: 78 }, // Island 8 - Bottom left
+                    // Skip Shabd Mandir (index 8)
+                    { x: 53, y: 58 }, // Island 10 - Center (final boss)
+                  ]
+                : [
+                    { x: 18, y: 33 }, // Island 1 - Top left
+                    { x: 38, y: 28 }, // Island 2 - Top center-left
+                    { x: 58, y: 38 }, // Island 3 - Top center
+                    { x: 78, y: 33 }, // Island 4 - Top right
+                    { x: 88, y: 53 }, // Island 5 - Right side
+                    { x: 73, y: 73 }, // Island 6 - Bottom right
+                    { x: 48, y: 83 }, // Island 7 - Bottom center
+                    { x: 28, y: 78 }, // Island 8 - Bottom left
+                    { x: 13, y: 58 }, // Island 9 - Left side
+                    { x: 53, y: 58 }, // Island 10 - Center (final boss)
+                  ];
 
               const start = islandPositions[index];
               const end = islandPositions[index + 1];
@@ -372,20 +406,40 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
           </svg>
 
           {/* Islands positioned across the map */}
-          {tests.slice(0, 10).map((test, index) => {
+          {filteredTests.map((test, index) => {
+            const isNonEnglish =
+              language === "hi" || language === "ta" || language === "kn";
+
+            // Get the original island index for proper naming and image mapping
+            const originalIndex = tests.findIndex((t) => t.id === test.id);
+
             // Define strategic positions for each island (moved down a bit)
-            const islandPositions = [
-              { x: 12, y: 24 }, // Island 1 - Top left
-              { x: 32, y: 20 }, // Island 2 - Top center-left
-              { x: 50, y: 30 }, // Island 3 - Top center
-              { x: 70, y: 23 }, // Island 4 - Top right
-              { x: 80, y: 45 }, // Island 5 - Right side
-              { x: 65, y: 65 }, // Island 6 - Bottom right
-              { x: 40, y: 75 }, // Island 7 - Bottom center
-              { x: 20, y: 65 }, // Island 8 - Bottom left
-              { x: 5, y: 50 }, // Island 9 - Left side
-              { x: 45, y: 50 }, // Island 10 - Center (final boss)
-            ];
+            // When hiding islands, adjust positions to maintain good layout
+            const islandPositions = isNonEnglish
+              ? [
+                  { x: 12, y: 24 }, // Island 1 - Top left
+                  { x: 32, y: 20 }, // Island 2 - Top center-left
+                  { x: 50, y: 30 }, // Island 3 - Top center
+                  { x: 70, y: 23 }, // Island 4 - Top right
+                  // Skip Akshara Parvat (original index 4)
+                  { x: 65, y: 65 }, // Island 6 - Bottom right (original index 5)
+                  { x: 40, y: 75 }, // Island 7 - Bottom center (original index 6)
+                  { x: 20, y: 65 }, // Island 8 - Bottom left (original index 7)
+                  // Skip Shabd Mandir (original index 8)
+                  { x: 45, y: 50 }, // Island 10 - Center (original index 9)
+                ]
+              : [
+                  { x: 12, y: 24 }, // Island 1 - Top left
+                  { x: 32, y: 20 }, // Island 2 - Top center-left
+                  { x: 50, y: 30 }, // Island 3 - Top center
+                  { x: 70, y: 23 }, // Island 4 - Top right
+                  { x: 80, y: 45 }, // Island 5 - Right side
+                  { x: 65, y: 65 }, // Island 6 - Bottom right
+                  { x: 40, y: 75 }, // Island 7 - Bottom center
+                  { x: 20, y: 65 }, // Island 8 - Bottom left
+                  { x: 5, y: 50 }, // Island 9 - Left side
+                  { x: 45, y: 50 }, // Island 10 - Center (final boss)
+                ];
 
             const position = islandPositions[index];
 
@@ -393,13 +447,14 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
               <IslandItem
                 key={test.id}
                 test={test}
-                index={index}
+                index={originalIndex} // Use original index for proper image and styling
                 position={position}
-                islandName={getTranslatedIslandName(islandNames[index])}
-                isHovered={hoveredIsland === index}
-                onHoverStart={() => setHoveredIsland(index)}
+                islandName={getTranslatedIslandName(islandNames[originalIndex])}
+                isHovered={hoveredIsland === originalIndex}
+                onHoverStart={() => setHoveredIsland(originalIndex)}
                 onHoverEnd={() => setHoveredIsland(null)}
                 onClick={() => onTestSelect(test.id)}
+                displayIndex={index + 1} // New prop for display numbering
               />
             );
           })}
@@ -488,18 +543,25 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                 >
                   <MdClose className="w-6 h-6" />
                 </button>
-              </div>
+              </div>{" "}
               <div className="space-y-4">
                 <p className="text-gray-600">{t("gameInfoDescription")}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {tests.map((test, index) => (
-                    <div key={test.id} className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="font-semibold">
-                        Level {index + 1}: {test.testName}
-                      </h4>
-                      <p className="text-sm text-gray-600 mt-1">{test.About}</p>
-                    </div>
-                  ))}
+                  {filteredTests.map((test, index) => {
+                    const originalIndex = tests.findIndex(
+                      (t) => t.id === test.id
+                    );
+                    return (
+                      <div key={test.id} className="p-4 bg-gray-50 rounded-lg">
+                        <h4 className="font-semibold">
+                          Level {index + 1}: {test.testName}
+                        </h4>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {test.About}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
@@ -638,6 +700,7 @@ const IslandItem = ({
   onHoverStart,
   onHoverEnd,
   onClick,
+  displayIndex, // New prop for display numbering
 }) => {
   const { t } = useLanguage();
   return (
@@ -672,30 +735,30 @@ const IslandItem = ({
       }}
       transition={{
         opacity: {
-          delay: index * 0.15,
+          delay: (displayIndex || index) * 0.15,
           duration: 0.6,
           type: "spring",
           stiffness: 300,
           damping: 20,
         },
         scale: {
-          delay: index * 0.15,
+          delay: (displayIndex || index) * 0.15,
           duration: 0.6,
           type: "spring",
           stiffness: 300,
           damping: 20,
         },
         y: {
-          duration: 3 + index * 0.2,
+          duration: 3 + (displayIndex || index) * 0.2,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: index * 0.15,
+          delay: (displayIndex || index) * 0.15,
         },
         rotate: {
-          duration: 4 + index * 0.3,
+          duration: 4 + (displayIndex || index) * 0.3,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: index * 0.15,
+          delay: (displayIndex || index) * 0.15,
         },
       }}
     >
@@ -735,7 +798,7 @@ const IslandItem = ({
           }}
         >
           <span className="text-white font-bold text-sm md:text-base lg:text-lg">
-            {index + 1}
+            {displayIndex || index + 1}
           </span>
         </motion.div>
 
@@ -832,6 +895,7 @@ IslandItem.propTypes = {
   onHoverStart: PropTypes.func.isRequired,
   onHoverEnd: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  displayIndex: PropTypes.number, // New optional prop
 };
 
 MapLayout.propTypes = {

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import Lottie from "lottie-react";
@@ -6,18 +6,34 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css"; // Ensure this is handled correctly in Next.js (e.g., global import)
 import { motion } from "framer-motion";
 import { FaPlay } from "react-icons/fa";
+import { useLanguage } from "../../../contexts/LanguageContext";
 
 // PATH CHANGE: Assumes speakerbird.json is in public/sound-test/
 // The import for speakerbirdAnimation is removed. We'll use the path prop for Lottie.
 const speakerbirdAnimationPath = "/sound-test/speakerbird.json";
 
-const SoundPlayerComponent = ({ pair, onTimeout }) => {
+const SoundPlayerComponent = ({ pair, onTimeout, questionIndex }) => {
+  const { language } = useLanguage();
   const [isPlaying, setIsPlaying] = useState(false); // isPlaying state may not be directly used from AudioPlayer's internal state
   const [playCount, setPlayCount] = useState(0);
   const lottieRef = useRef(null);
   const timeoutRef = useRef(null);
   const [audioError, setAudioError] = useState(null);
   const [glow, setGlow] = useState(false);
+
+  // Generate audio path based on language and question index
+  const getAudioPath = () => {
+    switch (language) {
+      case "hi":
+        return `/sound-test-audios/hindi-audio/Hindi-${
+          (questionIndex || 0) + 1
+        }.m4a`;
+      case "kn":
+        return `/sound-test-audios/kan-audio/K-${(questionIndex || 0) + 1}.m4a`;
+      default:
+        return `/sound-test-audios/eng-audio/${pair[0]}_${pair[1]}.m4a`;
+    }
+  };
 
   const handleClick = () => {
     const playPauseButton = document.querySelector(".rhap_play-pause-button");
@@ -63,7 +79,7 @@ const SoundPlayerComponent = ({ pair, onTimeout }) => {
       onTimeout(); // Also call onTimeout directly if error means cannot proceed
     }, 2000); // Or use onTimeout directly: onTimeout();
   };
-  
+
   // Reset playCount when pair changes
   useEffect(() => {
     setPlayCount(0);
@@ -72,7 +88,6 @@ const SoundPlayerComponent = ({ pair, onTimeout }) => {
       clearTimeout(timeoutRef.current);
     }
   }, [pair]);
-
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
@@ -88,8 +103,7 @@ const SoundPlayerComponent = ({ pair, onTimeout }) => {
 
       <div className="w-full max-w-md mb-6">
         <AudioPlayer
-          // PATH CHANGE: Assumes audio files are in public/audio/
-          src={`/audio/${pair[0]}_${pair[1]}.m4a`}
+          src={getAudioPath()}
           onPlay={handleAudioPlay}
           onPause={handleAudioPause}
           onEnded={handleAudioEnd}

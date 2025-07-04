@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -86,7 +86,13 @@ const SoundQuestionDisplay = ({
           {t("question")} {index + 1} {t("of")} {totalQuestions}
         </div>
 
-        {pair && <SoundPlayerComponent pair={pair} onTimeout={onTimeout} />}
+        {pair && (
+          <SoundPlayerComponent
+            pair={pair}
+            onTimeout={onTimeout}
+            questionIndex={index}
+          />
+        )}
 
         <div className="flex justify-center gap-6 mt-10">
           <motion.button
