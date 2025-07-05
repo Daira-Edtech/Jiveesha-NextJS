@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import { getCurrentUserId, createUserQueryKey } from '@/lib/cache-utils';
 
 export const useDashboardData = (students = []) => {
+  const userId = getCurrentUserId();
+
   return useQuery({
-    queryKey: ["dashboardData", students.map((s) => s.id).sort()],
+    queryKey: createUserQueryKey(["dashboardData", students.map((s) => s.id).sort()]),
     queryFn: async () => {
       if (!students || students.length === 0) {
         return {
@@ -23,7 +26,7 @@ export const useDashboardData = (students = []) => {
       if (!res.ok) throw new Error("Failed to fetch dashboard summary");
       return await res.json();
     },
-    enabled: students.length > 0,
+    enabled: students.length > 0 && !!userId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });

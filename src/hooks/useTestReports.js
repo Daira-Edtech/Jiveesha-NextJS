@@ -2,10 +2,13 @@
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { getCurrentUserId, createUserQueryKey } from '@/lib/cache-utils';
 
 export const useTestReports = (childId) => {
+  const userId = getCurrentUserId();
+
   return useQuery({
-    queryKey: ["testReports", childId],
+    queryKey: createUserQueryKey(["testReports", childId]),
     queryFn: async () => {
       if (!childId) {
         throw new Error("Child ID is required");
@@ -23,7 +26,7 @@ export const useTestReports = (childId) => {
 
       return response.data;
     },
-    enabled: !!childId,
+    enabled: !!childId && !!userId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000, // 10 minutes
     refetchOnWindowFocus: false,
@@ -52,8 +55,10 @@ export const useFilteredTests = (allTests, currentView) => {
 };
 
 export const useFormData = (childId) => {
+  const userId = getCurrentUserId();
+
   return useQuery({
-    queryKey: ["formData", childId],
+    queryKey: createUserQueryKey(["formData", childId]),
     queryFn: async () => {
       if (!childId) {
         throw new Error("Child ID is required");
@@ -71,7 +76,7 @@ export const useFormData = (childId) => {
 
       return response.data;
     },
-    enabled: !!childId,
+    enabled: !!childId && !!userId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000, // 10 minutes
     refetchOnWindowFocus: false,

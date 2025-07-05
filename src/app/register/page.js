@@ -6,7 +6,13 @@ import { Mail, Lock, Eye, EyeOff, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { authClient } from "@/lib/auth-client"; // Import the auth client
 import Image from "next/image";
@@ -43,7 +49,8 @@ export default function RegisterPage() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name) { // Add validation for name
+    if (!formData.name) {
+      // Add validation for name
       newErrors.name = "Name is required";
     }
 
@@ -62,7 +69,7 @@ export default function RegisterPage() {
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords don\'t match";
+      newErrors.confirmPassword = "Passwords don't match";
     }
 
     setErrors(newErrors);
@@ -89,14 +96,13 @@ export default function RegisterPage() {
           server: error.message || "Registration failed. Please try again.",
         }));
       } else if (data) {
-        // Handle successful registration
         router.push("/login?message=Registration successful! Please sign in.");
       }
     } catch (err) {
-      // This catch block might be redundant if authClient.signUp.email always returns an error object
       setErrors((prev) => ({
         ...prev,
-        server: err.message || "An unexpected error occurred during registration.",
+        server:
+          err.message || "An unexpected error occurred during registration.",
       }));
     } finally {
       setIsLoading(false);
@@ -115,11 +121,11 @@ export default function RegisterPage() {
         <div className="text-center">
           <div className="flex justify-center items-center mb-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src="/daira-logo1.png" 
-              alt="Daira Logo" 
-              width={56} 
-              height={48} 
+            <img
+              src="/daira-logo1.png"
+              alt="Daira Logo"
+              width={56}
+              height={48}
               className="rounded-xl"
             />
             <h1 className="text-3xl font-bold ml-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -129,9 +135,7 @@ export default function RegisterPage() {
           <h2 className="text-3xl font-bold text-blue-600 mb-2 font-serif">
             Learn. Play. Grow.
           </h2>
-          <p className="text-gray-600">
-            Create your account to get started
-          </p>
+          <p className="text-gray-600">Create your account to get started</p>
         </div>
 
         {/* Registration Form */}
@@ -155,7 +159,10 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Name Field */}
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="name"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Full Name
                 </Label>
                 <div className="relative">
@@ -168,7 +175,8 @@ export default function RegisterPage() {
                     autoComplete="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className={`pl-3 h-12 border-2 ${ // Adjusted padding if no icon
+                    className={`pl-3 h-12 border-2 ${
+                      // Adjusted padding if no icon
                       errors.name
                         ? "border-red-300 focus:border-red-500"
                         : "border-gray-200 focus:border-blue-400"
@@ -183,7 +191,10 @@ export default function RegisterPage() {
 
               {/* Email Field */}
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="email"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Parent&apos;s Email {/* Matched React component */}
                 </Label>
                 <div className="relative">
@@ -196,8 +207,8 @@ export default function RegisterPage() {
                     value={formData.email}
                     onChange={handleChange}
                     className={`pl-10 h-12 border-2 ${
-                      errors.email 
-                        ? "border-red-300 focus:border-red-500" 
+                      errors.email
+                        ? "border-red-300 focus:border-red-500"
                         : "border-gray-200 focus:border-blue-400"
                     } rounded-lg text-lg`}
                     placeholder="your@email.com"
@@ -210,7 +221,10 @@ export default function RegisterPage() {
 
               {/* Password Field */}
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="password"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Create Password
                 </Label>
                 <div className="relative">
@@ -223,8 +237,8 @@ export default function RegisterPage() {
                     value={formData.password}
                     onChange={handleChange}
                     className={`pl-10 pr-10 h-12 border-2 ${
-                      errors.password 
-                        ? "border-red-300 focus:border-red-500" 
+                      errors.password
+                        ? "border-red-300 focus:border-red-500"
                         : "border-gray-200 focus:border-blue-400"
                     } rounded-lg text-lg`}
                     placeholder="••••••••"
@@ -248,7 +262,10 @@ export default function RegisterPage() {
 
               {/* Confirm Password Field */}
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="confirmPassword"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Confirm Password
                 </Label>
                 <div className="relative">
@@ -261,8 +278,8 @@ export default function RegisterPage() {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     className={`pl-10 pr-10 h-12 border-2 ${
-                      errors.confirmPassword 
-                        ? "border-red-300 focus:border-red-500" 
+                      errors.confirmPassword
+                        ? "border-red-300 focus:border-red-500"
                         : "border-gray-200 focus:border-blue-400"
                     } rounded-lg text-lg`}
                     placeholder="••••••••"
@@ -280,7 +297,9 @@ export default function RegisterPage() {
                   </button>
                 </div>
                 {errors.confirmPassword && (
-                  <p className="text-sm text-red-600">{errors.confirmPassword}</p>
+                  <p className="text-sm text-red-600">
+                    {errors.confirmPassword}
+                  </p>
                 )}
               </div>
 
