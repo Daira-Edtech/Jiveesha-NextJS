@@ -37,7 +37,9 @@ const SideNavBarItem = ({
   return (
     <li
       className={`flex items-center rounded-lg cursor-pointer transition-all duration-300 group
-      ${isExpanded ? "px-2 py-2 md:px-3 md:py-3" : "justify-center py-2 md:py-3"} 
+      ${
+        isExpanded ? "px-2 py-2 md:px-3 md:py-3" : "justify-center py-2 md:py-3"
+      } 
       ${
         isActive
           ? "bg-primary text-primary-foreground shadow-sm" // Use theme variables
@@ -47,19 +49,21 @@ const SideNavBarItem = ({
     >
       <div
         className={`${
-          isActive ? "text-primary-foreground" : "text-primary group-hover:text-accent-foreground" // Icon color matches text or primary
+          isActive
+            ? "text-primary-foreground"
+            : "text-primary group-hover:text-accent-foreground" // Icon color matches text or primary
         } transition-colors duration-300`}
       >
         {cloneElement(icon, { className: "w-[18px] h-[18px] md:w-5 md:h-5" })}
       </div>
       <div
         className={`transition-all duration-300 ease-in-out overflow-hidden ${
-          isExpanded ? "max-w-[120px] md:max-w-[160px] opacity-100 ml-2 md:ml-3" : "max-w-0 opacity-0"
+          isExpanded
+            ? "max-w-[120px] md:max-w-[160px] opacity-100 ml-2 md:ml-3"
+            : "max-w-0 opacity-0"
         }`}
       >
-        <span className={`text-sm font-medium`}>
-          {text}
-        </span>
+        <span className={`text-sm font-medium`}>{text}</span>
       </div>
     </li>
   );
@@ -70,30 +74,29 @@ export function AppSidebar() {
   const isExpanded = state === "expanded";
   const router = useRouter();
   const pathname = usePathname();
-  
+
   // Use useLanguage from context
-  const { language, setLanguage, t, languagesList: contextLanguagesList } = useLanguage();
-  
+  const {
+    language,
+    setLanguage,
+    t,
+    languagesList: contextLanguagesList,
+  } = useLanguage();
+
   // Local state for dropdown visibility
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   // Define languagesList, using context's list or a fallback
   const languagesList = contextLanguagesList || [
     { code: "en", name: "English", short: "EN" },
-    { code: "ta", name: "தமிழ்", short: "TA" },
     { code: "hi", name: "हिंदी", short: "HI" },
-    { code: "ml", name: "മലയാളം", short: "ML" },
-    { code: "te", name: "తెలుగు", short: "TE" },
+
     { code: "kn", name: "ಕನ್ನಡ", short: "KN" },
-    { code: "mr", name: "मराठी", short: "MR" },
-    { code: "bn", name: "বাংলা", short: "BN" },
-    { code: "gu", name: "ગુજરાતી", short: "GU" },
-    { code: "pa", name: "ਪੰਜਾਬੀ", short: "PA" },
-    { code: "od", name: "ଓଡ଼ିଆ", short: "OD" },
   ];
 
-  const currentLanguageDetails = languagesList.find(l => l.code === language) || languagesList[0];
-  
+  const currentLanguageDetails =
+    languagesList.find((l) => l.code === language) || languagesList[0];
+
   const [user, setUser] = useState({
     name: "Loading...",
     email: "",
@@ -116,7 +119,7 @@ export function AppSidebar() {
         setUser({ name: "Error", email: "" });
       }
     };
-    
+
     fetchUser();
   }, []);
 
@@ -131,7 +134,7 @@ export function AppSidebar() {
           onError: () => {
             localStorage.removeItem("user");
             router.push("/login");
-          }
+          },
         },
       });
     } catch (error) {
@@ -142,19 +145,39 @@ export function AppSidebar() {
   };
 
   const mainMenuItems = [
-    { title: t("dashboard"), route: "/dashboard", icon: <MdDashboard size={20} /> },
-    { title: t("students"), route: "/my-class", icon: <HiOutlineClipboardList size={20} /> },
-    { title: t("tests"), route: "/take-tests", icon: <HiOutlineClipboardList size={20} /> },
-    { title: t("analytics"), route: "/analytics", icon: <BiBarChartAlt2 size={20} /> },
+    {
+      title: t("dashboard"),
+      route: "/dashboard",
+      icon: <MdDashboard size={20} />,
+    },
+    {
+      title: t("students"),
+      route: "/my-class",
+      icon: <HiOutlineClipboardList size={20} />,
+    },
+    {
+      title: t("tests"),
+      route: "/take-tests",
+      icon: <HiOutlineClipboardList size={20} />,
+    },
+    {
+      title: t("analytics"),
+      route: "/analytics",
+      icon: <BiBarChartAlt2 size={20} />,
+    },
   ];
 
   const handleItemClick = (route) => {
     router.push(route);
-    if (typeof window !== 'undefined' && window.innerWidth < 768 && state === 'expanded') {
-        setOpen(false);
+    if (
+      typeof window !== "undefined" &&
+      window.innerWidth < 768 &&
+      state === "expanded"
+    ) {
+      setOpen(false);
     }
   };
-  
+
   const handleToggle = () => {
     toggleSidebar();
   };
@@ -176,10 +199,18 @@ export function AppSidebar() {
           className="flex items-center cursor-pointer group"
           onClick={() => router.push("/")}
         >
-          <Image src={logoSrc} alt="Logo" width={32} height={32} className="min-w-[32px] md:w-9 md:h-9" />
+          <Image
+            src={logoSrc}
+            alt="Logo"
+            width={32}
+            height={32}
+            className="min-w-[32px] md:w-9 md:h-9"
+          />
           <div
             className={`transition-all duration-300 ease-in-out overflow-hidden ${
-              isExpanded ? "w-auto opacity-100 ml-2 md:ml-3" : "w-0 opacity-0 ml-0"
+              isExpanded
+                ? "w-auto opacity-100 ml-2 md:ml-3"
+                : "w-0 opacity-0 ml-0"
             }`}
           >
             <h1 className="text-lg md:text-xl font-bold text-foreground whitespace-nowrap">
@@ -223,7 +254,10 @@ export function AppSidebar() {
                 text={item.title}
                 route={item.route}
                 isExpanded={isExpanded}
-                isActive={pathname === item.route || (pathname === '/' && item.route === '/dashboard')}
+                isActive={
+                  pathname === item.route ||
+                  (pathname === "/" && item.route === "/dashboard")
+                }
                 onClick={handleItemClick}
               />
             ))}
@@ -244,7 +278,11 @@ export function AppSidebar() {
                 <Button
                   variant="ghost"
                   className={`w-full flex items-center px-2 py-1.5 md:px-3 md:py-2 text-sm font-medium rounded-lg border border-border/50
-                              ${isExpanded ? "justify-between hover:bg-accent hover:border-border" : "justify-center hover:bg-accent"}
+                              ${
+                                isExpanded
+                                  ? "justify-between hover:bg-accent hover:border-border"
+                                  : "justify-center hover:bg-accent"
+                              }
                               text-sidebar-foreground focus:ring-0 focus:ring-offset-0 transition-all duration-200`}
                   // onClick removed, DropdownMenuTrigger handles open/close via onOpenChange
                   aria-label={t("selectLanguage")}
@@ -253,9 +291,15 @@ export function AppSidebar() {
                     <>
                       <div className="flex items-center gap-2">
                         <MdLanguage className="w-4 h-4 opacity-70" />
-                        <span className="text-sm">{currentLanguageDetails.name}</span>
+                        <span className="text-sm">
+                          {currentLanguageDetails.name}
+                        </span>
                       </div>
-                      <FiChevronDown className={`w-4 h-4 opacity-70 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                      <FiChevronDown
+                        className={`w-4 h-4 opacity-70 transition-transform duration-200 ${
+                          isDropdownOpen ? "rotate-180" : ""
+                        }`}
+                      />
                     </>
                   ) : (
                     <MdLanguage className="w-5 h-5 md:w-6 md:h-6" />
@@ -281,10 +325,12 @@ export function AppSidebar() {
         </div>
       </div>
 
-      <div className={`absolute bottom-0 left-0 right-0 bg-sidebar px-3 pb-3 pt-3 border-t border-sidebar-border/50 transition-all duration-300 ease-in-out ${
-        isExpanded ? "w-64" : "w-16 md:w-20"
-      }`}>
-         <div
+      <div
+        className={`absolute bottom-0 left-0 right-0 bg-sidebar px-3 pb-3 pt-3 border-t border-sidebar-border/50 transition-all duration-300 ease-in-out ${
+          isExpanded ? "w-64" : "w-16 md:w-20"
+        }`}
+      >
+        <div
           className={`overflow-hidden transition-all duration-300 ease-in-out ${
             isExpanded ? "opacity-100 mb-2" : "opacity-0 h-0"
           }`}
@@ -294,9 +340,11 @@ export function AppSidebar() {
           </span>
         </div>
 
-        <div className={`${isExpanded ? "pt-2" : "pt-0"}`}> 
+        <div className={`${isExpanded ? "pt-2" : "pt-0"}`}>
           <div
-            className={`flex items-center ${isExpanded ? "" : "justify-center"}`}
+            className={`flex items-center ${
+              isExpanded ? "" : "justify-center"
+            }`}
           >
             <div className="relative">
               <Image
@@ -306,11 +354,14 @@ export function AppSidebar() {
                 height={32}
                 className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover border-2 border-primary/20" // Use primary color for border
               />
-              <div className="absolute bottom-0 right-0 w-2 h-2 md:w-2.5 md:h-2.5 bg-green-500 rounded-full border-2 border-sidebar"></div> {/* Border matches sidebar bg */}
+              <div className="absolute bottom-0 right-0 w-2 h-2 md:w-2.5 md:h-2.5 bg-green-500 rounded-full border-2 border-sidebar"></div>{" "}
+              {/* Border matches sidebar bg */}
             </div>
             <div
               className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                isExpanded ? "max-w-[120px] md:max-w-[160px] opacity-100 ml-2 md:ml-3" : "max-w-0 opacity-0"
+                isExpanded
+                  ? "max-w-[120px] md:max-w-[160px] opacity-100 ml-2 md:ml-3"
+                  : "max-w-0 opacity-0"
               }`}
             >
               <h2 className="font-medium text-foreground text-sm line-clamp-1">
@@ -327,7 +378,11 @@ export function AppSidebar() {
             onClick={handleLogout}
             className={`mt-2 md:mt-3 flex items-center w-full transition-colors duration-300 
                         text-red-500 hover:bg-red-100 hover:text-red-600 dark:text-red-400 dark:hover:bg-red-700/20 dark:hover:text-red-400
-                        ${isExpanded ? "justify-start px-2 py-2 md:px-3" : "justify-center px-0 py-2"}`}
+                        ${
+                          isExpanded
+                            ? "justify-start px-2 py-2 md:px-3"
+                            : "justify-center px-0 py-2"
+                        }`}
             aria-label={t("logout")}
             title={isExpanded ? "" : t("logout")}
           >

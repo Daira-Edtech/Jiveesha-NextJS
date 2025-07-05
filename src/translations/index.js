@@ -8,33 +8,43 @@ export const translations = {
     analytics: "Analytics",
     language: "Language",
     account: "Account",
+    assessmentConfiguration: "Assessment Configuration",
+    assessmentModeIntro:
+      "Please select your preferred assessment mode to proceed with the evaluation process.",
+    individualAssessment: "Individual Assessment",
+    individualAssessmentDescription:
+      "Take assessments individually with personalized pacing and detailed feedback for each test.",
+    continuousAssessment: "Continuous Assessment",
+    continuousAssessmentDescription:
+      "Complete multiple assessments in sequence with streamlined workflow and comprehensive reporting.",
+
     BacktoTests: "Back to Tests",
     backToMap: "Back to Map",
-    NewStudent:"Add New Student",
-    NewStudentDesc:"Click to add a student to your class",
-    Myclass:"My Class",
-    MyclassDesc : "Manage your students and track their progress",
+    NewStudent: "Add New Student",
+    NewStudentDesc: "Click to add a student to your class",
+    Myclass: "My Class",
+    MyclassDesc: "Manage your students and track their progress",
     searchStudentsPlaceholder: "Search for student...",
     //select Student
-    BacktoMap : "Back to Map",
-    ChooseYourPirate : "Choose Your Pirate",
-    ChooseYourPirateDesc:"Select a brave explorer to begin the learning quest!",
+    BacktoMap: "Back to Map",
+    ChooseYourPirate: "Choose Your Pirate",
+    ChooseYourPirateDesc:
+      "Select a brave explorer to begin the learning quest!",
     Selecting: "Selecting ..",
     SelectStudent: "Select Student",
-    Noready:"No adventurers ready",
-    Nofound :"No adventurers found",
-    diffnameroll:'Try searching for a different name or roll number',
-    nobraveAvail:'No brave explorers are available for the quest yet',
-    ClearSearch:"Clear Search",
-
+    Noready: "No adventurers ready",
+    Nofound: "No adventurers found",
+    diffnameroll: "Try searching for a different name or roll number",
+    nobraveAvail: "No brave explorers are available for the quest yet",
+    ClearSearch: "Clear Search",
 
     //myclass
-     labelRoll: "Roll:",
-  labelAge: "Age",
-  labelYears: "{count} years",
-  labelTestsTaken: "Tests Taken",
-  labelGender: "Gender",
-  buttonViewDetails: "View Details",
+    labelRoll: "Roll:",
+    labelAge: "Age",
+    labelYears: "{count} years",
+    labelTestsTaken: "Tests Taken",
+    labelGender: "Gender",
+    buttonViewDetails: "View Details",
     // Languages
     english: "English",
     tamil: "தமிழ்",
@@ -346,9 +356,10 @@ export const translations = {
     differentSounds: "Different Sounds",
     imReady: "🌟 I’m Ready, O Guardian!",
     imReadysound: "🌬️ My ears are open, and I am ready.",
-
+    ContinueWithoutFullscreen: "Continue without Fullscreen",
     // Fullscreen functionality
     enhanceExperience: "Enhance Experience",
+    optimizeEnvironment: "Optimize your learning environment",
     fullScreenRecommendation:
       "For the best experience, we recommend using fullscreen mode.",
     enterFullscreen: "Enter Fullscreen",
@@ -709,8 +720,8 @@ export const translations = {
     transcriptionNotReady: "Please record or upload audio before submitting.", // For toast.info(t("transcriptionNotReady"))
     SkipDemo: "Skip Demo",
     audioRecordedForDemo: "Audio recorded for demo",
-nothingToSubmit: "Nothing to submit",
-noAudioForDemo: "No audio for demo",
+    nothingToSubmit: "Nothing to submit",
+    noAudioForDemo: "No audio for demo",
 
     // Test6 - Tutorial Messages (Coraline's dialogue)
     tutorialHelloExplorer: "🙏 Namaste, little seeker of stories!",
@@ -1136,7 +1147,7 @@ noAudioForDemo: "No audio for demo",
     submitting: "Submitting...",
     loading: "Loading...",
     submitResults: "Submit Results",
-    practiceQuestionTitle: "Practice Question", 
+    practiceQuestionTitle: "Practice Question",
 
     feedbackKeepPracticing: "Keep Practicing! 💪",
     feedbackGoodEffort: "Good Effort! 😊",
@@ -1177,15 +1188,17 @@ noAudioForDemo: "No audio for demo",
 
     //Extras
 
-    pictureMainTestConfirmation:"Well done! The main test will start now. Are you ready?",
-    pictureStartMainTest:"Start Main Test",
+    pictureMainTestConfirmation:
+      "Well done! The main test will start now. Are you ready?",
+    pictureStartMainTest: "Start Main Test",
 
-    practiceResultDidNotSee: "Practice: You indicated you couldn't see the image.",
+    practiceResultDidNotSee:
+      "Practice: You indicated you couldn't see the image.",
     practiceResultCorrect: "Practice: Great job! You identified it correctly.",
     practiceResultIncorrect: "Practice: Good try!",
     answerCouldNotSeeImage: "Couldn't see image.",
 
-    pictureTestResultsTitle:"Results",
+    pictureTestResultsTitle: "Results",
 
     loadingResultsText: "Loading results...",
     pictureTestResultsTitle: "Results",
@@ -1200,16 +1213,17 @@ noAudioForDemo: "No audio for demo",
     finalScoreTitle: "Final Score",
     buttonTakeNewTest: "Take New Test",
 
-
-
     memory_test: "Auditory Sequential Memory Test",
-    welcome_memory_game: "Welcome to the Auditory Sequential Memory Test! This game will challenge your ability to remember sequences of numbers.",
+    welcome_memory_game:
+      "Welcome to the Auditory Sequential Memory Test! This game will challenge your ability to remember sequences of numbers.",
     listen_carefully_numbers: "Listen carefully to the numbers I say.",
     repeat_back_exactly: "Repeat them back to me in the exact same order.",
-    start_easy_get_harder: "We'll start with easy sequences, and they'll get harder as you go!",
+    start_easy_get_harder:
+      "We'll start with easy sequences, and they'll get harder as you go!",
     start_test: "Start Test",
     level_up_reverse_challenge: "Level Up! Reverse Challenge!",
-    now_exciting_twist: "Now for an exciting twist! You'll hear numbers, but you need to say them back in REVERSE order.",
+    now_exciting_twist:
+      "Now for an exciting twist! You'll hear numbers, but you need to say them back in REVERSE order.",
     if_i_say: "If I say",
     you_say: "You say",
     start_reverse_challenge: "Start Reverse Challenge",
@@ -1227,28 +1241,36 @@ noAudioForDemo: "No audio for demo",
     reverse_score: "Reverse Score",
     final_score: "Final Score",
     submit_results: "Submit Results",
-    no_student_selected: "No student selected. Please select a student before submitting.",
-    test_submitted_success: "Test results submitted successfully! Your score: {{score}}/10",
+    no_student_selected:
+      "No student selected. Please select a student before submitting.",
+    test_submitted_success:
+      "Test results submitted successfully! Your score: {{score}}/10",
     submit_results_failed: "Failed to submit test results. Please try again.",
-    submit_error_check_connection: "Error submitting test results. Please check your internet connection.",
+    submit_error_check_connection:
+      "Error submitting test results. Please check your internet connection.",
     transcription_failed: "Transcription failed. Please try again.",
     audio_upload_error: "Error uploading audio. Please try again.",
-    microphone_access_error: "Microphone access denied or error. Please allow microphone access in your browser settings.",
+    microphone_access_error:
+      "Microphone access denied or error. Please allow microphone access in your browser settings.",
     recording_error: "Recording error. Please try again.",
-    microphone_start_error: "Failed to start microphone. Please ensure it's connected and available.",
-    could_not_understand_numbers: "Could not understand the numbers from your speech. Please try speaking clearly.",
-    could_not_understand_numbers_clearly: "We couldn't clearly understand the numbers you said. Please try again.",
-
-
+    microphone_start_error:
+      "Failed to start microphone. Please ensure it's connected and available.",
+    could_not_understand_numbers:
+      "Could not understand the numbers from your speech. Please try speaking clearly.",
+    could_not_understand_numbers_clearly:
+      "We couldn't clearly understand the numbers you said. Please try again.",
 
     memory_test: "Auditory Sequential Memory Test",
-    welcome_memory_game: "Welcome to the Auditory Sequential Memory Test! This game will challenge your ability to remember sequences of numbers.",
+    welcome_memory_game:
+      "Welcome to the Auditory Sequential Memory Test! This game will challenge your ability to remember sequences of numbers.",
     listen_carefully_numbers: "Listen carefully to the numbers I say.",
     repeat_back_exactly: "Repeat them back to me in the exact same order.",
-    start_easy_get_harder: "We'll start with easy sequences, and they'll get harder as you go!",
+    start_easy_get_harder:
+      "We'll start with easy sequences, and they'll get harder as you go!",
     start_test: "Start Test",
     level_up_reverse_challenge: "Level Up! Reverse Challenge!",
-    now_exciting_twist: "Now for an exciting twist! You'll hear numbers, but you need to say them back in REVERSE order.",
+    now_exciting_twist:
+      "Now for an exciting twist! You'll hear numbers, but you need to say them back in REVERSE order.",
     if_i_say: "If I say",
     you_say: "You say",
     start_reverse_challenge: "Start Reverse Challenge",
@@ -1266,26 +1288,32 @@ noAudioForDemo: "No audio for demo",
     reverse_score: "Reverse Score",
     final_score: "Final Score",
     submit_results: "Submit Results",
-    no_student_selected: "No student selected. Please select a student before submitting.",
-    test_submitted_success: "Test results submitted successfully! Your score: {{score}}/10",
+    no_student_selected:
+      "No student selected. Please select a student before submitting.",
+    test_submitted_success:
+      "Test results submitted successfully! Your score: {{score}}/10",
     submit_results_failed: "Failed to submit test results. Please try again.",
-    submit_error_check_connection: "Error submitting test results. Please check your internet connection.",
+    submit_error_check_connection:
+      "Error submitting test results. Please check your internet connection.",
     transcription_failed: "Transcription failed. Please try again.",
     audio_upload_error: "Error uploading audio. Please try again.",
-    microphone_access_error: "Microphone access denied or error. Please allow microphone access in your browser settings.",
+    microphone_access_error:
+      "Microphone access denied or error. Please allow microphone access in your browser settings.",
     recording_error: "Recording error. Please try again.",
-    microphone_start_error: "Failed to start microphone. Please ensure it's connected and available.",
-    could_not_understand_numbers: "Could not understand the numbers from your speech. Please try speaking clearly.",
-    could_not_understand_numbers_clearly: "We couldn't clearly understand the numbers you said. Please try again.",
+    microphone_start_error:
+      "Failed to start microphone. Please ensure it's connected and available.",
+    could_not_understand_numbers:
+      "Could not understand the numbers from your speech. Please try speaking clearly.",
+    could_not_understand_numbers_clearly:
+      "We couldn't clearly understand the numbers you said. Please try again.",
     back_to_map: "Back to Map",
     alt_svarini_guardian: "Svarini, Guardian of Svara Gufa",
     continue: "Continue",
     im_ready: "I'm Ready",
     practice_correct_message: "Great job! Now let's start the real test.",
-    practice_incorrect_message: "Let's try that again. Listen carefully and repeat the numbers.",
+    practice_incorrect_message:
+      "Let's try that again. Listen carefully and repeat the numbers.",
     error_unknown_game_state: "Error: Unknown game state: {{gameState}}",
-
-
 
     excellentMemory: "Excellent memory! Your focus is as sharp as a crystal.",
     veryGoodJob: "Very good job! You navigate the echoes of sound with skill.",
@@ -1300,7 +1328,6 @@ noAudioForDemo: "No audio for demo",
     viewRewards: "View Your Rewards",
     finishTest: "Finish Test",
 
-
     your_turn_say_numbers: "Your turn! Say the numbers you heard.",
     your_turn_say_numbers_backwards: "Your turn! Say the numbers backwards.",
     recording: "Recording",
@@ -1310,8 +1337,9 @@ noAudioForDemo: "No audio for demo",
     lets_try_next_one: "Let's try the next one!",
     audio_upload_error: "Error uploading audio. Please try again.",
     recording_error: "Recording error. Please try again.",
-    microphone_access_error: "Microphone access denied or error. Please allow microphone access in your browser settings.",
-    
+    microphone_access_error:
+      "Microphone access denied or error. Please allow microphone access in your browser settings.",
+
     // New key for this component
     click_to_stop: "Click to Stop!",
     listen_carefully: "Listen carefully...",
@@ -1329,18 +1357,16 @@ noAudioForDemo: "No audio for demo",
     reverse: "Reverse",
     skipTest: "Skip Test",
 
-    dialog_1: "🎶 Namaste, traveler. I am Svarini, the voice of the river and guardian of Svara Gufa.",
-    dialog_2: "🌊 These caves sing with the melodies of the ages — carved in stone, whispered in water.",
-    dialog_3: "🎵 Listen carefully... the echoes will sing a pattern. You must repeat it, note for note.",
-    dialog_4: "🪷 If your memory flows as true as the river, you shall earn the Shell of Memory and the Whispering Horn.",
-    dialog_5: "✨ Close your eyes, open your ears... and let the music guide your soul.",
-
-
-    
-
-    
-
-  
+    dialog_1:
+      "🎶 Namaste, traveler. I am Svarini, the voice of the river and guardian of Svara Gufa.",
+    dialog_2:
+      "🌊 These caves sing with the melodies of the ages — carved in stone, whispered in water.",
+    dialog_3:
+      "🎵 Listen carefully... the echoes will sing a pattern. You must repeat it, note for note.",
+    dialog_4:
+      "🪷 If your memory flows as true as the river, you shall earn the Shell of Memory and the Whispering Horn.",
+    dialog_5:
+      "✨ Close your eyes, open your ears... and let the music guide your soul.",
   },
   ta: {
     mainMenu: "முதன்மை மெனு",
@@ -2074,22 +2100,25 @@ noAudioForDemo: "No audio for demo",
     noTestResultsFoundForFilter:
       "தற்போதைய வடிகட்டிக்கு முடிவுகள் எதுவும் பொருந்தவில்லை.",
 
-
-
     memory_test: "கேட்டல் வரிசை நினைவாற்றல் தேர்வு",
-    welcome_memory_game: "கேட்டல் வரிசை நினைவாற்றல் தேர்விற்கு நல்வரவு! இந்த விளையாட்டு, எண்களின் தொடர்களை நினைவில் கொள்ளும் உங்கள் திறனுக்கு சவால் விடும்.",
+    welcome_memory_game:
+      "கேட்டல் வரிசை நினைவாற்றல் தேர்விற்கு நல்வரவு! இந்த விளையாட்டு, எண்களின் தொடர்களை நினைவில் கொள்ளும் உங்கள் திறனுக்கு சவால் விடும்.",
     listen_carefully_numbers: "நான் சொல்லும் எண்களை கவனமாகக் கேளுங்கள்.",
-    repeat_back_exactly: "அவற்றை சரியான அதே வரிசையில் எனக்குத் திருப்பிக் கூறுங்கள்.",
-    start_easy_get_harder: "நாம் எளிதான தொடர்களில் ஆரம்பித்து, போகப் போக கடினமாக இருக்கும்!",
+    repeat_back_exactly:
+      "அவற்றை சரியான அதே வரிசையில் எனக்குத் திருப்பிக் கூறுங்கள்.",
+    start_easy_get_harder:
+      "நாம் எளிதான தொடர்களில் ஆரம்பித்து, போகப் போக கடினமாக இருக்கும்!",
     start_test: "தேர்வைத் தொடங்கு",
     level_up_reverse_challenge: "அடுத்த நிலை! தலைகீழ் சவால்!",
-    now_exciting_twist: "இப்போது ஒரு சுவாரஸ்யமான திருப்பம்! நீங்கள் எண்களைக் கேட்பீர்கள், ஆனால் அவற்றை தலைகீழ் வரிசையில் திரும்பச் சொல்ல வேண்டும்.",
+    now_exciting_twist:
+      "இப்போது ஒரு சுவாரஸ்யமான திருப்பம்! நீங்கள் எண்களைக் கேட்பீர்கள், ஆனால் அவற்றை தலைகீழ் வரிசையில் திரும்பச் சொல்ல வேண்டும்.",
     if_i_say: "நான் சொன்னால்",
     you_say: "நீங்கள் சொல்லுங்கள்",
     start_reverse_challenge: "தலைகீழ் சவாலைத் தொடங்கு",
     listen_carefully: "கவனமாகக் கேளுங்கள்...",
     your_turn_say_numbers: "உங்கள் முறை! நீங்கள் கேட்ட எண்களைச் சொல்லுங்கள்.",
-    your_turn_say_numbers_backwards: "உங்கள் முறை! எண்களைத் தலைகீழாகச் சொல்லுங்கள்.",
+    your_turn_say_numbers_backwards:
+      "உங்கள் முறை! எண்களைத் தலைகீழாகச் சொல்லுங்கள்.",
     recording: "பதிவு செய்யப்படுகிறது",
     processing_your_answer: "உங்கள் பதில் செயலாக்கப்படுகிறது...",
     you_said: "நீங்கள் சொன்னது",
@@ -2101,17 +2130,28 @@ noAudioForDemo: "No audio for demo",
     reverse_score: "தலைகீழ் மதிப்பெண்",
     final_score: "இறுதி மதிப்பெண்",
     submit_results: "முடிவுகளைச் சமர்ப்பி",
-    no_student_selected: "மாணவர் யாரும் தேர்ந்தெடுக்கப்படவில்லை. சமர்ப்பிக்கும் முன் தயவுசெய்து ஒரு மாணவரைத் தேர்ந்தெடுக்கவும்.",
-    test_submitted_success: "தேர்வு முடிவுகள் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டன! உங்கள் மதிப்பெண்: {{score}}/10",
-    submit_results_failed: "தேர்வு முடிவுகளைச் சமர்ப்பிக்க முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    submit_error_check_connection: "தேர்வு முடிவுகளைச் சமர்ப்பிப்பதில் பிழை. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்.",
-    transcription_failed: "படியெடுத்தல் தோல்வியடைந்தது. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    audio_upload_error: "ஆடியோவைப் பதிவேற்றுவதில் பிழை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    microphone_access_error: "மைக்ரோஃபோன் அணுகல் மறுக்கப்பட்டது அல்லது பிழை. உங்கள் உலாவியின் அமைப்புகளில் மைக்ரோஃபோன் அணுகலை அனுமதிக்கவும்.",
-    recording_error: "பதிவு செய்வதில் பிழை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    microphone_start_error: "மைக்ரோஃபோனைத் தொடங்க முடியவில்லை. அது இணைக்கப்பட்டு பயன்பாட்டிற்கு உள்ளதா என்பதை உறுதிப்படுத்தவும்.",
-    could_not_understand_numbers: "உங்கள் பேச்சிலிருந்து எண்களைப் புரிந்து கொள்ள முடியவில்லை. தயவுசெய்து தெளிவாகப் பேச முயற்சிக்கவும்.",
-    could_not_understand_numbers_clearly: "நீங்கள் சொன்ன எண்களை எங்களால் தெளிவாகப் புரிந்து கொள்ள முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
+    no_student_selected:
+      "மாணவர் யாரும் தேர்ந்தெடுக்கப்படவில்லை. சமர்ப்பிக்கும் முன் தயவுசெய்து ஒரு மாணவரைத் தேர்ந்தெடுக்கவும்.",
+    test_submitted_success:
+      "தேர்வு முடிவுகள் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டன! உங்கள் மதிப்பெண்: {{score}}/10",
+    submit_results_failed:
+      "தேர்வு முடிவுகளைச் சமர்ப்பிக்க முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    submit_error_check_connection:
+      "தேர்வு முடிவுகளைச் சமர்ப்பிப்பதில் பிழை. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்.",
+    transcription_failed:
+      "படியெடுத்தல் தோல்வியடைந்தது. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    audio_upload_error:
+      "ஆடியோவைப் பதிவேற்றுவதில் பிழை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    microphone_access_error:
+      "மைக்ரோஃபோன் அணுகல் மறுக்கப்பட்டது அல்லது பிழை. உங்கள் உலாவியின் அமைப்புகளில் மைக்ரோஃபோன் அணுகலை அனுமதிக்கவும்.",
+    recording_error:
+      "பதிவு செய்வதில் பிழை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    microphone_start_error:
+      "மைக்ரோஃபோனைத் தொடங்க முடியவில்லை. அது இணைக்கப்பட்டு பயன்பாட்டிற்கு உள்ளதா என்பதை உறுதிப்படுத்தவும்.",
+    could_not_understand_numbers:
+      "உங்கள் பேச்சிலிருந்து எண்களைப் புரிந்து கொள்ள முடியவில்லை. தயவுசெய்து தெளிவாகப் பேச முயற்சிக்கவும்.",
+    could_not_understand_numbers_clearly:
+      "நீங்கள் சொன்ன எண்களை எங்களால் தெளிவாகப் புரிந்து கொள்ள முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
   },
   hi: {
     question: "प्रश्न",
@@ -2124,8 +2164,34 @@ noAudioForDemo: "No audio for demo",
     analytics: "विश्लेषण",
     language: "भाषा",
     account: "खाता",
-    word: "शब्द", 
-
+    word: "शब्द",
+    enhanceExperience: "अनुभव बढ़ाएं",
+    optimizeEnvironment: "अपने सीखने के माहौल को अनुकूलित करें",
+    fullScreenRecommendation:
+      "सर्वश्रेष्ठ अनुभव के लिए, हम पूर्ण स्क्रीन मोड का उपयोग करने की सलाह देते हैं।",
+    ContinueWithoutFullscreen: "पूर्ण स्क्रीन के बिना जारी रखें",
+    enterFullscreen: "पूर्ण स्क्रीन में जाएं",
+    startGame: "खेल शुरू करें",
+    quit: "बाहर निकलें",
+    backToMap: "मानचित्र पर वापस जाएं",
+    formAnalysis: "फॉर्म विश्लेषण",
+    viewFormAnalysis: "फॉर्म विश्लेषण देखें",
+    formAnalysisResults: "फॉर्म विश्लेषण परिणाम",
+    formSubmissions: "फॉर्म सबमिशन",
+    submissionDate: "सबमिशन तिथि",
+    formVersion: "फॉर्म संस्करण",
+    overallAssessment: "समग्र मूल्यांकन",
+    learningStyle: "अधिगम शैली",
+    detailedFormAnalysis: "विस्तृत फॉर्म विश्लेषण",
+    strengths: "ताकत",
+    areasOfConcern: "चिंता के क्षेत्र",
+    recommendations: "सिफारिशें",
+    forParents: "अभिभावकों के लिए",
+    forTeachers: "शिक्षकों के लिए",
+    nextSteps: "अगले कदम",
+    analysisNotAvailable: "विश्लेषण उपलब्ध नहीं है",
+    noFormDataFound: "इस छात्र के लिए कोई फॉर्म डेटा नहीं मिला",
+    backToPreviousPage: "पिछले पृष्ठ पर वापस जाएं",
     //myclass and select student
     backToMap: "मैप पर वापस जाएँ",
     backToMapAlt: "मैप पर वापस जाएँ",
@@ -2136,21 +2202,21 @@ noAudioForDemo: "No audio for demo",
     labelGender: "लिंग",
     buttonViewDetails: "विवरण देखें",
     NewStudent: "नया छात्र जोड़ें",
-NewStudentDesc: "अपनी कक्षा में एक छात्र को जोड़ने के लिए क्लिक करें",
-Myclass: "मेरी कक्षा",
-MyclassDesc: "अपने छात्रों को प्रबंधित करें और उनकी प्रगति को ट्रैक करें",
-searchStudentsPlaceholder: "छात्रों को खोजें...",
-BacktoMap: "नक्शे पर वापस",
-ChooseYourPirate: "अपना समुद्री डाकू चुनें",
-ChooseYourPirateDesc: "सीखने की खोज शुरू करने के लिए एक बहादुर खोजकर्ता का चयन करें!",
-Selecting: "चयन हो रहा है..",
-SelectStudent: "छात्र चुनें",
-Noready: "कोई साहसी तैयार नहीं",
-Nofound: "कोई साहसी नहीं मिला",
-diffnameroll: "किसी दूसरे नाम या रोल नंबर से खोजने का प्रयास करें",
-nobraveAvail: "खोज के लिए अभी कोई बहादुर खोजकर्ता उपलब्ध नहीं है",
-ClearSearch: "खोज साफ़ करें",
-
+    NewStudentDesc: "अपनी कक्षा में एक छात्र को जोड़ने के लिए क्लिक करें",
+    Myclass: "मेरी कक्षा",
+    MyclassDesc: "अपने छात्रों को प्रबंधित करें और उनकी प्रगति को ट्रैक करें",
+    searchStudentsPlaceholder: "छात्रों को खोजें...",
+    BacktoMap: "नक्शे पर वापस",
+    ChooseYourPirate: "अपना समुद्री डाकू चुनें",
+    ChooseYourPirateDesc:
+      "सीखने की खोज शुरू करने के लिए एक बहादुर खोजकर्ता का चयन करें!",
+    Selecting: "चयन हो रहा है..",
+    SelectStudent: "छात्र चुनें",
+    Noready: "कोई साहसी तैयार नहीं",
+    Nofound: "कोई साहसी नहीं मिला",
+    diffnameroll: "किसी दूसरे नाम या रोल नंबर से खोजने का प्रयास करें",
+    nobraveAvail: "खोज के लिए अभी कोई बहादुर खोजकर्ता उपलब्ध नहीं है",
+    ClearSearch: "खोज साफ़ करें",
 
     // Languages
     english: "English",
@@ -2266,6 +2332,21 @@ ClearSearch: "खोज साफ़ करें",
     startRecording: "रिकॉर्डिंग शुरू करें",
     stopRecording: "रिकॉर्डिंग समाप्त करें",
     nextWord: "अगला शब्द",
+    ContinueWithoutFullscreen: "पूर्ण स्क्रीन के बिना जारी रखें",
+    startGame: "खेल शुरू करें",
+    quit: "बाहर निकलें",
+    backToMap: "मानचित्र पर वापस जाएं",
+
+    // ------ Assessment‑mode selection ------
+    assessmentConfiguration: "मूल्यांकन कॉन्फ़िगरेशन",
+    assessmentModeIntro:
+      "मूल्यांकन प्रक्रिया जारी रखने के लिए कृपया अपना पसंदीदा मूल्यांकन मोड चुनें।",
+    individualAssessment: "व्यक्तिगत मूल्यांकन",
+    individualAssessmentDescription:
+      "प्रत्येक टेस्ट के लिए व्यक्तिगत गति और विस्तृत प्रतिक्रिया के साथ अलग‑अलग मूल्यांकन करें।",
+    continuousAssessment: "सतत मूल्यांकन",
+    continuousAssessmentDescription:
+      "सरलीकृत वर्कफ़्लो और व्यापक रिपोर्टिंग के साथ क्रमवार कई मूल्यांकन पूर्ण करें।",
 
     // Test related
     testDetails: "टेस्ट विवरण",
@@ -2657,10 +2738,9 @@ ClearSearch: "खोज साफ़ करें",
     testSubmittedWithScore: "परीक्षण सबमिट किया गया! स्कोर: {score}%",
     transcriptionNotReady:
       "सबमिट करने से पहले कृपया ऑडियो रिकॉर्ड करें या अपलोड करें।",
-      audioRecordedForDemo: "डेमो के लिए ऑडियो रिकॉर्ड किया गया",
-nothingToSubmit: "सबमिट करने के लिए कुछ नहीं",
-noAudioForDemo: "डेमो के लिए कोई ऑडियो नहीं",
-
+    audioRecordedForDemo: "डेमो के लिए ऑडियो रिकॉर्ड किया गया",
+    nothingToSubmit: "सबमिट करने के लिए कुछ नहीं",
+    noAudioForDemo: "डेमो के लिए कोई ऑडियो नहीं",
 
     tutorialHelloExplorer: "👋 नमस्ते, युवा अन्वेषक!",
     tutorialCoralineIntro:
@@ -3024,7 +3104,6 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     noTestResultsFoundAtAll: "कोई टेस्ट परिणाम नहीं मिला।",
     noTestResultsFoundForFilter: "वर्तमान फ़िल्टर से कोई परिणाम मेल नहीं खाता।",
 
-
     //Sound Test Extra words
     correctAnswerGreatJob: "सही! बहुत बढ़िया! 🎉",
     youGotItRight: "आपका जवाब सही है! 👍",
@@ -3059,17 +3138,25 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
 
     //Sound Test Instructions
     testInstructionsTitle: "टेस्ट के निर्देश",
-    instructionWelcome: "फुसफुसाते द्वीप की ध्वनि चुनौती में आपका स्वागत है, बहादुर साहसी!",
+    instructionWelcome:
+      "फुसफुसाते द्वीप की ध्वनि चुनौती में आपका स्वागत है, बहादुर साहसी!",
     instructionHowToPlayTitle: "कैसे खेलें:",
     instructionListenCarefully: "आपको बोले गए शब्दों के जोड़े सुनाई देंगे।",
-    instructionTwoWords: "स्पीकर पक्षी के माध्यम से बजाए गए प्रत्येक जोड़े में दोनों शब्दों को ध्यान से सुनें।",
-    instructionSameOrDifferent: "यदि वे समान हैं तो 'एक जैसी ध्वनियाँ' पर क्लिक करें, या यदि वे नहीं हैं तो 'अलग ध्वनियाँ' पर क्लिक करें।",
-    instructionDemoRoundFirst: "सबसे पहले, आपका एक प्रश्न वाला अभ्यास (डेमो) राउंड होगा।",
-    instructionDemoRetry: "यदि आप डेमो प्रश्न का गलत उत्तर देते हैं, तो आप इसे फिर से आजमा सकते हैं।",
-    instructionDemoSuccess: "एक बार जब आप डेमो का सही उत्तर दे देंगे, तो मुख्य टेस्ट शुरू हो जाएगा।",
-    instructionMainTest: "मुख्य टेस्ट में कई प्रश्न हैं। अपना सर्वश्रेष्ठ प्रयास करें!",
+    instructionTwoWords:
+      "स्पीकर पक्षी के माध्यम से बजाए गए प्रत्येक जोड़े में दोनों शब्दों को ध्यान से सुनें।",
+    instructionSameOrDifferent:
+      "यदि वे समान हैं तो 'एक जैसी ध्वनियाँ' पर क्लिक करें, या यदि वे नहीं हैं तो 'अलग ध्वनियाँ' पर क्लिक करें।",
+    instructionDemoRoundFirst:
+      "सबसे पहले, आपका एक प्रश्न वाला अभ्यास (डेमो) राउंड होगा।",
+    instructionDemoRetry:
+      "यदि आप डेमो प्रश्न का गलत उत्तर देते हैं, तो आप इसे फिर से आजमा सकते हैं।",
+    instructionDemoSuccess:
+      "एक बार जब आप डेमो का सही उत्तर दे देंगे, तो मुख्य टेस्ट शुरू हो जाएगा।",
+    instructionMainTest:
+      "मुख्य टेस्ट में कई प्रश्न हैं। अपना सर्वश्रेष्ठ प्रयास करें!",
     instructionGoodLuckTitle: "तैयार हैं?",
-    instructionGoodLuckMessage: "ध्यान केंद्रित करें, ध्यान से सुनें, और शुभकामनाएँ!",
+    instructionGoodLuckMessage:
+      "ध्यान केंद्रित करें, ध्यान से सुनें, और शुभकामनाएँ!",
     proceedToDemoButton: "डेमो राउंड शुरू करें",
     closeInstructionsAriaLabel: "निर्देश बंद करें",
     gotItButton: "समझ गया!",
@@ -3077,13 +3164,20 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     // Set 2: Reading/Pronunciation Test
     testInstructionsTitle: "टेस्ट के निर्देश",
     instructionPoint1: "आपको शब्दों की एक श्रृंखला दिखाई जाएगी।",
-    instructionPoint2: "कृपया प्रत्येक शब्द को अपने माइक्रोफ़ोन में स्पष्ट रूप से पढ़ें।",
-    instructionPoint3: "आप अपनी रिकॉर्डिंग की एक ऑडियो फ़ाइल भी अपलोड कर सकते हैं।",
-    instructionPoint4: "सबसे पहले, आप परिचित होने के लिए एक त्वरित डेमो शब्द का प्रयास करेंगे।",
-    instructionPoint5: "डेमो में, यदि आपका उत्तर गलत है, तो आप फिर से प्रयास कर सकते हैं।",
-    instructionPoint6: "एक बार डेमो शब्द सही हो जाने पर, आप मुख्य टेस्ट पर आगे बढ़ सकते हैं।",
-    instructionPoint7: "शुरू करने के लिए 'रिकॉर्डिंग शुरू करें' (माइक आइकन) पर क्लिक करें, और समाप्त होने पर 'रिकॉर्डिंग बंद करें' (माइक ऑफ आइकन) पर क्लिक करें।",
-    instructionPoint8: "सुनिश्चित करें कि आपका माइक्रोफ़ोन सक्षम है और काम कर रहा है।",
+    instructionPoint2:
+      "कृपया प्रत्येक शब्द को अपने माइक्रोफ़ोन में स्पष्ट रूप से पढ़ें।",
+    instructionPoint3:
+      "आप अपनी रिकॉर्डिंग की एक ऑडियो फ़ाइल भी अपलोड कर सकते हैं।",
+    instructionPoint4:
+      "सबसे पहले, आप परिचित होने के लिए एक त्वरित डेमो शब्द का प्रयास करेंगे।",
+    instructionPoint5:
+      "डेमो में, यदि आपका उत्तर गलत है, तो आप फिर से प्रयास कर सकते हैं।",
+    instructionPoint6:
+      "एक बार डेमो शब्द सही हो जाने पर, आप मुख्य टेस्ट पर आगे बढ़ सकते हैं।",
+    instructionPoint7:
+      "शुरू करने के लिए 'रिकॉर्डिंग शुरू करें' (माइक आइकन) पर क्लिक करें, और समाप्त होने पर 'रिकॉर्डिंग बंद करें' (माइक ऑफ आइकन) पर क्लिक करें।",
+    instructionPoint8:
+      "सुनिश्चित करें कि आपका माइक्रोफ़ोन सक्षम है और काम कर रहा है।",
     buttonStartDemo: "डेमो शुरू करें",
     buttonShowInstructions: "निर्देश दिखाएँ",
     buttonHideInstructions: "निर्देश छिपाएँ",
@@ -3091,7 +3185,8 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     demoReadThisWord: "कृपया इस शब्द को ज़ोर से पढ़ें:",
     demoYourAttempt: "आपका प्रयास:",
     demoCorrectMessage: "बहुत बढ़िया! यह सही है।",
-    demoIncorrectMessage: 'पूरी तरह सही नहीं। शब्द था "{word}"। कृपया पुनः प्रयास करें।',
+    demoIncorrectMessage:
+      'पूरी तरह सही नहीं। शब्द था "{word}"। कृपया पुनः प्रयास करें।',
     demoIncorrectSimpleMessage: "पूरी तरह सही नहीं। कृपया पुनः प्रयास करें।",
     buttonTryAgain: "फिर से कोशिश करें",
     buttonProceedToMainTest: "मुख्य टेस्ट पर आगे बढ़ें",
@@ -3102,19 +3197,22 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     instructionsButtonLabel: "निर्देश",
     demoReadTheseWords: "कृपया इन शब्दों को क्रम से ज़ोर से पढ़ें:",
     demoAllWordsCorrectMessage: "उत्कृष्ट! सभी डेमो शब्द सही हैं।",
-    demoSomeWordsIncorrectMessage: 'पूरी तरह सही नहीं। कृपया सभी शब्दों को फिर से स्पष्ट रूप से पढ़ने का प्रयास करें। शब्द थे: "{words}"।',
+    demoSomeWordsIncorrectMessage:
+      'पूरी तरह सही नहीं। कृपया सभी शब्दों को फिर से स्पष्ट रूप से पढ़ने का प्रयास करें। शब्द थे: "{words}"।',
     demoYourFullAttempt: "आपका पूरा प्रयास:",
     gotIt: "समझ गया!",
 
     //Sount test demo instructions
-     soundTestApiName: "ध्वनि भेद परीक्षण",
+    soundTestApiName: "ध्वनि भेद परीक्षण",
     progress: "प्रगति",
     backToTests: "टेस्ट पर वापस जाएँ",
     showInstructionsButton: "निर्देश",
     demoRoundTitle: "डेमो राउंड",
-    demoRoundInstructions: "चलो अभ्यास करें! आवाज़ों को सुनें और बताएँ कि वे एक जैसी हैं या अलग। गलत होने पर आप फिर से कोशिश कर सकते हैं।",
+    demoRoundInstructions:
+      "चलो अभ्यास करें! आवाज़ों को सुनें और बताएँ कि वे एक जैसी हैं या अलग। गलत होने पर आप फिर से कोशिश कर सकते हैं।",
     demoIncorrectToastMessage: "अरे! चलो इसे फिर से कोशिश करें।",
-    demoTimeoutRetry: "डेमो प्रश्न का समय समाप्त हो गया। चलो इसे फिर से कोशिश करते हैं!",
+    demoTimeoutRetry:
+      "डेमो प्रश्न का समय समाप्त हो गया। चलो इसे फिर से कोशिश करते हैं!",
     demoCorrect: "बहुत बढ़िया!",
     demoCorrectProceed: "आप समझ गए! मुख्य टेस्ट शुरू करने के लिए तैयार हैं?",
     startMainTestButton: "मुख्य टेस्ट शुरू करें",
@@ -3126,29 +3224,36 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     submitting: "सबमिट हो रहा है...",
     selectStudentFirst: "कृपया पहले एक छात्र का चयन करें।",
     testSubmittedSuccessfully: "टेस्ट सफलतापूर्वक सबमिट हो गया!",
-    failedToSubmitTestPleaseTryAgain: "सबमिट करने में विफल। कृपया फिर से प्रयास करें।",
+    failedToSubmitTestPleaseTryAgain:
+      "सबमिट करने में विफल। कृपया फिर से प्रयास करें।",
     errorOccurredGeneric: "एक त्रुटि हुई। कृपया फिर से प्रयास करें।",
 
-    //Picture Test 
+    //Picture Test
     practiceRoundTitle: "अभ्यास राउंड",
     finishPractice: "अभ्यास राउंड सबमिट करें",
     gotItButton: "समझ गया!",
     howToPlayTitle: "कैसे खेलें",
     infoStep1: "आपको एक के बाद एक कई तस्वीरें दिखाई जाएँगी।",
-    infoStep2: "हर तस्वीर के लिए, पहले 'हाँ' या 'नहीं' पर क्लिक करके बताएँ कि क्या आप उसे साफ़-साफ़ देख सकते हैं।",
-    infoStep3: "यदि आप इसे देख सकते हैं, तो आपसे पूछा जाएगा कि यह क्या है और इसका वर्णन करें। आप टाइप कर सकते हैं या अपनी आवाज़ का उपयोग कर सकते हैं।",
+    infoStep2:
+      "हर तस्वीर के लिए, पहले 'हाँ' या 'नहीं' पर क्लिक करके बताएँ कि क्या आप उसे साफ़-साफ़ देख सकते हैं।",
+    infoStep3:
+      "यदि आप इसे देख सकते हैं, तो आपसे पूछा जाएगा कि यह क्या है और इसका वर्णन करें। आप टाइप कर सकते हैं या अपनी आवाज़ का उपयोग कर सकते हैं।",
     practiceResultDidNotSee: "अभ्यास: आपने बताया कि आप छवि नहीं देख सके।",
     practiceResultCorrect: "अभ्यास: बहुत बढ़िया! आपने इसे सही पहचाना।",
     practiceResultIncorrect: "अभ्यास: अच्छी कोशिश!",
     theCorrectAnswerWas: "सही उत्तर था:",
     transcriptionReceived: "ट्रांसक्रिप्शन प्राप्त हुआ!",
-    errorUploadingAudioCheckConnection: "ऑडियो अपलोड करने में त्रुटि। कृपया कनेक्शन जांचें।",
+    errorUploadingAudioCheckConnection:
+      "ऑडियो अपलोड करने में त्रुटि। कृपया कनेक्शन जांचें।",
     errorStoppingRecording: "रिकॉर्डिंग रोकने में त्रुटि",
     errorStoppingMicrophone: "माइक्रोफ़ोन रोकने में त्रुटि",
     recordingErrorPrefix: "रिकॉर्डिंग त्रुटि: ",
-    couldNotAccessMicrophoneCheckPermissions: "माइक्रोफ़ोन तक नहीं पहुँच सका। कृपया अनुमतियाँ जांचें।",
-    pleaseCompleteStepBeforeProceeding: "आगे बढ़ने से पहले कृपया यह चरण पूरा करें।",
-    failedToLoadTestResultsTryAgainLater: "टेस्ट के परिणाम लोड करने में विफल। कृपया बाद में पुनः प्रयास करें।",
+    couldNotAccessMicrophoneCheckPermissions:
+      "माइक्रोफ़ोन तक नहीं पहुँच सका। कृपया अनुमतियाँ जांचें।",
+    pleaseCompleteStepBeforeProceeding:
+      "आगे बढ़ने से पहले कृपया यह चरण पूरा करें।",
+    failedToLoadTestResultsTryAgainLater:
+      "टेस्ट के परिणाम लोड करने में विफल। कृपया बाद में पुनः प्रयास करें।",
     processingYourResults: "आपके परिणामों को संसाधित किया जा रहा है...",
     pictureRecognitionTestResultsTitle: "चित्र पहचान टेस्ट के परिणाम",
     imageColumn: "छवि",
@@ -3159,11 +3264,16 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     orSeparatorText: "या",
     statusProcessing: "संसाधित हो रहा है...",
 
-    pictureTestIntroDialog1: "🌺 चित्र सरोवर में आपका स्वागत है। इसके शांत जल में कहानियाँ हैं जो देखे जाने की प्रतीक्षा कर रही हैं।",
-    pictureTestIntroDialog2: "🐍 मैं चित्रानी हूँ, इस पवित्र स्थान की नाग संरक्षक। मैं स्मृति और कल्पना की गहराइयों से छवियों को बुला सकती हूँ।",
-    pictureTestIntroDialog3: "🌊 प्रिय यात्री, आपका काम है प्रत्येक दिखाई देने वाली छवि को नाम देना—और बताना कि ऊपर की दुनिया में इसका उपयोग कैसे होता है।",
-    pictureTestIntroDialog4: "💎 इस चुनौती को पूरा करें, और आप ओस-बूंद ताबीज और स्पष्टता की आँख अर्जित करेंगे—जो धारणा और अंतर्दृष्टि के उपहार हैं।",
-    pictureTestIntroDialog5: "✨ क्या आप लहराते पानी में झाँकने और जो दिखाई देता है उसकी सतह के नीचे क्या है, उसका पता लगाने के लिए तैयार हैं?",
+    pictureTestIntroDialog1:
+      "🌺 चित्र सरोवर में आपका स्वागत है। इसके शांत जल में कहानियाँ हैं जो देखे जाने की प्रतीक्षा कर रही हैं।",
+    pictureTestIntroDialog2:
+      "🐍 मैं चित्रानी हूँ, इस पवित्र स्थान की नाग संरक्षक। मैं स्मृति और कल्पना की गहराइयों से छवियों को बुला सकती हूँ।",
+    pictureTestIntroDialog3:
+      "🌊 प्रिय यात्री, आपका काम है प्रत्येक दिखाई देने वाली छवि को नाम देना—और बताना कि ऊपर की दुनिया में इसका उपयोग कैसे होता है।",
+    pictureTestIntroDialog4:
+      "💎 इस चुनौती को पूरा करें, और आप ओस-बूंद ताबीज और स्पष्टता की आँख अर्जित करेंगे—जो धारणा और अंतर्दृष्टि के उपहार हैं।",
+    pictureTestIntroDialog5:
+      "✨ क्या आप लहराते पानी में झाँकने और जो दिखाई देता है उसकी सतह के नीचे क्या है, उसका पता लगाने के लिए तैयार हैं?",
     pictureTestButtonNextDialog: "अगला",
     altChitraniTheNaga: "चित्रानी नाग",
     altLakeReflection: "जादुई झील का प्रतिबिंब",
@@ -3171,7 +3281,7 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     // Note: This key seems to have the wrong value in English. Translated as provided.
     altMiraTheMirrorfish: "चित्रानी नाग",
     altTidepoolReflection: "जादुई झील का प्रतिबिंब",
-    
+
     pictureTestProgressBarTitle: "टेस्ट की प्रगति",
     pictureTestProgressStatus: "{total} में से {current} पूरे हुए",
 
@@ -3179,16 +3289,21 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     speakCanYouSeeThisPictureInitial: "क्या आप इस तस्वीर को देख सकते हैं?",
 
     phonemeBlendingIntroDialog1: "नमस्ते, युवा यात्रियों! 🙏🌊",
-    phonemeBlendingIntroDialog2: "मैं शब्दमित्र हूँ 🐬, ध्वनि तरंगों से आपका डॉल्फिन मित्र।",
-    phonemeBlendingIntroDialog3: "यहाँ शब्द सागर में, लहरें सिर्फ छपछपाती नहीं हैं... 🌊✨",
-    phonemeBlendingIntroDialog4: "वे मंत्रों, तुकबंदियों और चंचल ध्वनियों के साथ गाती हैं! 🎶🪷",
-    phonemeBlendingIntroDialog5: "आइए उन ध्वनियों को जादुई शब्दों में मिलाएँ—क्या आप अपनी आवाज़ से लहरें बनाने के लिए तैयार हैं? 🗣️🔤💫",
-    
+    phonemeBlendingIntroDialog2:
+      "मैं शब्दमित्र हूँ 🐬, ध्वनि तरंगों से आपका डॉल्फिन मित्र।",
+    phonemeBlendingIntroDialog3:
+      "यहाँ शब्द सागर में, लहरें सिर्फ छपछपाती नहीं हैं... 🌊✨",
+    phonemeBlendingIntroDialog4:
+      "वे मंत्रों, तुकबंदियों और चंचल ध्वनियों के साथ गाती हैं! 🎶🪷",
+    phonemeBlendingIntroDialog5:
+      "आइए उन ध्वनियों को जादुई शब्दों में मिलाएँ—क्या आप अपनी आवाज़ से लहरें बनाने के लिए तैयार हैं? 🗣️🔤💫",
+
     altBlendaTheDolphin: "शब्दमित्र डॉल्फिन 🐬",
 
     //Extras in Picture
     practiceResultIncorrect: "अभ्यास: अच्छी कोशिश!",
-    pictureMainTestConfirmation: "बहुत बढ़िया! मुख्य टेस्ट अब शुरू होगा। क्या आप तैयार हैं?",
+    pictureMainTestConfirmation:
+      "बहुत बढ़िया! मुख्य टेस्ट अब शुरू होगा। क्या आप तैयार हैं?",
     pictureStartMainTest: "मुख्य टेस्ट शुरू करें",
 
     practiceResultDidNotSee: "अभ्यास: आपने बताया कि आप छवि नहीं देख सके।",
@@ -3211,15 +3326,17 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     finalScoreTitle: "अंतिम स्कोर",
     buttonTakeNewTest: "नया टेस्ट दें",
 
-
-     memory_test: "श्रवण अनुक्रमिक स्मृति परीक्षण",
-    welcome_memory_game: "श्रवण अनुक्रमिक स्मृति परीक्षण में आपका स्वागत है! यह गेम संख्याओं के क्रम को याद रखने की आपकी क्षमता को चुनौती देगा।",
+    memory_test: "श्रवण अनुक्रमिक स्मृति परीक्षण",
+    welcome_memory_game:
+      "श्रवण अनुक्रमिक स्मृति परीक्षण में आपका स्वागत है! यह गेम संख्याओं के क्रम को याद रखने की आपकी क्षमता को चुनौती देगा।",
     listen_carefully_numbers: "मेरे द्वारा कहे गए नंबरों को ध्यान से सुनें।",
     repeat_back_exactly: "उन्हें ठीक उसी क्रम में मेरे सामने दोहराएँ।",
-    start_easy_get_harder: "हम आसान क्रमों से शुरू करेंगे, और जैसे-जैसे आप आगे बढ़ेंगे, वे और कठिन होते जाएँगे!",
+    start_easy_get_harder:
+      "हम आसान क्रमों से शुरू करेंगे, और जैसे-जैसे आप आगे बढ़ेंगे, वे और कठिन होते जाएँगे!",
     start_test: "टेस्ट शुरू करें",
     level_up_reverse_challenge: "लेवल अप! उल्टी चुनौती!",
-    now_exciting_twist: "अब एक रोमांचक मोड़! आप संख्याएँ सुनेंगे, लेकिन आपको उन्हें उल्टे क्रम में वापस बोलना होगा।",
+    now_exciting_twist:
+      "अब एक रोमांचक मोड़! आप संख्याएँ सुनेंगे, लेकिन आपको उन्हें उल्टे क्रम में वापस बोलना होगा।",
     if_i_say: "अगर मैं कहूँ",
     you_say: "आप कहें",
     start_reverse_challenge: "उल्टी चुनौती शुरू करें",
@@ -3237,26 +3354,38 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     reverse_score: "उल्टा स्कोर",
     final_score: "अंतिम स्कोर",
     submit_results: "परिणाम सबमिट करें",
-    no_student_selected: "कोई छात्र चयनित नहीं है। कृपया सबमिट करने से पहले एक छात्र का चयन करें।",
-    test_submitted_success: "टेस्ट के परिणाम सफलतापूर्वक सबमिट हो गए! आपका स्कोर: {{score}}/10",
-    submit_results_failed: "टेस्ट के परिणाम सबमिट करने में विफल। कृपया फिर से प्रयास करें।",
-    submit_error_check_connection: "टेस्ट के परिणाम सबमिट करने में त्रुटि। कृपया अपना इंटरनेट कनेक्शन जांचें।",
+    no_student_selected:
+      "कोई छात्र चयनित नहीं है। कृपया सबमिट करने से पहले एक छात्र का चयन करें।",
+    test_submitted_success:
+      "टेस्ट के परिणाम सफलतापूर्वक सबमिट हो गए! आपका स्कोर: {{score}}/10",
+    submit_results_failed:
+      "टेस्ट के परिणाम सबमिट करने में विफल। कृपया फिर से प्रयास करें।",
+    submit_error_check_connection:
+      "टेस्ट के परिणाम सबमिट करने में त्रुटि। कृपया अपना इंटरनेट कनेक्शन जांचें।",
     transcription_failed: "ट्रांसक्रिप्शन विफल। कृपया फिर से प्रयास करें।",
-    audio_upload_error: "ऑडियो अपलोड करने में त्रुटि। कृपया फिर से प्रयास करें।",
-    microphone_access_error: "माइक्रोफ़ोन का एक्सेस अस्वीकृत या त्रुटि। कृपया अपने ब्राउज़र सेटिंग्स में माइक्रोफ़ोन एक्सेस की अनुमति दें।",
+    audio_upload_error:
+      "ऑडियो अपलोड करने में त्रुटि। कृपया फिर से प्रयास करें।",
+    microphone_access_error:
+      "माइक्रोफ़ोन का एक्सेस अस्वीकृत या त्रुटि। कृपया अपने ब्राउज़र सेटिंग्स में माइक्रोफ़ोन एक्सेस की अनुमति दें।",
     recording_error: "रिकॉर्डिंग में त्रुटि। कृपया फिर से प्रयास करें।",
-    microphone_start_error: "माइक्रोफ़ोन शुरू करने में विफल। कृपया सुनिश्चित करें कि यह जुड़ा हुआ और उपलब्ध है।",
-    could_not_understand_numbers: "आपकी बोली से संख्याओं को समझ नहीं सका। कृपया स्पष्ट बोलने का प्रयास करें।",
-    could_not_understand_numbers_clearly: "हमें आपके द्वारा कहे गए नंबर स्पष्ट रूप से समझ में नहीं आए। कृपया फिर से प्रयास करें।",
+    microphone_start_error:
+      "माइक्रोफ़ोन शुरू करने में विफल। कृपया सुनिश्चित करें कि यह जुड़ा हुआ और उपलब्ध है।",
+    could_not_understand_numbers:
+      "आपकी बोली से संख्याओं को समझ नहीं सका। कृपया स्पष्ट बोलने का प्रयास करें।",
+    could_not_understand_numbers_clearly:
+      "हमें आपके द्वारा कहे गए नंबर स्पष्ट रूप से समझ में नहीं आए। कृपया फिर से प्रयास करें।",
 
     memory_test: "श्रवण अनुक्रमिक स्मृति परीक्षण",
-    welcome_memory_game: "श्रवण अनुक्रमिक स्मृति परीक्षण में आपका स्वागत है! यह गेम संख्याओं के क्रम को याद रखने की आपकी क्षमता को चुनौती देगा।",
+    welcome_memory_game:
+      "श्रवण अनुक्रमिक स्मृति परीक्षण में आपका स्वागत है! यह गेम संख्याओं के क्रम को याद रखने की आपकी क्षमता को चुनौती देगा।",
     listen_carefully_numbers: "मेरे द्वारा कहे गए नंबरों को ध्यान से सुनें।",
     repeat_back_exactly: "उन्हें ठीक उसी क्रम में मेरे सामने दोहराएँ।",
-    start_easy_get_harder: "हम आसान क्रमों से शुरू करेंगे, और जैसे-जैसे आप आगे बढ़ेंगे, वे और कठिन होते जाएँगे!",
+    start_easy_get_harder:
+      "हम आसान क्रमों से शुरू करेंगे, और जैसे-जैसे आप आगे बढ़ेंगे, वे और कठिन होते जाएँगे!",
     start_test: "टेस्ट शुरू करें",
     level_up_reverse_challenge: "लेवल अप! उल्टी चुनौती!",
-    now_exciting_twist: "अब एक रोमांचक मोड़! आप संख्याएँ सुनेंगे, लेकिन आपको उन्हें उल्टे क्रम में वापस बोलना होगा।",
+    now_exciting_twist:
+      "अब एक रोमांचक मोड़! आप संख्याएँ सुनेंगे, लेकिन आपको उन्हें उल्टे क्रम में वापस बोलना होगा।",
     if_i_say: "अगर मैं कहूँ",
     you_say: "आप कहें",
     start_reverse_challenge: "उल्टी चुनौती शुरू करें",
@@ -3274,29 +3403,40 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     reverse_score: "उल्टा स्कोर",
     final_score: "अंतिम स्कोर",
     submit_results: "परिणाम सबमिट करें",
-    no_student_selected: "कोई छात्र चयनित नहीं है। कृपया सबमिट करने से पहले एक छात्र का चयन करें।",
-    test_submitted_success: "टेस्ट के परिणाम सफलतापूर्वक सबमिट हो गए! आपका स्कोर: {{score}}/10",
-    submit_results_failed: "टेस्ट के परिणाम सबमिट करने में विफल। कृपया फिर से प्रयास करें।",
-    submit_error_check_connection: "टेस्ट के परिणाम सबमिट करने में त्रुटि। कृपया अपना इंटरनेट कनेक्शन जांचें।",
+    no_student_selected:
+      "कोई छात्र चयनित नहीं है। कृपया सबमिट करने से पहले एक छात्र का चयन करें।",
+    test_submitted_success:
+      "टेस्ट के परिणाम सफलतापूर्वक सबमिट हो गए! आपका स्कोर: {{score}}/10",
+    submit_results_failed:
+      "टेस्ट के परिणाम सबमिट करने में विफल। कृपया फिर से प्रयास करें।",
+    submit_error_check_connection:
+      "टेस्ट के परिणाम सबमिट करने में त्रुटि। कृपया अपना इंटरनेट कनेक्शन जांचें।",
     transcription_failed: "ट्रांसक्रिप्शन विफल। कृपया फिर से प्रयास करें।",
-    audio_upload_error: "ऑडियो अपलोड करने में त्रुटि। कृपया फिर से प्रयास करें।",
-    microphone_access_error: "माइक्रोफ़ोन का एक्सेस अस्वीकृत या त्रुटि। कृपया अपने ब्राउज़र सेटिंग्स में माइक्रोफ़ोन एक्सेस की अनुमति दें।",
+    audio_upload_error:
+      "ऑडियो अपलोड करने में त्रुटि। कृपया फिर से प्रयास करें।",
+    microphone_access_error:
+      "माइक्रोफ़ोन का एक्सेस अस्वीकृत या त्रुटि। कृपया अपने ब्राउज़र सेटिंग्स में माइक्रोफ़ोन एक्सेस की अनुमति दें।",
     recording_error: "रिकॉर्डिंग में त्रुटि। कृपया फिर से प्रयास करें।",
-    microphone_start_error: "माइक्रोफ़ोन शुरू करने में विफल। कृपया सुनिश्चित करें कि यह जुड़ा हुआ और उपलब्ध है।",
-    could_not_understand_numbers: "आपकी बोली से संख्याओं को समझ नहीं सका। कृपया स्पष्ट बोलने का प्रयास करें।",
-    could_not_understand_numbers_clearly: "हमें आपके द्वारा कहे गए नंबर स्पष्ट रूप से समझ में नहीं आए। कृपया फिर से प्रयास करें।",
+    microphone_start_error:
+      "माइक्रोफ़ोन शुरू करने में विफल। कृपया सुनिश्चित करें कि यह जुड़ा हुआ और उपलब्ध है।",
+    could_not_understand_numbers:
+      "आपकी बोली से संख्याओं को समझ नहीं सका। कृपया स्पष्ट बोलने का प्रयास करें।",
+    could_not_understand_numbers_clearly:
+      "हमें आपके द्वारा कहे गए नंबर स्पष्ट रूप से समझ में नहीं आए। कृपया फिर से प्रयास करें।",
     back_to_map: "नक्शे पर वापस जाएँ",
     alt_svarini_guardian: "स्वरिणी, स्वर गुफ़ा की संरक्षिका",
     continue: "जारी रखें",
     im_ready: "मैं तैयार हूँ",
     practice_correct_message: "बहुत बढ़िया! अब असली टेस्ट शुरू करते हैं।",
-    practice_incorrect_message: "चलो फिर से कोशिश करते हैं। ध्यान से सुनें और नंबरों को दोहराएँ।",
+    practice_incorrect_message:
+      "चलो फिर से कोशिश करते हैं। ध्यान से सुनें और नंबरों को दोहराएँ।",
     error_unknown_game_state: "त्रुटि: अज्ञात गेम स्थिति: {{gameState}}",
 
     excellentMemory: "उत्कृष्ट स्मृति! आपका ध्यान क्रिस्टल की तरह तेज है।",
     veryGoodJob: "बहुत बढ़िया काम! आप ध्वनि की गूँज को कुशलता से समझते हैं।",
     goodEffort: "अच्छा प्रयास! गुफा के रहस्य आपकी पहुँच में हैं।",
-    keepPracticing: "अभ्यास करते रहें! हर गूँज जो आप सुनते हैं, आपको और मजबूत बनाती है।",
+    keepPracticing:
+      "अभ्यास करते रहें! हर गूँज जो आप सुनते हैं, आपको और मजबूत बनाती है।",
     testResults: "टेस्ट के परिणाम",
     memoryTestCompleted: "श्रवण अनुक्रमिक स्मृति परीक्षण पूरा हो गया है।",
     yourScore: "आपका स्कोर",
@@ -3306,17 +3446,18 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     viewRewards: "अपने पुरस्कार देखें",
     finishTest: "टेस्ट समाप्त करें",
 
-
-     your_turn_say_numbers: "आपकी बारी! सुने हुए नंबर बोलें।",
+    your_turn_say_numbers: "आपकी बारी! सुने हुए नंबर बोलें।",
     your_turn_say_numbers_backwards: "आपकी बारी! नंबरों को उल्टा बोलें।",
     recording: "रिकॉर्डिंग हो रही है",
     processing_your_answer: "आपके उत्तर को संसाधित किया जा रहा है...",
     you_said: "आपने कहा",
     correct: "सही",
     lets_try_next_one: "चलिए अगला प्रयास करते हैं!",
-    audio_upload_error: "ऑडियो अपलोड करने में त्रुटि। कृपया फिर से प्रयास करें।",
+    audio_upload_error:
+      "ऑडियो अपलोड करने में त्रुटि। कृपया फिर से प्रयास करें।",
     recording_error: "रिकॉर्डिंग में त्रुटि। कृपया फिर से प्रयास करें।",
-    microphone_access_error: "माइक्रोफ़ोन का एक्सेस अस्वीकृत या त्रुटि। कृपया अपने ब्राउज़र सेटिंग्स में माइक्रोफ़ोन एक्सेस की अनुमति दें।",
+    microphone_access_error:
+      "माइक्रोफ़ोन का एक्सेस अस्वीकृत या त्रुटि। कृपया अपने ब्राउज़र सेटिंग्स में माइक्रोफ़ोन एक्सेस की अनुमति दें।",
 
     // New key for this component
     click_to_stop: "रोकने के लिए क्लिक करें!",
@@ -3335,16 +3476,16 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     reverse: "उल्टा",
     skipTest: "टेस्ट छोड़ें",
 
-
-    dialog_1: "🎶 नमस्ते, यात्री। मैं स्वरिणी हूँ, नदी की आवाज़ और स्वर गुफ़ा की संरक्षिका।",
-    dialog_2: "🌊 ये गुफाएं युगों-युगों की धुनों से गाती हैं — पत्थर में उकेरी हुई, पानी में फुसफुसाई हुई।",
-    dialog_3: "🎵 ध्यान से सुनो... गूँज एक धुन गाएगी। तुम्हें उसे सुर-दर-सुर दोहराना होगा।",
-    dialog_4: "🪷 यदि तुम्हारी स्मृति नदी की तरह सच्ची बहती है, तो तुम स्मृति का शंख और फुसफुसाता हुआ सींग अर्जित करोगे।",
-    dialog_5: "✨ अपनी आँखें बंद करो, अपने कान खोलो... और संगीत को अपनी आत्मा का मार्गदर्शन करने दो।",
-
-    
-
-
+    dialog_1:
+      "🎶 नमस्ते, यात्री। मैं स्वरिणी हूँ, नदी की आवाज़ और स्वर गुफ़ा की संरक्षिका।",
+    dialog_2:
+      "🌊 ये गुफाएं युगों-युगों की धुनों से गाती हैं — पत्थर में उकेरी हुई, पानी में फुसफुसाई हुई।",
+    dialog_3:
+      "🎵 ध्यान से सुनो... गूँज एक धुन गाएगी। तुम्हें उसे सुर-दर-सुर दोहराना होगा।",
+    dialog_4:
+      "🪷 यदि तुम्हारी स्मृति नदी की तरह सच्ची बहती है, तो तुम स्मृति का शंख और फुसफुसाता हुआ सींग अर्जित करोगे।",
+    dialog_5:
+      "✨ अपनी आँखें बंद करो, अपने कान खोलो... और संगीत को अपनी आत्मा का मार्गदर्शन करने दो।",
   },
   ml: {
     mainMenu: "മുഖ്യ മെന്ന്",
@@ -3925,23 +4066,52 @@ noAudioForDemo: "डेमो के लिए कोई ऑडियो नह�
     tests: "ಪರೀಕ್ಷೆಗಳು",
     analytics: "ವಿಶ್ಲೇಷಣೆ",
     language: "ಭಾಷೆ",
-    account: "ಖಾತೆ",backToMap: "ನಕ್ಷೆಗೆ ಹಿಂತಿರುಗಿ",
-    //my cladd and select student 
+    enhanceExperience: "ಅನುಭವವನ್ನು ಹೆಚ್ಚಿಸಿ",
+    ContinueWithoutFullscreen: "ಫುಲ್‌ಸ್ಕ್ರೀನ್ ಇಲ್ಲದೇ ಮುಂದುವರಿಸಿ",
+    fullScreenRecommendation:
+      "ಉತ್ತಮ ಅನುಭವಕ್ಕಾಗಿ, ದಯವಿಟ್ಟು ಫುಲ್‌ಸ್ಕ್ರೀನ್ ಮೋಡ್ ಬಳಸಿ ಎಂದು ಶಿಫಾರಸು ಮಾಡುತ್ತೇವೆ.",
+    enterFullscreen: "ಫುಲ್‌ಸ್ಕ್ರೀನ್‌ಗೆ ಹೋಗಿ",
+    startGame: "ಆಟವನ್ನು ಪ್ರಾರಂಭಿಸಿ",
+    quit: "ಬಿಟ್ಟಿಹೋಗು",
+    backToMap: "ನಕ್ಷೆಗೆ ಹಿಂದಿರುಗಿ",
+    account: "ಖಾತೆ",
+    backToMap: "ನಕ್ಷೆಗೆ ಹಿಂತಿರುಗಿ",
+    formAnalysis: "ಫಾರ್ಮ್ ವಿಶ್ಲೇಷಣೆ",
+    viewFormAnalysis: "ಫಾರ್ಮ್ ವಿಶ್ಲೇಷಣೆಯನ್ನು ವೀಕ್ಷಿಸಿ",
+    formAnalysisResults: "ಫಾರ್ಮ್ ವಿಶ್ಲೇಷಣೆಯ ಫಲಿತಾಂಶಗಳು",
+    formSubmissions: "ಫಾರ್ಮ್ ಸಲ್ಲಿಕೆಗಳು",
+    submissionDate: "ಸಲ್ಲಿಸಿದ ದಿನಾಂಕ",
+    formVersion: "ಫಾರ್ಮ್ ಆವೃತ್ತಿ",
+    overallAssessment: "ಒಟ್ಟು ಮೌಲ್ಯಮಾಪನ",
+    learningStyle: "ಕಲಿಕೆಯ ಶೈಲಿ",
+    detailedFormAnalysis: "ವಿಸ್ತೃತ ಫಾರ್ಮ್ ವಿಶ್ಲೇಷಣೆ",
+    strengths: "ಬಲಗಳು",
+    areasOfConcern: "ಚಿಂತೆಗಳ ಪ್ರದೇಶಗಳು",
+    recommendations: "ಶಿಫಾರಸುಗಳು",
+    forParents: "ತಾಯಿ-ತಂದೆಗಳಿಗೆ",
+    forTeachers: "ಶಿಕ್ಷಕರಿಗೆ",
+    nextSteps: "ಮುಂದಿನ ಹಂತಗಳು",
+    analysisNotAvailable: "ವಿಶ್ಲೇಷಣೆ ಲಭ್ಯವಿಲ್ಲ",
+    noFormDataFound: "ಈ ವಿದ್ಯಾರ್ಥಿಗಾಗಿ ಯಾವುದೇ ಫಾರ್ಮ್ ಡೇಟಾ ಕಂಡುಬಂದಿಲ್ಲ",
+    backToPreviousPage: "ಹಿಂದಿನ ಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ",
+    //my cladd and select student
     NewStudent: "ಹೊಸ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಸೇರಿಸಿ",
-NewStudentDesc: "ನಿಮ್ಮ ತರಗತಿಗೆ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಸೇರಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
-Myclass: "ನನ್ನ ತರಗತಿ",
-MyclassDesc: "ನಿಮ್ಮ ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ ಮತ್ತು ಅವರ ಪ್ರಗತಿಯನ್ನು ಗಮನಿಸಿ",
-searchStudentsPlaceholder: "ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ಹುಡುಕಿ...",
-BacktoMap: "ನಕ್ಷೆಗೆ ಹಿಂತಿರುಗಿ",
-ChooseYourPirate: "ನಿಮ್ಮ ಕಡಲ್ಗಳ್ಳನನ್ನು ಆರಿಸಿ",
-ChooseYourPirateDesc: "ಕಲಿಕೆಯ ಸಾಹಸವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಒಬ್ಬ ಧೈರ್ಯಶಾಲಿ ಅನ್ವೇಷಕನನ್ನು ಆಯ್ಕೆಮಾಡಿ!",
-Selecting: "ಆಯ್ಕೆ ಮಾಡಲಾಗುತ್ತಿದೆ..",
-SelectStudent: "ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
-Noready: "ಯಾವುದೇ ಸಾಹಸಿಗಳು ಸಿದ್ಧವಾಗಿಲ್ಲ",
-Nofound: "ಯಾವುದೇ ಸಾಹಸಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
-diffnameroll: "ಬೇರೆ ಹೆಸರು ಅಥವಾ ರೋಲ್ ಸಂಖ್ಯೆಯಿಂದ ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ",
-nobraveAvail: "ಸಾಹಸಕ್ಕಾಗಿ ಇನ್ನೂ ಯಾವುದೇ ಧೈರ್ಯಶಾಲಿ ಅನ್ವೇಷಕರು ಲಭ್ಯವಿಲ್ಲ",
-ClearSearch: "ಹುಡುಕಾಟವನ್ನು ತೆರವುಗೊಳಿಸಿ",
+    NewStudentDesc: "ನಿಮ್ಮ ತರಗತಿಗೆ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಸೇರಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
+    Myclass: "ನನ್ನ ತರಗತಿ",
+    MyclassDesc:
+      "ನಿಮ್ಮ ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ ಮತ್ತು ಅವರ ಪ್ರಗತಿಯನ್ನು ಗಮನಿಸಿ",
+    searchStudentsPlaceholder: "ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ಹುಡುಕಿ...",
+    BacktoMap: "ನಕ್ಷೆಗೆ ಹಿಂತಿರುಗಿ",
+    ChooseYourPirate: "ನಿಮ್ಮ ಕಡಲ್ಗಳ್ಳನನ್ನು ಆರಿಸಿ",
+    ChooseYourPirateDesc:
+      "ಕಲಿಕೆಯ ಸಾಹಸವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಒಬ್ಬ ಧೈರ್ಯಶಾಲಿ ಅನ್ವೇಷಕನನ್ನು ಆಯ್ಕೆಮಾಡಿ!",
+    Selecting: "ಆಯ್ಕೆ ಮಾಡಲಾಗುತ್ತಿದೆ..",
+    SelectStudent: "ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+    Noready: "ಯಾವುದೇ ಸಾಹಸಿಗಳು ಸಿದ್ಧವಾಗಿಲ್ಲ",
+    Nofound: "ಯಾವುದೇ ಸಾಹಸಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
+    diffnameroll: "ಬೇರೆ ಹೆಸರು ಅಥವಾ ರೋಲ್ ಸಂಖ್ಯೆಯಿಂದ ಹುಡುಕಲು ಪ್ರಯತ್ನಿಸಿ",
+    nobraveAvail: "ಸಾಹಸಕ್ಕಾಗಿ ಇನ್ನೂ ಯಾವುದೇ ಧೈರ್ಯಶಾಲಿ ಅನ್ವೇಷಕರು ಲಭ್ಯವಿಲ್ಲ",
+    ClearSearch: "ಹುಡುಕಾಟವನ್ನು ತೆರವುಗೊಳಿಸಿ",
     labelRoll: "ರೋಲ್:",
     labelAge: "ವಯಸ್ಸು",
     labelYears: "{count} ವರ್ಷ",
@@ -4063,6 +4233,25 @@ ClearSearch: "ಹುಡುಕಾಟವನ್ನು ತೆರವುಗೊಳಿ�
     endTest: "ಪರೀಕ್ಷೆ ಮುಗಿಸಿ",
     submitTest: "ಪರೀಕ್ಷೆ ಸಲ್ಲಿಸಿ",
     retakeTest: "ಪರೀಕ್ಷೆ ಮರುಬರೆಯಿರಿ",
+    enhanceExperience: "ಅನುಭವವನ್ನು ಹೆಚ್ಚಿಸಿ",
+    fullScreenRecommendation:
+      "ಉತ್ತಮ ಅನುಭವಕ್ಕಾಗಿ, ಫುಲ್‌ಸ್ಕ್ರೀನ್ ಮೋಡ್ ಬಳಸುವುದನ್ನು ಶಿಫಾರಸು ಮಾಡುತ್ತೇವೆ.",
+    enterFullscreen: "ಫುಲ್‌ಸ್ಕ್ರೀನ್‌ಗೆ ಹೋಗಿ",
+    ContinueWithoutFullscreen: "ಫುಲ್‌ಸ್ಕ್ರೀನ್ ಇಲ್ಲದೇ ಮುಂದುವರಿಸಿ",
+    startGame: "ಆಟವನ್ನು ಪ್ರಾರಂಭಿಸಿ",
+    quit: "ಬಿಟ್ಟುಹೊಗು",
+    backToMap: "ನಕ್ಷೆಗೆ ಹಿಂದಿರುಗಿ",
+
+    // ------ Assessment‑mode selection ------
+    assessmentConfiguration: "ಮೌಲ್ಯಮಾಪನ ಸಂರಚನೆ",
+    assessmentModeIntro:
+      "ಮೌಲ್ಯಮಾಪನ ಪ್ರಕ್ರಿಯೆಯನ್ನು ಮುಂದುವರಿಸಲು ನಿಮ್ಮ ಇಚ್ಛಿತ ಮೌಲ್ಯಮಾಪನ ಮೋಡ್ ಆಯ್ಕೆಮಾಡಿ.",
+    individualAssessment: "ವ್ಯಕ್ತಿಗತ ಮೌಲ್ಯಮಾಪನ",
+    individualAssessmentDescription:
+      "ಪ್ರತಿ ಪರೀಕ್ಷೆಗೆ ವೈಯಕ್ತಿಕ ಗತಿಯೊಂದಿಗೆ ಹಾಗೂ ಸವಿಸ್ತಾರ ಪ್ರತಿಕ್ರಿಯೆಯೊಂದಿಗೆ ಪ್ರತ್ಯೇಕ ಮೌಲ್ಯಮಾಪನಗಳನ್ನು ಪಡೆಯಿರಿ.",
+    continuousAssessment: "ಪತತ ಮೌಲ್ಯಮಾಪನ",
+    continuousAssessmentDescription:
+      "ಸರಳಗೊಳಿಸಿದ ವರ್ಕ್‌ಫ್ಲೋ ಮತ್ತು ಸಮಗ್ರ ವರದಿಗಳೊಂದಿಗೆ ಕ್ರಮಬದ್ದವಾಗಿ ಅನೇಕ ಮೌಲ್ಯಮಾಪನಗಳನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ.",
     viewResults: "ಫಲಿತಾಂಶ ನೋಡಿ",
     correctAnswers: "ಸರಿಯಾದ ಉತ್ತರಗಳು",
     wrongAnswers: "ತಪ್ಪಾದ ಉತ್ತರಗಳು",
@@ -4349,7 +4538,7 @@ ClearSearch: "ಹುಡುಕಾಟವನ್ನು ತೆರವುಗೊಳಿ�
     audio_upload_error: "ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ದೋಷ",
     transcribing: "ಲಿಪ್ಯಂತರ ಮಾಡಲಾಗುತ್ತಿದೆ...",
 
-    //Added new for Reading Efficiency Test 
+    //Added new for Reading Efficiency Test
     testInstructionsTitle: "ಪರೀಕ್ಷೆಯ ಸೂಚನೆಗಳು",
     instructionPoint1: "ನಿಮಗೆ ಪದಗಳ ಸರಣಿಯನ್ನು ತೋರಿಸಲಾಗುತ್ತದೆ.",
     instructionPoint2:
@@ -4385,7 +4574,8 @@ ClearSearch: "ಹುಡುಕಾಟವನ್ನು ತೆರವುಗೊಳಿ�
     uploadAudioPrompt: "ಅಥವಾ ಆಡಿಯೋ ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
     instructionsButtonLabel: "ಸೂಚನೆಗಳು",
     demoReadTheseWords: "ದಯವಿಟ್ಟು ಈ ಪದಗಳನ್ನು ಕ್ರಮವಾಗಿ ಗಟ್ಟಿಯಾಗಿ ಓದಿ:",
-    demoAllWordsCorrectMessage: "ಅತ್ಯುತ್ತಮ! ಎಲ್ಲಾ ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ಪದಗಳು ಸರಿಯಾಗಿವೆ.",
+    demoAllWordsCorrectMessage:
+      "ಅತ್ಯುತ್ತಮ! ಎಲ್ಲಾ ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ಪದಗಳು ಸರಿಯಾಗಿವೆ.",
     demoSomeWordsIncorrectMessage:
       'ಸರಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಪದಗಳನ್ನು ಮತ್ತೊಮ್ಮೆ ಸ್ಪಷ್ಟವಾಗಿ ಓದಿ. ಪದಗಳು: "{words}".',
     demoYourFullAttempt: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಪ್ರಯತ್ನ:",
@@ -4398,9 +4588,9 @@ ClearSearch: "ಹುಡುಕಾಟವನ್ನು ತೆರವುಗೊಳಿ�
     testSubmittedWithScore: "ಪರೀಕ್ಷೆ ಸಲ್ಲಿಸಲಾಗಿದೆ! ಅಂಕಗಳು: {score}%",
     transcriptionNotReady:
       "ಸಲ್ಲಿಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ಆಡಿಯೋ ರೆಕಾರ್ಡ್ ಮಾಡಿ ಅಥವಾ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.",
-      audioRecordedForDemo: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆಗಾಗಿ ಆಡಿಯೋ ರೆಕಾರ್ಡ್ ಮಾಡಲಾಗಿದೆ",
-nothingToSubmit: "ಸಲ್ಲಿಸಲು ಏನೂ ಇಲ್ಲ",
-noAudioForDemo: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆಗಾಗಿ ಯಾವುದೇ ಆಡಿಯೋ ಇಲ್ಲ",
+    audioRecordedForDemo: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆಗಾಗಿ ಆಡಿಯೋ ರೆಕಾರ್ಡ್ ಮಾಡಲಾಗಿದೆ",
+    nothingToSubmit: "ಸಲ್ಲಿಸಲು ಏನೂ ಇಲ್ಲ",
+    noAudioForDemo: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆಗಾಗಿ ಯಾವುದೇ ಆಡಿಯೋ ಇಲ್ಲ",
     // Test6 - Tutorial Messages (Coraline's dialogue)
     tutorialHelloExplorer: "👋 ನಮಸ್ಕಾರ, ಯುವ ಪರಿಶೋಧಕನೇ!",
     tutorialCoralineIntro:
@@ -4450,64 +4640,86 @@ noAudioForDemo: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆಗಾಗಿ ಯಾವ�
     ariaLabelUploadAudioFile: "ಆಡಿಯೋ ಫೈಲ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
 
     //Visual Descrimination Test
-    visualTestGhadiyakshDialogWelcome: "🕰️ ನಮಸ್ತೆ, ಯಾತ್ರಿಕ... ನಾನು ಘಡಿಯಾಕ್ಷ, ಯಂತ್ರ ಕಾನನದ ಗಡಿಯಾರ ರಕ್ಷಕ.",
-visualTestGhadiyakshDialogShiftingPatterns: "🌿 ಈ ತೋಟವು ಚಲಿಸುವ ಭಾಗಗಳು ಮತ್ತು ಬದಲಾಗುವ ವಿನ್ಯಾಸಗಳಿಂದ ಜೀವಂತವಾಗಿದೆ. ಟಿಕ್ ಎಂದು ಶಬ್ದ ಮಾಡುವ ಎಲ್ಲವೂ ಒಂದಕ್ಕೊಂದು ಸೇರುವುದಿಲ್ಲ...",
-visualTestGhadiyakshDialogWatchClosely: "👁️ ಸೂಕ್ಷ್ಮವಾಗಿ ಗಮನಿಸು. ಕೆಲವು ತುಣುಕುಗಳು ನಿನ್ನ ಕಣ್ಣಿಗೆ ಮೋಸ ಮಾಡಬಹುದು. ಕೇವಲ ಒಂದು ಮಾತ್ರ ಸರಿಯಾಗಿ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ.",
-visualTestGhadiyakshDialogReward: "🎁 ದೃಷ್ಟಿಯ ಒಗಟುಗಳನ್ನು ಬಿಡಿಸಿದರೆ, ನಾನು ನಿನಗೆ ಏಕಾಗ್ರತೆಯ ಗರಿ 🪶 ಮತ್ತು ಪ್ರತಿಬಿಂಬ ಗೇರ್ 🔍 ಅನ್ನು ಉಡುಗೊರೆಯಾಗಿ ನೀಡುತ್ತೇನೆ—ಸ್ಪಷ್ಟವಾಗಿ ಕಾಣುವುದನ್ನು ಮೀರಿ ನೋಡಲು ಬೇಕಾದ ಸಾಧನಗಳು.",
-visualTestGhadiyakshDialogReadyPrompt: "🦚 ನಿನ್ನ ಕಣ್ಣುಗಳು ಸ್ಥಿರವಾಗಿವೆಯೇ ಮತ್ತು ನಿನ್ನ ಮನಸ್ಸು ಚುರುಕಾಗಿದೆಯೇ? ಹಾಗಾದರೆ, ಸವಾಲು ಪ್ರಾರಂಭವಾಗಲಿ!",
-altGhadiyakshTheGuardian: "ರಕ್ಷಕ ಘಡಿಯಾಕ್ಷ",
-buttonImReady: "ನಾನು ಸಿದ್ಧ!",
-labelTimeRemaining: "ಉಳಿದಿರುವ ಸಮಯ",
-labelQuestionOutOfTotal: "{total} ರಲ್ಲಿ ಪ್ರಶ್ನೆ {index}",
-labelProgress: "ಪ್ರಗತಿ",
-visualTestSelectStudentError: "ಪರೀಕ್ಷೆ ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ದಯವಿಟ್ಟು ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
-visualTestCompleted: "ಪರೀಕ್ಷೆ ಪೂರ್ಣಗೊಂಡಿದೆ!",
-visualTestScoreOutOfTotal: "ನೀವು {total} ರಲ್ಲಿ {score} ಸರಿ ಉತ್ತರಗಳನ್ನು ನೀಡಿದ್ದೀರಿ",
-feedbackKeepPracticing: "ಅಭ್ಯಾಸ ಮುಂದುವರಿಸಿ! 💪",
-feedbackGoodEffort: "ಒಳ್ಳೆಯ ಪ್ರಯತ್ನ! 😊",
-feedbackGreatJob: "ಅದ್ಭುತ ಕೆಲಸ! 👍",
-feedbackExcellent: "ಅತ್ಯುತ್ತಮ ಕೆಲಸ! 🎉",
-closeInstructions: "ಸೂಚನೆಗಳನ್ನು ಮುಚ್ಚಿ",
-gotIt: "ಅರ್ಥವಾಯಿತು!",
-visualTestDemoInstructionsTitle: "ಅಭ್ಯಾಸದ ಸಲಹೆಗಳು",
-demoInstructionsButton: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ಸಲಹೆಗಳು",
-showDemoInstructions: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ಸೂಚನೆಗಳನ್ನು ತೋರಿಸಿ",
-VisualDemoInstruction1: "ಪರದೆಯ ಮಧ್ಯದಲ್ಲಿ ಒಂದು ದೊಡ್ಡ ಪದ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ. ಅದನ್ನು ಎಚ್ಚರಿಕೆಯಿಂದ ನೋಡಿ!",
-VisualDemoInstruction2: "ಕೆಳಗೆ, ನಿಮಗೆ ಎರಡು ಸಣ್ಣ ಪದಗಳು ಕಾಣಿಸುತ್ತವೆ. ದೊಡ್ಡ ಪದಕ್ಕೆ ಹೊಂದುವ ಪದವನ್ನು ಆರಿಸಿ.",
-VisualDemoInstruction3: "ನಿಜವಾದ ಪರೀಕ್ಷೆಯಲ್ಲಿ, ಟೈಮರ್ ಇರುತ್ತದೆ! ಆದರೆ ಅಭ್ಯಾಸಕ್ಕಾಗಿ, ನಿಮ್ಮ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಿ.",
-VisualDemoInstruction4: "ಇಲ್ಲಿ ನೀವು ತಪ್ಪು ಆಯ್ಕೆ ಮಾಡಿದರೆ ಚಿಂತಿಸಬೇಡಿ, ಇದು ಕೇವಲ ಅಭ್ಯಾಸಕ್ಕಾಗಿ!",
-VisualDemoInstruction5: "ಈ ಅಭ್ಯಾಸವು ಪರೀಕ್ಷೆ ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ ಎಂಬುದನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ.",
-loadingPractice: "ಅಭ್ಯಾಸವನ್ನು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ...",
-practiceRoundTitle: "ಅಭ್ಯಾಸ ಮಾಡೋಣ! 🚀",
-practiceRoundIntroVisual: "ನಿಜವಾದ ಪರೀಕ್ಷೆಯ ಮೊದಲು, ಒಟ್ಟಿಗೆ ಒಂದು ಮೋಜಿನ ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆಯನ್ನು ಪ್ರಯತ್ನಿಸೋಣ!",
-practiceRoundTip: "ಏನು ಮಾಡಬೇಕೆಂದು ಇದು ನಿಮಗೆ ನಿಖರವಾಗಿ ತೋರಿಸುತ್ತದೆ. ಇಲ್ಲಿ ಅಂಕಗಳಿಲ್ಲ, ಕೇವಲ ಕಲಿಯುವ ಮೋಜು!",
-startPracticeQuestion: "ಅಭ್ಯಾಸವನ್ನು ಪ್ರಾರಂಭಿಸಿ!",
-errorNoPracticeQuestion: "ಅಯ್ಯೋ! ಯಾವುದೇ ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ ಕಂಡುಬಂದಿಲ್ಲ. ದಯವಿಟ್ಟು ರಿಫ್ರೆಶ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿ.",
-practiceCorrect: "ಅದು ಸರಿ!",
-startMainTest: "ನಿಜವಾದ ಪರೀಕ್ಷೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ!",
-practiceIncorrect: "ಸರಿಯಾಗಿಲ್ಲ...",
-practiceSelected: "ನೀವು ಆಯ್ದದ್ದು: {selection}. ಸರಿಯಾದ ಉತ್ತರ: {correctAnswer}.",
-notSelected: "ಏನನ್ನೂ ಇಲ್ಲ",
-tryAgain: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!",
-GenericInstruction1: "ನಿಮ್ಮ ಪರದೆಯ ಮಧ್ಯದಲ್ಲಿ ಒಂದು ದೊಡ್ಡ ಪದ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ.",
-GenericInstruction2: "ಅದರ ಕೆಳಗಿರುವ ಎರಡು ಸಣ್ಣ ಪದಗಳನ್ನು ನೋಡಿ.",
-GenericInstruction3: "ದೊಡ್ಡ ಪದಕ್ಕೆ ನಿಖರವಾಗಿ ಹೊಂದುವ ಸಣ್ಣ ಪದದ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.",
-GenericInstruction4: "ಪ್ರತಿ ಪ್ರಶ್ನೆಗೆ ಟೈಮರ್ ಇರುತ್ತದೆ. ಸಮಯ ಮುಗಿಯುವ ಮೊದಲು ಉತ್ತರಿಸಲು ಪ್ರಯತ್ನಿಸಿ!",
-GenericInstruction5: "ಗಮನಹರಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ ಪ್ರಯತ್ನ ಮಾಡಿ! ಒಳ್ಳೆಯದಾಗಲಿ!",
-visualTestSelectStudentError: "ದಯವಿಟ್ಟು ಮೊದಲು ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
-testSubmittedSuccessfully: "ಪರೀಕ್ಷೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!",
-failedToSubmitTestPleaseTryAgain: "ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-anErrorOccurredWhileSubmittingTheTestPleaseTryAgain: "ದೋಷ ಸಂಭವಿಸಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-backToTests: "ಪರೀಕ್ಷೆಗಳಿಗೆ ಹಿಂತಿರುಗಿ",
-showTestInstructions: "ಪರೀಕ್ಷೆಯ ಸೂಚನೆಗಳನ್ನು ತೋರಿಸಿ",
-testInstructionsButton: "ಸೂಚನೆಗಳು",
-mainTestInstructionsTitle: "ಪರೀಕ್ಷೆಯ ಸೂಚನೆಗಳು",
-loadingTest: "ಪರೀಕ್ಷೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
-visualTestCompleted: "ಪರೀಕ್ಷೆ ಮುಗಿದಿದೆ! ✨",
-submitting: "ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ...",
-loading: "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
-submitResults: "ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸಿ",
-practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
+    visualTestGhadiyakshDialogWelcome:
+      "🕰️ ನಮಸ್ತೆ, ಯಾತ್ರಿಕ... ನಾನು ಘಡಿಯಾಕ್ಷ, ಯಂತ್ರ ಕಾನನದ ಗಡಿಯಾರ ರಕ್ಷಕ.",
+    visualTestGhadiyakshDialogShiftingPatterns:
+      "🌿 ಈ ತೋಟವು ಚಲಿಸುವ ಭಾಗಗಳು ಮತ್ತು ಬದಲಾಗುವ ವಿನ್ಯಾಸಗಳಿಂದ ಜೀವಂತವಾಗಿದೆ. ಟಿಕ್ ಎಂದು ಶಬ್ದ ಮಾಡುವ ಎಲ್ಲವೂ ಒಂದಕ್ಕೊಂದು ಸೇರುವುದಿಲ್ಲ...",
+    visualTestGhadiyakshDialogWatchClosely:
+      "👁️ ಸೂಕ್ಷ್ಮವಾಗಿ ಗಮನಿಸು. ಕೆಲವು ತುಣುಕುಗಳು ನಿನ್ನ ಕಣ್ಣಿಗೆ ಮೋಸ ಮಾಡಬಹುದು. ಕೇವಲ ಒಂದು ಮಾತ್ರ ಸರಿಯಾಗಿ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ.",
+    visualTestGhadiyakshDialogReward:
+      "🎁 ದೃಷ್ಟಿಯ ಒಗಟುಗಳನ್ನು ಬಿಡಿಸಿದರೆ, ನಾನು ನಿನಗೆ ಏಕಾಗ್ರತೆಯ ಗರಿ 🪶 ಮತ್ತು ಪ್ರತಿಬಿಂಬ ಗೇರ್ 🔍 ಅನ್ನು ಉಡುಗೊರೆಯಾಗಿ ನೀಡುತ್ತೇನೆ—ಸ್ಪಷ್ಟವಾಗಿ ಕಾಣುವುದನ್ನು ಮೀರಿ ನೋಡಲು ಬೇಕಾದ ಸಾಧನಗಳು.",
+    visualTestGhadiyakshDialogReadyPrompt:
+      "🦚 ನಿನ್ನ ಕಣ್ಣುಗಳು ಸ್ಥಿರವಾಗಿವೆಯೇ ಮತ್ತು ನಿನ್ನ ಮನಸ್ಸು ಚುರುಕಾಗಿದೆಯೇ? ಹಾಗಾದರೆ, ಸವಾಲು ಪ್ರಾರಂಭವಾಗಲಿ!",
+    altGhadiyakshTheGuardian: "ರಕ್ಷಕ ಘಡಿಯಾಕ್ಷ",
+    buttonImReady: "ನಾನು ಸಿದ್ಧ!",
+    labelTimeRemaining: "ಉಳಿದಿರುವ ಸಮಯ",
+    labelQuestionOutOfTotal: "{total} ರಲ್ಲಿ ಪ್ರಶ್ನೆ {index}",
+    labelProgress: "ಪ್ರಗತಿ",
+    visualTestSelectStudentError:
+      "ಪರೀಕ್ಷೆ ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ದಯವಿಟ್ಟು ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+    visualTestCompleted: "ಪರೀಕ್ಷೆ ಪೂರ್ಣಗೊಂಡಿದೆ!",
+    visualTestScoreOutOfTotal:
+      "ನೀವು {total} ರಲ್ಲಿ {score} ಸರಿ ಉತ್ತರಗಳನ್ನು ನೀಡಿದ್ದೀರಿ",
+    feedbackKeepPracticing: "ಅಭ್ಯಾಸ ಮುಂದುವರಿಸಿ! 💪",
+    feedbackGoodEffort: "ಒಳ್ಳೆಯ ಪ್ರಯತ್ನ! 😊",
+    feedbackGreatJob: "ಅದ್ಭುತ ಕೆಲಸ! 👍",
+    feedbackExcellent: "ಅತ್ಯುತ್ತಮ ಕೆಲಸ! 🎉",
+    closeInstructions: "ಸೂಚನೆಗಳನ್ನು ಮುಚ್ಚಿ",
+    gotIt: "ಅರ್ಥವಾಯಿತು!",
+    visualTestDemoInstructionsTitle: "ಅಭ್ಯಾಸದ ಸಲಹೆಗಳು",
+    demoInstructionsButton: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ಸಲಹೆಗಳು",
+    showDemoInstructions: "ಪ್ರಾತ್ಯಕ್ಷಿಕೆ ಸೂಚನೆಗಳನ್ನು ತೋರಿಸಿ",
+    VisualDemoInstruction1:
+      "ಪರದೆಯ ಮಧ್ಯದಲ್ಲಿ ಒಂದು ದೊಡ್ಡ ಪದ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ. ಅದನ್ನು ಎಚ್ಚರಿಕೆಯಿಂದ ನೋಡಿ!",
+    VisualDemoInstruction2:
+      "ಕೆಳಗೆ, ನಿಮಗೆ ಎರಡು ಸಣ್ಣ ಪದಗಳು ಕಾಣಿಸುತ್ತವೆ. ದೊಡ್ಡ ಪದಕ್ಕೆ ಹೊಂದುವ ಪದವನ್ನು ಆರಿಸಿ.",
+    VisualDemoInstruction3:
+      "ನಿಜವಾದ ಪರೀಕ್ಷೆಯಲ್ಲಿ, ಟೈಮರ್ ಇರುತ್ತದೆ! ಆದರೆ ಅಭ್ಯಾಸಕ್ಕಾಗಿ, ನಿಮ್ಮ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಿ.",
+    VisualDemoInstruction4:
+      "ಇಲ್ಲಿ ನೀವು ತಪ್ಪು ಆಯ್ಕೆ ಮಾಡಿದರೆ ಚಿಂತಿಸಬೇಡಿ, ಇದು ಕೇವಲ ಅಭ್ಯಾಸಕ್ಕಾಗಿ!",
+    VisualDemoInstruction5:
+      "ಈ ಅಭ್ಯಾಸವು ಪರೀಕ್ಷೆ ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ ಎಂಬುದನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ.",
+    loadingPractice: "ಅಭ್ಯಾಸವನ್ನು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ...",
+    practiceRoundTitle: "ಅಭ್ಯಾಸ ಮಾಡೋಣ! 🚀",
+    practiceRoundIntroVisual:
+      "ನಿಜವಾದ ಪರೀಕ್ಷೆಯ ಮೊದಲು, ಒಟ್ಟಿಗೆ ಒಂದು ಮೋಜಿನ ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆಯನ್ನು ಪ್ರಯತ್ನಿಸೋಣ!",
+    practiceRoundTip:
+      "ಏನು ಮಾಡಬೇಕೆಂದು ಇದು ನಿಮಗೆ ನಿಖರವಾಗಿ ತೋರಿಸುತ್ತದೆ. ಇಲ್ಲಿ ಅಂಕಗಳಿಲ್ಲ, ಕೇವಲ ಕಲಿಯುವ ಮೋಜು!",
+    startPracticeQuestion: "ಅಭ್ಯಾಸವನ್ನು ಪ್ರಾರಂಭಿಸಿ!",
+    errorNoPracticeQuestion:
+      "ಅಯ್ಯೋ! ಯಾವುದೇ ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ ಕಂಡುಬಂದಿಲ್ಲ. ದಯವಿಟ್ಟು ರಿಫ್ರೆಶ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿ.",
+    practiceCorrect: "ಅದು ಸರಿ!",
+    startMainTest: "ನಿಜವಾದ ಪರೀಕ್ಷೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ!",
+    practiceIncorrect: "ಸರಿಯಾಗಿಲ್ಲ...",
+    practiceSelected:
+      "ನೀವು ಆಯ್ದದ್ದು: {selection}. ಸರಿಯಾದ ಉತ್ತರ: {correctAnswer}.",
+    notSelected: "ಏನನ್ನೂ ಇಲ್ಲ",
+    tryAgain: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!",
+    GenericInstruction1:
+      "ನಿಮ್ಮ ಪರದೆಯ ಮಧ್ಯದಲ್ಲಿ ಒಂದು ದೊಡ್ಡ ಪದ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ.",
+    GenericInstruction2: "ಅದರ ಕೆಳಗಿರುವ ಎರಡು ಸಣ್ಣ ಪದಗಳನ್ನು ನೋಡಿ.",
+    GenericInstruction3:
+      "ದೊಡ್ಡ ಪದಕ್ಕೆ ನಿಖರವಾಗಿ ಹೊಂದುವ ಸಣ್ಣ ಪದದ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.",
+    GenericInstruction4:
+      "ಪ್ರತಿ ಪ್ರಶ್ನೆಗೆ ಟೈಮರ್ ಇರುತ್ತದೆ. ಸಮಯ ಮುಗಿಯುವ ಮೊದಲು ಉತ್ತರಿಸಲು ಪ್ರಯತ್ನಿಸಿ!",
+    GenericInstruction5:
+      "ಗಮನಹರಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ ಪ್ರಯತ್ನ ಮಾಡಿ! ಒಳ್ಳೆಯದಾಗಲಿ!",
+    visualTestSelectStudentError: "ದಯವಿಟ್ಟು ಮೊದಲು ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
+    testSubmittedSuccessfully: "ಪರೀಕ್ಷೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!",
+    failedToSubmitTestPleaseTryAgain:
+      "ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    anErrorOccurredWhileSubmittingTheTestPleaseTryAgain:
+      "ದೋಷ ಸಂಭವಿಸಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    backToTests: "ಪರೀಕ್ಷೆಗಳಿಗೆ ಹಿಂತಿರುಗಿ",
+    showTestInstructions: "ಪರೀಕ್ಷೆಯ ಸೂಚನೆಗಳನ್ನು ತೋರಿಸಿ",
+    testInstructionsButton: "ಸೂಚನೆಗಳು",
+    mainTestInstructionsTitle: "ಪರೀಕ್ಷೆಯ ಸೂಚನೆಗಳು",
+    loadingTest: "ಪರೀಕ್ಷೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+    visualTestCompleted: "ಪರೀಕ್ಷೆ ಮುಗಿದಿದೆ! ✨",
+    submitting: "ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ...",
+    loading: "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+    submitResults: "ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸಿ",
+    practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
 
     // Sound Discrimination Test (Sir Echo)
     soundTestEchoDialogAhoy: "👋 ನಮಸ್ಕಾರ, ಪುಟ್ಟ ಪರಿಶೋಧಕನೇ!",
@@ -4656,9 +4868,8 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     noTestResultsFoundForFilter:
       "ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಯಾವುದೇ ಫಲಿತಾಂಶಗಳು ಹೊಂದಿಕೆಯಾಗುವುದಿಲ್ಲ.",
 
-
-      //Sound Test Extra words
-      correctAnswerGreatJob: "ಸರಿ! ಅದ್ಭುತ ಕೆಲಸ! 🎉",
+    //Sound Test Extra words
+    correctAnswerGreatJob: "ಸರಿ! ಅದ್ಭುತ ಕೆಲಸ! 🎉",
     youGotItRight: "ನೀವು ಸರಿಯಾಗಿ ಉತ್ತರಿಸಿದ್ದೀರಿ! 👍",
     perfectScore: "ಪರಿಪೂರ್ಣ! ನೀವು ಅದ್ಭುತ! 🌟",
     wellDone: "ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ! ಮುಂದುವರಿಸಿ! 💪",
@@ -4673,7 +4884,8 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     soundTestEchoDialogIntro: "ನಾನು ಗೂಂಜರಿಷಿ — ಪ್ರತಿಧ್ವನಿಗಳನ್ನು ಕೇಳುವವನು. 🐚👂",
     soundTestEchoDialogIsleDescription:
       "ನೀವು ಗೂಂಜ್ ಟಾಪು ತಲುಪಿದ್ದೀರಿ, ಇದು ಪಿಸುಗುಟ್ಟುವ ದ್ವೀಪ... ಇಲ್ಲಿ ಪ್ರತಿಯೊಂದು ಶಬ್ದಕ್ಕೂ ಒಂದು ರಹಸ್ಯವಿದೆ. 🌫️✨",
-    soundTestEchoDialogTwoSounds: "ನಾನು ನಿಮಗೆ ಎರಡು ಶಬ್ದಗಳನ್ನು ಕೇಳಿಸುತ್ತೇನೆ... 🎧🎧",
+    soundTestEchoDialogTwoSounds:
+      "ನಾನು ನಿಮಗೆ ಎರಡು ಶಬ್ದಗಳನ್ನು ಕೇಳಿಸುತ್ತೇನೆ... 🎧🎧",
     soundTestEchoDialogYourJob:
       "ನಿಮ್ಮ ಕೆಲಸವೇನೆಂದರೆ, ಗಮನವಿಟ್ಟು ಕೇಳಿ ನನಗೆ ಹೇಳುವುದು...",
     soundTestEchoDialogAreTheySame: "ಅವು ಒಂದೇ ರೀತಿ ಇದ್ದವೇ? ✅",
@@ -4690,18 +4902,26 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     imReadysound: "🌬️ ನನ್ನ ಕಿವಿಗಳು ತೆರೆದಿವೆ ಮತ್ತು ನಾನು ಸಿದ್ಧವಾಗಿದ್ದೇನೆ.",
 
     //Sound Test Instructions
-     testInstructionsTitle: "ಪರೀಕ್ಷೆಯ ಸೂಚನೆಗಳು",
-    instructionWelcome: "ಪಿಸುಗುಟ್ಟುವ ದ್ವೀಪದ ಧ್ವನಿ ಸವಾಲಿಗೆ ಸ್ವಾಗತ, ಧೈರ್ಯಶಾಲಿ ಸಾಹಸಿ!",
+    testInstructionsTitle: "ಪರೀಕ್ಷೆಯ ಸೂಚನೆಗಳು",
+    instructionWelcome:
+      "ಪಿಸುಗುಟ್ಟುವ ದ್ವೀಪದ ಧ್ವನಿ ಸವಾಲಿಗೆ ಸ್ವಾಗತ, ಧೈರ್ಯಶಾಲಿ ಸಾಹಸಿ!",
     instructionHowToPlayTitle: "ಆಡುವುದು ಹೇಗೆ:",
     instructionListenCarefully: "ನೀವು ಮಾತನಾಡುವ ಪದಗಳ ಜೋಡಿಗಳನ್ನು ಕೇಳುವಿರಿ.",
-    instructionTwoWords: "ಸ್ಪೀಕರ್ ಪಕ್ಷಿಯ ಮೂಲಕ ಪ್ಲೇ ಆಗುವ ಪ್ರತಿ ಜೋಡಿಯಲ್ಲಿನ ಎರಡೂ ಪದಗಳನ್ನು ಗಮನವಿಟ್ಟು ಕೇಳಿ.",
-    instructionSameOrDifferent: "ಅವು ಒಂದೇ ಆಗಿದ್ದರೆ 'ಒಂದೇ ಶಬ್ದಗಳು' ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ, ಅಥವಾ ಇಲ್ಲದಿದ್ದರೆ 'ಬೇರೆ ಶಬ್ದಗಳು' ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.",
-    instructionDemoRoundFirst: "ಮೊದಲಿಗೆ, ಒಂದು ಪ್ರಶ್ನೆಯೊಂದಿಗೆ ಅಭ್ಯಾಸ (ಡೆಮೊ) ಸುತ್ತು ಇರುತ್ತದೆ.",
-    instructionDemoRetry: "ನೀವು ಡೆಮೊ ಪ್ರಶ್ನೆಗೆ ತಪ್ಪು ಉತ್ತರ ನೀಡಿದರೆ, ನೀವು ಅದನ್ನು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಬಹುದು.",
-    instructionDemoSuccess: "ನೀವು ಡೆಮೊಗೆ ಸರಿಯಾಗಿ ಉತ್ತರಿಸಿದ ನಂತರ, ಮುಖ್ಯ ಪರೀಕ್ಷೆ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ.",
-    instructionMainTest: "ಮುಖ್ಯ ಪರೀಕ್ಷೆಯು ಅನೇಕ ಪ್ರಶ್ನೆಗಳನ್ನು ಒಳಗೊಂಡಿದೆ. ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ ಪ್ರಯತ್ನ ಮಾಡಿ!",
+    instructionTwoWords:
+      "ಸ್ಪೀಕರ್ ಪಕ್ಷಿಯ ಮೂಲಕ ಪ್ಲೇ ಆಗುವ ಪ್ರತಿ ಜೋಡಿಯಲ್ಲಿನ ಎರಡೂ ಪದಗಳನ್ನು ಗಮನವಿಟ್ಟು ಕೇಳಿ.",
+    instructionSameOrDifferent:
+      "ಅವು ಒಂದೇ ಆಗಿದ್ದರೆ 'ಒಂದೇ ಶಬ್ದಗಳು' ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ, ಅಥವಾ ಇಲ್ಲದಿದ್ದರೆ 'ಬೇರೆ ಶಬ್ದಗಳು' ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.",
+    instructionDemoRoundFirst:
+      "ಮೊದಲಿಗೆ, ಒಂದು ಪ್ರಶ್ನೆಯೊಂದಿಗೆ ಅಭ್ಯಾಸ (ಡೆಮೊ) ಸುತ್ತು ಇರುತ್ತದೆ.",
+    instructionDemoRetry:
+      "ನೀವು ಡೆಮೊ ಪ್ರಶ್ನೆಗೆ ತಪ್ಪು ಉತ್ತರ ನೀಡಿದರೆ, ನೀವು ಅದನ್ನು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಬಹುದು.",
+    instructionDemoSuccess:
+      "ನೀವು ಡೆಮೊಗೆ ಸರಿಯಾಗಿ ಉತ್ತರಿಸಿದ ನಂತರ, ಮುಖ್ಯ ಪರೀಕ್ಷೆ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ.",
+    instructionMainTest:
+      "ಮುಖ್ಯ ಪರೀಕ್ಷೆಯು ಅನೇಕ ಪ್ರಶ್ನೆಗಳನ್ನು ಒಳಗೊಂಡಿದೆ. ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ ಪ್ರಯತ್ನ ಮಾಡಿ!",
     instructionGoodLuckTitle: "ಸಿದ್ಧರಿದ್ದೀರಾ?",
-    instructionGoodLuckMessage: "ಗಮನಹರಿಸಿ, ಚೆನ್ನಾಗಿ ಆಲಿಸಿ, ಮತ್ತು ನಿಮಗೆ ಒಳ್ಳೆಯದಾಗಲಿ!",
+    instructionGoodLuckMessage:
+      "ಗಮನಹರಿಸಿ, ಚೆನ್ನಾಗಿ ಆಲಿಸಿ, ಮತ್ತು ನಿಮಗೆ ಒಳ್ಳೆಯದಾಗಲಿ!",
     proceedToDemoButton: "ಡೆಮೊ ರೌಂಡ್ ಪ್ರಾರಂಭಿಸಿ",
     closeInstructionsAriaLabel: "ಸೂಚನೆಗಳನ್ನು ಮುಚ್ಚಿ",
     gotItButton: "ತಿಳಿಯಿತು!",
@@ -4709,13 +4929,20 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     // Set 2: Reading/Pronunciation Test
     testInstructionsTitle: "ಪರೀಕ್ಷೆಯ ಸೂಚನೆಗಳು",
     instructionPoint1: "ನಿಮಗೆ ಪದಗಳ ಸರಣಿಯನ್ನು ತೋರಿಸಲಾಗುತ್ತದೆ.",
-    instructionPoint2: "ದಯವಿಟ್ಟು ಪ್ರತಿ ಪದವನ್ನು ನಿಮ್ಮ ಮೈಕ್ರೊಫೋನ್‌ನಲ್ಲಿ ಸ್ಪಷ್ಟವಾಗಿ ಓದಿ.",
-    instructionPoint3: "ನಿಮ್ಮ ರೆಕಾರ್ಡಿಂಗ್‌ನ ಆಡಿಯೊ ಫೈಲ್ ಅನ್ನು ಸಹ ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಬಹುದು.",
-    instructionPoint4: "ಮೊದಲಿಗೆ, ಪರಿಚಿತರಾಗಲು ನೀವು ಒಂದು ತ್ವರಿತ ಡೆಮೊ ಪದವನ್ನು ಪ್ರಯತ್ನಿಸುವಿರಿ.",
-    instructionPoint5: "ಡೆಮೊದಲ್ಲಿ, ನಿಮ್ಮ ಉತ್ತರ ತಪ್ಪಾಗಿದ್ದರೆ, ನೀವು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಬಹುದು.",
-    instructionPoint6: "ಡೆಮೊ ಪದವು ಸರಿಯಾದ ನಂತರ, ನೀವು ಮುಖ್ಯ ಪರೀಕ್ಷೆಗೆ ಮುಂದುವರಿಯಬಹುದು.",
-    instructionPoint7: "ಪ್ರಾರಂಭಿಸಲು 'ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಾರಂಭಿಸಿ' (ಮೈಕ್ ಐಕಾನ್) ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ, ಮತ್ತು ಮುಗಿದ ನಂತರ 'ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲಿಸಿ' (ಮೈಕ್ ಆಫ್ ಐಕಾನ್) ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.",
-    instructionPoint8: "ನಿಮ್ಮ ಮೈಕ್ರೊಫೋನ್ ಸಕ್ರಿಯವಾಗಿದೆಯೇ ಮತ್ತು ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದೆಯೇ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
+    instructionPoint2:
+      "ದಯವಿಟ್ಟು ಪ್ರತಿ ಪದವನ್ನು ನಿಮ್ಮ ಮೈಕ್ರೊಫೋನ್‌ನಲ್ಲಿ ಸ್ಪಷ್ಟವಾಗಿ ಓದಿ.",
+    instructionPoint3:
+      "ನಿಮ್ಮ ರೆಕಾರ್ಡಿಂಗ್‌ನ ಆಡಿಯೊ ಫೈಲ್ ಅನ್ನು ಸಹ ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಬಹುದು.",
+    instructionPoint4:
+      "ಮೊದಲಿಗೆ, ಪರಿಚಿತರಾಗಲು ನೀವು ಒಂದು ತ್ವರಿತ ಡೆಮೊ ಪದವನ್ನು ಪ್ರಯತ್ನಿಸುವಿರಿ.",
+    instructionPoint5:
+      "ಡೆಮೊದಲ್ಲಿ, ನಿಮ್ಮ ಉತ್ತರ ತಪ್ಪಾಗಿದ್ದರೆ, ನೀವು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಬಹುದು.",
+    instructionPoint6:
+      "ಡೆಮೊ ಪದವು ಸರಿಯಾದ ನಂತರ, ನೀವು ಮುಖ್ಯ ಪರೀಕ್ಷೆಗೆ ಮುಂದುವರಿಯಬಹುದು.",
+    instructionPoint7:
+      "ಪ್ರಾರಂಭಿಸಲು 'ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಾರಂಭಿಸಿ' (ಮೈಕ್ ಐಕಾನ್) ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ, ಮತ್ತು ಮುಗಿದ ನಂತರ 'ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲಿಸಿ' (ಮೈಕ್ ಆಫ್ ಐಕಾನ್) ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.",
+    instructionPoint8:
+      "ನಿಮ್ಮ ಮೈಕ್ರೊಫೋನ್ ಸಕ್ರಿಯವಾಗಿದೆಯೇ ಮತ್ತು ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದೆಯೇ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
     buttonStartDemo: "ಡೆಮೊ ಪ್ರಾರಂಭಿಸಿ",
     buttonShowInstructions: "ಸೂಚನೆಗಳನ್ನು ತೋರಿಸಿ",
     buttonHideInstructions: "ಸೂಚನೆಗಳನ್ನು ಮರೆಮಾಡಿ",
@@ -4723,7 +4950,8 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     demoReadThisWord: "ದಯವಿಟ್ಟು ಈ ಪದವನ್ನು ಗಟ್ಟಿಯಾಗಿ ಓದಿ:",
     demoYourAttempt: "ನಿಮ್ಮ ಪ್ರಯತ್ನ:",
     demoCorrectMessage: "ಅದ್ಭುತ! ಅದು ಸರಿ ಇದೆ.",
-    demoIncorrectMessage: 'ಸರಿಯಾಗಿಲ್ಲ. ಪದವು "{word}" ಆಗಿತ್ತು. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.',
+    demoIncorrectMessage:
+      'ಸರಿಯಾಗಿಲ್ಲ. ಪದವು "{word}" ಆಗಿತ್ತು. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.',
     demoIncorrectSimpleMessage: "ಸರಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
     buttonTryAgain: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
     buttonProceedToMainTest: "ಮುಖ್ಯ ಪರೀಕ್ಷೆಗೆ ಮುಂದುವರಿಯಿರಿ",
@@ -4734,22 +4962,25 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     instructionsButtonLabel: "ಸೂಚನೆಗಳು",
     demoReadTheseWords: "ದಯವಿಟ್ಟು ಈ ಪದಗಳನ್ನು ಕ್ರಮವಾಗಿ ಗಟ್ಟಿಯಾಗಿ ಓದಿ:",
     demoAllWordsCorrectMessage: "ಅತ್ಯುತ್ತಮ! ಎಲ್ಲಾ ಡೆಮೊ ಪದಗಳು ಸರಿಯಾಗಿವೆ.",
-    demoSomeWordsIncorrectMessage: 'ಸರಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಪದಗಳನ್ನು ಮತ್ತೊಮ್ಮೆ ಸ್ಪಷ್ಟವಾಗಿ ಓದಲು ಪ್ರಯತ್ನಿಸಿ. ಪದಗಳು ಹೀಗಿದ್ದವು: "{words}".',
+    demoSomeWordsIncorrectMessage:
+      'ಸರಿಯಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಪದಗಳನ್ನು ಮತ್ತೊಮ್ಮೆ ಸ್ಪಷ್ಟವಾಗಿ ಓದಲು ಪ್ರಯತ್ನಿಸಿ. ಪದಗಳು ಹೀಗಿದ್ದವು: "{words}".',
     demoYourFullAttempt: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಪ್ರಯತ್ನ:",
-    
+
     gotIt: "ತಿಳಿಯಿತು!",
 
     //Sound Test Demo instructions
-     soundTestApiName: "ಶಬ್ದ ವ್ಯತ್ಯಾಸ ಪರೀಕ್ಷೆ",
+    soundTestApiName: "ಶಬ್ದ ವ್ಯತ್ಯಾಸ ಪರೀಕ್ಷೆ",
     progress: "ಪ್ರಗತಿ",
     backToTests: "ಪರೀಕ್ಷೆಗಳಿಗೆ ಹಿಂತಿರುಗಿ",
     showInstructionsButton: "ಸೂಚನೆಗಳು",
     demoRoundTitle: "ಡೆಮೊ ರೌಂಡ್",
-    demoRoundInstructions: "ಬನ್ನಿ ಅಭ್ಯಾಸ ಮಾಡೋಣ! ಶಬ್ದಗಳನ್ನು ಕೇಳಿ ಮತ್ತು ಅವು ಒಂದೇ ಆಗಿವೆಯೇ ಅಥವಾ ವಿಭಿನ್ನವಾಗಿವೆಯೇ ಎಂದು ನಿರ್ಧರಿಸಿ. ನೀವು ತಪ್ಪಿದರೆ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಬಹುದು.",
+    demoRoundInstructions:
+      "ಬನ್ನಿ ಅಭ್ಯಾಸ ಮಾಡೋಣ! ಶಬ್ದಗಳನ್ನು ಕೇಳಿ ಮತ್ತು ಅವು ಒಂದೇ ಆಗಿವೆಯೇ ಅಥವಾ ವಿಭಿನ್ನವಾಗಿವೆಯೇ ಎಂದು ನಿರ್ಧರಿಸಿ. ನೀವು ತಪ್ಪಿದರೆ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಬಹುದು.",
     demoIncorrectToastMessage: "ಅಯ್ಯೋ! ಅದನ್ನು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸೋಣ.",
     demoTimeoutRetry: "ಡೆಮೊ ಪ್ರಶ್ನೆಗೆ ಸಮಯ ಮುಗಿದಿದೆ. ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸೋಣ!",
     demoCorrect: "ಅತ್ಯುತ್ತಮ!",
-    demoCorrectProceed: "ನೀವು ಸರಿಯಾಗಿ ಮಾಡಿದ್ದೀರಿ! ಮುಖ್ಯ ಪರೀಕ್ಷೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಿದ್ಧರಿದ್ದೀರಾ?",
+    demoCorrectProceed:
+      "ನೀವು ಸರಿಯಾಗಿ ಮಾಡಿದ್ದೀರಿ! ಮುಖ್ಯ ಪರೀಕ್ಷೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಿದ್ಧರಿದ್ದೀರಾ?",
     startMainTestButton: "ಮುಖ್ಯ ಪರೀಕ್ಷೆ ಪ್ರಾರಂಭಿಸಿ",
     testCompleted: "ಪರೀಕ್ಷೆ ಪೂರ್ಣಗೊಂಡಿದೆ!",
     youGot: "ನೀವು",
@@ -4759,7 +4990,8 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     submitting: "ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ...",
     selectStudentFirst: "ದಯವಿಟ್ಟು ಮೊದಲು ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ.",
     testSubmittedSuccessfully: "ಪರೀಕ್ಷೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!",
-    failedToSubmitTestPleaseTryAgain: "ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    failedToSubmitTestPleaseTryAgain:
+      "ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
     errorOccurredGeneric: "ಒಂದು ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
 
     //Picture Test
@@ -4769,22 +5001,31 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     gotItButton: "ತಿಳಿಯಿತು!",
     howToPlayTitle: "ಆಡುವುದು ಹೇಗೆ",
     infoStep1: "ನಿಮಗೆ ಒಂದರ ನಂತರ ಒಂದರಂತೆ ಚಿತ್ರಗಳ ಸರಣಿಯನ್ನು ತೋರಿಸಲಾಗುತ್ತದೆ.",
-    infoStep2: "ಪ್ರತಿ ಚಿತ್ರಕ್ಕಾಗಿ, 'ಹೌದು' ಅಥವಾ 'ಇಲ್ಲ' ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ನೀವು ಅದನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ನೋಡಬಹುದೇ ಎಂದು ಮೊದಲು ನಮಗೆ ತಿಳಿಸಿ.",
-    infoStep3: "ನೀವು ಅದನ್ನು ನೋಡಿದರೆ, ಅದು ಏನು ಮತ್ತು ಅದನ್ನು ವಿವರಿಸಲು ನಿಮ್ಮನ್ನು ಕೇಳಲಾಗುತ್ತದೆ. ನೀವು ಟೈಪ್ ಮಾಡಬಹುದು ಅಥವಾ ನಿಮ್ಮ ಧ್ವನಿಯನ್ನು ಬಳಸಬಹುದು.",
-    practiceResultDidNotSee: "ಅಭ್ಯಾಸ: ನೀವು ಚಿತ್ರವನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ ಎಂದು ಸೂಚಿಸಿದ್ದೀರಿ.",
-    practiceResultCorrect: "ಅಭ್ಯಾಸ: ಅದ್ಭುತ ಕೆಲಸ! ನೀವು ಅದನ್ನು ಸರಿಯಾಗಿ ಗುರುತಿಸಿದ್ದೀರಿ.",
+    infoStep2:
+      "ಪ್ರತಿ ಚಿತ್ರಕ್ಕಾಗಿ, 'ಹೌದು' ಅಥವಾ 'ಇಲ್ಲ' ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ನೀವು ಅದನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ನೋಡಬಹುದೇ ಎಂದು ಮೊದಲು ನಮಗೆ ತಿಳಿಸಿ.",
+    infoStep3:
+      "ನೀವು ಅದನ್ನು ನೋಡಿದರೆ, ಅದು ಏನು ಮತ್ತು ಅದನ್ನು ವಿವರಿಸಲು ನಿಮ್ಮನ್ನು ಕೇಳಲಾಗುತ್ತದೆ. ನೀವು ಟೈಪ್ ಮಾಡಬಹುದು ಅಥವಾ ನಿಮ್ಮ ಧ್ವನಿಯನ್ನು ಬಳಸಬಹುದು.",
+    practiceResultDidNotSee:
+      "ಅಭ್ಯಾಸ: ನೀವು ಚಿತ್ರವನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ ಎಂದು ಸೂಚಿಸಿದ್ದೀರಿ.",
+    practiceResultCorrect:
+      "ಅಭ್ಯಾಸ: ಅದ್ಭುತ ಕೆಲಸ! ನೀವು ಅದನ್ನು ಸರಿಯಾಗಿ ಗುರುತಿಸಿದ್ದೀರಿ.",
     practiceResultIncorrect: "ಅಭ್ಯಾಸ: ಒಳ್ಳೆಯ ಪ್ರಯತ್ನ!",
     theCorrectAnswerWas: "ಸರಿಯಾದ ಉತ್ತರ ಹೀಗಿತ್ತು:",
     transcriptionReceived: "ಲಿಪ್ಯಂತರ ಸ್ವೀಕರಿಸಲಾಗಿದೆ!",
-    errorUploadingAudioCheckConnection: "ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ.",
+    errorUploadingAudioCheckConnection:
+      "ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ.",
     errorStoppingRecording: "ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲಿಸುವಲ್ಲಿ ದೋಷ",
     errorStoppingMicrophone: "ಮೈಕ್ರೊಫೋನ್ ನಿಲ್ಲಿಸುವಲ್ಲಿ ದೋಷ",
     recordingErrorPrefix: "ರೆಕಾರ್ಡಿಂಗ್ ದೋಷ: ",
-    couldNotAccessMicrophoneCheckPermissions: "ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಅನುಮತಿಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
-    pleaseCompleteStepBeforeProceeding: "ಮುಂದುವರಿಯುವ ಮೊದಲು ದಯವಿಟ್ಟು ಈ ಹಂತವನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ.",
-    failedToLoadTestResultsTryAgainLater: "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    couldNotAccessMicrophoneCheckPermissions:
+      "ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಅನುಮತಿಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
+    pleaseCompleteStepBeforeProceeding:
+      "ಮುಂದುವರಿಯುವ ಮೊದಲು ದಯವಿಟ್ಟು ಈ ಹಂತವನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ.",
+    failedToLoadTestResultsTryAgainLater:
+      "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
     processingYourResults: "ನಿಮ್ಮ ಫಲಿತಾಂಶಗಳನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲಾಗುತ್ತಿದೆ...",
-    pictureRecognitionTestResultsTitle: "ಚಿತ್ರ ಗುರುತಿಸುವಿಕೆ ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳು",
+    pictureRecognitionTestResultsTitle:
+      "ಚಿತ್ರ ಗುರುತಿಸುವಿಕೆ ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳು",
     imageColumn: "ಚಿತ್ರ",
     yourAnswerColumn: "ನಿಮ್ಮ ಉತ್ತರ",
     correctAnswerColumn: "ಸರಿಯಾದ ಉತ್ತರ",
@@ -4793,15 +5034,20 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     orSeparatorText: "ಅಥವಾ",
     statusProcessing: "ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲಾಗುತ್ತಿದೆ...",
 
-    pictureTestIntroDialog1: "🌺 ಚಿತ್ರ ಸರೋವರಕ್ಕೆ ಸ್ವಾಗತ. ಇದರ ನಿಶ್ಚಲ ನೀರು ನೋಡಲು ಕಾಯುತ್ತಿರುವ ಕಥೆಗಳನ್ನು ಹೊಂದಿದೆ.",
-    pictureTestIntroDialog2: "🐍 ನಾನು ಚಿತ್ರಾಣಿ, ಈ ಪವಿತ್ರ ಸ್ಥಳದ ನಾಗ ರಕ್ಷಕಿ. ನಾನು ಸ್ಮೃತಿ ಮತ್ತು ಕಲ್ಪನೆಯ ಆಳದಿಂದ ಚಿತ್ರಗಳನ್ನು ಕರೆಯಬಲ್ಲೆ.",
-    pictureTestIntroDialog3: "🌊 ಪ್ರೀತಿಯ ಯಾತ್ರಿಕರೇ, ಕಾಣಿಸಿಕೊಳ್ಳುವ ಪ್ರತಿಯೊಂದು ಚಿತ್ರವನ್ನು ಹೆಸರಿಸುವುದು ಮತ್ತು ಮೇಲಿನ ಜಗತ್ತಿನಲ್ಲಿ ಅದನ್ನು ಹೇಗೆ ಬಳಸಲಾಗುತ್ತದೆ ಎಂದು ಹೇಳುವುದು ನಿಮ್ಮ ಕೆಲಸ.",
-    pictureTestIntroDialog4: "💎 ಈ ಸವಾಲನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ, ಮತ್ತು ನೀವು ಇಬ್ಬನಿ ಪದಕ ಮತ್ತು ಸ್ಪಷ್ಟತೆಯ ಕಣ್ಣುಗಳನ್ನು ಗಳಿಸುವಿರಿ—ಗ್ರಹಿಕೆ ಮತ್ತು ಒಳನೋಟದ ಉಡುಗೊರೆಗಳು.",
-    pictureTestIntroDialog5: "✨ ಅಲೆಅಲೆಯಾಗಿರುವ ನೀರಿನೊಳಗೆ ನೋಡಿ, ಕಾಣುವ ಮೇಲ್ಮೈ ಕೆಳಗೆ ಏನಿದೆ ಎಂದು ಕಂಡುಹಿಡಿಯಲು ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ?",
+    pictureTestIntroDialog1:
+      "🌺 ಚಿತ್ರ ಸರೋವರಕ್ಕೆ ಸ್ವಾಗತ. ಇದರ ನಿಶ್ಚಲ ನೀರು ನೋಡಲು ಕಾಯುತ್ತಿರುವ ಕಥೆಗಳನ್ನು ಹೊಂದಿದೆ.",
+    pictureTestIntroDialog2:
+      "🐍 ನಾನು ಚಿತ್ರಾಣಿ, ಈ ಪವಿತ್ರ ಸ್ಥಳದ ನಾಗ ರಕ್ಷಕಿ. ನಾನು ಸ್ಮೃತಿ ಮತ್ತು ಕಲ್ಪನೆಯ ಆಳದಿಂದ ಚಿತ್ರಗಳನ್ನು ಕರೆಯಬಲ್ಲೆ.",
+    pictureTestIntroDialog3:
+      "🌊 ಪ್ರೀತಿಯ ಯಾತ್ರಿಕರೇ, ಕಾಣಿಸಿಕೊಳ್ಳುವ ಪ್ರತಿಯೊಂದು ಚಿತ್ರವನ್ನು ಹೆಸರಿಸುವುದು ಮತ್ತು ಮೇಲಿನ ಜಗತ್ತಿನಲ್ಲಿ ಅದನ್ನು ಹೇಗೆ ಬಳಸಲಾಗುತ್ತದೆ ಎಂದು ಹೇಳುವುದು ನಿಮ್ಮ ಕೆಲಸ.",
+    pictureTestIntroDialog4:
+      "💎 ಈ ಸವಾಲನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ, ಮತ್ತು ನೀವು ಇಬ್ಬನಿ ಪದಕ ಮತ್ತು ಸ್ಪಷ್ಟತೆಯ ಕಣ್ಣುಗಳನ್ನು ಗಳಿಸುವಿರಿ—ಗ್ರಹಿಕೆ ಮತ್ತು ಒಳನೋಟದ ಉಡುಗೊರೆಗಳು.",
+    pictureTestIntroDialog5:
+      "✨ ಅಲೆಅಲೆಯಾಗಿರುವ ನೀರಿನೊಳಗೆ ನೋಡಿ, ಕಾಣುವ ಮೇಲ್ಮೈ ಕೆಳಗೆ ಏನಿದೆ ಎಂದು ಕಂಡುಹಿಡಿಯಲು ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ?",
     pictureTestButtonNextDialog: "ಮುಂದೆ",
     altChitraniTheNaga: "ಚಿತ್ರಾಣಿ ನಾಗ",
     altLakeReflection: "ಮಾಂತ್ರಿಕ ಸರೋವರದ ಪ್ರತಿಬಿಂಬ",
-    
+
     // Note: This key seems to have the wrong value in English. Translated as provided.
     altMiraTheMirrorfish: "ಚಿತ್ರಾಣಿ ನಾಗ",
     altTidepoolReflection: "ಮಾಂತ್ರಿಕ ಸರೋವರದ ಪ್ರತಿಬಿಂಬ",
@@ -4813,20 +5059,27 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     speakCanYouSeeThisPictureInitial: "ನೀವು ಈ ಚಿತ್ರವನ್ನು ನೋಡಬಹುದೇ?",
 
     phonemeBlendingIntroDialog1: "ನಮಸ್ತೆ, ಯುವ ಯಾತ್ರಿಕರೇ! 🙏🌊",
-    phonemeBlendingIntroDialog2: "ನಾನು ಶಬ್ದಮಿತ್ರ 🐬, ಧ್ವನಿ ತರಂಗಗಳಿಂದ ಬಂದ ನಿಮ್ಮ ಡಾಲ್ಫಿನ್ ಸ್ನೇಹಿತ.",
-    phonemeBlendingIntroDialog3: "ಇಲ್ಲಿ ಶಬ್ದ ಸಾಗರದಲ್ಲಿ, ಅಲೆಗಳು ಕೇವಲ ಚಿಮ್ಮುವುದಿಲ್ಲ... 🌊✨",
-    phonemeBlendingIntroDialog4: "ಅವು ಮಂತ್ರಗಳು, ಪ್ರಾಸಗಳು ಮತ್ತು ಆಟದ ಶಬ್ದಗಳೊಂದಿಗೆ ಹಾಡುತ್ತವೆ! 🎶🪷",
-    phonemeBlendingIntroDialog5: "ಬನ್ನಿ ಆ ಧ್ವನಿಗಳನ್ನು ಮಾಂತ್ರಿಕ ಪದಗಳಾಗಿ ಮಿಶ್ರಣ ಮಾಡೋಣ—ನಿಮ್ಮ ಧ್ವನಿಯಿಂದ ಅಲೆಗಳನ್ನು ಸೃಷ್ಟಿಸಲು ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ? 🗣️🔤💫",
+    phonemeBlendingIntroDialog2:
+      "ನಾನು ಶಬ್ದಮಿತ್ರ 🐬, ಧ್ವನಿ ತರಂಗಗಳಿಂದ ಬಂದ ನಿಮ್ಮ ಡಾಲ್ಫಿನ್ ಸ್ನೇಹಿತ.",
+    phonemeBlendingIntroDialog3:
+      "ಇಲ್ಲಿ ಶಬ್ದ ಸಾಗರದಲ್ಲಿ, ಅಲೆಗಳು ಕೇವಲ ಚಿಮ್ಮುವುದಿಲ್ಲ... 🌊✨",
+    phonemeBlendingIntroDialog4:
+      "ಅವು ಮಂತ್ರಗಳು, ಪ್ರಾಸಗಳು ಮತ್ತು ಆಟದ ಶಬ್ದಗಳೊಂದಿಗೆ ಹಾಡುತ್ತವೆ! 🎶🪷",
+    phonemeBlendingIntroDialog5:
+      "ಬನ್ನಿ ಆ ಧ್ವನಿಗಳನ್ನು ಮಾಂತ್ರಿಕ ಪದಗಳಾಗಿ ಮಿಶ್ರಣ ಮಾಡೋಣ—ನಿಮ್ಮ ಧ್ವನಿಯಿಂದ ಅಲೆಗಳನ್ನು ಸೃಷ್ಟಿಸಲು ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ? 🗣️🔤💫",
 
     altBlendaTheDolphin: "ಶಬ್ದಮಿತ್ರ ಡಾಲ್ಫಿನ್ 🐬",
 
     //Extras in Picture
     practiceResultIncorrect: "ಅಭ್ಯಾಸ: ಒಳ್ಳೆಯ ಪ್ರಯತ್ನ!",
-    pictureMainTestConfirmation: "ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ! ಮುಖ್ಯ ಪರೀಕ್ಷೆ ಈಗ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ. ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ?",
+    pictureMainTestConfirmation:
+      "ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ! ಮುಖ್ಯ ಪರೀಕ್ಷೆ ಈಗ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ. ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ?",
     pictureStartMainTest: "ಮುಖ್ಯ ಪರೀಕ್ಷೆ ಪ್ರಾರಂಭಿಸಿ",
 
-    practiceResultDidNotSee: "ಅಭ್ಯಾಸ: ನೀವು ಚಿತ್ರವನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ ಎಂದು ಸೂಚಿಸಿದ್ದೀರಿ.",
-    practiceResultCorrect: "ಅಭ್ಯಾಸ: ಅದ್ಭುತ ಕೆಲಸ! ನೀವು ಅದನ್ನು ಸರಿಯಾಗಿ ಗುರುತಿಸಿದ್ದೀರಿ.",
+    practiceResultDidNotSee:
+      "ಅಭ್ಯಾಸ: ನೀವು ಚಿತ್ರವನ್ನು ನೋಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ ಎಂದು ಸೂಚಿಸಿದ್ದೀರಿ.",
+    practiceResultCorrect:
+      "ಅಭ್ಯಾಸ: ಅದ್ಭುತ ಕೆಲಸ! ನೀವು ಅದನ್ನು ಸರಿಯಾಗಿ ಗುರುತಿಸಿದ್ದೀರಿ.",
     practiceResultIncorrect: "ಅಭ್ಯಾಸ: ಒಳ್ಳೆಯ ಪ್ರಯತ್ನ!",
     answerCouldNotSeeImage: "ಚಿತ್ರ ಕಾಣಲಿಲ್ಲ.",
     pictureTestResultsTitle: "ಫಲಿತಾಂಶಗಳು",
@@ -4844,15 +5097,17 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     finalScoreTitle: "ಅಂತಿಮ ಅಂಕ",
     buttonTakeNewTest: "ಹೊಸ ಪರೀಕ್ಷೆ ತೆಗೆದುಕೊಳ್ಳಿ",
 
-
     memory_test: "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣಾ ಪರೀಕ್ಷೆ",
-    welcome_memory_game: "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣಾ ಪರೀಕ್ಷೆಗೆ ಸ್ವಾಗತ! ಈ ಆಟವು ಸಂಖ್ಯೆಗಳ ಅನುಕ್ರಮಗಳನ್ನು ನೆನಪಿಟ್ಟುಕೊಳ್ಳುವ ನಿಮ್ಮ ಸಾಮರ್ಥ್ಯವನ್ನು ಸವಾಲು ಮಾಡುತ್ತದೆ.",
+    welcome_memory_game:
+      "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣಾ ಪರೀಕ್ಷೆಗೆ ಸ್ವಾಗತ! ಈ ಆಟವು ಸಂಖ್ಯೆಗಳ ಅನುಕ್ರಮಗಳನ್ನು ನೆನಪಿಟ್ಟುಕೊಳ್ಳುವ ನಿಮ್ಮ ಸಾಮರ್ಥ್ಯವನ್ನು ಸವಾಲು ಮಾಡುತ್ತದೆ.",
     listen_carefully_numbers: "ನಾನು ಹೇಳುವ ಸಂಖ್ಯೆಗಳನ್ನು ಗಮನವಿಟ್ಟು ಕೇಳಿ.",
     repeat_back_exactly: "ಅವುಗಳನ್ನು ನನಗೆ ನಿಖರವಾಗಿ ಅದೇ ಕ್ರಮದಲ್ಲಿ ಪುನರಾವರ್ತಿಸಿ.",
-    start_easy_get_harder: "ನಾವು ಸುಲಭವಾದ ಅನುಕ್ರಮಗಳಿಂದ ಪ್ರಾರಂಭಿಸುತ್ತೇವೆ, ಮತ್ತು ನೀವು ಮುಂದುವರಿದಂತೆ ಅವುಗಳು ಕಠಿಣವಾಗುತ್ತವೆ!",
+    start_easy_get_harder:
+      "ನಾವು ಸುಲಭವಾದ ಅನುಕ್ರಮಗಳಿಂದ ಪ್ರಾರಂಭಿಸುತ್ತೇವೆ, ಮತ್ತು ನೀವು ಮುಂದುವರಿದಂತೆ ಅವುಗಳು ಕಠಿಣವಾಗುತ್ತವೆ!",
     start_test: "ಪರೀಕ್ಷೆ ಪ್ರಾರಂಭಿಸಿ",
     level_up_reverse_challenge: "ಹಂತ ಮೇಲಕ್ಕೆ! ವಿಲೋಮ ಸವಾಲು!",
-    now_exciting_twist: "ಈಗ ಒಂದು ರೋಮಾಂಚಕ ತಿರುವು! ನೀವು ಸಂಖ್ಯೆಗಳನ್ನು ಕೇಳುವಿರಿ, ಆದರೆ ನೀವು ಅವುಗಳನ್ನು ವಿಲೋಮ ಕ್ರಮದಲ್ಲಿ ಹಿಂತಿರುಗಿ ಹೇಳಬೇಕು.",
+    now_exciting_twist:
+      "ಈಗ ಒಂದು ರೋಮಾಂಚಕ ತಿರುವು! ನೀವು ಸಂಖ್ಯೆಗಳನ್ನು ಕೇಳುವಿರಿ, ಆದರೆ ನೀವು ಅವುಗಳನ್ನು ವಿಲೋಮ ಕ್ರಮದಲ್ಲಿ ಹಿಂತಿರುಗಿ ಹೇಳಬೇಕು.",
     if_i_say: "ನಾನು ಹೇಳಿದರೆ",
     you_say: "ನೀವು ಹೇಳಿ",
     start_reverse_challenge: "ವಿಲೋಮ ಸವಾಲನ್ನು ಪ್ರಾರಂಭಿಸಿ",
@@ -4870,26 +5125,38 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     reverse_score: "ವಿಲೋಮ ಅಂಕ",
     final_score: "ಅಂತಿಮ ಅಂಕ",
     submit_results: "ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸಿ",
-    no_student_selected: "ಯಾವುದೇ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿಲ್ಲ. ಸಲ್ಲಿಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
-    test_submitted_success: "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ನಿಮ್ಮ ಅಂಕ: {{score}}/10",
-    submit_results_failed: "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    submit_error_check_connection: "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ.",
+    no_student_selected:
+      "ಯಾವುದೇ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿಲ್ಲ. ಸಲ್ಲಿಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
+    test_submitted_success:
+      "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ನಿಮ್ಮ ಅಂಕ: {{score}}/10",
+    submit_results_failed:
+      "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    submit_error_check_connection:
+      "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ.",
     transcription_failed: "ಲಿಪ್ಯಂತರ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    audio_upload_error: "ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    microphone_access_error: "ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ ಅಥವಾ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ.",
+    audio_upload_error:
+      "ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    microphone_access_error:
+      "ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ ಅಥವಾ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ.",
     recording_error: "ರೆಕಾರ್ಡಿಂಗ್ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    microphone_start_error: "ಮೈಕ್ರೊಫೋನ್ ಪ್ರಾರಂಭಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಅದು ಸಂಪರ್ಕಗೊಂಡಿದೆ ಮತ್ತು ಲಭ್ಯವಿದೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
-    could_not_understand_numbers: "ನಿಮ್ಮ ಮಾತಿನಿಂದ ಸಂಖ್ಯೆಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಸ್ಪಷ್ಟವಾಗಿ ಮಾತನಾಡಲು ಪ್ರಯತ್ನಿಸಿ.",
-    could_not_understand_numbers_clearly: "ನೀವು ಹೇಳಿದ ಸಂಖ್ಯೆಗಳನ್ನು ನಮಗೆ ಸ್ಪಷ್ಟವಾಗಿ ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    microphone_start_error:
+      "ಮೈಕ್ರೊಫೋನ್ ಪ್ರಾರಂಭಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಅದು ಸಂಪರ್ಕಗೊಂಡಿದೆ ಮತ್ತು ಲಭ್ಯವಿದೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
+    could_not_understand_numbers:
+      "ನಿಮ್ಮ ಮಾತಿನಿಂದ ಸಂಖ್ಯೆಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಸ್ಪಷ್ಟವಾಗಿ ಮಾತನಾಡಲು ಪ್ರಯತ್ನಿಸಿ.",
+    could_not_understand_numbers_clearly:
+      "ನೀವು ಹೇಳಿದ ಸಂಖ್ಯೆಗಳನ್ನು ನಮಗೆ ಸ್ಪಷ್ಟವಾಗಿ ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
 
     memory_test: "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣಾ ಪರೀಕ್ಷೆ",
-    welcome_memory_game: "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣಾ ಪರೀಕ್ಷೆಗೆ ಸ್ವಾಗತ! ಈ ಆಟವು ಸಂಖ್ಯೆಗಳ ಅನುಕ್ರಮಗಳನ್ನು ನೆನಪಿಟ್ಟುಕೊಳ್ಳುವ ನಿಮ್ಮ ಸಾಮರ್ಥ್ಯವನ್ನು ಸವಾಲು ಮಾಡುತ್ತದೆ.",
+    welcome_memory_game:
+      "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣಾ ಪರೀಕ್ಷೆಗೆ ಸ್ವಾಗತ! ಈ ಆಟವು ಸಂಖ್ಯೆಗಳ ಅನುಕ್ರಮಗಳನ್ನು ನೆನಪಿಟ್ಟುಕೊಳ್ಳುವ ನಿಮ್ಮ ಸಾಮರ್ಥ್ಯವನ್ನು ಸವಾಲು ಮಾಡುತ್ತದೆ.",
     listen_carefully_numbers: "ನಾನು ಹೇಳುವ ಸಂಖ್ಯೆಗಳನ್ನು ಗಮನವಿಟ್ಟು ಕೇಳಿ.",
     repeat_back_exactly: "ಅವುಗಳನ್ನು ನನಗೆ ನಿಖರವಾಗಿ ಅದೇ ಕ್ರಮದಲ್ಲಿ ಪುನರಾವರ್ತಿಸಿ.",
-    start_easy_get_harder: "ನಾವು ಸುಲಭವಾದ ಅನುಕ್ರಮಗಳಿಂದ ಪ್ರಾರಂಭಿಸುತ್ತೇವೆ, ಮತ್ತು ನೀವು ಮುಂದುವರಿದಂತೆ ಅವುಗಳು ಕಠಿಣವಾಗುತ್ತವೆ!",
+    start_easy_get_harder:
+      "ನಾವು ಸುಲಭವಾದ ಅನುಕ್ರಮಗಳಿಂದ ಪ್ರಾರಂಭಿಸುತ್ತೇವೆ, ಮತ್ತು ನೀವು ಮುಂದುವರಿದಂತೆ ಅವುಗಳು ಕಠಿಣವಾಗುತ್ತವೆ!",
     start_test: "ಪರೀಕ್ಷೆ ಪ್ರಾರಂಭಿಸಿ",
     level_up_reverse_challenge: "ಹಂತ ಮೇಲಕ್ಕೆ! ವಿಲೋಮ ಸವಾಲು!",
-    now_exciting_twist: "ಈಗ ಒಂದು ರೋಮಾಂಚಕ ತಿರುವು! ನೀವು ಸಂಖ್ಯೆಗಳನ್ನು ಕೇಳುವಿರಿ, ಆದರೆ ನೀವು ಅವುಗಳನ್ನು ವಿಲೋಮ ಕ್ರಮದಲ್ಲಿ ಹಿಂತಿರುಗಿ ಹೇಳಬೇಕು.",
+    now_exciting_twist:
+      "ಈಗ ಒಂದು ರೋಮಾಂಚಕ ತಿರುವು! ನೀವು ಸಂಖ್ಯೆಗಳನ್ನು ಕೇಳುವಿರಿ, ಆದರೆ ನೀವು ಅವುಗಳನ್ನು ವಿಲೋಮ ಕ್ರಮದಲ್ಲಿ ಹಿಂತಿರುಗಿ ಹೇಳಬೇಕು.",
     if_i_say: "ನಾನು ಹೇಳಿದರೆ",
     you_say: "ನೀವು ಹೇಳಿ",
     start_reverse_challenge: "ವಿಲೋಮ ಸವಾಲನ್ನು ಪ್ರಾರಂಭಿಸಿ",
@@ -4907,29 +5174,42 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     reverse_score: "ವಿಲೋಮ ಅಂಕ",
     final_score: "ಅಂತಿಮ ಅಂಕ",
     submit_results: "ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸಿ",
-    no_student_selected: "ಯಾವುದೇ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿಲ್ಲ. ಸಲ್ಲಿಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
-    test_submitted_success: "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ನಿಮ್ಮ ಅಂಕ: {{score}}/10",
-    submit_results_failed: "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    submit_error_check_connection: "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ.",
+    no_student_selected:
+      "ಯಾವುದೇ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿಲ್ಲ. ಸಲ್ಲಿಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
+    test_submitted_success:
+      "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ನಿಮ್ಮ ಅಂಕ: {{score}}/10",
+    submit_results_failed:
+      "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    submit_error_check_connection:
+      "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳನ್ನು ಸಲ್ಲಿಸುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ.",
     transcription_failed: "ಲಿಪ್ಯಂತರ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    audio_upload_error: "ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    microphone_access_error: "ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ ಅಥವಾ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ.",
+    audio_upload_error:
+      "ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    microphone_access_error:
+      "ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ ಅಥವಾ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ.",
     recording_error: "ರೆಕಾರ್ಡಿಂಗ್ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    microphone_start_error: "ಮೈಕ್ರೊಫೋನ್ ಪ್ರಾರಂಭಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಅದು ಸಂಪರ್ಕಗೊಂಡಿದೆ ಮತ್ತು ಲಭ್ಯವಿದೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
-    could_not_understand_numbers: "ನಿಮ್ಮ ಮಾತಿನಿಂದ ಸಂಖ್ಯೆಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಸ್ಪಷ್ಟವಾಗಿ ಮಾತನಾಡಲು ಪ್ರಯತ್ನಿಸಿ.",
-    could_not_understand_numbers_clearly: "ನೀವು ಹೇಳಿದ ಸಂಖ್ಯೆಗಳನ್ನು ನಮಗೆ ಸ್ಪಷ್ಟವಾಗಿ ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    microphone_start_error:
+      "ಮೈಕ್ರೊಫೋನ್ ಪ್ರಾರಂಭಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಅದು ಸಂಪರ್ಕಗೊಂಡಿದೆ ಮತ್ತು ಲಭ್ಯವಿದೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
+    could_not_understand_numbers:
+      "ನಿಮ್ಮ ಮಾತಿನಿಂದ ಸಂಖ್ಯೆಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಸ್ಪಷ್ಟವಾಗಿ ಮಾತನಾಡಲು ಪ್ರಯತ್ನಿಸಿ.",
+    could_not_understand_numbers_clearly:
+      "ನೀವು ಹೇಳಿದ ಸಂಖ್ಯೆಗಳನ್ನು ನಮಗೆ ಸ್ಪಷ್ಟವಾಗಿ ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
     back_to_map: "ನಕ್ಷೆಗೆ ಹಿಂತಿರುಗಿ",
     alt_svarini_guardian: "ಸ್ವರಿಣಿ, ಸ್ವರ ಗುಹೆಯ ರಕ್ಷಕಿ",
     continue: "ಮುಂದುವರಿಸಿ",
     im_ready: "ನಾನು ಸಿದ್ಧ",
-    practice_correct_message: "ಅದ್ಭುತ ಕೆಲಸ! ಈಗ ನಿಜವಾದ ಪರೀಕ್ಷೆಯನ್ನು ಪ್ರಾರಂಭಿಸೋಣ.",
-    practice_incorrect_message: "ಅದನ್ನು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸೋಣ. ಗಮನವಿಟ್ಟು ಕೇಳಿ ಮತ್ತು ಸಂಖ್ಯೆಗಳನ್ನು ಪುನರಾವರ್ತಿಸಿ.",
-    error_unknown_game_state: "ದೋಷ: ಅಜ್ಞಾತ ಆಟದ ಸ್ಥಿತಿ: {{gameState}}" ,
+    practice_correct_message:
+      "ಅದ್ಭುತ ಕೆಲಸ! ಈಗ ನಿಜವಾದ ಪರೀಕ್ಷೆಯನ್ನು ಪ್ರಾರಂಭಿಸೋಣ.",
+    practice_incorrect_message:
+      "ಅದನ್ನು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸೋಣ. ಗಮನವಿಟ್ಟು ಕೇಳಿ ಮತ್ತು ಸಂಖ್ಯೆಗಳನ್ನು ಪುನರಾವರ್ತಿಸಿ.",
+    error_unknown_game_state: "ದೋಷ: ಅಜ್ಞಾತ ಆಟದ ಸ್ಥಿತಿ: {{gameState}}",
 
     excellentMemory: "ಅತ್ಯುತ್ತಮ ಸ್ಮರಣೆ! ನಿಮ್ಮ ಗಮನವು ಹರಳಿನಂತೆ ತೀಕ್ಷ್ಣವಾಗಿದೆ.",
-    veryGoodJob: "ತುಂಬಾ ಒಳ್ಳೆಯ ಕೆಲಸ! ನೀವು ಕೌಶಲ್ಯದಿಂದ ಧ್ವನಿಯ ಪ್ರತಿಧ್ವನಿಗಳನ್ನು ಅನುಸರಿಸುತ್ತೀರಿ.",
+    veryGoodJob:
+      "ತುಂಬಾ ಒಳ್ಳೆಯ ಕೆಲಸ! ನೀವು ಕೌಶಲ್ಯದಿಂದ ಧ್ವನಿಯ ಪ್ರತಿಧ್ವನಿಗಳನ್ನು ಅನುಸರಿಸುತ್ತೀರಿ.",
     goodEffort: "ಒಳ್ಳೆಯ ಪ್ರಯತ್ನ! ಗುಹೆಯ ರಹಸ್ಯಗಳು ನಿಮ್ಮ ಕೈಗೆಟುಕುವಂತಿವೆ.",
-    keepPracticing: "ಅಭ್ಯಾಸ ಮುಂದುವರಿಸಿ! ನೀವು ಕೇಳುವ ಪ್ರತಿಯೊಂದು ಪ್ರತಿಧ್ವನಿಯು ನಿಮ್ಮನ್ನು ಬಲಶಾಲಿಯನ್ನಾಗಿ ಮಾಡುತ್ತದೆ.",
+    keepPracticing:
+      "ಅಭ್ಯಾಸ ಮುಂದುವರಿಸಿ! ನೀವು ಕೇಳುವ ಪ್ರತಿಯೊಂದು ಪ್ರತಿಧ್ವನಿಯು ನಿಮ್ಮನ್ನು ಬಲಶಾಲಿಯನ್ನಾಗಿ ಮಾಡುತ್ತದೆ.",
     testResults: "ಪರೀಕ್ಷೆಯ ಫಲಿತಾಂಶಗಳು",
     memoryTestCompleted: "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣಾ ಪರೀಕ್ಷೆ ಪೂರ್ಣಗೊಂಡಿದೆ.",
     yourScore: "ನಿಮ್ಮ ಅಂಕ",
@@ -4946,9 +5226,11 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     you_said: "ನೀವು ಹೇಳಿದ್ದು",
     correct: "ಸರಿ",
     lets_try_next_one: "ಮುಂದಿನದನ್ನು ಪ್ರಯತ್ನಿಸೋಣ!",
-    audio_upload_error: "ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    audio_upload_error:
+      "ಆಡಿಯೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
     recording_error: "ರೆಕಾರ್ಡಿಂಗ್ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
-    microphone_access_error: "ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ ಅಥವಾ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ.",
+    microphone_access_error:
+      "ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ ಅಥವಾ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ.",
 
     // New key for this component
     click_to_stop: "ನಿಲ್ಲಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ!",
@@ -4967,13 +5249,16 @@ practiceQuestionTitle: "ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆ",
     reverse: "ವಿಲೋಮ",
     skipTest: "ಪರೀಕ್ಷೆ ಬಿಟ್ಟುಬಿಡಿ",
 
-    dialog_1: "🎶 ನಮಸ್ತೆ, ಯಾತ್ರಿಕರೇ. ನಾನು ಸ್ವರಿಣಿ, ನದಿಯ ಧ್ವನಿ ಮತ್ತು ಸ್ವರ ಗುಹೆಯ ರಕ್ಷಕಿ.",
-    dialog_2: "🌊 ಈ ಗುಹೆಗಳು ಯುಗಯುಗಗಳ ರಾಗಗಳೊಂದಿಗೆ ಹಾಡುತ್ತವೆ — ಕಲ್ಲಿನಲ್ಲಿ ಕೆತ್ತಿದ, ನೀರಿನಲ್ಲಿ ಪಿಸುಗುಟ್ಟಿದ.",
-    dialog_3: "🎵 ಗಮನವಿಟ್ಟು ಕೇಳಿ... ಪ್ರತಿಧ್ವನಿಗಳು ಒಂದು ನಾದವನ್ನು ಹಾಡುತ್ತವೆ. ನೀವು ಅದನ್ನು ಸ್ವರದಿಂದ ಸ್ವರಕ್ಕೆ ಪುನರಾವರ್ತಿಸಬೇಕು.",
-    dialog_4: "🪷 ನಿಮ್ಮ ಸ್ಮರಣೆಯು ನದಿಯಂತೆ ಸತ್ಯವಾಗಿ ಹರಿಯುವುದಾದರೆ, ನೀವು ಸ್ಮೃತಿಯ ಶಂಖ ಮತ್ತು ಪಿಸುಗುಟ್ಟುವ ಕೊಂಬನ್ನು ಗಳಿಸುವಿರಿ.",
-    dialog_5: "✨ ಕಣ್ಣು ಮುಚ್ಚಿ, ಕಿವಿ ತೆರೆಯಿರಿ... ಮತ್ತು ಸಂಗೀತವು ನಿಮ್ಮ ಆತ್ಮಕ್ಕೆ ಮಾರ್ಗದರ್ಶನ ನೀಡಲಿ.",
-
-
+    dialog_1:
+      "🎶 ನಮಸ್ತೆ, ಯಾತ್ರಿಕರೇ. ನಾನು ಸ್ವರಿಣಿ, ನದಿಯ ಧ್ವನಿ ಮತ್ತು ಸ್ವರ ಗುಹೆಯ ರಕ್ಷಕಿ.",
+    dialog_2:
+      "🌊 ಈ ಗುಹೆಗಳು ಯುಗಯುಗಗಳ ರಾಗಗಳೊಂದಿಗೆ ಹಾಡುತ್ತವೆ — ಕಲ್ಲಿನಲ್ಲಿ ಕೆತ್ತಿದ, ನೀರಿನಲ್ಲಿ ಪಿಸುಗುಟ್ಟಿದ.",
+    dialog_3:
+      "🎵 ಗಮನವಿಟ್ಟು ಕೇಳಿ... ಪ್ರತಿಧ್ವನಿಗಳು ಒಂದು ನಾದವನ್ನು ಹಾಡುತ್ತವೆ. ನೀವು ಅದನ್ನು ಸ್ವರದಿಂದ ಸ್ವರಕ್ಕೆ ಪುನರಾವರ್ತಿಸಬೇಕು.",
+    dialog_4:
+      "🪷 ನಿಮ್ಮ ಸ್ಮರಣೆಯು ನದಿಯಂತೆ ಸತ್ಯವಾಗಿ ಹರಿಯುವುದಾದರೆ, ನೀವು ಸ್ಮೃತಿಯ ಶಂಖ ಮತ್ತು ಪಿಸುಗುಟ್ಟುವ ಕೊಂಬನ್ನು ಗಳಿಸುವಿರಿ.",
+    dialog_5:
+      "✨ ಕಣ್ಣು ಮುಚ್ಚಿ, ಕಿವಿ ತೆರೆಯಿರಿ... ಮತ್ತು ಸಂಗೀತವು ನಿಮ್ಮ ಆತ್ಮಕ್ಕೆ ಮಾರ್ಗದರ್ಶನ ನೀಡಲಿ.",
   },
   mr: {
     mainMenu: "मुख्य मेनू",
