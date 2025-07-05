@@ -6,6 +6,8 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { authClient, getUser } from "@/lib/auth-client";
 import { useLanguage } from "@/contexts/LanguageContext"; // Import from context
+import { useQueryClient } from "@tanstack/react-query";
+import { clearUserData } from "@/lib/cache-utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -74,6 +76,7 @@ export function AppSidebar() {
   const isExpanded = state === "expanded";
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
 
   // Use useLanguage from context
   const {
@@ -125,21 +128,26 @@ export function AppSidebar() {
 
   const handleLogout = async () => {
     try {
+      // Clear all TanStack Query cache first
+      queryClient.clear();
+      
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
-            localStorage.removeItem("user");
+            clearUserData();
             router.push("/login");
           },
           onError: () => {
-            localStorage.removeItem("user");
+            clearUserData();
             router.push("/login");
           },
         },
       });
     } catch (error) {
       console.error("Logout failed:", error);
-      localStorage.removeItem("user");
+      // Clear cache and localStorage even if logout fails
+      queryClient.clear();
+      clearUserData();
       router.push("/login");
     }
   };

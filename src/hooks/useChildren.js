@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getCurrentUserId, createUserQueryKey } from '@/lib/cache-utils';
 
 const fetchChildren = async () => {
   const response = await fetch('/api/getChildrenByTeacher');
@@ -32,19 +33,24 @@ const addChild = async (childData) => {
 };
 
 export const useChildren = () => {
+  const userId = getCurrentUserId();
+
   return useQuery({
-    queryKey: ['children'],
+    queryKey: createUserQueryKey(['children']),
     queryFn: fetchChildren,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
+    enabled: !!userId, // Only fetch if user is logged in
   });
 };
 
 export const useChild = (childId) => {
+  const userId = getCurrentUserId();
+
   return useQuery({
-    queryKey: ['child', childId],
+    queryKey: createUserQueryKey(['child', childId]),
     queryFn: () => fetchChild(childId),
-    enabled: !!childId,
+    enabled: !!childId && !!userId,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
@@ -56,7 +62,8 @@ export const useAddChild = () => {
   return useMutation({
     mutationFn: addChild,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['children'] });
+      const userId = getCurrentUserId();
+      queryClient.invalidateQueries({ queryKey: createUserQueryKey(['children']) });
     },
   });
 };

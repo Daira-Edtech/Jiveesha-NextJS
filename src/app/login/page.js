@@ -10,8 +10,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
+import { useQueryClient } from "@tanstack/react-query";
+import { clearUserData } from "@/lib/cache-utils";
 
 function LoginForm() {
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -71,17 +74,24 @@ function LoginForm() {
     setSuccessMessage("");
 
     try {
+      // Clear any existing cached data before login
+      queryClient.clear();
+      clearUserData();
+      
       const { data, error } = await authClient.signIn.email({
         email: formData.email,
         password: formData.password,
       });
-      localStorage.setItem("user", JSON.stringify(data.user));
+      
       if (error) {
         setErrors((prev) => ({
           ...prev,
           server: error.message || "Login failed. Please check your credentials.",
         }));
       } else if (data) {
+        // Set new user data
+        localStorage.setItem("user", JSON.stringify(data.user));
+        
         router.push("/dashboard");
       }
     } catch (err) {
