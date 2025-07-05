@@ -96,7 +96,7 @@ const AnalysisDisplay = ({ analysis, childDob, onClose }) => {
             onClick={() => {
               // TODO: Navigate to analysis page
               console.log("Navigate to analysis page");
-              window.location.href = "/analysis";
+              window.location.href = "/analytics";
             }}
             className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-3 sm:px-6 sm:py-3 md:px-8 md:py-4 text-sm sm:text-base md:text-lg font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
           >
