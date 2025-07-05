@@ -15,7 +15,7 @@ import InstructionsScreen from "./InstructionsScreen.js";
 import ResultsScreen from "./ResultsScreen.js";
 import RewardsModal from "./RewardsModal.js";
 import TopBar from "./TopBar.js";
-
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   dialogContent,
   practiceSequence as practiceSequenceData,
@@ -31,7 +31,9 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
   const [currentDialogIndex, setCurrentDialogIndex] = useState(0);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [score, setScore] = useState({ correct: 0, total: 0 });
-  const [currentSequence, setCurrentSequence] = useState(() => [...practiceSequenceData]);
+  const [currentSequence, setCurrentSequence] = useState(() => [
+    ...practiceSequenceData,
+  ]);
   const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
 
   const [showInfoDialogOverlay, setShowInfoDialogOverlay] = useState(false);
@@ -135,7 +137,7 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
                 transition={{ duration: 0.5 }}
               />
             </div>
-            
+
             {/* Back to Map Button */}
             <motion.button
               initial={{ opacity: 0, x: -20 }}
@@ -149,7 +151,7 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
               <FaArrowLeft className="text-amber-700" />
               {t("backToMap") || "Back to Map"}
             </motion.button>
-            
+
             {/* Actual Welcome Dialog Box, Character, Text */}
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-8">
               <motion.div
@@ -207,7 +209,7 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
                     className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-white mb-8 lg:mb-12 min-h-48 sm:min-h-56 lg:min-h-64 xl:min-h-72 flex items-center justify-center font-serif font-medium leading-relaxed text-center px-4"
                   >
                     <span className="drop-shadow-lg">
-                      {dialogContent[currentDialogIndex]}
+                      {t(dialogContent[currentDialogIndex])}
                     </span>
                   </motion.div>
                   <div className="flex justify-center gap-3 mb-8 lg:mb-10">

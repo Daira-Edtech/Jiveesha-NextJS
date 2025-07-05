@@ -8,9 +8,9 @@
  * @returns {string|null} User ID or null if not available
  */
 export const getCurrentUserId = () => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     try {
-      const user = localStorage.getItem('user');
+      const user = localStorage.getItem("user");
       return user ? JSON.parse(user).id : null;
     } catch {
       return null;
@@ -24,7 +24,7 @@ export const getCurrentUserId = () => {
  * This should be called during logout or when switching users
  */
 export const clearUserData = () => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     localStorage.removeItem("user");
     localStorage.removeItem("childId");
     localStorage.removeItem("selectedStudent");

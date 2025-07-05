@@ -28,8 +28,8 @@ export const practiceSequence = [
 ];
 
 export const dialogContent = [
-  "🐚 Hello, young traveler! I am Kaalnath, the crab who guards the River of Time.",
-  "🌊 Here, the river flows not just through space but through moments long past and yet to come.",
-  "⏳ Your challenge is to arrange the events of time in the right order.",
-  "🦀 Are you ready to journey through the currents of the past and future with me?",
+  "riverLine1",
+  "riverLine2",
+  "riverLine3",
+  "riverLine4",
 ];

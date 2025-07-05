@@ -6,17 +6,16 @@ import { useRouter, usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 import WelcomeDialog from "../../../components/sequence-arrangement/WelcomeDialog.js";
-// Import your existing LanguageProvider and useLanguage hook
+
 import {
   LanguageProvider,
   useLanguage,
 } from "../../../contexts/LanguageContext";
 
-// This inner component will consume the context
 const SequenceArrangementTestContent = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { language, t } = useLanguage(); // Get language and t from your existing context
+  const { language, t } = useLanguage();
   const [childId, setChildId] = useState(null);
 
   useEffect(() => {
@@ -92,9 +91,8 @@ const SequenceArrangementTestContent = () => {
 // The main export now wraps the content with your existing LanguageProvider
 const Test7Page = () => {
   return (
-    <LanguageProvider>
       <SequenceArrangementTestContent />
-    </LanguageProvider>
+    
   );
 };
 

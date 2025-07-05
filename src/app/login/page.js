@@ -6,7 +6,13 @@ import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
@@ -77,21 +83,22 @@ function LoginForm() {
       // Clear any existing cached data before login
       queryClient.clear();
       clearUserData();
-      
+
       const { data, error } = await authClient.signIn.email({
         email: formData.email,
         password: formData.password,
       });
-      
+
       if (error) {
         setErrors((prev) => ({
           ...prev,
-          server: error.message || "Login failed. Please check your credentials.",
+          server:
+            error.message || "Login failed. Please check your credentials.",
         }));
       } else if (data) {
         // Set new user data
         localStorage.setItem("user", JSON.stringify(data.user));
-        
+
         router.push("/dashboard");
       }
     } catch (err) {
@@ -129,7 +136,10 @@ function LoginForm() {
         )}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+            <Label
+              htmlFor="email"
+              className="text-sm font-medium text-gray-700"
+            >
               Parent Email
             </Label>
             <div className="relative">
@@ -154,7 +164,10 @@ function LoginForm() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+            <Label
+              htmlFor="password"
+              className="text-sm font-medium text-gray-700"
+            >
               Secret Password
             </Label>
             <div className="relative">
@@ -262,7 +275,7 @@ export default function LoginPage() {
               priority
             />
             <h1 className="text-3xl font-bold ml-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Daira 
+              Daira
             </h1>
           </div>
           <h2 className="text-3xl font-bold text-blue-600 mb-2">
