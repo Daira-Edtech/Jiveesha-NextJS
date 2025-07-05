@@ -345,6 +345,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
           speak(t("practice_incorrect_message"), 0.9, 1.0)
         } else {
           speak(t("lets_try_next_one"), 0.9, 1.0)
+          let newErrorCount = 0;
           if (mode === "forward") {
             setForwardErrors((prev) => {
               newErrorCount = prev + 1;
@@ -626,7 +627,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
               t={t}
             />
             {/* Debug info - remove this in production */}
-            <div className="fixed top-20 left-4 bg-black/80 text-white p-2 rounded text-xs z-50">
+            {/* <div className="fixed top-20 left-4 bg-black/80 text-white p-2 rounded text-xs z-50">
               <div>Forward Score: {forwardScore}</div>
               <div>Reverse Score: {reverseScore}</div>
               <div>Forward Errors: {forwardErrors}</div>
@@ -634,8 +635,7 @@ const WelcomeDialog = ({ t, speak, onEntireTestComplete, initialChildId }) => {
               <div>Mode: {mode}</div>
               <div>Practice: {isPracticeMode ? 'Yes' : 'No'}</div>
               <div>Seq Index: {sequenceIndex}</div>
-              <div>Current Sequence: [{currentSequence.join(', ')}]</div>
-            </div>
+            </div> */}
             <div className="flex flex-col items-center justify-center min-h-screen relative px-2 sm:px-4 py-10 pt-20">
               <ListeningScreen mode={mode} onResponseComplete={handleResponseComplete} t={t} />
             </div>
