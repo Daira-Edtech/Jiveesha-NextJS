@@ -48,14 +48,7 @@ const StudentCard = ({
   const pathname = usePathname();
   const [showDialog, setShowDialog] = useState(false);
   const dialogRef = useRef(null);
-
-  // Get language context with fallback
-  const languageContext = useLanguage();
-  const language = languageContext?.language || "en";
-  const t = (key) => {
-    if (languageContext?.t) return languageContext.t(key);
-    return defaultTranslations[language][key] || key;
-  };
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleClickOutside = (event) => {

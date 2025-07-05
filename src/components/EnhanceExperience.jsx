@@ -4,16 +4,16 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Maximize2, Monitor, Zap } from "lucide-react";
 import FullscreenModal from "@/components/FullscreenModal";
-
-const EnhanceExperience = ({ 
-  onStartGame, 
+import { useLanguage } from "@/contexts/LanguageContext";
+const EnhanceExperience = ({
+  onStartGame,
   translations,
   showButton = true,
   autoTrigger = false,
-  children 
+  children,
 }) => {
   const [showFullscreenModal, setShowFullscreenModal] = useState(autoTrigger);
-
+  const { t } = useLanguage();
   const handleEnhanceClick = () => {
     setShowFullscreenModal(true);
   };
@@ -43,7 +43,7 @@ const EnhanceExperience = ({
             className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             initial={false}
           />
-          
+
           {/* Content */}
           <div className="relative flex items-center gap-2">
             <motion.div
@@ -52,7 +52,7 @@ const EnhanceExperience = ({
             >
               <Zap className="w-5 h-5" />
             </motion.div>
-            <span>{translations?.enhanceExperience || "Enhance Experience"}</span>
+            <span>{t("enhanceExperience")}</span>
             <Maximize2 className="w-4 h-4 opacity-70" />
           </div>
 
@@ -81,10 +81,10 @@ const EnhanceExperience = ({
 };
 
 // Alternative component for inline embedding
-export const EnhanceExperienceCard = ({ 
-  onStartGame, 
+export const EnhanceExperienceCard = ({
+  onStartGame,
   translations,
-  className = "" 
+  className = "",
 }) => {
   const [showFullscreenModal, setShowFullscreenModal] = useState(false);
 
@@ -117,18 +117,14 @@ export const EnhanceExperienceCard = ({
           </div>
           <div>
             <h3 className="text-lg font-semibold text-gray-800">
-              {translations?.enhanceExperience || "Enhance Experience"}
+              {t("enhanceExperience")}
             </h3>
-            <p className="text-sm text-gray-600">
-              Optimize your learning environment
-            </p>
+            <p className="text-sm text-gray-600">{t("optimizeEnvironment")}</p>
           </div>
         </div>
-        
-        <p className="text-gray-700 mb-4">
-          {translations?.fullScreenRecommendation || "For the best experience, we recommend using fullscreen mode."}
-        </p>
-        
+
+        <p className="text-gray-700 mb-4">{t("fullScreenRecommendation")}</p>
+
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -136,7 +132,7 @@ export const EnhanceExperienceCard = ({
           className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
         >
           <Maximize2 className="w-5 h-5" />
-          {translations?.enterFullscreen || "Enter Fullscreen"}
+          {t("enterFullscreen")}
         </motion.button>
       </motion.div>
 
