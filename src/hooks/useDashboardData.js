@@ -1,11 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCurrentUserId, createUserQueryKey } from '@/lib/cache-utils';
+import { getCurrentUserId, createUserQueryKey } from "@/lib/cache-utils";
 
 export const useDashboardData = (students = []) => {
   const userId = getCurrentUserId();
 
   return useQuery({
-    queryKey: createUserQueryKey(["dashboardData", students.map((s) => s.id).sort()]),
+    queryKey: createUserQueryKey([
+      "dashboardData",
+      students.map((s) => s.id).sort(),
+    ]),
     queryFn: async () => {
       if (!students || students.length === 0) {
         return {

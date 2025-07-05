@@ -1,18 +1,19 @@
 // app/(tests)/symbol-sequence/page.js
 
-"use client"
+"use client";
 
-import axios from "axios"
-import { useRouter, usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
-import WelcomeDialog from "../../../components/symbol-sequence/WelcomeDialog.js"
-
+import axios from "axios";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import WelcomeDialog from "../../../components/symbol-sequence/WelcomeDialog.js";
+import { useLanguage } from "../../../contexts/LanguageContext";
 // Direct Implementation of t() and speak()
 const translations = {
   continue: "Continue",
   letsBegin: "Let's Begin",
   symbolSequenceAssessment: "Symbol Sequence Assessment",
-  symbolSequenceDescription: "Test your memory by observing and recreating mystical symbol sequences.",
+  symbolSequenceDescription:
+    "Test your memory by observing and recreating mystical symbol sequences.",
   chooseDifficulty: "Choose Difficulty",
   easy: "Easy",
   medium: "Medium",
@@ -31,7 +32,8 @@ const translations = {
   correctSequence: "Correct Sequence",
   viewResults: "View Results",
   testResults: "Test Results",
-  testCompletedMessage: "You've completed the Symbol Sequence test! Here's how you did.",
+  testCompletedMessage:
+    "You've completed the Symbol Sequence test! Here's how you did.",
   yourScore: "Your Score:",
   viewRewards: "View Rewards",
   finishTest: "Finish Test",
@@ -54,13 +56,16 @@ const translations = {
     "This is a mystical memory game. Watch the sequence of symbols, remember their order, and then recreate it perfectly.",
   watchSymbolSequence: "Watch the sequence of mystical symbols.",
   memorizeOrder: "Memorize the order they appear in.",
-  recreateFromMemory: "Recreate the sequence by selecting symbols in the correct order.",
+  recreateFromMemory:
+    "Recreate the sequence by selecting symbols in the correct order.",
   limitedViewingTime: "You'll have limited time to memorize each sequence.",
   gameStructure: "Game Structure",
   practiceRound: "Practice Round",
-  practiceRoundDescription: "Start with a practice round to get familiar with the mystical symbols.",
+  practiceRoundDescription:
+    "Start with a practice round to get familiar with the mystical symbols.",
   mainTest: "Main Test",
-  mainTestDescription: "The main test consists of 10 rounds with increasing difficulty.",
+  mainTestDescription:
+    "The main test consists of 10 rounds with increasing difficulty.",
   tips: "Tips",
   focusOnSymbolOrder: "Focus on the order, not just the symbols themselves.",
   lookForPatterns: "Look for patterns or create mental stories.",
@@ -68,42 +73,34 @@ const translations = {
   stayCalm: "Stay calm and take your time during selection.",
   startPracticeRound: "Start Practice Round",
   readyForTest: "Ready for the Real Test?",
-  testDescription: "Great job on the practice! Now, let's start the main test with 10 challenging rounds.",
+  testDescription:
+    "Great job on the practice! Now, let's start the main test with 10 challenging rounds.",
   startTest: "Start Test",
   close: "Close",
-}
+};
 
-const t = (key) => translations[key] || key
-
-const speak = (text) => {
-  console.log(`TTS (direct): ${text}`)
-  if (typeof window !== "undefined" && "speechSynthesis" in window) {
-    const utterance = new SpeechSynthesisUtterance(text)
-    window.speechSynthesis.speak(utterance)
-  }
-}
 //vimalchangesdonehere
 const SymbolSequencePage = () => {
-  const router = useRouter()
-  const pathname = usePathname()
-  const [childId, setChildId] = useState(null)
-
+  const router = useRouter();
+  const pathname = usePathname();
+  const [childId, setChildId] = useState(null);
+  const { language, t } = useLanguage();
   useEffect(() => {
-    const storedChildId = localStorage.getItem("childId")
+    const storedChildId = localStorage.getItem("childId");
     if (storedChildId) {
-      setChildId(storedChildId)
+      setChildId(storedChildId);
     }
-  }, [])
+  }, []);
 
   const handleEntireTestFlowComplete = async (finalScore) => {
-    const token = localStorage.getItem("access_token")
+    const token = localStorage.getItem("access_token");
 
     if (!childId) {
-      console.warn("Child ID is missing. Cannot save results.")
+      console.warn("Child ID is missing. Cannot save results.");
       if (pathname !== "/dummy") {
-        router.push("/take-tests?skipStart=true")
+        router.push("/take-tests?skipStart=true");
       }
-      return
+      return;
     }
 
     const isDummyRoute = pathname === "/dummy";
@@ -132,34 +129,36 @@ const SymbolSequencePage = () => {
           ...(token && { Authorization: `Bearer ${token}` }),
           "Content-Type": "application/json",
         },
-      })
+      });
 
-      console.log("Test results saved by page.js:", response.data)
+      console.log("Test results saved by page.js:", response.data);
     } catch (error) {
-      console.error("Error saving test results in page.js:", error.response?.data || error.message)
+      console.error(
+        "Error saving test results in page.js:",
+        error.response?.data || error.message
+      );
     } finally {
       if (!isDummyRoute) {
-        router.push("/take-tests?skipStart=true")
+        router.push("/take-tests?skipStart=true");
       }
     }
-  }
+  };
 
   return (
     <div className="w-screen h-screen">
       <WelcomeDialog
         t={t}
-        speak={speak}
         onEntireTestComplete={handleEntireTestFlowComplete}
         initialChildId={childId}
         dialogContent={[
-          "🔮 Greetings, young seeker! I am Mystara, guardian of the Ancient Symbols.",
-          "✨ These mystical runes hold the power of memory and concentration.",
-          "🌟 Your quest is to observe the sacred sequences and recreate them perfectly.",
-          "🎭 Are you ready to unlock the secrets of the Symbol Realm?",
+          "mystaraLine1",
+          "mystaraLine2",
+          "mystaraLine3",
+          "mystaraLine4",
         ]}
       />
     </div>
-  )
-}
+  );
+};
 
-export default SymbolSequencePage
+export default SymbolSequencePage;

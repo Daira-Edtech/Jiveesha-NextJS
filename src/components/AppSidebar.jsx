@@ -130,7 +130,7 @@ export function AppSidebar() {
     try {
       // Clear all TanStack Query cache first
       queryClient.clear();
-      
+
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {

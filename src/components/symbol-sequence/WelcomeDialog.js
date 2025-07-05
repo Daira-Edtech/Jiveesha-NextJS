@@ -351,7 +351,7 @@ const WelcomeDialog = ({
                     className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-white mb-8 lg:mb-12 min-h-48 sm:min-h-56 lg:min-h-64 xl:min-h-72 flex items-center justify-center font-serif font-medium leading-relaxed text-center px-4"
                   >
                     <span className="drop-shadow-lg">
-                      {dialogContent[currentDialogIndex]}
+                      {t(dialogContent[currentDialogIndex])}
                     </span>
                   </motion.div>
 
@@ -498,12 +498,8 @@ const WelcomeDialog = ({
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
       {/* Back to Map Button */}
-      <BackToMapButton 
-        variant="glass" 
-        position="top-left"
-        className="z-[70]"
-      />
-      
+      <BackToMapButton variant="glass" position="top-left" className="z-[70]" />
+
       {/* Confetti Effect */}
       {confetti && (
         <div className="fixed inset-0 pointer-events-none z-50">
