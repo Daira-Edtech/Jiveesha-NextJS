@@ -21,8 +21,8 @@ const WelcomeDialog = ({
   const router = useRouter();
   const [showEnhanceExperience, setShowEnhanceExperience] = useState(false);
   
-  // Check if we're on the last dialog to show fullscreen option
-  const isLastDialog = currentDialog === dialog.length - 1;
+  // // Check if we're on the last dialog to show fullscreen option
+  // const isLastDialog = currentDialog === dialog.length - 1;
 
   const handleStartTest = () => {
     setShowEnhanceExperience(false);

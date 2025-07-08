@@ -172,12 +172,51 @@ const TestIntroPage = ({ testName, testNumber, totalTests, description, onStart,
 };
 
 // Test Completion Page Component
-const TestCompletionPage = () => {
+const TestCompletionPage = ({ submissionStatus, submissionError, onRetry }) => {
   const router = useRouter();
 
   const handleGoToAnalytics = () => {
     router.push('/analytics');
   };
+
+  if (submissionStatus === 'submitting') {
+    return (
+      <div className="w-full h-full bg-white flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center max-w-4xl mx-auto p-8"
+        >
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Submitting results...</h1>
+          <p className="text-lg text-gray-600">Please wait while we save your progress.</p>
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (submissionStatus === 'error') {
+    return (
+      <div className="w-full h-full bg-white flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center max-w-4xl mx-auto p-8"
+        >
+          <h1 className="text-4xl font-bold text-red-600 mb-4">Submission Failed</h1>
+          <p className="text-lg text-gray-600 mb-4">We couldn't save your results. Please try again.</p>
+          {submissionError && <p className="text-md text-gray-500 mb-6">Error: {submissionError}</p>}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onRetry}
+            className="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold rounded-lg shadow-lg transition-all duration-300"
+          >
+            Try Again
+          </motion.button>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-full bg-white flex items-center justify-center" style={{ marginTop: '80px', height: 'calc(100vh - 80px)' }}>
@@ -280,6 +319,18 @@ export default function Dummy() {
   const [showTest, setShowTest] = useState(false);
   const [allTestsCompleted, setAllTestsCompleted] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [testResults, setTestResults] = useState([]);
+  const [childId, setChildId] = useState(null);
+  const [submissionStatus, setSubmissionStatus] = useState('idle'); // idle, submitting, success, error
+  const [submissionError, setSubmissionError] = useState(null);
+
+
+  useEffect(() => {
+    const storedChildId = localStorage.getItem("childId");
+    if (storedChildId) {
+      setChildId(storedChildId);
+    }
+  }, []);
 
   const totalTests = getTotalTests();
   const currentTest = TEST_SEQUENCE[currentTestIndex];
@@ -341,10 +392,61 @@ export default function Dummy() {
   };
 
   const handleSkipTest = () => {
+    const result = {
+      testId: currentTest.id,
+      testName: currentTest.name,
+      status: 'skipped',
+      data: null,
+    };
+    setTestResults(prevResults => [...prevResults, result]);
     moveToNextTest();
   };
 
-  const handleTestComplete = () => {
+  const handleTestComplete = async (data) => {
+    let resultData = data;
+    let status = "completed";
+
+    // Special handling for reading proficiency test, which needs backend scoring
+    if (data && data.testType === "reading-proficiency") {
+      try {
+        const token = localStorage.getItem("access_token");
+        const response = await fetch("/api/reading-test/submitResult", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+          body: JSON.stringify({
+            childId: childId,
+            spokenWords: data.transcript,
+            language: data.language,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(
+            errorData.message || "Failed to get score for reading test"
+          );
+        }
+
+        const readingScoreData = await response.json();
+        // Combine original data (transcript, lang) with new data (score, etc.)
+        resultData = { ...data, ...readingScoreData };
+      } catch (error) {
+        console.error("Error processing reading proficiency result:", error);
+        status = "error";
+        resultData = { ...data, error: error.message };
+      }
+    }
+
+    const result = {
+      testId: currentTest.id,
+      testName: currentTest.name,
+      status: status,
+      data: resultData,
+    };
+    setTestResults((prevResults) => [...prevResults, result]);
     moveToNextTest();
   };
 
@@ -355,6 +457,69 @@ export default function Dummy() {
       setShowTest(false);
     } else {
       setAllTestsCompleted(true);
+      setShowTest(false);
+      // No longer call submit here, useEffect will handle it
+    }
+  };
+
+  // Use useEffect to submit results when all tests are completed
+  useEffect(() => {
+    if (allTestsCompleted) {
+      submitCombinedResults();
+    }
+  }, [allTestsCompleted, testResults]); // Depend on testResults to ensure it's updated
+
+  const submitCombinedResults = async () => {
+    if (!childId) {
+      console.error("Child ID not found. Cannot submit results.");
+      setSubmissionError("Child ID not found. Cannot submit results.");
+      setSubmissionStatus("error");
+      return;
+    }
+
+    setSubmissionStatus("submitting");
+    setSubmissionError(null);
+
+    // Create a deep copy to avoid modifying the state directly
+    const processedResults = JSON.parse(JSON.stringify(testResults));
+
+    // Calculate total score from all test results
+    const totalScore = processedResults.reduce((acc, result) => {
+      const score =
+        result.status === "completed" &&
+        result.data &&
+        typeof result.data.score === "number"
+          ? result.data.score
+          : 0;
+      return acc + score;
+    }, 0);
+
+    const payload = {
+      childId: childId,
+      score: totalScore,
+      options: processedResults, // Send the processed results array
+    };
+
+    try {
+      console.log("Submitting combined results:", payload);
+      const response = await fetch('/api/continuous-test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to submit results');
+      }
+
+      const responseData = await response.json();
+      console.log('Submission successful', responseData);
+      setSubmissionStatus('success');
+    } catch (error) {
+      console.error('Error submitting combined results:', error);
+      setSubmissionError(error.message);
+      setSubmissionStatus('error');
     }
   };
 
@@ -407,7 +572,11 @@ export default function Dummy() {
           </div>
         </motion.div>
 
-        <TestCompletionPage />
+        <TestCompletionPage 
+          submissionStatus={submissionStatus}
+          submissionError={submissionError}
+          onRetry={submitCombinedResults}
+        />
       </div>
     );
   }
@@ -489,7 +658,11 @@ export default function Dummy() {
 
         {showTest && CurrentTestComponent && (
           <div className="w-full h-full">
-            <CurrentTestComponent onTestComplete={handleTestComplete} />
+            <CurrentTestComponent 
+              onTestComplete={handleTestComplete} 
+              isContinuous={true} 
+              studentId={childId}
+            />
           </div>
         )}
       </div>

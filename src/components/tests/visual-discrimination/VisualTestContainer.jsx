@@ -56,7 +56,7 @@ const ResultsProgressBar = ({ current, total }) => {
 };
 
 
-const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
+const VisualTestContainer = ({ suppressResultPage = false, onComplete, onTestComplete, isContinuous = false }) => {
   const { language, t } = useLanguage();
   const router = useRouter();
   const pathname = usePathname();
@@ -147,61 +147,63 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete }) => {
   };
 
   const handleSubmit = async () => {
-  setIsSubmitting(true);
+    setIsSubmitting(true);
 
-  const token = localStorage.getItem("access_token");
-  const childId = localStorage.getItem("childId");
+    const token = localStorage.getItem("access_token");
+    const childId = localStorage.getItem("childId");
 
-  if (!childId) {
-    toast.error(t("visualTestSelectStudentError"), { theme: "dark" });
-    setIsSubmitting(false);
-    return;
-  }
+    if (!childId) {
+      toast.error(t("visualTestSelectStudentError"), { theme: "dark" });
+      setIsSubmitting(false);
+      return;
+    }
 
-  try {
-    const currentRoute = pathname; // make sure pathname is accessible from usePathname or props
+    const resultData = {
+      score,
+      selectedOptions,
+      totalQuestions: quizQuestions.length,
+    };
 
-    const apiUrl = currentRoute === "/dummy" 
-      ? "/api/continuous-test" 
-      : "/api/visual-test/submitResult";
-
-    const response = await axios.post(
-      apiUrl,
-      { childId, options: selectedOptions, score },
-      {
-        headers: {
-          ...(token && { Authorization: `Bearer ${token}` }),
-          "Content-Type": "application/json",
-        },
+    if (isContinuous) {
+      if (typeof onTestComplete === "function") {
+        onTestComplete(resultData);
       }
-    );
+      return; // Early return for continuous mode
+    }
 
-    if (response.status === 201) {
-      if (suppressResultPage && typeof onComplete === "function") {
-        onComplete(score);
-      } else {
+    // Standalone mode submission
+    try {
+      const response = await axios.post(
+        "/api/visual-test/submitResult",
+        { childId, options: selectedOptions, score },
+        {
+          headers: {
+            ...(token && { Authorization: `Bearer ${token}` }),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 201) {
         toast.success(t("testSubmittedSuccessfully"), {
           position: "top-center",
           theme: "dark",
           onClose: () => {
-            if (currentRoute !== "/dummy") {
-              router.push("/");
-            }
+            router.push("/"); // Redirect to a relevant page for standalone mode
           },
         });
+      } else {
+        toast.error(t("failedToSubmitTestPleaseTryAgain"), { theme: "dark" });
       }
-    } else {
-      toast.error(t("failedToSubmitTestPleaseTryAgain"), { theme: "dark" });
+    } catch (error) {
+      console.error("Error submitting test:", error);
+      toast.error(t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain"), {
+        theme: "dark",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error("Error submitting test:", error);
-    toast.error(t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain"), {
-      theme: "dark",
-    });
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
 
   // Modified to include generic instructions button and modal

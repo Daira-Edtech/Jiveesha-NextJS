@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import React, { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -54,11 +54,12 @@ const ProgressBarLocalComponent = ({ current, total, t }) => {
 };
 
 const SoundDiscriminationTestOrchestrator = ({
-  suppressResultPage = false,
-  onComplete,
+  isContinuous = false,
+  onTestComplete,
 }) => {
   const { t, language } = useLanguage();
   const router = useRouter();
+  const pathname = usePathname();
 
   // Language-specific word pairs
   const wordPairsEn = useMemo(
@@ -223,6 +224,12 @@ const SoundDiscriminationTestOrchestrator = ({
     }
   };
 
+  useEffect(() => {
+    if (currentPhase === "completed") {
+      handleSubmit();
+    }
+  }, [currentPhase]);
+
   const handleMainTestTimeout = () => {
     if (currentQuestionIndex >= wordPairs.length) return;
     const newSelectedOptions = [...selectedOptions];
@@ -236,76 +243,62 @@ const SoundDiscriminationTestOrchestrator = ({
   };
 
   const handleSubmit = async () => {
-  setIsSubmitting(true);
-  const token = localStorage.getItem("access_token");
-  const childId = localStorage.getItem("childId");
+    if (isContinuous) {
+      if (onTestComplete) {
+        onTestComplete({ score, test: "SoundTest" });
+      }
+      return;
+    }
 
-  if (!childId) {
-    toast.error(t("selectStudentFirst"));
-    setIsSubmitting(false);
-    return;
-  }
+    setIsSubmitting(true);
+    const token = localStorage.getItem("access_token");
+    const childId = localStorage.getItem("childId");
 
-  try {
-    const currentRoute = pathname; // assume from `usePathname()`
+    if (!childId) {
+      toast.error(t("selectStudentFirst"));
+      setIsSubmitting(false);
+      return;
+    }
 
-    // Set endpoint and payload conditionally
-    const isDummyRoute = currentRoute === "/dummy";
+    try {
+      const apiUrl = "/api/sound-test/submitResult";
+      const payload = {
+        childId,
+        test_name: t("soundTestApiName"),
+        score,
+      };
 
-    const apiUrl = isDummyRoute
-      ? "/api/continuous-test"
-      : "/api/sound-test/submitResult";
+      const response = await axios.post(apiUrl, payload, {
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+          "Content-Type": "application/json",
+        },
+      });
 
-    const payload = isDummyRoute
-      ? {
-          childId,
-          score,
-          testResults: JSON.stringify({ test: "SoundTest", score }), // optional structure
-          analysis: "", // optionally pass analysis string
-        }
-      : {
-          childId,
-          test_name: t("soundTestApiName"),
-          score,
-        };
-
-    const response = await axios.post(apiUrl, payload, {
-      headers: {
-        ...(token && { Authorization: `Bearer ${token}` }),
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.status === 201) {
-      if (suppressResultPage && typeof onComplete === "function") {
-        onComplete(score);
-      } else {
+      if (response.status === 201) {
         toast.success(t("testSubmittedSuccessfully"), {
           position: "top-center",
           onClose: () => {
-            if (!isDummyRoute) {
-              router.push("/");
-            }
+            router.push("/");
           },
         });
+      } else {
+        toast.error(t("failedToSubmitTestPleaseTryAgain"));
       }
-    } else {
-      toast.error(t("failedToSubmitTestPleaseTryAgain"));
+    } catch (error) {
+      console.error("Error submitting test:", error);
+      toast.error(t("errorOccurredGeneric"));
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error("Error submitting test:", error);
-    toast.error(t("errorOccurredGeneric"));
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   // Reset selectedOptions when wordPairs change (due to language change)
   useEffect(() => {
     setSelectedOptions(Array(wordPairs.length).fill(null));
   }, [wordPairs.length]);
 
-  useEffect(() => {}, [suppressResultPage, onComplete]);
+  useEffect(() => {}, [isContinuous, onTestComplete]);
 
   // --- Render Logic Based on Phase ---
 

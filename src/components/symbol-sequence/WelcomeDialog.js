@@ -457,7 +457,7 @@ const WelcomeDialog = ({
         return (
           <FinalResultsScreen
             score={{ correct: score, total: totalRounds }}
-            onFinishTest={handleFinishTest}
+            onFinishTest={onEntireTestComplete}
             onViewRewards={handleViewRewards}
             t={t}
           />

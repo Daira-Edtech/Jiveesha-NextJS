@@ -53,11 +53,12 @@ const DIALOG_TEXTS = [
 ];
 
 // This is the component that actually uses the language context and most of the logic
-const GraphemeTestContent = () => {
+const GraphemeTestContent = ({ isContinuous = false, onTestComplete }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams(); // This hook causes GraphemeTestContent to be dynamic
-  const suppressResultPage = searchParams.get("suppressResultPage") === "true";
+  const suppressResultPage =
+    searchParams.get("suppressResultPage") === "true" || isContinuous;
 
   const { language: contextLanguage, t: contextT } = useLanguage();
 
@@ -112,6 +113,136 @@ const GraphemeTestContent = () => {
     onTestComplete: handleFullTestCompletionByHook,
     isTestUIVisible,
   });
+
+  const onCompleteHandler = useCallback(
+    (finalScore) => {
+      const scoreValue =
+        typeof finalScore === "object" ? finalScore.score : finalScore;
+      toast.info(
+        t(
+          "testCompletedWithScoreSuppressed",
+          `Test completed: ${scoreValue}. Results page suppressed.`
+        )
+      );
+      router.push("/take-tests?skipStart=true");
+    },
+    [router, t]
+  );
+
+  const handleSubmitFinal = useCallback(async () => {
+    if (isContinuous) {
+      if (onTestComplete) {
+        const correctAnswers = userInputs.filter(
+          (input) => input.isCorrect
+        ).length;
+        const totalQuestions = letters.length;
+        const score = correctAnswers;
+        onTestComplete({
+          score,
+          total: totalQuestions,
+          test: "GraphemePhonemeCorrespondence",
+          responses: userInputs.map((input, index) => ({
+            letter: letters[index].letter,
+            userInput: input.userInput,
+            isCorrect: input.isCorrect,
+            reactionTime: input.reactionTime,
+            audio: input.audio,
+          })),
+        });
+      }
+      return;
+    }
+
+    if (!childId) {
+      toast.error(t("errorAuthMissing", "User info missing."));
+      setIsProcessingFinalSubmit(false);
+      return;
+    }
+    setIsProcessingFinalSubmit(true);
+    const submissionToastId = toast.loading(
+      t("processingResponses", "Processing...")
+    );
+
+    const finalUserInputs = [...userInputs];
+    while (finalUserInputs.length < letters.length) {
+      finalUserInputs.push("");
+    }
+
+    const userResponses = {};
+    letters.forEach((letter, index) => {
+      userResponses[letter] = finalUserInputs[index] || "";
+    });
+
+    const payload = {
+      childId: childId,
+      testName: "Grapheme-Phoneme Correspondence",
+      testResults: userInputs.map((input, index) => ({
+        letter: letters[index].letter,
+        userInput: input.userInput,
+        isCorrect: input.isCorrect,
+        reactionTime: input.reactionTime,
+        audio: input.audio,
+      })),
+      // Score is calculated server-side for standalone tests
+    };
+
+    try {
+      const apiRoute = `/api/grapheme-phoneme-correspondence`;
+
+      const response = await axios.post(`${backendURL}${apiRoute}`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      toast.dismiss(submissionToastId);
+
+      if (response.data && typeof response.data.score === "number") {
+        const correctCount = response.data.score;
+        const totalPossible =
+          response.data.totalPossibleScore || letters.length;
+
+        setScoreData({ score: correctCount, total: totalPossible });
+        toast.success(t("resultsProcessed", "Results processed!"));
+        if (suppressResultPage && typeof onCompleteHandler === "function") {
+          onCompleteHandler({ score: correctCount, total: totalPossible });
+        } else {
+          setTestStage("results");
+        }
+      } else {
+        console.error("Invalid API response structure:", response.data);
+        toast.error(t("errorInvalidResponse", "Invalid server response."));
+        setTestStage("submit");
+      }
+    } catch (error) {
+      toast.dismiss(submissionToastId);
+      toast.error(t("errorProcessingFailed", "Failed to process results."));
+      console.error(
+        "API Error submitFinal:",
+        error.response?.data || error.message
+      );
+      setTestStage("submit");
+    } finally {
+      setIsProcessingFinalSubmit(false);
+    }
+  }, [
+    isContinuous,
+    onTestComplete,
+    userInputs,
+    letters,
+    childId,
+    t,
+    token,
+    suppressResultPage,
+    onCompleteHandler,
+  ]);
+
+  useEffect(() => {
+    if (testStage === "submit") {
+      handleSubmitFinal();
+    }
+  }, [testStage, handleSubmitFinal]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -173,22 +304,14 @@ const GraphemeTestContent = () => {
     }
 
     setLanguageDataLoaded(true);
-  }, [language, initialDataLoaded, t, testStage]); // Removed resetMainTestLogic from dependency array to prevent unnecessary resets
-
-  const onCompleteHandler = useCallback(
-    (finalScore) => {
-      const scoreValue =
-        typeof finalScore === "object" ? finalScore.score : finalScore;
-      toast.info(
-        t(
-          "testCompletedWithScoreSuppressed",
-          `Test completed: ${scoreValue}. Results page suppressed.`
-        )
-      );
-      router.push("/take-tests?skipStart=true");
-    },
-    [router, t]
-  );
+  }, [
+    language,
+    initialDataLoaded,
+    t,
+    testStage,
+    languageDataLoaded,
+    resetMainTestLogic,
+  ]);
 
   const handleNextIntroDialog = () => {
     if (!languageDataLoaded) {
@@ -259,125 +382,6 @@ const GraphemeTestContent = () => {
       return;
     }
     setTestStage("practice");
-  };
-
-  const handleSubmitFinal = async () => {
-    if (!childId) {
-      toast.error(t("errorAuthMissing", "User info missing."));
-      setIsProcessingFinalSubmit(false);
-      return;
-    }
-    setIsProcessingFinalSubmit(true);
-    const submissionToastId = toast.loading(
-      t("processingResponses", "Processing...")
-    );
-
-    const finalUserInputs = [...userInputs];
-    while (finalUserInputs.length < letters.length) {
-      finalUserInputs.push("");
-    }
-
-    const userResponses = {};
-    letters.forEach((letter, index) => {
-      userResponses[letter] = finalUserInputs[index] || "";
-    });
-
-    const isDummyRoute = pathname.includes("/dummy");
-
-    let payload;
-    if (isDummyRoute) {
-      payload = {
-        childId: childId,
-        totalScore: score,
-        testResults: userInputs.map((input, index) => ({
-          letter: letters[index].letter,
-          userInput: input.userInput,
-          isCorrect: input.isCorrect,
-          reactionTime: input.reactionTime,
-          audio: input.audio,
-        })),
-        analysis: {
-          totalQuestions: totalQuestions,
-          correctAnswers: correctAnswers,
-          incorrectAnswers: totalQuestions - correctAnswers,
-          language: language,
-        },
-      };
-    } else {
-      payload = {
-        childId: childId,
-        testName: "Grapheme-Phoneme Correspondence",
-        testResults: userInputs.map((input, index) => ({
-          letter: letters[index].letter,
-          userInput: input.userInput,
-          isCorrect: input.isCorrect,
-          reactionTime: input.reactionTime,
-          audio: input.audio,
-        })),
-        score: score,
-        totalQuestions: totalQuestions,
-        correctAnswers: correctAnswers,
-        incorrectAnswers: totalQuestions - correctAnswers,
-        language: language,
-      };
-    }
-
-    try {
-      const apiRoute = isDummyRoute
-        ? "/api/continuous-test"
-        : `/api/grapheme-phoneme-correspondence`;
-
-      const response = await axios.post(`${backendURL}${apiRoute}`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      toast.dismiss(submissionToastId);
-
-      if (isDummyRoute) {
-        if (response.status === 201 || response.status === 200) {
-          toast.success("Dummy results submitted successfully!");
-          // Potentially call onCompleteHandler if it exists, even for dummy
-          if (suppressResultPage && typeof onCompleteHandler === "function") {
-            onCompleteHandler({ score: 0, total: 0, dummy: true });
-          }
-        } else {
-          toast.error("Failed to submit dummy results.");
-        }
-        setTestStage("submit"); // Stay on submit screen for dummy
-        return; // End execution for dummy route
-      }
-
-      if (response.data && typeof response.data.score === "number") {
-        const correctCount = response.data.score;
-        const totalPossible =
-          response.data.totalPossibleScore || letters.length;
-
-        setScoreData({ score: correctCount, total: totalPossible });
-        toast.success(t("resultsProcessed", "Results processed!"));
-        if (suppressResultPage && typeof onCompleteHandler === "function") {
-          onCompleteHandler({ score: correctCount, total: totalPossible });
-        } else {
-          setTestStage("results");
-        }
-      } else {
-        console.error("Invalid API response structure:", response.data);
-        toast.error(t("errorInvalidResponse", "Invalid server response."));
-        setTestStage("submit");
-      }
-    } catch (error) {
-      toast.dismiss(submissionToastId);
-      toast.error(t("errorProcessingFailed", "Failed to process results."));
-      console.error(
-        "API Error submitFinal:",
-        error.response?.data || error.message
-      );
-      setTestStage("submit");
-    } finally {
-      setIsProcessingFinalSubmit(false);
-    }
   };
 
   const restartEntireTestFlowFromIntro = () => {
@@ -498,356 +502,166 @@ const GraphemeTestContent = () => {
       <div className="text-center py-12 min-h-[400px] flex flex-col items-center justify-center gap-4">
         <Loader2 size={36} className="animate-spin text-sky-400" />
         <p className="ml-3 text-lg text-slate-300">
-          {t("loadingPracticeLetter", "Loading Practice Letter...")}
+          {t("preparingPractice", "Preparing practice round...")}
         </p>
       </div>
+    );
+  } else if (testStage === "intro") {
+    mainCardContent = (
+      <WelcomeDialog
+        dialogText={DIALOG_TEXTS[currentDialog]}
+        onNext={handleNextIntroDialog}
+        isLastDialog={currentDialog === DIALOG_TEXTS.length - 1}
+      />
+    );
+  } else if (testStage === "info") {
+    mainCardContent = (
+      <InfoDialog
+        onClose={handleCloseInfoDialogAndStartPractice}
+        langKey={langKey}
+      />
     );
   } else if (testStage === "practice") {
     mainCardContent = (
       <PracticeInterface
-        practiceLetter={firstLetterForPractice}
-        language={language}
-        onPracticeAttemptComplete={handlePracticeAttemptComplete}
+        letter={firstLetterForPractice}
+        onAttemptComplete={handlePracticeAttemptComplete}
+        langKey={langKey}
+        key={`practice-${firstLetterForPractice?.letter || "no-letter"}`}
       />
     );
-  } else if (testStage === "practiceCompleted" || testStage === "info") {
+  } else if (testStage === "practiceCompleted") {
     mainCardContent = (
-      <div className="text-center py-12 min-h-[400px] flex flex-col items-center justify-center gap-4">
-        <Loader2 size={30} className="animate-spin text-slate-400" />
-        <p className="ml-3 text-lg text-slate-300">
-          {testStage === "info"
-            ? t("loadingInstructions", "Loading Instructions...")
-            : t(
-                "practiceCompleteModalGuide",
-                "Practice Complete! Modal guides you."
-              )}
-        </p>
-      </div>
+      <PracticeModal
+        onStartTest={handleStartFullTestFromPracticeModal}
+        onRetryPractice={handleClosePracticeModalAndRetryPractice}
+      />
     );
-  } else if (isProcessingFinalSubmit && testStage !== "results") {
+  } else if (isTestUIVisible) {
     mainCardContent = (
-      <motion.div
-        key="processing-final-submit"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        className="text-center py-12 min-h-[400px] flex flex-col items-center justify-center"
-      >
-        <div className="flex flex-col items-center gap-6">
-          <motion.div
-            animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="text-6xl text-white p-4 bg-purple-500/20 rounded-full shadow-lg"
-          >
-            🎵
-          </motion.div>
-          <Loader2 size={48} className="text-orange-400 animate-spin my-4" />
-          <p className="text-2xl text-orange-200 font-medium">
-            {t("processingMelody", "Processing your melody...")}
-          </p>
-          <p className="text-sm text-purple-300">
-            {t("almostThere", "Almost there, fine-tuning the notes!")}
-          </p>
-        </div>
-      </motion.div>
+      <TestInterface
+        key={`test-interface-${currentIndex}`}
+        letter={letters[currentIndex]}
+        timeLeft={timeLeft}
+        currentIndex={currentIndex}
+        total={letters.length}
+        userInput={userInputs[currentIndex]?.userInput || ""}
+        isRecording={isRecording}
+        inputStatus={inputStatus}
+        handleInputChange={handleInputChange}
+        handleRecordButtonClick={handleRecordButtonClick}
+        handleNext={handleNext}
+        inputRef={inputRef}
+        langKey={langKey}
+      />
     );
   } else if (testStage === "submit") {
     mainCardContent = (
       <SubmitScreen
+        isSubmitting={isProcessingFinalSubmit}
         onSubmit={handleSubmitFinal}
-        isProcessingSubmit={isProcessingFinalSubmit}
-        t={t}
       />
     );
   } else if (testStage === "results") {
     mainCardContent = (
       <ResultsScreen
         score={scoreData.score}
-        totalLetters={scoreData.total || letters.length}
-        onRestartTest={restartEntireTestFlowFromIntro}
-        t={t}
+        total={scoreData.total}
+        onRestart={() => {
+          if (typeof resetMainTestLogic === "function") resetMainTestLogic();
+          setTestStage("test");
+        }}
+        onBackToMap={() => router.push("/take-tests?skipStart=true")}
       />
-    );
-  } else if (
-    testStage === "test" &&
-    currentIndex < letters.length &&
-    letters.length > 0
-  ) {
-    mainCardContent = (
-      <TestInterface
-        currentIndex={currentIndex}
-        letters={letters}
-        timeLeft={timeLeft}
-        LETTER_TIMER_DURATION={LETTER_TIMER_DURATION}
-        userInputs={userInputs}
-        inputStatus={inputStatus}
-        isRecording={isRecording}
-        isProcessingSubmit={isProcessingFinalSubmit}
-        inputRef={inputRef}
-        handleInputChange={handleInputChange}
-        handleRecordButtonClick={handleRecordButtonClick}
-        handleNext={handleNext}
-        language={language}
-      />
-    );
-  } else if (testStage === "test" && letters.length === 0) {
-    mainCardContent = (
-      <div className="text-center py-12 min-h-[400px] flex flex-col items-center justify-center gap-4">
-        <Loader2 size={36} className="animate-spin text-sky-400" />
-        <p className="ml-3 text-lg text-slate-300">
-          {t("loadingTestLetters", "Loading Test Letters...")}
-        </p>
-      </div>
-    );
-  } else if (
-    testStage === "test" &&
-    currentIndex >= letters.length &&
-    letters.length > 0
-  ) {
-    mainCardContent = (
-      <div
-        className="text-center py-12 min-h-[400px] flex flex-col items-center justify-center gap-4"
-        key="finalizing-test-transition"
-      >
-        <Loader2 size={36} className="animate-spin text-orange-400" />
-        <p className="ml-3 text-lg text-orange-300">
-          {t("finalizingTest", "Finalizing Test...")}
-        </p>
-      </div>
     );
   } else {
     mainCardContent = (
       <div className="text-center py-12 min-h-[400px] flex flex-col items-center justify-center gap-4">
-        <Loader2 size={36} className="animate-spin text-gray-400" />
-        <p className="ml-3 text-lg text-gray-300">
-          {t("loading", "Loading...")}
+        <Loader2 size={40} className="animate-spin text-sky-400" />
+        <p className="text-lg text-slate-300">
+          {t("loadingState", "Loading...")}
         </p>
       </div>
     );
   }
 
-  // ----- Initial Loading Screens / Welcome Dialog -----
-  if (
-    testStage === "loading_init" ||
-    (testStage === "intro" && !languageDataLoaded)
-  ) {
-    // Show a consistent full-page loader during these initial phases
-    return (
-      <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 text-white z-[200]">
-        <Image
-          src={localAppBackgroundImage}
-          alt={t("loadingGraphemeTestBackgroundAlt", "Loading background")}
-          layout="fill"
-          objectFit="cover"
-          quality={70}
-          priority
-          className="-z-10 opacity-70"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-orange-900/50 via-purple-900/40 to-blue-900/60" />
-        <Loader2 className="animate-spin h-12 w-12 text-sky-400 mb-4" />
-        <p className="text-xl text-slate-300">
-          {/* Use the safe 't' here for these early messages */}
-          {testStage === "loading_init"
-            ? t("initializingTest", "Initializing Test...")
-            : t("preparingTheCliffs", "Preparing the singing cliffs...")}
-        </p>
-      </div>
-    );
-  }
-
-  if (testStage === "intro") {
-    return (
-      <WelcomeDialog
-        dialog={DIALOG_TEXTS}
-        currentDialog={currentDialog}
-        onNextDialog={handleNextIntroDialog}
-        onStartTest={handleNextIntroDialog}
-        t={t}
-      />
-    );
-  }
-
-  // ----- Main Test UI -----
   return (
-    <div className="fixed inset-0 mt-12">
-      <Image
-        src={localAppBackgroundImage}
-        alt={t("graphemeTestBackgroundAlt", "Grapheme test background")}
-        layout="fill"
-        objectFit="cover"
-        quality={75}
-        priority
-        placeholder="blur"
-        className="-z-10"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-orange-900/40 via-purple-900/30 to-blue-900/50 opacity-90" />
-
-      {testStage !== "intro" &&
-        testStage !== "info" &&
-        testStage !== "loading_init" &&
-        testStage !== "error_state_no_letters" && (
-          <motion.button
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            onClick={handleBackButtonClick}
-            className="fixed top-4 left-4 z-[101] flex items-center gap-2 bg-white/80 hover:bg-white text-gray-800 font-semibold py-2 px-3 rounded-lg shadow-md transition-all text-sm active:scale-95"
-            whileHover={{ scale: 1.05 }}
+    <div
+      className="min-h-screen w-full flex flex-col items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `url(${localAppBackgroundImage.src})`,
+        backgroundAttachment: "fixed",
+      }}
+    >
+      <div className="w-full max-w-4xl mx-auto relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={testStage}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="bg-slate-800/50 backdrop-blur-xl border border-slate-600/50 rounded-2xl shadow-2xl overflow-hidden min-h-[500px] flex flex-col"
           >
-            <FaArrowLeft className="text-blue-600" />
-            {getBackButtonText()}
-          </motion.button>
-        )}
-
-      {(testStage === "practice" || testStage === "test") && (
-        <motion.button
-          onClick={() => setShowInfoDialog(true)}
-          className="fixed top-4 right-4 z-[160] p-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-orange-300 hover:text-orange-200 shadow-lg transition-colors active:scale-95"
-          aria-label={t("showInstructions", "Show Instructions")}
-          title={t("showInstructions", "Show Instructions")}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <InfoIcon size={22} />
-        </motion.button>
-      )}
-
-      <div className="relative z-20 flex flex-col items-center justify-center min-h-screen p-4">
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-          className="w-full max-w-2xl bg-gradient-to-br from-slate-800/85 via-gray-800/75 to-slate-900/85 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border-2 border-slate-700/50 shadow-2xl relative overflow-hidden"
-        >
-          {(testStage === "test" ||
-            testStage === "submit" ||
-            (testStage === "results" && !suppressResultPage)) && (
-            <>
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-400 via-purple-500 to-blue-500 animate-pulse-fast"></div>
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-400/10 rounded-full filter blur-2xl animate-pulse delay-500"></div>
-              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500/10 rounded-full filter blur-2xl animate-pulse delay-1000"></div>
-            </>
-          )}
-
-          {(testStage === "test" ||
-            testStage === "submit" ||
-            (testStage === "results" && !suppressResultPage)) &&
-            letters.length > 0 && (
-              <div className="mb-6 sm:mb-8">
-                <div className="flex justify-between mb-2 sm:mb-3">
-                  <span className="text-xs sm:text-sm font-medium text-orange-200">
-                    🎼 {t("progress", "Progress")}:{" "}
-                    {Math.min(currentIndex, letters.length)}/{letters.length}
-                  </span>
-                  <span className="text-xs sm:text-sm font-medium text-orange-200">
-                    {Math.round(
-                      (Math.min(currentIndex, letters.length) /
-                        (letters.length || 1)) *
-                        100
-                    )}
-                    %
-                  </span>
-                </div>
-                <div className="w-full bg-purple-900/50 rounded-full h-3 sm:h-4 overflow-hidden border border-orange-400/30 shadow-inner">
-                  <motion.div
-                    initial={{ width: "0%" }}
-                    animate={{
-                      width: `${
-                        (Math.min(currentIndex, letters.length) /
-                          (letters.length || 1)) *
-                        100
-                      }%`,
-                    }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="bg-gradient-to-r from-orange-400 via-purple-500 to-blue-500 h-full rounded-full relative"
-                  >
-                    <motion.div
-                      animate={{ x: ["-100%", "200%"] }}
-                      transition={{
-                        duration: 2.5,
-                        repeat: Infinity,
-                        ease: "linear",
-                        delay: 0.5,
-                      }}
-                      className="absolute inset-0 bg-white/25 blur-[3px] rounded-full"
-                      style={{ transform: "skewX(-20deg)" }}
-                    />
-                  </motion.div>
-                </div>
-              </div>
-            )}
-          <AnimatePresence mode="wait">{mainCardContent}</AnimatePresence>
-        </motion.div>
-
-        {testStage === "test" &&
-          currentIndex < letters.length &&
-          !isProcessingFinalSubmit &&
-          letters.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mt-6 sm:mt-8 text-center"
-            >
-              <motion.p
-                animate={{ y: [0, -4, 0] }}
-                transition={{
-                  duration: 1.8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="text-white font-medium text-sm sm:text-base bg-slate-700/60 backdrop-blur-sm px-4 py-2 sm:px-5 sm:py-2.5 rounded-full border border-slate-600/50 shadow-md"
+            <div className="p-4 sm:p-6 border-b border-slate-700/50 flex justify-between items-center">
+              <button
+                onClick={handleBackButtonClick}
+                className="flex items-center gap-2 text-sm text-slate-300 hover:text-white transition-colors disabled:opacity-50"
+                disabled={isProcessingFinalSubmit}
               >
-                {t("typeOrSpeakHint", "Type or speak the letter you see")}
-              </motion.p>
-            </motion.div>
-          )}
+                <FaArrowLeft />
+                <span>{getBackButtonText()}</span>
+              </button>
+              <h1 className="text-lg sm:text-xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-fuchsia-400 flex-1 mx-4">
+                {t("graphemeTestTitle", "Grapheme-Phoneme Correspondence")}
+              </h1>
+              <button
+                onClick={() => setShowInfoDialog(true)}
+                className="text-slate-300 hover:text-white transition-colors disabled:opacity-50"
+                disabled={isProcessingFinalSubmit}
+              >
+                <InfoIcon size={20} />
+              </button>
+            </div>
+            <div className="flex-grow p-4 sm:p-6 flex flex-col justify-center">
+              {mainCardContent}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      <PracticeModal
-        isOpen={testStage === "practiceCompleted"}
-        onClose={handleClosePracticeModalAndRetryPractice}
-        onStartFullTest={handleStartFullTestFromPracticeModal}
-        message={t(
-          "practiceCompleteMessage",
-          "Practice complete! Ready for the full challenge?"
-        )}
-        t={t}
-      />
-
-      <InfoDialog
-        isOpen={showInfoDialog || testStage === "info"}
-        onClose={handleCloseInfoDialogAndStartPractice}
-        t={t}
-      />
+      {showInfoDialog && (
+        <InfoDialog
+          onClose={() => setShowInfoDialog(false)}
+          isOverlay={true}
+          langKey={langKey}
+        />
+      )}
     </div>
   );
 };
 
-export default function GraphemePhonemeCorrespondencePage() {
-  const staticFallbackContent = (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 text-white z-[200]">
-      <Image
-        src={localAppBackgroundImage.src} // Assuming localAppBackgroundImage is an object with a 'src' property
-        alt="Loading grapheme test background"
-        layout="fill"
-        objectFit="cover"
-        quality={60}
-        priority
-        className="-z-10 opacity-70"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-orange-900/50 via-purple-900/40 to-blue-900/60" />
-      <Loader2 className="animate-spin h-12 w-12 text-sky-400 mb-4" />
-      <p className="text-xl text-slate-300">Loading Grapheme Test...</p>
-    </div>
-  );
-
+// The page component that wraps everything
+const GraphemePhonemeCorrespondencePage = ({
+  isContinuous = false,
+  onTestComplete,
+}) => {
   return (
-    <Suspense fallback={staticFallbackContent}>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center h-screen">
+          Loading...
+        </div>
+      }
+    >
       <LanguageProvider>
-        <GraphemeTestContent />
+        <GraphemeTestContent
+          isContinuous={isContinuous}
+          onTestComplete={onTestComplete}
+        />
       </LanguageProvider>
     </Suspense>
   );
-}
+};
+
+export default GraphemePhonemeCorrespondencePage;

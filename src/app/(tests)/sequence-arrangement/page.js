@@ -2,8 +2,8 @@
 "use client";
 
 import axios from "axios";
-import { useRouter, usePathname } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import WelcomeDialog from "../../../components/sequence-arrangement/WelcomeDialog.js";
 
@@ -12,10 +12,9 @@ import {
   useLanguage,
 } from "../../../contexts/LanguageContext";
 
-const SequenceArrangementTestContent = () => {
+const SequenceArrangementTestContent = ({ isContinuous = false, onTestComplete }) => {
   const router = useRouter();
-  const pathname = usePathname();
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const [childId, setChildId] = useState(null);
 
   useEffect(() => {
@@ -24,38 +23,35 @@ const SequenceArrangementTestContent = () => {
       setChildId(storedChildId);
     }
   }, []);
-  //vimalchangesdonehere
 
   const handleEntireTestFlowComplete = async (finalScore) => {
-    const token = localStorage.getItem("access_token");
-
-    if (!childId) {
-      console.warn("Child ID is missing. Cannot save results.");
-      // For non-dummy routes, redirect if no childId
-      if (pathname !== "/dummy") {
-        router.push("/take-tests?skipStart=true");
+    if (isContinuous) {
+      if (onTestComplete) {
+        onTestComplete({
+          score: finalScore.correct,
+          total: finalScore.total,
+          test: "SequenceArrangement",
+        });
       }
       return;
     }
 
-    const isDummyRoute = pathname === "/dummy";
-    const apiUrl = isDummyRoute
-      ? "/api/continuous-test"
-      : "/api/sequence-test/submitResult";
+    const token = localStorage.getItem("access_token");
 
-    const payload = isDummyRoute
-      ? {
-          childId,
-          totalScore: parseFloat(finalScore?.correct || 0),
-          testResults: JSON.stringify(finalScore),
-          analysis: "Sequential Memory Test",
-        }
-      : {
-          childId: childId,
-          score: finalScore.correct,
-          total_questions: finalScore.total,
-          test_name: "Sequential Memory Test",
-        };
+    if (!childId) {
+      console.warn("Child ID is missing. Cannot save results.");
+      router.push("/take-tests?skipStart=true");
+      return;
+    }
+
+    const apiUrl = "/api/sequence-test/submitResult";
+
+    const payload = {
+      childId: childId,
+      score: finalScore.correct,
+      total_questions: finalScore.total,
+      test_name: "Sequential Memory Test",
+    };
 
     try {
       const response = await axios.post(apiUrl, payload, {
@@ -71,9 +67,7 @@ const SequenceArrangementTestContent = () => {
         error.response?.data || error.message
       );
     } finally {
-      if (!isDummyRoute) {
-        router.push("/take-tests?skipStart=true");
-      }
+      router.push("/take-tests?skipStart=true");
     }
   };
 
@@ -89,10 +83,14 @@ const SequenceArrangementTestContent = () => {
 };
 
 // The main export now wraps the content with your existing LanguageProvider
-const Test7Page = () => {
+const Test7Page = ({ isContinuous = false, onTestComplete }) => {
   return (
-      <SequenceArrangementTestContent />
-    
+    <LanguageProvider>
+      <SequenceArrangementTestContent
+        isContinuous={isContinuous}
+        onTestComplete={onTestComplete}
+      />
+    </LanguageProvider>
   );
 };
 
