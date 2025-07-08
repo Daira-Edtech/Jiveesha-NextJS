@@ -21,6 +21,86 @@ import { useFormData } from "@/hooks/useTestReports";
 import { LoadingSpinner, ErrorComponent } from "@/components/LoadingAndError";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+
+// Utility function to render markdown-style text
+const renderMarkdownText = (text) => {
+  if (!text) return text;
+
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      const boldText = part.slice(2, -2);
+      return (
+        <strong key={index} className="font-bold text-gray-900">
+          {boldText}
+        </strong>
+      );
+    }
+    return part;
+  });
+};
+
+// Enhanced text display component
+const EnhancedTextDisplay = ({ text, className = "" }) => {
+  if (!text) return null;
+
+  // Split text by paragraphs first, but also handle cases where numbered lists are in the same paragraph
+  const paragraphs = text.split(/\n\s*\n/).filter((p) => p.trim());
+
+  return (
+    <div className={`space-y-4 ${className}`}>
+      {paragraphs.map((paragraph, pIndex) => {
+        // Check if the paragraph contains numbered list items
+        const hasNumberedItems = /\d+\.\s/.test(paragraph);
+
+        if (hasNumberedItems) {
+          // Split by sentences that start with numbers, but preserve the number
+          const parts = paragraph.split(/(?=\d+\.\s)/);
+          const listItems = parts.filter(
+            (part) => part.trim() && /^\d+\.\s/.test(part.trim())
+          );
+
+          if (listItems.length > 0) {
+            return (
+              <div key={pIndex} className="space-y-3">
+                {/* Check if there's text before the first numbered item */}
+                {parts[0] &&
+                  !/^\d+\.\s/.test(parts[0].trim()) &&
+                  parts[0].trim() && (
+                    <p className="text-gray-700 leading-relaxed mb-3">
+                      {renderMarkdownText(parts[0].trim())}
+                    </p>
+                  )}
+
+                <ol className="list-decimal list-inside space-y-3 ml-4">
+                  {listItems.map((item, lIndex) => {
+                    // Remove the number and dot from the beginning
+                    const cleanItem = item.replace(/^\d+\.\s*/, "").trim();
+                    return (
+                      <li
+                        key={lIndex}
+                        className="text-gray-700 leading-relaxed pl-2"
+                      >
+                        {renderMarkdownText(cleanItem)}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+            );
+          }
+        }
+
+        // It's a regular paragraph
+        return (
+          <p key={pIndex} className="text-gray-700 leading-relaxed">
+            {renderMarkdownText(paragraph.trim())}
+          </p>
+        );
+      })}
+    </div>
+  );
+};
+
 const FormAnalysisPage = () => {
   // UI State
   const [childId, setChildId] = useState(null);
@@ -237,11 +317,11 @@ const FormAnalysisPage = () => {
 
                         <td className="px-6 py-4 whitespace-nowrap text-center">
                           <button
-                            onClick={() => handleViewAnalysis(form.analysis)}
+                            onClick={() => handleViewAnalysis(form.analysisNew)}
                             className="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-colors duration-200"
-                            disabled={!form.analysis}
+                            disabled={!form.analysisNew}
                           >
-                            {form.analysis ? "View Details" : "No Analysis"}
+                            {form.analysisNew ? "View Details" : "No Analysis"}
                           </button>
                         </td>
                       </tr>
@@ -315,196 +395,305 @@ const FormAnalysisPage = () => {
               style={{ maxHeight: "calc(100vh - 300px)" }}
             >
               <div className="p-8 space-y-8">
-                {/* Overall Assessment */}
+                
+
+                {/* Psychology Report Section */}
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 shadow-sm">
-                  <div className="flex items-center mb-4">
+                  <div className="flex items-center mb-6">
                     <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-4">
                       <FaBrain className="text-white text-lg" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-800">
-                      {t("overallAssessment")}
+                      Psychology Assessment Report
                     </h3>
                   </div>
-                  <div className="bg-white rounded-lg p-4 border border-blue-100">
-                    <p className="text-gray-700 leading-relaxed text-base">
-                      {selectedAnalysis.overallAssessment}
-                    </p>
+
+                  <div className="grid gap-4">
+                    {selectedAnalysis.developmentalMilestones && (
+                      <div className="bg-white rounded-lg p-5 border border-blue-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Developmental Milestones
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.developmentalMilestones}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.questionnaireInterpretation && (
+                      <div className="bg-white rounded-lg p-5 border border-blue-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Questionnaire Interpretation
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.questionnaireInterpretation}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.furtherAssessmentRecommendations && (
+                      <div className="bg-white rounded-lg p-5 border border-blue-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Further Assessment Recommendations
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={
+                            selectedAnalysis.furtherAssessmentRecommendations
+                          }
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.parentSupportSuggestions && (
+                      <div className="bg-white rounded-lg p-5 border border-blue-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Parent Support Suggestions
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.parentSupportSuggestions}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.psychologicalFrameworks && (
+                      <div className="bg-white rounded-lg p-5 border border-blue-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Psychological Frameworks
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.psychologicalFrameworks}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.observedSymptoms &&
+                      selectedAnalysis.observedSymptoms.length > 0 && (
+                        <div className="bg-white rounded-lg p-5 border border-blue-100">
+                          <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                            Observed Symptoms
+                          </h4>
+                          <ul className="space-y-2 text-gray-700 text-sm">
+                            {selectedAnalysis.observedSymptoms.map(
+                              (symptom, index) => (
+                                <li key={index} className="flex items-start">
+                                  <span className="text-blue-500 mr-3 mt-1 text-lg">
+                                    •
+                                  </span>
+                                  <div className="flex-1">
+                                    <EnhancedTextDisplay text={symptom} />
+                                  </div>
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        </div>
+                      )}
+
+                    {selectedAnalysis.familyHistory && (
+                      <div className="bg-white rounded-lg p-5 border border-blue-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Family History
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.familyHistory}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.culturalEnvironmentalFactors && (
+                      <div className="bg-white rounded-lg p-5 border border-blue-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Cultural & Environmental Factors
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.culturalEnvironmentalFactors}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                {/* Strengths */}
-                {selectedAnalysis.strengths &&
-                  selectedAnalysis.strengths.length > 0 && (
-                    <div className="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-xl p-6 shadow-sm">
-                      <div className="flex items-center mb-4">
-                        <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center mr-4">
-                          <FaCheckCircle className="text-white text-lg" />
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-800">
-                          {t("strengths")}
-                        </h3>
-                      </div>
-                      <div className="bg-white rounded-lg p-4 border border-emerald-100">
-                        <ul className="space-y-3">
-                          {selectedAnalysis.strengths.map((strength, index) => (
-                            <li key={index} className="flex items-start">
-                              <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
-                                <FaCheckCircle className="text-emerald-600 text-sm" />
-                              </div>
-                              <span className="text-gray-700 leading-relaxed">
-                                {strength}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
+                {/* Sensory & Occupational Report Section */}
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6 shadow-sm">
+                  <div className="flex items-center mb-6">
+                    <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-4">
+                      <FaCheckCircle className="text-white text-lg" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-800">
+                      Sensory & Occupational Assessment
+                    </h3>
+                  </div>
+
+                  <div className="grid gap-4">
+                    {/* Sensory Scores */}
+                    <div className="bg-white rounded-lg p-4 border border-green-100">
+                      <h4 className="font-semibold text-gray-800 mb-3">
+                        Winnie Dunn Sensory Scores
+                      </h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {selectedAnalysis.sensorySeekingScore !== null && (
+                          <div className="text-center">
+                            <div className="text-lg font-bold text-green-600">
+                              {selectedAnalysis.sensorySeekingScore}
+                            </div>
+                            <div className="text-xs text-gray-600">Seeking</div>
+                          </div>
+                        )}
+                        {selectedAnalysis.sensoryAvoidingScore !== null && (
+                          <div className="text-center">
+                            <div className="text-lg font-bold text-orange-600">
+                              {selectedAnalysis.sensoryAvoidingScore}
+                            </div>
+                            <div className="text-xs text-gray-600">
+                              Avoiding
+                            </div>
+                          </div>
+                        )}
+                        {selectedAnalysis.sensorySensitivityScore !== null && (
+                          <div className="text-center">
+                            <div className="text-lg font-bold text-red-600">
+                              {selectedAnalysis.sensorySensitivityScore}
+                            </div>
+                            <div className="text-xs text-gray-600">
+                              Sensitivity
+                            </div>
+                          </div>
+                        )}
+                        {selectedAnalysis.sensoryRegistrationScore !== null && (
+                          <div className="text-center">
+                            <div className="text-lg font-bold text-blue-600">
+                              {selectedAnalysis.sensoryRegistrationScore}
+                            </div>
+                            <div className="text-xs text-gray-600">
+                              Registration
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  )}
 
-                {/* Areas of Concern */}
-                {selectedAnalysis.areasOfConcern &&
-                  selectedAnalysis.areasOfConcern.length > 0 && (
-                    <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-xl p-6 shadow-sm">
-                      <div className="flex items-center mb-4">
-                        <div className="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center mr-4">
-                          <FaExclamationTriangle className="text-white text-lg" />
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-800">
-                          {t("areasOfConcern")}
-                        </h3>
+                    {selectedAnalysis.sensoryProcessingInterpretation && (
+                      <div className="bg-white rounded-lg p-5 border border-green-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Sensory Processing Interpretation
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={
+                            selectedAnalysis.sensoryProcessingInterpretation
+                          }
+                          className="text-sm"
+                        />
                       </div>
-                      <div className="bg-white rounded-lg p-4 border border-amber-100">
-                        <ul className="space-y-3">
-                          {selectedAnalysis.areasOfConcern.map(
-                            (concern, index) => (
-                              <li key={index} className="flex items-start">
-                                <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center mt-0.5 mr-3 flex-shrink-0">
-                                  <FaExclamationTriangle className="text-amber-600 text-sm" />
-                                </div>
-                                <span className="text-gray-700 leading-relaxed">
-                                  {concern}
-                                </span>
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
+                    )}
 
-                {/* Learning Style */}
-                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-6 shadow-sm">
-                  <div className="flex items-center mb-4">
+                    {selectedAnalysis.sensoryFollowUpStrategy && (
+                      <div className="bg-white rounded-lg p-5 border border-green-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Follow-up Strategy
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.sensoryFollowUpStrategy}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Speech & Language Report Section */}
+                <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-6 shadow-sm">
+                  <div className="flex items-center mb-6">
                     <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mr-4">
                       <FaGraduationCap className="text-white text-lg" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-800">
-                      {t("learningStyle")}
+                      Speech & Language Assessment
                     </h3>
                   </div>
-                  <div className="bg-white rounded-lg p-4 border border-purple-100">
-                    <p className="text-gray-700 leading-relaxed text-base">
-                      {selectedAnalysis.learningStyle}
-                    </p>
+
+                  <div className="grid gap-4">
+                    {selectedAnalysis.phonologicalDisorderAssessment && (
+                      <div className="bg-white rounded-lg p-5 border border-purple-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Phonological Disorder Assessment
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.phonologicalDisorderAssessment}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.attentionDifficultiesEvaluation && (
+                      <div className="bg-white rounded-lg p-5 border border-purple-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Attention Difficulties Evaluation
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={
+                            selectedAnalysis.attentionDifficultiesEvaluation
+                          }
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.dysarthriaAssessment && (
+                      <div className="bg-white rounded-lg p-5 border border-purple-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Dysarthria Assessment
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.dysarthriaAssessment}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.voiceDisorderEvaluation && (
+                      <div className="bg-white rounded-lg p-5 border border-purple-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Voice Disorder Evaluation
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.voiceDisorderEvaluation}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.eyeContactDifficulties && (
+                      <div className="bg-white rounded-lg p-5 border border-purple-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Eye Contact Difficulties
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.eyeContactDifficulties}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
+
+                    {selectedAnalysis.earlyInterventionImportance && (
+                      <div className="bg-white rounded-lg p-5 border border-purple-100">
+                        <h4 className="font-semibold text-gray-800 mb-3 text-lg">
+                          Early Intervention Importance
+                        </h4>
+                        <EnhancedTextDisplay
+                          text={selectedAnalysis.earlyInterventionImportance}
+                          className="text-sm"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
-
-                {/* Recommendations */}
-                {selectedAnalysis.recommendations && (
-                  <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6 shadow-sm">
-                    <div className="flex items-center mb-4">
-                      <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mr-4">
-                        <FaLightbulb className="text-white text-lg" />
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-800">
-                        {t("recommendations")}
-                      </h3>
-                    </div>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {selectedAnalysis.recommendations.forParents &&
-                        selectedAnalysis.recommendations.forParents.length >
-                          0 && (
-                          <div className="bg-white rounded-lg p-4 border border-pink-100">
-                            <h4 className="font-bold text-gray-800 mb-3 flex items-center">
-                              <div className="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center mr-3">
-                                <FaHeart className="text-pink-600 text-sm" />
-                              </div>
-                              {t("forParents")}
-                            </h4>
-                            <ul className="space-y-2 text-sm text-gray-700">
-                              {selectedAnalysis.recommendations.forParents.map(
-                                (rec, index) => (
-                                  <li key={index} className="flex items-start">
-                                    <span className="text-pink-500 mr-2 mt-1">
-                                      •
-                                    </span>
-                                    <span className="leading-relaxed">
-                                      {rec}
-                                    </span>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        )}
-                      {selectedAnalysis.recommendations.forTeachers &&
-                        selectedAnalysis.recommendations.forTeachers.length >
-                          0 && (
-                          <div className="bg-white rounded-lg p-4 border border-blue-100">
-                            <h4 className="font-bold text-gray-800 mb-3 flex items-center">
-                              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                                <FaGraduationCap className="text-blue-600 text-sm" />
-                              </div>
-                              {t("forTeachers")}
-                            </h4>
-                            <ul className="space-y-2 text-sm text-gray-700">
-                              {selectedAnalysis.recommendations.forTeachers.map(
-                                (rec, index) => (
-                                  <li key={index} className="flex items-start">
-                                    <span className="text-blue-500 mr-2 mt-1">
-                                      •
-                                    </span>
-                                    <span className="leading-relaxed">
-                                      {rec}
-                                    </span>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Next Steps */}
-                {selectedAnalysis.nextSteps &&
-                  selectedAnalysis.nextSteps.length > 0 && (
-                    <div className="bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-200 rounded-xl p-6 shadow-sm">
-                      <div className="flex items-center mb-4">
-                        <div className="w-10 h-10 bg-violet-500 rounded-full flex items-center justify-center mr-4">
-                          <FaChartBar className="text-white text-lg" />
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-800">
-                          {t("nextSteps")}
-                        </h3>
-                      </div>
-                      <div className="bg-white rounded-lg p-4 border border-violet-100">
-                        <ul className="space-y-4">
-                          {selectedAnalysis.nextSteps.map((step, index) => (
-                            <li key={index} className="flex items-start">
-                              <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 mt-0.5 flex-shrink-0">
-                                {index + 1}
-                              </div>
-                              <span className="text-gray-700 leading-relaxed">
-                                {step}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
               </div>
             </div>
           </div>

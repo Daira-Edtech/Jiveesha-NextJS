@@ -90,19 +90,21 @@ model Children {
   vocabularyTests          VocabularyTestResult[]          @relation("ChildrenVocabularyTests")
   formResponses            ChildFormResponse[]             @relation("ChildrenFormResponses")
   formAnalysis             ChildFormAnalysis[]             @relation("ChildrenFormAnalysis")
+  formAnalysisNew          ChildFormAnalysisnew[]          @relation("ChildrenFormAnalysisNew")
 
   @@map("children")
 }
 
 model ChildFormResponse {
-  id          String             @id @default(uuid())
+  id          String                @id @default(uuid())
   childId     String
-  child       Children           @relation("ChildrenFormResponses", fields: [childId], references: [id], onDelete: Cascade)
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @default(now())
+  child       Children              @relation("ChildrenFormResponses", fields: [childId], references: [id], onDelete: Cascade)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @default(now())
   responses   Json
   formVersion String
-  analysis    ChildFormAnalysis? @relation("FormResponseAnalysis")
+  analysis    ChildFormAnalysis?    @relation("FormResponseAnalysis")
+  analysisNew ChildFormAnalysisnew? @relation("FormResponseAnalysisNew")
 
   @@map("child_form_responses")
 }
@@ -261,4 +263,67 @@ model ChildFormAnalysis {
   updatedAt          DateTime          @default(now())
 
   @@map("child_form_analysis")
+}
+
+model ChildFormAnalysisnew {
+  id                                   String            @id @default(uuid())
+  childId                              String
+  child                                Children          @relation("ChildrenFormAnalysisNew", fields: [childId], references: [id], onDelete: Cascade)
+  formResponseId                       String            @unique
+  formResponse                         ChildFormResponse @relation("FormResponseAnalysisNew", fields: [formResponseId], references: [id], onDelete: Cascade)
+  developmentalMilestones              String? // Overview of developmental milestones appropriate for the child's age
+  questionnaireInterpretation          String? // Interpretation of questionnaire results, highlighting areas of concern
+  furtherAssessmentRecommendations     String? // Recommendations for further assessment or intervention strategies
+  parentSupportSuggestions             String? // Suggestions for parents on how to support their child's development at home
+  psychologicalFrameworks              String? // Relevant psychological theories or frameworks that may apply
+  observedSymptoms                     Json? // Specific symptoms or behaviors observed in the child
+  questionnaireContext                 String? // Context of the questionnaire (school performance, social interactions)
+  previousDiagnoses                    Json? // Any previous diagnoses or assessments the child has undergone
+  familyHistory                        String? // Family history of developmental or psychological issues
+  culturalEnvironmentalFactors         String? // Cultural or environmental factors that may influence development
+  assessmentGoals                      String? // Goals for the assessment
+  comdellAnalysis                      Json? // ComDell tool analysis results (if applicable)
+  isaaAnalysis                         Json? // ISAA tool analysis results (if applicable)
+  winnieDunnAssessment                 Json? // Winnie Dunn assessment tool results
+  sensorySeekingScore                  Float? // Raw score for sensory seeking
+  sensoryAvoidingScore                 Float? // Raw score for sensory avoiding
+  sensorySensitivityScore              Float? // Raw score for sensory sensitivity
+  sensoryRegistrationScore             Float? // Raw score for sensory registration
+  quadrantGridAnalysis                 Json? // Detailed quadrant grid analysis
+  suggestedActivities                  Json? // Suggested activities for each sensory category
+  environmentalModifications           Json? // Necessary environmental modifications
+  sensoryProcessingInterpretation      String? // Interpretation of quadrant grid analysis
+  sensoryInterventionPlan              Json? // Intervention plan recommendations
+  sensoryFollowUpStrategy              String? // Follow-up strategy to monitor progress
+  sensoryFriendlyEnvironmentGuidelines Json? // Guidelines for creating sensory-friendly environments
+  parentImplementationStrategies       Json? // Strategies for parents to implement at home
+  phonologicalDisorderAssessment       String? // Assessment of phonological disorder
+  attentionDifficultiesEvaluation      String? // Evaluation of attention difficulties and sitting tolerance
+  dysarthriaAssessment                 String? // Assessment of dysarthria
+  voiceDisorderEvaluation              String? // Evaluation of voice disorders
+  eyeContactDifficulties               String? // Assessment of eye contact difficulties
+  oromotorAssessment                   Json? // Oromotor assessment results including tongue movement and palatal sounds
+  speechAssessmentTools                Json? // Recommended assessment tools and methods
+  speechTherapyGoals                   Json? // Specific, measurable goals for therapy
+  speechActivitiesExercises            Json? // Engaging speech activities and exercises
+  speechSupportStrategies              Json? // Strategies for parents and educators
+  communicationEnvironmentTips         Json? // Tips for fostering positive communication environment
+  earlyInterventionImportance          String? // Importance of early intervention
+  speechCaseStudies                    Json? // Examples of successful case studies or interventions
+  playBasedLearningIntegration         Json? // Suggestions for integrating play-based learning
+  speechParentResources                Json? // Resources for parents (websites, books)
+  adhdManagementTechniques             Json? // Techniques for managing ADHD symptoms in speech therapy
+  collaborativeApproaches              Json? // Ideas for collaborative approaches with teachers and professionals
+  overallAssessment                    String? // Overall assessment summary
+  strengths                            Json? // Array of strengths
+  areasOfConcern                       Json? // Array of areas needing attention
+  learningStyle                        String? // Child's learning style
+  recommendations                      Json? // Recommendations for parents and teachers
+  riskFactors                          Json? // Array of risk factors
+  positiveIndicators                   Json? // Array of positive indicators
+  nextSteps                            Json? // Array of suggested next steps
+  createdAt                            DateTime          @default(now())
+  updatedAt                            DateTime          @default(now())
+
+  @@map("child_form_analysis_new")
 }
