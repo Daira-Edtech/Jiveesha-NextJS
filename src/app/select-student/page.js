@@ -279,6 +279,8 @@ export default function SelectStudentPage() {
       
       if (selectedTestIdString === "all") {
         router.push("/continuousassessment");
+      } else if (selectedTestIdString === "continuous") {
+        router.push("/dummy");
       } else if (selectedTestIdString) {
         const selectedTestId = parseInt(selectedTestIdString, 10);
         const test = testsData.find(t => t.id === selectedTestId);

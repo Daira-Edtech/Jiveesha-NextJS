@@ -28,6 +28,7 @@ export async function POST(req: Request) {
         analysis,
       },
     });
+    console.log(result);
 
     // Optional: increment testsTaken count on the child record
     await prisma.children.update({

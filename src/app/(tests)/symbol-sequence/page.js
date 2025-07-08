@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import WelcomeDialog from "../../../components/symbol-sequence/WelcomeDialog.js";
 import { useLanguage } from "../../../contexts/LanguageContext";
 
-const SymbolSequencePage = ({ isContinuous = false,    }) => {
+const SymbolSequencePage = ({ isContinuous = false, onTestComplete }) => {
   const router = useRouter();
   const [childId, setChildId] = useState(null);
   const { t } = useLanguage();
@@ -72,8 +72,9 @@ const SymbolSequencePage = ({ isContinuous = false,    }) => {
     <div className="w-screen h-screen">
       <WelcomeDialog
         t={t}
-        onEntireTestFlowComplete={handleEntireTestFlowComplete}
+        onEntireTestComplete={handleEntireTestFlowComplete}
         initialChildId={childId}
+        isContinuous={isContinuous}
         dialogContent={[
           "mystaraLine1",
           "mystaraLine2",

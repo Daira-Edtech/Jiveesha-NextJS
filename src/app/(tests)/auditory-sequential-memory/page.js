@@ -36,9 +36,10 @@ const AuditorySequentialPage = ({ isContinuous = false, onTestComplete }) => {
   const handleEntireTestFlowComplete = async (finalScore) => {
     if (isContinuous) {
       if (onTestComplete) {
+        const totalQuestions = finalScore.forwardTotal + finalScore.reverseTotal;
         onTestComplete({
           score: finalScore.final,
-          total: finalScore.total, // Assuming finalScore has a total property
+          total: totalQuestions,
           test: "AuditorySequentialMemory",
           details: finalScore,
         });

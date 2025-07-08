@@ -5,6 +5,11 @@
 import { motion } from "framer-motion"
 
 const FinalResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
+  const handleFinishTest = () => {
+    if (onFinishTest) {
+      onFinishTest({ correct: score.correct, total: score.total });
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -77,7 +82,7 @@ const FinalResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
             whileHover={{ scale: 1.05, boxShadow: "0px 10px 25px rgba(217, 162, 75, 0.4)" }}
             whileTap={{ scale: 0.95 }}
             className="w-full px-8 py-3 sm:py-4 bg-gradient-to-r from-[#d9a24b] via-[#f3c969] to-[#d9a24b] text-[#3b2f1d] rounded-full text-lg sm:text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-            onClick={onFinishTest}
+            onClick={handleFinishTest}
           >
             {t("finishTest")} <span className="text-xl">🏁</span>
           </motion.button>

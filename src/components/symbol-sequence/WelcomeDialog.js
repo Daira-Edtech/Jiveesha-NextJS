@@ -29,6 +29,7 @@ const WelcomeDialog = ({
   onEntireTestComplete,
   initialChildId,
   dialogContent,
+  isContinuous = false,
 }) => {
   const router = useRouter();
 

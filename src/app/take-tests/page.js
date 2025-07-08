@@ -64,7 +64,9 @@ const TakeTestsContent = () => {
 
   const handleTestModeSelection = (mode) => {
     if (mode === "continuous") {
-      router.push("/dummy");
+      // Set flag for continuous mode and redirect to select-student
+      localStorage.setItem("selectedTestId", "continuous");
+      router.push("/select-student");
     } else {
       setTestModeExiting(true);
       setTimeout(() => {
