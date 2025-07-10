@@ -114,9 +114,14 @@ Start the clinical report below this line:
 ---
 `;
 
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
       const result = await model.generateContent({
         contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.7,
+          topK: 40,
+          topP: 0.95,
+        },
       });
       analysis_results = result.response.text();
     } catch (inferenceError) {
