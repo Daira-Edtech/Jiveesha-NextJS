@@ -185,95 +185,109 @@ const useTranscriptionService = (t, language) => {
   };
 };
 //vimalchangesdonehere
-const useTestSubmission = (onTestComplete, router, t) => {
+const useTestSubmission = (onTestComplete, router, t, isContinuous) => {
   const [testResults, setTestResults] = useState([]);
-  const submitTest = async (
-  transcriptToSubmit,
-  suppressResultPage,
-  language = "en"
-) => {
-  const spokenWords = transcriptToSubmit.trim().toLowerCase();
-  const childId = localStorage.getItem("childId") || null;
-  const token = localStorage.getItem("access_token");
+  const submitTest = async (transcriptToSubmit, language = "en") => {
+    const spokenWords = transcriptToSubmit.trim().toLowerCase();
+    const childId = localStorage.getItem("childId") || null;
+    const token = localStorage.getItem("access_token");
 
-  if (!spokenWords) {
-    toast.info(t("nothingToSubmit") || "Nothing to submit.");
-    return { success: false, score: 0 };
-  }
+    if (!spokenWords) {
+      toast.info(t("nothingToSubmit") || "Nothing to submit.");
+      return { success: false, score: 0 };
+    }
 
-  try {
-    const currentRoute = pathname; // make sure you get this via usePathname or pass as a prop
-
-    const responseFromApi = await axios.post(
-      "/api/reading-test/submitResult",
-      { childId, spokenWords, language },
-      {
-        headers: {
-          ...(token && { Authorization: `Bearer ${token}` }),
-          "Content-Type": "application/json",
-        },
+    if (isContinuous) {
+      if (typeof onTestComplete === "function") {
+        // In continuous mode, we don't submit to the backend here.
+        // We pass the raw data to the orchestrator.
+        // The orchestrator will handle the submission.
+        // The reading test is unique; its score is calculated on the backend.
+        // So we pass the transcript and language, and the orchestrator will need to call the scoring API.
+        onTestComplete({
+          transcript: spokenWords,
+          language: language,
+          testType: "reading-proficiency", // To identify in orchestrator
+        });
       }
-    );
+      // We can assume success and a score of 0 for now, as the orchestrator handles the real success/score.
+      return { success: true, score: 0 };
+    }
 
-    if (responseFromApi.status === 201) {
-      const { score, correctGroups, errorWords } = responseFromApi.data;
+    // Standalone mode logic remains the same
+    try {
+      const responseFromApi = await axios.post(
+        "/api/reading-test/submitResult",
+        { childId, spokenWords, language },
+        {
+          headers: {
+            ...(token && { Authorization: `Bearer ${token}` }),
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      const validCorrectGroups = Array.isArray(correctGroups)
-        ? correctGroups.map((g) => (Array.isArray(g) ? g : [g]))
-        : [];
-      const validErrorWords = Array.isArray(errorWords)
-        ? errorWords.map((w) => (Array.isArray(w) ? w : [w]))
-        : [];
+      if (responseFromApi.status === 201) {
+        const { score, correctGroups, errorWords } = responseFromApi.data;
+        const resultData = {
+          score,
+          correctGroups,
+          errorWords,
+          transcript: transcriptToSubmit,
+        };
 
-      const tableData = validCorrectGroups.map((group, index) => ({
-        continuousCorrectWords: group.join(" "),
-        errorWords: validErrorWords[index]?.join(" ") || "",
-        score: score / validCorrectGroups.length,
-      }));
+        // This block is for standalone mode only now
+        const validCorrectGroups = Array.isArray(correctGroups)
+          ? correctGroups.map((g) => (Array.isArray(g) ? g : [g]))
+          : [];
+        const validErrorWords = Array.isArray(errorWords)
+          ? errorWords.map((w) => (Array.isArray(w) ? w : [w]))
+          : [];
 
-      setTestResults(tableData);
+        const tableData = validCorrectGroups.map((group, index) => ({
+          continuousCorrectWords: group.join(" "),
+          errorWords: validErrorWords[index]?.join(" ") || "",
+          score: score / validCorrectGroups.length,
+        }));
 
-      if (suppressResultPage && typeof onTestComplete === "function") {
-        onTestComplete(score);
-      } else {
+        setTestResults(tableData);
+
         toast.success(`Test submitted with score: ${score}`, {
           position: "top-center",
           onClose: () => {
-            if (currentRoute !== "/dummy") {
-              const queryParams = new URLSearchParams({
-                score: score.toString(),
-                tableData: JSON.stringify(tableData),
-              });
-              router.push(
-                `/reading-proficiency/results?${queryParams.toString()}`
-              );
-            }
+            const queryParams = new URLSearchParams({
+              score: score.toString(),
+              tableData: JSON.stringify(tableData),
+            });
+            router.push(
+              `/reading-proficiency/results?${queryParams.toString()}`
+            );
           },
         });
-      }
 
-      return { success: true, score };
-    } else {
-      toast.error(t("failedToSubmitTestPleaseTryAgain"));
+        return { success: true, score };
+      } else {
+        toast.error(t("failedToSubmitTestPleaseTryAgain"));
+        return { success: false, score: 0 };
+      }
+    } catch (error) {
+      console.error("Full error details:", error);
+      toast.error(
+        t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain") ||
+          t("errorOccurred")
+      );
       return { success: false, score: 0 };
     }
-  } catch (error) {
-    console.error("Full error details:", error);
-    toast.error(
-      t("anErrorOccurredWhileSubmittingTheTestPleaseTryAgain") ||
-        t("errorOccurred")
-    );
-    return { success: false, score: 0 };
-  }
-};
+  };
 
   return { testResults, submitTest };
 };
 
 export default function Test6Controller({
   suppressResultPage = false,
-  onComplete,
+  onTestComplete,
   suppressTutorial = false,
+  isContinuous = false,
 }) {
   const { language, t } = useLanguage();
   const router = useRouter();
@@ -334,7 +348,7 @@ export default function Test6Controller({
     setTranscriptionReady: setGlobalTranscriptionReady,
   } = useTranscriptionService(t, language);
 
-  const { submitTest } = useTestSubmission(onComplete, router, t);
+  const { submitTest } = useTestSubmission(onTestComplete, router, t, isContinuous);
 
   const { isRecording, startRecording, stopRecording } = useAudioRecorder(
     (audioBlob) => {
@@ -631,12 +645,13 @@ export default function Test6Controller({
         .join(" ");
       const { success, score } = await submitTest(
         combinedTranscript.trim(),
-        suppressResultPage,
         language
       );
       if (success) {
         setGameProgress(100);
-        if (onComplete && typeof onComplete === "function") onComplete(score);
+        if (onTestComplete && typeof onTestComplete === "function" && !isContinuous) {
+          onTestComplete(score);
+        }
         if (!suppressResultPage) {
           if (score >= 70) {
             setGameState("success");

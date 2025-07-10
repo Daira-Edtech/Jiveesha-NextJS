@@ -4,11 +4,7 @@
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import {
-  useRouter,
-  useSearchParams,
-  usePathname,
-} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Suspense,
   useCallback,
@@ -53,9 +49,8 @@ const DIALOG_TEXTS = [
 ];
 
 // This is the component that actually uses the language context and most of the logic
-const GraphemeTestContent = () => {
+const GraphemeTestContent = ({ isContinuous = false, onTestComplete }) => {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams(); // This hook causes GraphemeTestContent to be dynamic
   const suppressResultPage = searchParams.get("suppressResultPage") === "true";
 
@@ -177,6 +172,10 @@ const GraphemeTestContent = () => {
 
   const onCompleteHandler = useCallback(
     (finalScore) => {
+      if (isContinuous) {
+        return; // Don't do anything in continuous mode, it's handled separately
+      }
+
       const scoreValue =
         typeof finalScore === "object" ? finalScore.score : finalScore;
       toast.info(
@@ -187,7 +186,7 @@ const GraphemeTestContent = () => {
       );
       router.push("/take-tests?skipStart=true");
     },
-    [router, t]
+    [router, t, isContinuous]
   );
 
   const handleNextIntroDialog = () => {
@@ -272,98 +271,56 @@ const GraphemeTestContent = () => {
       t("processingResponses", "Processing...")
     );
 
+    // Ensure we have all user inputs, fill missing ones with empty strings
     const finalUserInputs = [...userInputs];
     while (finalUserInputs.length < letters.length) {
       finalUserInputs.push("");
     }
 
+    // Create userResponses object mapping letters to responses
     const userResponses = {};
     letters.forEach((letter, index) => {
       userResponses[letter] = finalUserInputs[index] || "";
     });
 
-    const isDummyRoute = pathname.includes("/dummy");
-
-    let payload;
-    if (isDummyRoute) {
-      payload = {
-        childId: childId,
-        totalScore: score,
-        testResults: userInputs.map((input, index) => ({
-          letter: letters[index].letter,
-          userInput: input.userInput,
-          isCorrect: input.isCorrect,
-          reactionTime: input.reactionTime,
-          audio: input.audio,
-        })),
-        analysis: {
-          totalQuestions: totalQuestions,
-          correctAnswers: correctAnswers,
-          incorrectAnswers: totalQuestions - correctAnswers,
-          language: language,
-        },
-      };
-    } else {
-      payload = {
-        childId: childId,
-        testName: "Grapheme-Phoneme Correspondence",
-        testResults: userInputs.map((input, index) => ({
-          letter: letters[index].letter,
-          userInput: input.userInput,
-          isCorrect: input.isCorrect,
-          reactionTime: input.reactionTime,
-          audio: input.audio,
-        })),
-        score: score,
-        totalQuestions: totalQuestions,
-        correctAnswers: correctAnswers,
-        incorrectAnswers: totalQuestions - correctAnswers,
-        language: language,
-      };
-    }
+    const payload = { childId, userResponses, language: langKey };
 
     try {
-      const apiRoute = isDummyRoute
-        ? "/api/continuous-test"
-        : `/api/grapheme-phoneme-correspondence`;
-
-      const response = await axios.post(`${backendURL}${apiRoute}`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const evalResponse = await axios.post(
+        `/api/grapheme-test/submitResult`,
+        payload
+      );
 
       toast.dismiss(submissionToastId);
 
-      if (isDummyRoute) {
-        if (response.status === 201 || response.status === 200) {
-          toast.success("Dummy results submitted successfully!");
-          // Potentially call onCompleteHandler if it exists, even for dummy
-          if (suppressResultPage && typeof onCompleteHandler === "function") {
-            onCompleteHandler({ score: 0, total: 0, dummy: true });
-          }
-        } else {
-          toast.error("Failed to submit dummy results.");
-        }
-        setTestStage("submit"); // Stay on submit screen for dummy
-        return; // End execution for dummy route
-      }
-
-      if (response.data && typeof response.data.score === "number") {
-        const correctCount = response.data.score;
+      if (evalResponse.data && typeof evalResponse.data.score === "number") {
+        const correctCount = evalResponse.data.score; // Number of fully correct answers
+        const rawScore = evalResponse.data.rawScore || evalResponse.data.score; // Decimal score for storage
         const totalPossible =
-          response.data.totalPossibleScore || letters.length;
+          evalResponse.data.totalPossibleScore || letters.length;
 
         setScoreData({ score: correctCount, total: totalPossible });
         toast.success(t("resultsProcessed", "Results processed!"));
-        if (suppressResultPage && typeof onCompleteHandler === "function") {
+
+        if (isContinuous) {
+          if (onTestComplete) {
+            onTestComplete({
+              score: correctCount,
+              total: totalPossible,
+              test: "GraphemePhoneme",
+            });
+          }
+          return;
+        } else if (
+          suppressResultPage &&
+          typeof onCompleteHandler === "function"
+        ) {
           onCompleteHandler({ score: correctCount, total: totalPossible });
         } else {
           setTestStage("results");
         }
       } else {
-        console.error("Invalid API response structure:", response.data);
+        console.error("Invalid API response structure:", evalResponse.data);
         toast.error(t("errorInvalidResponse", "Invalid server response."));
         setTestStage("submit");
       }
@@ -387,6 +344,18 @@ const GraphemeTestContent = () => {
   };
 
   const handleBackButtonClick = () => {
+    if (isContinuous) {
+      // In continuous mode, if user clicks back, just signal test completion with a score of 0
+      if (onTestComplete) {
+        onTestComplete({
+          score: 0,
+          total: letters.length,
+          test: "GraphemePhoneme",
+        });
+      }
+      return;
+    }
+
     switch (testStage) {
       case "intro":
       case "loading_init":
@@ -669,7 +638,7 @@ const GraphemeTestContent = () => {
 
   // ----- Main Test UI -----
   return (
-    <div className="fixed inset-0 mt-12">
+    <div className="fixed inset-0">
       <Image
         src={localAppBackgroundImage}
         alt={t("graphemeTestBackgroundAlt", "Grapheme test background")}
@@ -825,7 +794,10 @@ const GraphemeTestContent = () => {
   );
 };
 
-export default function GraphemePhonemeCorrespondencePage() {
+export default function GraphemePhonemeCorrespondencePage({
+  isContinuous = false,
+  onTestComplete,
+}) {
   const staticFallbackContent = (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 text-white z-[200]">
       <Image
@@ -846,7 +818,10 @@ export default function GraphemePhonemeCorrespondencePage() {
   return (
     <Suspense fallback={staticFallbackContent}>
       <LanguageProvider>
-        <GraphemeTestContent />
+        <GraphemeTestContent
+          isContinuous={isContinuous}
+          onTestComplete={onTestComplete}
+        />
       </LanguageProvider>
     </Suspense>
   );

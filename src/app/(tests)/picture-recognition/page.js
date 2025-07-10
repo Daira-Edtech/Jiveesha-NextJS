@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter, usePathname } from "next/navigation"; // Import useRouter and usePathname
-import { FaInfoCircle } from "react-icons/fa"; // New import
+import { useRouter } from "next/navigation"; // Import useRouter
+import { FaInfoCircle } from "react-icons/fa";
 import { toast, Toaster } from "sonner";
 import imagesData from "../../../Data/imageData"; // Ensure this path is correct
 import BackButton from "../../../components/picture-test/BackButton";
@@ -30,18 +30,20 @@ const VIEW_STATES = {
   LOADING_RESULTS: "loading_results",
 };
 
-const PictureRecognitionTestPage = () => {
+const PictureRecognitionTestPage = ({
+  isContinuous = false,
+  onTestComplete,
+}) => {
   const { language, t } = useLanguage();
   const router = useRouter(); // Get router instance
-  const pathname = usePathname(); // Get pathname
 
   useEffect(() => {
-    console.log('[DEBUG] Current language context:', language);
-    
+    console.log("[DEBUG] Current language context:", language);
+
     const interval = setInterval(() => {
-      console.log('[DEBUG] Current language context (every 4s):', language);
+      console.log("[DEBUG] Current language context (every 4s):", language);
     }, 4000);
-    
+
     return () => clearInterval(interval);
   }, [language]);
 
@@ -96,7 +98,7 @@ const PictureRecognitionTestPage = () => {
         ? imageItem.correctAnswerHindi || imageItem.correctAnswer
         : language === "kn"
         ? imageItem.correctAnswerKannada || imageItem.correctAnswer
-        : imageItem.correctAnswer || ""; 
+        : imageItem.correctAnswer || "";
     },
     [language]
   );
@@ -152,14 +154,14 @@ const PictureRecognitionTestPage = () => {
       );
 
       try {
-        console.log("transcribing")
+        console.log("transcribing");
         const response = await fetch("/api/speech-to-text", {
           method: "POST",
           body: formData,
         });
         const result = await response.json();
         toast.dismiss(ProzessToastId);
-        console.log(result)
+        console.log(result);
 
         if (response.ok && result.transcription) {
           const transcription =
@@ -279,6 +281,22 @@ const PictureRecognitionTestPage = () => {
     setCurrentView(VIEW_STATES.PRACTICE_COMPLETE_MODAL);
   };
 
+  const handleRetakeTest = () => {
+    if (isContinuous) {
+      toast.info("Retaking is not available in continuous assessment mode.");
+      return;
+    }
+    // Reset state for a new test run
+    setCurrentIndex(0);
+    setResponses([]);
+    setTestResults(null);
+    setCanSee(null);
+    setAnswer("");
+    setDescription("");
+    setStep(1);
+    setCurrentView(VIEW_STATES.WELCOME); // Go back to the welcome screen
+  };
+
   const handleStartMainTest = () => {
     setCurrentIndex(0); // Or 1 if practiceImage was imagesData[0] and you want to avoid repetition
     setResponses([]);
@@ -308,6 +326,7 @@ const PictureRecognitionTestPage = () => {
         image: currentImage.imageUrl,
         userAnswer: "N/A (cannot see)",
         correctAnswer: getCorrectAnswerForLang(currentImage),
+        isCorrect: false,
         description: "N/A (cannot see)",
         language: language,
         canSee: false,
@@ -333,10 +352,15 @@ const PictureRecognitionTestPage = () => {
       setStep(3);
       speakText(t("describeThePicture", "Now, please describe the picture."));
     } else if (step === 3) {
+      const correctAnswer = getCorrectAnswerForLang(currentImage);
+      const isCorrect =
+        answer.trim().toLowerCase() === correctAnswer.trim().toLowerCase();
+
       const currentResp = {
         image: currentImage.imageUrl,
         userAnswer: answer,
-        correctAnswer: getCorrectAnswerForLang(currentImage),
+        correctAnswer: correctAnswer,
+        isCorrect,
         description: description,
         language: language,
         canSee: canSee === null ? true : canSee, // Ensure canSee is boolean
@@ -396,103 +420,64 @@ const PictureRecognitionTestPage = () => {
   ); // Added t
 
   const submitFinalResults = async (finalResponsesData) => {
+    if (isContinuous) {
+      if (onTestComplete) {
+        const score = finalResponsesData.filter((r) => r.isCorrect).length;
+        onTestComplete({
+          score,
+          total: images.length,
+          test: "PictureRecognition",
+          responses: finalResponsesData,
+        });
+      }
+      return;
+    }
+
     const token = localStorage.getItem("access_token");
     const childId = localStorage.getItem("childId");
+
     if (!childId) {
-      toast.error(
-        t(
-          "childIdMissingCannotSubmit",
-          "Child ID is missing. Cannot submit results."
-        )
-      );
+      toast.error(t("selectStudentFirst", "Please select a student first."));
       return;
     }
 
     setCurrentView(VIEW_STATES.LOADING_SUBMISSION);
 
-    const isDummyRoute = pathname === "/dummy";
-
     try {
-      // Always submit to the original endpoint to get the score and full results
-      const resultResponse = await fetch("/api/picture-test/submitResult", {
+      const apiUrl = "/api/picture-test/submitResult";
+
+      const payload = {
+        childId,
+        responses: finalResponsesData,
+        language: language,
+      };
+
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(token && { Authorization: `Bearer ${token}` }),
         },
-        body: JSON.stringify({
-          childId,
-          answers: finalResponsesData,
-        }),
+        body: JSON.stringify(payload),
       });
 
-      const resultData = await resultResponse.json();
+      const result = await response.json();
 
-      if (!resultResponse.ok) {
-        throw new Error(resultData.error || "Failed to submit results.");
+      if (!response.ok) {
+        throw new Error(result.error || "Submission failed");
       }
 
-      // If it's the dummy route, now send the structured payload to the continuous-test endpoint
-      if (isDummyRoute) {
-        const continuousTestPayload = {
-          childId,
-          totalScore: parseFloat(resultData?.score || 0),
-          testResults: JSON.stringify(resultData),
-          analysis: "Picture Recognition Test",
-        };
-
-        await fetch("/api/continuous-test", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token && { Authorization: `Bearer ${token}` }),
-          },
-          body: JSON.stringify(continuousTestPayload),
-        });
-
-        // For dummy route, we don't redirect and don't show results immediately
-        toast.success(t("testSubmittedSuccessfully", "Test submitted successfully!"));
-        setCurrentView(VIEW_STATES.WELCOME); // Or some other appropriate state
-
-      } else {
-        // For the normal route, proceed to show results
-        fetchResultsById(resultData.id);
-      }
-
+      fetchResultsById(result.id);
     } catch (error) {
       console.error("Submission error:", error);
-      toast.error(t("errorSubmittingResults", "Error submitting results."));
-      setCurrentView(VIEW_STATES.TEST); // Revert to the test view on error
-    } finally {
-      if (!isDummyRoute) {
-        // No automatic redirect here, it's handled by fetchResultsById success
-      } else {
-        // router.push("/"); // Or wherever the dummy route should go next
-      }
+      toast.error(
+        t("errorSubmittingResults", "An error occurred while submitting.")
+      );
+      setCurrentView(VIEW_STATES.TEST); // Revert to test view on error
     }
   };
 
-  const handleRetakeTest = () => {
-    setCurrentDialog(0);
-    setCurrentView(VIEW_STATES.WELCOME);
-    // Reset all relevant states for a full retake
-    setImages(imagesData); // Reload images
-    setPracticeImage(imagesData[0]);
-    setCurrentIndex(0);
-    setResponses([]);
-    setTestResults(null);
-    resetForNextImage();
-    setPracticeEvaluation(null);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (isRecording) stopListening();
-      if (typeof window !== "undefined" && window.speechSynthesis)
-        window.speechSynthesis.cancel();
-    };
-  }, [isRecording, stopListening]);
-
+  // Render logic based on view state
   const renderContent = () => {
     switch (currentView) {
       case VIEW_STATES.LOADING_DATA:

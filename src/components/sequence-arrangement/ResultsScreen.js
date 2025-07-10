@@ -1,25 +1,70 @@
 // components/test7/ResultsScreen.js
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const ResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
+  const router = useRouter();
   return (
     <motion.div
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="fixed inset-0 flex items-center justify-center p-4 z-40"
     >
+      {/* Top-left back-to-map bar */}
+      <motion.button
+        whileHover={{ scale: 1.05, x: -5 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => router.push("/take-tests?skipStart=true")}
+        className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-700/80 to-yellow-600/80 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-yellow-400"
+        style={{ minWidth: 0 }}
+      >
+        <motion.span
+          animate={{ x: [-2, 0, -2] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="text-xl"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+            className="w-6 h-6 text-white-400 drop-shadow-lg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </motion.span>
+        <span className="font-semibold text-lg">{t("backToMap")}</span>
+      </motion.button>
+
       <div className="absolute inset-0 bg-black/40 backdrop-blur-md"></div>
       <motion.div
         initial={{ scale: 0.85, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.85, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 200, damping: 25, duration: 0.4 }}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 25,
+          duration: 0.4,
+        }}
         className="relative max-w-md sm:max-w-xl w-full bg-gradient-to-br from-amber-100 via-yellow-100 to-orange-100 rounded-3xl p-8 sm:p-10 border-4 border-amber-300 shadow-2xl text-amber-800"
       >
         <div className="text-center">
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: 0.1, type: "spring", stiffness: 180, damping: 12 }}
+            transition={{
+              delay: 0.1,
+              type: "spring",
+              stiffness: 180,
+              damping: 12,
+            }}
             className="mb-5"
           >
             <span className="text-6xl sm:text-8xl drop-shadow-lg">🏆</span>
@@ -38,18 +83,22 @@ const ResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="bg-white/80 rounded-2xl p-6 mb-10 shadow-lg border border-amber-200/80"
           >
-            <p className="text-lg sm:text-xl text-amber-700 font-semibold mb-2">{t("yourScore")}</p>
+            <p className="text-lg sm:text-xl text-amber-700 font-semibold mb-2">
+              {t("yourScore")}
+            </p>
             <div className="flex items-baseline justify-center gap-2">
               <motion.span
                 key={score.correct} // Re-animate if score changes
-                initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
                 className="text-6xl sm:text-8xl font-bold text-amber-600 drop-shadow-md"
               >
                 {score.correct}
               </motion.span>
               <motion.span
-                initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.4 }}
                 className="text-2xl sm:text-4xl text-amber-500 font-medium"
               >
@@ -60,7 +109,10 @@ const ResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
 
           {score.correct > 7 && ( // Condition to show rewards button
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0px 10px 25px rgba(34, 197, 94, 0.4)" }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0px 10px 25px rgba(34, 197, 94, 0.4)",
+              }}
               whileTap={{ scale: 0.95 }}
               className="w-full px-8 py-3 sm:py-4 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white rounded-full text-lg sm:text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 mb-4"
               onClick={onViewRewards}
@@ -70,7 +122,10 @@ const ResultsScreen = ({ score, onFinishTest, onViewRewards, t }) => {
           )}
 
           <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0px 10px 25px rgba(249, 115, 22, 0.4)" }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0px 10px 25px rgba(249, 115, 22, 0.4)",
+            }}
             whileTap={{ scale: 0.95 }}
             className="w-full px-8 py-3 sm:py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-white rounded-full text-lg sm:text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
             onClick={onFinishTest} // This will trigger saveTestResults in parent

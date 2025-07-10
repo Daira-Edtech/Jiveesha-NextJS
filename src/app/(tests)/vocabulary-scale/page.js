@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft
 } from "lucide-react";
-import dynamic from "next/dynamic";
 import Image from "next/image"; // Import next/image
 import { useRouter, usePathname } from "next/navigation"; // Changed from next/router
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -25,7 +24,6 @@ import WordDisplay from "../../../components/vocab-scale/WordDisplay";
 // Image paths from public directory
 const backgroundImage = "/vocab-scale/background-image.png";
 const characterImage = "/vocab-scale/Cute-Dragon.png";
-const microphone = "/vocab-scale/microphone.png";
 
 const useAudioRecorder = (onAudioCaptured) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -193,7 +191,7 @@ const useAudioRecorder = (onAudioCaptured) => {
 
 // Error Component
 // Main Test Client Component
-const VocabularyScaleTestClient = () => {
+const VocabularyScaleTestClient = ({ isContinuous, onTestComplete }) => {
   const [childId, setChildId] = useState(null);
   const [mounted, setMounted] = useState(false);
   const router = useRouter(); // No change needed here
@@ -327,52 +325,68 @@ const dialog = [
       setResponses(finalResponses); // Update state if last definition was added
     }
 
-    const isDummyRoute = pathname === "/dummy";
-    const apiUrl = isDummyRoute
-      ? "/api/continuous-test"
-      : "/api/vocabscale-test/submitResult";
+    const payload = {
+      childId: childId,
+      responses: finalResponses,
+      language: language,
+    };
 
-    try {
-      // First, always get the score from the original endpoint
-      const scoreResponse = await axios.post(
-        "/api/vocabscale-test/submitResult",
-        {
-          childId: childId,
-          responses: finalResponses,
-          language: language,
-        }
-      );
-
-      if (scoreResponse.data && typeof scoreResponse.data.score !== "undefined") {
-        const score = scoreResponse.data.score;
-        setFinalScore(score);
-        setTestComplete(true);
-        toast.success(t("testSubmittedSuccessfully"));
-
-        // If it's the dummy route, send score to the continuous-test endpoint
-        if (isDummyRoute) {
-          await axios.post(apiUrl, {
-            childId: childId,
+    if (isContinuous) {
+      try {
+        const scoreResponse = await axios.post(
+          "/api/vocabscale-test/submitResult",
+          payload
+        );
+        if (scoreResponse.data && typeof scoreResponse.data.score !== "undefined") {
+          onTestComplete({
             testName: "vocabulary-scale",
-            score: score,
-            language: language,
+            score: scoreResponse.data.score,
+            responses: finalResponses,
+          });
+        } else {
+          onTestComplete({
+            testName: "vocabulary-scale",
+            error: t("failedToSubmitTestUnknownError"),
           });
         }
-      } else {
-        setError(t("failedToSubmitTestUnknownError"));
-        toast.error(t("failedToSubmitTestUnknownError"));
+      } catch (err) {
+        const errorMsg =
+          err.response?.data?.error ||
+          err.message ||
+          t("failedToSubmitTestPleaseCheckConnection");
+        onTestComplete({
+          testName: "vocabulary-scale",
+          error: errorMsg,
+        });
+      } finally {
+        setSubmitting(false);
       }
-    } catch (err) {
-      const errorMsg =
-        err.response?.data?.error ||
-        err.message ||
-        t("failedToSubmitTestPleaseCheckConnection");
-      setError(errorMsg);
-      toast.error(errorMsg);
-    } finally {
-      setSubmitting(false);
-      if (!isDummyRoute) {
-        router.push("/take-tests");
+    } else {
+      // Standalone mode
+      try {
+        const scoreResponse = await axios.post(
+          "/api/vocabscale-test/submitResult",
+          payload
+        );
+
+        if (scoreResponse.data && typeof scoreResponse.data.score !== "undefined") {
+          const score = scoreResponse.data.score;
+          setFinalScore(score);
+          setTestComplete(true);
+          toast.success(t("testSubmittedSuccessfully"));
+        } else {
+          setError(t("failedToSubmitTestUnknownError"));
+          toast.error(t("failedToSubmitTestUnknownError"));
+        }
+      } catch (err) {
+        const errorMsg =
+          err.response?.data?.error ||
+          err.message ||
+          t("failedToSubmitTestPleaseCheckConnection");
+        setError(errorMsg);
+        toast.error(errorMsg);
+      } finally {
+        setSubmitting(false);
       }
     }
   }, [
@@ -386,7 +400,8 @@ const dialog = [
     childId,
     language,
     t,
-    pathname,
+    isContinuous,
+    onTestComplete,
     router,
   ]);
 
@@ -441,7 +456,7 @@ const dialog = [
     return <LoadingState t={t} />;
   }
 
-  if (testComplete) {
+  if (testComplete && !isContinuous) {
     return (
       <TestComplete
         finalScore={finalScore}
@@ -686,17 +701,13 @@ const dialog = [
   );
 };
 // Create dynamic import to avoid SSR issues
-const VocabularyScaleTest = dynamic(
-  () => Promise.resolve(VocabularyScaleTestClient),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex flex-col items-center justify-center p-8 h-64">
-        <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
-        <p className="mt-4 text-blue-700 font-medium">Loading Test...</p>
-      </div>
-    ),
-  }
-);
+const VocabularyScaleTest = ({ isContinuous, onTestComplete }) => {
+  return (
+    <VocabularyScaleTestClient
+      isContinuous={isContinuous}
+      onTestComplete={onTestComplete}
+    />
+  );
+};
 
 export default VocabularyScaleTest;

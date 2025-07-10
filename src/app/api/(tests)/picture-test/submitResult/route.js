@@ -43,7 +43,18 @@ const evaluateResponse = async (userInput, correctAnswer, language = "en") => {
 
 export async function POST(req) {
   try {
-    const { childId, answers } = await req.json();
+    const body = await req.json();
+    if (typeof body.childId !== "string" || !Array.isArray(body.responses)) {
+      console.error("Invalid request body:", body);
+      return NextResponse.json(
+        {
+          error:
+            "Invalid payload: childId must be a string and responses must be an array",
+        },
+        { status: 400 }
+      );
+    }
+    const { childId, responses: answers } = body;
     const processedResponses = [];
     let totalScore = 0;
 
@@ -100,8 +111,9 @@ export async function POST(req) {
       { status: 201 }
     );
   } catch (err) {
+    console.error("Error in picture-test submitResult:", err);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: err instanceof Error ? err.message : "Internal Server Error" },
       { status: 500 }
     );
   }

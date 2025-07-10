@@ -1,11 +1,16 @@
-"use client"
+"use client";
 
+import { motion } from "framer-motion";
+import { IoClose } from "react-icons/io5";
 
-import { motion } from "framer-motion"
-import { IoClose } from "react-icons/io5"
-
-const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose }) => {
-  const isOverlay = stage === "infoOverlay"
+const InstructionsScreen = ({
+  stage,
+  onStartPractice,
+  onStartTest,
+  t,
+  onClose,
+}) => {
+  const isOverlay = stage === "infoOverlay";
 
   const HowToPlayContent = () => (
     <>
@@ -31,7 +36,7 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
             <div className="w-7 h-7 bg-cyan-500 text-white rounded-full flex items-center justify-center font-bold text-sm">
               1
             </div>
-            <p className="text-md text-white">{t("listenToSounds")}</p>
+            <p className="text-md text-white">{t("Listen to the individual sounds carefully")}</p>
           </div>
           <div className="flex justify-center gap-2 sm:gap-3">
             {["🔊", "🌊", "🔊"].map((icon, i) => (
@@ -54,12 +59,16 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
             <div className="w-7 h-7 bg-cyan-500 text-white rounded-full flex items-center justify-center font-bold text-sm">
               2
             </div>
-            <p className="text-md text-white">{t("blendSoundsTogether")}</p>
+            <p className="text-md text-white">{t("Blend the sounds together in your mind")}</p>
           </div>
           <div className="flex justify-center">
             <motion.div
               animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+              transition={{
+                duration: 2,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+              }}
               className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center text-xl sm:text-2xl text-white font-bold shadow-lg"
             >
               🧠
@@ -73,7 +82,7 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
             <div className="w-7 h-7 bg-cyan-500 text-white rounded-full flex items-center justify-center font-bold text-sm">
               3
             </div>
-            <p className="text-md text-white">{t("sayOrTypeWord")}</p>
+            <p className="text-md text-white">{t("Say or type the word you hear")}</p>
           </div>
           <div className="flex justify-center gap-2 sm:gap-3">
             {["🎤", "⌨️", "💬"].map((icon, i) => (
@@ -96,7 +105,7 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
             <div className="w-7 h-7 bg-cyan-500 text-white rounded-full flex items-center justify-center font-bold text-sm">
               4
             </div>
-            <p className="text-md text-white">{t("practiceWithManyWords")}</p>
+            <p className="text-md text-white">{t("Practice with many different words")}</p>
           </div>
           <div className="flex justify-center">
             <motion.div
@@ -110,15 +119,16 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
         </motion.div>
       </div>
     </>
-  )
+  );
 
   const modalBoxBaseClasses =
-    "relative max-w-2xl w-11/12 bg-gradient-to-br from-cyan-900/90 to-blue-900/90 rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-cyan-400/30 flex flex-col"
-  const scrollableAreaClass = "overflow-y-auto pr-2 pb-2 flex-grow instructions-scrollable-area"
-  const modalMaxHeightClass = "max-h-[90vh]"
-  const modalClassName = `${modalBoxBaseClasses} ${modalMaxHeightClass}`
+    "relative max-w-2xl w-11/12 bg-gradient-to-br from-cyan-900/90 to-blue-900/90 rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-cyan-400/30 flex flex-col";
+  const scrollableAreaClass =
+    "overflow-y-auto pr-2 pb-2 flex-grow instructions-scrollable-area";
+  const modalMaxHeightClass = "max-h-[90vh]";
+  const modalClassName = `${modalBoxBaseClasses} ${modalMaxHeightClass}`;
 
-  let stageContent = null
+  let stageContent = null;
 
   if (stage === "initialInstructions") {
     stageContent = (
@@ -131,7 +141,12 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 25 }}
+          transition={{
+            delay: 0.2,
+            type: "spring",
+            stiffness: 200,
+            damping: 25,
+          }}
           className={modalClassName}
         >
           <div className={scrollableAreaClass}>
@@ -147,7 +162,7 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
           </motion.button>
         </motion.div>
       </motion.div>
-    )
+    );
   } else if (stage === "preTestInstructions") {
     stageContent = (
       <motion.div
@@ -159,13 +174,22 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 25 }}
+          transition={{
+            delay: 0.2,
+            type: "spring",
+            stiffness: 200,
+            damping: 25,
+          }}
           className={modalClassName}
         >
           <div className={scrollableAreaClass}>
-            <h2 className="text-2xl sm:text-3xl font-bold text-cyan-300 text-center mb-6">{t("readyForTest")}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-cyan-300 text-center mb-6">
+              {t("readyForTest")}
+            </h2>
             <div className="bg-cyan-900/30 rounded-2xl p-4 sm:p-6 shadow-md border border-cyan-400/30">
-              <p className="text-md sm:text-lg text-white text-center">{t("testDescription")}</p>
+              <p className="text-md sm:text-lg text-white text-center">
+                {t("testDescription")}
+              </p>
             </div>
           </div>
           <motion.button
@@ -178,7 +202,7 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
           </motion.button>
         </motion.div>
       </motion.div>
-    )
+    );
   } else if (stage === "infoOverlay") {
     stageContent = (
       <motion.div
@@ -187,7 +211,10 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
         exit={{ opacity: 0 }}
         className="fixed inset-0 flex items-center justify-center p-4 z-40"
       >
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose}></div>
+        <div
+          className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+          onClick={onClose}
+        ></div>
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -209,10 +236,10 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
           </motion.button>
         </motion.div>
       </motion.div>
-    )
+    );
   }
 
-  if (!stageContent) return null
+  if (!stageContent) return null;
 
   return (
     <>
@@ -247,7 +274,7 @@ const InstructionsScreen = ({ stage, onStartPractice, onStartTest, t, onClose })
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default InstructionsScreen
+export default InstructionsScreen;

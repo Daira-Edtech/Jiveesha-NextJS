@@ -29,6 +29,7 @@ const WelcomeDialog = ({
   onEntireTestComplete,
   initialChildId,
   dialogContent,
+  isContinuous = false,
 }) => {
   const router = useRouter();
 
@@ -457,7 +458,7 @@ const WelcomeDialog = ({
         return (
           <FinalResultsScreen
             score={{ correct: score, total: totalRounds }}
-            onFinishTest={handleFinishTest}
+            onFinishTest={onEntireTestComplete}
             onViewRewards={handleViewRewards}
             t={t}
           />
