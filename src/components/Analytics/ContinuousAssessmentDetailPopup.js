@@ -330,7 +330,9 @@ const ContinuousAssessmentDetailPopup = ({
                             </td>
                             <td className="p-4 text-center">
                               <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-800 rounded-full font-bold">
-                                {result.score}
+                                {typeof result.data?.score === "number"
+                                  ? result.data.score
+                                  : "-"}
                               </div>
                             </td>
                             <td className="p-4 text-center">

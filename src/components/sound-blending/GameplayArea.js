@@ -238,7 +238,7 @@ const GameplayArea = ({
         return <div className="flex items-center justify-center gap-2 text-white h-6 text-sm">{t("statusTyped")}</div>
       case "idle":
       default:
-        return <div className="h-6 text-white text-lg text-center">{t("statusIdle")}</div>
+        return <div className="h-6 text-white text-lg text-center">{t("Ready to listen")}</div>
     }
   }
 
@@ -274,11 +274,11 @@ const GameplayArea = ({
           />
         </div>
         <div className="flex justify-between text-lg font-medium text-white">
-          <span>{t("progressStart")}</span>
+          <span>{t("Start")}</span>
           <span className="text-white font-bold">
-            {isPracticeMode ? t("practice") : `${t("word")} ${wordIndex + 1} / ${totalWords}`}
+            {isPracticeMode ? t("Practice") : `${t("word")} ${wordIndex + 1} / ${totalWords}`}
           </span>
-          <span>{t("progressFinish")}</span>
+          <span>{t("Finish")}</span>
         </div>
       </div>
 
@@ -291,7 +291,7 @@ const GameplayArea = ({
           className="relative inline-block"
         >
           <motion.h2 className="text-4xl font-bold text-white/90" whileHover={{ scale: 1.05 }}>
-            {isPracticeMode ? t("practiceRound") : t("soundBlendingTitle")}
+            {isPracticeMode ? t("practiceRound") : t("Sound Blending")}
           </motion.h2>
           <motion.div
             animate={{ x: [0, 15, 0] }}
@@ -307,7 +307,7 @@ const GameplayArea = ({
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          {showResponseArea ? t("promptEnterOrSay") : t("promptListen")}
+          {showResponseArea ? t("What word did you hear?") : t("Listen to the sounds")}
         </motion.p>
       </div>
 
@@ -411,7 +411,7 @@ const GameplayArea = ({
             transition={{ delay: 0.2 }}
             className="bg-gradient-to-br from-cyan-900/80 via-blue-800/50 to-blue-700/40 rounded-xl p-5 shadow-lg border border-cyan-400/40"
           >
-            <p className="text-center text-xl text-white font-semibold">{t("promptListen")}</p>
+            <p className="text-center text-xl text-white font-semibold">Listen to the sounds</p>
           </motion.div>
           <motion.button
             initial={{ opacity: 0, y: 10 }}
@@ -429,11 +429,11 @@ const GameplayArea = ({
                 transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
                 className="flex items-center justify-center gap-3"
               >
-                <Volume2 className="h-6 w-6" /> {t("playingSounds")}
+                <Volume2 className="h-6 w-6" /> {t("Playing Sounds")}
               </motion.span>
             ) : (
               <span className="flex items-center justify-center gap-3">
-                <Volume2 className="h-6 w-6" /> {t("playSounds")}
+                <Volume2 className="h-6 w-6" /> {t("Play Sounds")}
               </span>
             )}
           </motion.button>
@@ -449,7 +449,7 @@ const GameplayArea = ({
             transition={{ delay: 0.1 }}
             className="bg-blue-900/20 rounded-xl p-5 shadow-lg border border-cyan-400/40"
           >
-            <p className="text-center text-xl font-semibold text-white">{t("promptHeard")}</p>
+            <p className="text-center text-xl font-semibold text-white">{t("What word did you hear?")}</p>
           </motion.div>
 
           {renderTranscriptionStatus()}
@@ -465,7 +465,7 @@ const GameplayArea = ({
               type="text"
               value={userInput}
               onChange={handleInputChange}
-              placeholder={t("inputPlaceholder")}
+              placeholder={t("Type or say your answer")}
               className="w-full px-5 py-4 rounded-xl bg-white/10 backdrop-blur-md border border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-200/70 focus:border-transparent text-center font-semibold text-lg text-white placeholder-blue-200 shadow-lg"
               onKeyPress={(e) => {
                 if (e.key === "Enter" && userInput.trim() && !isRecording && !isTranscribing) {
@@ -503,7 +503,7 @@ const GameplayArea = ({
                 </motion.span>
               ) : (
                 <span className="flex items-center justify-center gap-3">
-                  <Mic className="h-6 w-6" /> {t("record")}
+                  <Mic className="h-6 w-6" /> {t("Record")}
                 </span>
               )}
             </motion.button>

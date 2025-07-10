@@ -97,8 +97,7 @@ const WelcomeDialog = ({ t, onEntireTestComplete, initialChildId }) => {
     if (onEntireTestComplete) {
       onEntireTestComplete(score);
     }
-    router.push("/take-tests?skipStart=true"); // <<<<<< CORRECTED (router defined, semicolon added)
-  }; // <<<<<< CORRECTED (removed extra '};')
+  }; 
 
   const handleViewRewards = () => setInternalGameState("rewards");
   const handleCloseRewards = () => setInternalGameState("results");

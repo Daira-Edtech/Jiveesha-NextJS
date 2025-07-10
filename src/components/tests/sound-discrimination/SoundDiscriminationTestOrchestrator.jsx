@@ -162,6 +162,7 @@ const SoundDiscriminationTestOrchestrator = ({
     Array(wordPairs.length).fill(null)
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [demoQuestionKey, setDemoQuestionKey] = useState(0);
   const [demoQuestionAnsweredCorrectly, setDemoQuestionAnsweredCorrectly] =
     useState(false);
@@ -276,6 +277,7 @@ const SoundDiscriminationTestOrchestrator = ({
       });
 
       if (response.status === 201) {
+        setIsSubmitted(true);
         toast.success(t("testSubmittedSuccessfully"), {
           position: "top-center",
           onClose: () => {
@@ -444,7 +446,6 @@ const SoundDiscriminationTestOrchestrator = ({
     const currentPairForMainTest = wordPairs[currentQuestionIndex];
     return (
       <TestScreenWrapper>
-        
         {currentPairForMainTest && (
           <AnimatePresence mode="wait">
             <motion.div
@@ -477,6 +478,22 @@ const SoundDiscriminationTestOrchestrator = ({
   if (currentPhase === "completed") {
     return (
       <TestScreenWrapper showTopButtons={false}>
+        {/* Back button at top left */}
+        <div className="fixed top-4 left-4 z-[101] flex items-start">
+          <motion.button
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+            onClick={() => router.push("/take-tests?skipStart=true")}
+            className="flex items-center gap-2 bg-white/90 hover:bg-white text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaArrowLeft className="text-blue-600" />
+            {t("backToMap")}
+          </motion.button>
+        </div>
+        {/* Main box with submit button inside */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -504,11 +521,19 @@ const SoundDiscriminationTestOrchestrator = ({
             className="flex justify-center"
           >
             <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-bold py-3 px-8 rounded-xl text-xl shadow-lg hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all"
+              whileHover={{
+                scale: isSubmitted ? 1 : 1.05,
+                y: isSubmitted ? 0 : -2,
+              }}
+              whileTap={{ scale: isSubmitted ? 1 : 0.95 }}
+              onClick={isSubmitted ? undefined : handleSubmit}
+              disabled={isSubmitting || isSubmitted}
+              className={`mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-bold py-3 px-8 rounded-xl text-xl shadow-lg transition-all ${
+                isSubmitted
+                  ? "opacity-70 cursor-default"
+                  : "hover:from-blue-600 hover:via-purple-600 hover:to-pink-600"
+              }`}
+              style={{ minWidth: 180 }}
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center">
@@ -524,6 +549,11 @@ const SoundDiscriminationTestOrchestrator = ({
                     ↻
                   </motion.span>
                   {t("submitting")}
+                </span>
+              ) : isSubmitted ? (
+                <span className="flex items-center justify-center gap-2">
+                  <FaCheckCircle className="text-green-300 text-2xl" />
+                  {t("submitted")}
                 </span>
               ) : (
                 t("submitResults")

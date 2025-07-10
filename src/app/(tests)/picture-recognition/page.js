@@ -30,17 +30,20 @@ const VIEW_STATES = {
   LOADING_RESULTS: "loading_results",
 };
 
-const PictureRecognitionTestPage = ({ isContinuous = false, onTestComplete }) => {
+const PictureRecognitionTestPage = ({
+  isContinuous = false,
+  onTestComplete,
+}) => {
   const { language, t } = useLanguage();
   const router = useRouter(); // Get router instance
 
   useEffect(() => {
-    console.log('[DEBUG] Current language context:', language);
-    
+    console.log("[DEBUG] Current language context:", language);
+
     const interval = setInterval(() => {
-      console.log('[DEBUG] Current language context (every 4s):', language);
+      console.log("[DEBUG] Current language context (every 4s):", language);
     }, 4000);
-    
+
     return () => clearInterval(interval);
   }, [language]);
 
@@ -95,7 +98,7 @@ const PictureRecognitionTestPage = ({ isContinuous = false, onTestComplete }) =>
         ? imageItem.correctAnswerHindi || imageItem.correctAnswer
         : language === "kn"
         ? imageItem.correctAnswerKannada || imageItem.correctAnswer
-        : imageItem.correctAnswer || ""; 
+        : imageItem.correctAnswer || "";
     },
     [language]
   );
@@ -151,14 +154,14 @@ const PictureRecognitionTestPage = ({ isContinuous = false, onTestComplete }) =>
       );
 
       try {
-        console.log("transcribing")
+        console.log("transcribing");
         const response = await fetch("/api/speech-to-text", {
           method: "POST",
           body: formData,
         });
         const result = await response.json();
         toast.dismiss(ProzessToastId);
-        console.log(result)
+        console.log(result);
 
         if (response.ok && result.transcription) {
           const transcription =
@@ -464,7 +467,7 @@ const PictureRecognitionTestPage = ({ isContinuous = false, onTestComplete }) =>
         throw new Error(result.error || "Submission failed");
       }
 
-      fetchResultsById(result.resultId);
+      fetchResultsById(result.id);
     } catch (error) {
       console.error("Submission error:", error);
       toast.error(
