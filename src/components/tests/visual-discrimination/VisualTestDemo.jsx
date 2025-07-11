@@ -205,7 +205,7 @@ const VisualTestDemo = ({ onDemoComplete, language, questionsData }) => {
             delay: 0.1,
             bounce: 0.3,
           }}
-          className="relative bg-gradient-to-br from-green-800/70 via-green-900/60 to-yellow-800/70 backdrop-blur-xl rounded-3xl p-6 sm:p-10 shadow-2xl text-center max-w-2xl w-full border-2 border-white/20 overflow-hidden"
+          className="relative bg-gradient-to-br from-green-800/70 via-green-900/60 to-yellow-800/70 backdrop-blur-xl rounded-3xl p-6 sm:p-10 shadow-2xl text-center max-w-2xl w-full border-2 border-white/20 overflow-hidden "
         >
           <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-lime-300 to-amber-300 opacity-80"></div>
           <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-emerald-400/15 rounded-full filter blur-lg opacity-60"></div>
@@ -226,6 +226,7 @@ const VisualTestDemo = ({ onDemoComplete, language, questionsData }) => {
           <p className="text-md sm:text-lg mb-8 text-lime-100/90 font-serif">
             {t("practiceRoundTip")}
           </p>
+          <div className="flex justify-center">
           <motion.button
             whileHover={{
               scale: 1.08,
@@ -240,7 +241,9 @@ const VisualTestDemo = ({ onDemoComplete, language, questionsData }) => {
             <FaPlay />{" "}
             {demoQuestion ? t("startPracticeQuestion") : t("loadingPractice")}
           </motion.button>
+          </div>
         </motion.div>
+        
       </div>
     );
   }
@@ -320,8 +323,9 @@ const VisualTestDemo = ({ onDemoComplete, language, questionsData }) => {
               <div className="relative z-10">
                 <div className="flex items-center justify-center text-green-300 text-xl sm:text-2xl font-semibold mb-5">
                   <FaCheckCircle className="mr-2.5 text-3xl drop-shadow-md animate-pulse" />
-                  <span className="drop-shadow-sm">{t("practiceCorrect")}</span>
+                  {t("visualCorrect")}
                 </div>
+                <div className='flex justify-center'>
                 <motion.button
                   whileHover={{
                     scale: 1.05,
@@ -334,6 +338,7 @@ const VisualTestDemo = ({ onDemoComplete, language, questionsData }) => {
                 >
                   {t("startMainTest")} <FaRocket className="ml-1" />
                 </motion.button>
+                </div>
               </div>
             )}
             {attemptStatus === "incorrect" && (
@@ -352,6 +357,7 @@ const VisualTestDemo = ({ onDemoComplete, language, questionsData }) => {
                     })}
                   </p>
                 </div>
+                <div className='flex justify-center'>
                 <motion.button
                   whileHover={{ scale: 1.05, y: -1 }}
                   whileTap={{ scale: 0.95 }}
@@ -360,6 +366,7 @@ const VisualTestDemo = ({ onDemoComplete, language, questionsData }) => {
                 >
                   <FaUndo /> {t("tryAgain")}
                 </motion.button>
+                </div>
               </div>
             )}
           </motion.div>

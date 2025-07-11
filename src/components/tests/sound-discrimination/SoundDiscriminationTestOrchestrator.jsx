@@ -423,6 +423,7 @@ const SoundDiscriminationTestOrchestrator = ({
               <p className="text-xl text-white mb-8">
                 {t("demoCorrectProceed")}
               </p>
+              <div className='flex justify-center'>
               <motion.button
                 whileHover={{
                   scale: 1.05,
@@ -435,6 +436,7 @@ const SoundDiscriminationTestOrchestrator = ({
               >
                 <span>{t("startMainTestButton")}</span> <FaPlayCircle />
               </motion.button>
+              </div>
             </motion.div>
           )}
         </motion.div>

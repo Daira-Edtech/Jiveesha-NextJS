@@ -36,10 +36,10 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
         const MAX_SLOTS = 6;
 
         const getSlots = (weight) => {
-          if (weight === 1) return 2; 
-          if (weight === 2) return 3; 
-          if (weight === 3) return 6; 
-          return 6; 
+          if (weight === 1) return 2;
+          if (weight === 2) return 3;
+          if (weight === 3) return 6;
+          return 6;
         };
 
         for (const question of data.questions) {
@@ -369,8 +369,9 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
     );
   }
   return (
+    // MODIFICATION: Make the main wrapper scrollable and align card to top on small screens
     <div
-      className="fixed inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-start sm:items-center justify-center p-4 overflow-y-auto"
       style={{
         backgroundImage: `url('/Form/image.png')`,
         backgroundSize: "cover",
@@ -380,8 +381,11 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
     >
       <div className="absolute inset-0 bg-white/30 backdrop-blur-sm"></div>
 
-      <Card className="w-full max-w-2xl mx-auto relative z-10 shadow-2xl border-0 bg-white/90 backdrop-blur-md">
-        <CardHeader className="text-center pb-4">
+      {/* MODIFICATION: Make the Card a flex container with a max height to fit the screen */}
+      <Card className="w-full max-w-2xl mx-auto relative z-10 shadow-2xl border-0 bg-white/90 backdrop-blur-md flex flex-col max-h-[95vh]">
+        
+        {/* MODIFICATION: Make header a non-shrinking element */}
+        <CardHeader className="text-center pb-4 flex-shrink-0">
           <div className="flex items-center justify-center mb-4">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
               <User className="w-6 h-6 text-white" />
@@ -397,10 +401,11 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
             </span>
           </div>
         </CardHeader>
-
-        <CardContent className="space-y-6">
-          {/* Progress Bar */}
-          <div className="space-y-2">
+        
+        {/* MODIFICATION: Make CardContent a flex container to manage its children */}
+        <CardContent className="flex-grow flex flex-col overflow-hidden space-y-4">
+          {/* Progress Bar - Non-scrolling part */}
+          <div className="space-y-2 flex-shrink-0">
             <div className="flex justify-between text-sm font-medium text-gray-700">
               <span>Progress</span>
               <span>{Math.round(progress)}%</span>
@@ -408,8 +413,8 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
             <Progress value={progress} className="h-2" />
           </div>
 
-          {/* Questions */}
-          <div className="space-y-6">
+          {/* Questions - MODIFICATION: This is now the scrollable area, its height is flexible */}
+          <div className="flex-grow space-y-6 overflow-y-auto pr-4 -mr-2">
             {pages[currentPage]?.map((question, index) => (
               <div key={question.name} className="space-y-3">
                 <Label
@@ -431,56 +436,59 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
             ))}
           </div>
 
-          {/* Navigation Buttons */}
-          <div className="flex justify-between items-center pt-6 border-t border-gray-200">
-            <Button
-              onClick={prevPage}
-              disabled={currentPage === 0}
-              variant="outline"
-              className="flex items-center space-x-2 px-6 py-2 bg-white/80 hover:bg-white/90 border-gray-300"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span>Previous</span>
-            </Button>
-
-            {currentPage === pages.length - 1 ? (
+          {/* Footer - MODIFICATION: Grouped buttons into a non-shrinking footer */}
+          <div className="flex-shrink-0 pt-4 border-t border-gray-200">
+            {/* Navigation Buttons */}
+            <div className="flex justify-between items-center">
               <Button
-                onClick={handleSubmit}
-                disabled={isLoading}
-                className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                onClick={prevPage}
+                disabled={currentPage === 0}
+                variant="outline"
+                className="flex items-center space-x-2 px-6 py-2 bg-white/80 hover:bg-white/90 border-gray-300"
               >
-                {isLoading ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Submitting...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Submit</span>
-                  </>
-                )}
+                <ChevronLeft className="w-4 h-4" />
+                <span>Previous</span>
               </Button>
-            ) : (
-              <Button
-                onClick={nextPage}
-                className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-              >
-                <span>Next</span>
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            )}
-          </div>
 
-          {/* Close Button */}
-          <div className="flex justify-center pt-4">
-            <Button
-              onClick={onClose}
-              variant="ghost"
-              className="text-gray-500 hover:text-gray-700"
-            >
-              Cancel
-            </Button>
+              {currentPage === pages.length - 1 ? (
+                <Button
+                  onClick={handleSubmit}
+                  disabled={isLoading}
+                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                >
+                  {isLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Submit</span>
+                    </>
+                  )}
+                </Button>
+              ) : (
+                <Button
+                  onClick={nextPage}
+                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                >
+                  <span>Next</span>
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              )}
+            </div>
+
+            {/* Close Button */}
+            <div className="flex justify-center pt-4">
+              <Button
+                onClick={onClose}
+                variant="ghost"
+                className="text-gray-500 hover:text-gray-700"
+              >
+                Cancel
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

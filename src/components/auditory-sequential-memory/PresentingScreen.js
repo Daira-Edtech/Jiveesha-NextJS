@@ -1,7 +1,5 @@
 "use client"
-
 // components/auditory-sequential/PresentingScreen.js
-
 import { motion, AnimatePresence } from "framer-motion"
 
 const PresentingScreen = ({ displayedDigit, digitIndex, t }) => {

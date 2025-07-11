@@ -1,3 +1,4 @@
+
 export const translations = {
   en: {
     // Navigation
@@ -1189,9 +1190,11 @@ export const translations = {
     startMainTest: "Start Real Test!",
     practiceIncorrect: "Not Quite...",
     practiceSelected:
-      "You picked: {selection}. The correct one was {correctAnswer}.",
+      `You picked wrong answer.Try Again`,
     notSelected: "nothing",
     tryAgain: "Try Again!",
+
+    visualCorrect:"That's Correct!",
 
     //Extras
 
@@ -1380,6 +1383,7 @@ export const translations = {
     riverLine4: "🦀 Are you ready to journey through the currents of the past and future with me?",
   },
   ta: {
+    visualCorrect: "இது சரியானது!",
     mainMenu: "முதன்மை மெனு",
     dashboard: "டாஷ்போர்டு",
     students: "மாணவர்கள்",
@@ -2230,6 +2234,7 @@ export const translations = {
     searchStudentsPlaceholder: "छात्रों को खोजें...",
     BacktoMap: "नक्शे पर वापस",
     ChooseYourPirate: "अपना समुद्री डाकू चुनें",
+    visualCorrect: "यह सही है!",
     ChooseYourPirateDesc:
       "सीखने की खोज शुरू करने के लिए एक बहादुर खोजकर्ता का चयन करें!",
     Selecting: "चयन हो रहा है..",
@@ -4080,6 +4085,7 @@ export const translations = {
       "ప్రస్తుత ఫిల్టర్‌కు సరిపోయే ఫలితాలు ఏవీ లేవు.",
   },
   kn: {
+    visualCorrect: "ಇದು ಸರಿಯಾಗಿವೆ!",
     memorizeOrder: "ಸರಿಯಾದ ಕ್ರಮವನ್ನು ನೆನಪಿಡಿ",
     watchSymbolSequence: "ಚಿಹ್ನೆಗಳ ಕ್ರಮವನ್ನು ಎಚ್ಚರಿಕೆಯಿಂದ ನೋಡಿ",
     recreateFromMemory: "ಸ್ಮೃತಿಯಿಂದ ಕ್ರಮವನ್ನು ಪುನರಾವರ್ತಿಸಿ",
