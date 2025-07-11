@@ -697,6 +697,8 @@ export const translations = {
     start_test: "Start Test",
     level_up_reverse_challenge: "Level Up: Reverse Challenge!",
     now_exciting_twist: "Now for an exciting twist!",
+    forward_mode: "Forward  mode",
+    reverse_mode : "Reverse mode",
     if_i_say: "If I say",
     you_say: "You say",
     start_reverse_challenge: "Start Reverse Challenge",
@@ -1219,6 +1221,11 @@ export const translations = {
     noResponsesFound: "No responses found",
     finalScoreTitle: "Final Score",
     buttonTakeNewTest: "Take New Test",
+    loadingResultsText: "Loading your results...",
+  wellDoneTitle: "Well Done!",
+  encouragingResultsMessage: "You have completed the test. Check your score below.",
+
+
 
     memory_test: "Auditory Sequential Memory Test",
     welcome_memory_game:
@@ -2690,6 +2697,8 @@ export const translations = {
     level_up_reverse_challenge: "लेवल अप: रिवर्स चैलेंज!",
     now_exciting_twist: "अब एक रोमांचक मोड़!",
     if_i_say: "अगर मैं कहता हूँ",
+    forward_mode : "सीधा क्रम",
+    reverse_mode : "उल्टा क्रम",
     you_say: "आप कहते हैं",
     start_reverse_challenge: "रिवर्स चैलेंज शुरू करें",
     listen_carefully: "ध्यान से सुनें",
@@ -3347,6 +3356,9 @@ export const translations = {
     noResponsesFound: "कोई प्रतिक्रिया नहीं मिली",
     finalScoreTitle: "अंतिम स्कोर",
     buttonTakeNewTest: "नया टेस्ट दें",
+      loadingResultsText: "आपके परिणाम लोड हो रहे हैं...",
+  wellDoneTitle: "शाबाश!",
+  encouragingResultsMessage: "आपने परीक्षण पूरा कर लिया है। नीचे अपना स्कोर देखें।",
 
     memory_test: "श्रवण अनुक्रमिक स्मृति परीक्षण",
     welcome_memory_game:
@@ -5129,6 +5141,10 @@ export const translations = {
     noResponsesFound: "ಯಾವುದೇ ಪ್ರತಿಕ್ರಿಯೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
     finalScoreTitle: "ಅಂತಿಮ ಅಂಕ",
     buttonTakeNewTest: "ಹೊಸ ಪರೀಕ್ಷೆ ತೆಗೆದುಕೊಳ್ಳಿ",
+    loadingResultsText: "ನಿಮ್ಮ ಫಲಿತಾಂಶಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+  wellDoneTitle: "ಅಭಿನಂದನೆ!",
+  encouragingResultsMessage: "ನೀವು ಪರೀಕ್ಷೆಯನ್ನು ಪೂರ್ಣಗೊಳಿಸಿದ್ದೀರಿ. ನಿಮ್ಮ ಮೊತ್ತದ ಅಂಕಗಳನ್ನು ಕೆಳಗೆ ಪರಿಶೀಲಿಸಿ.",
+
 
     memory_test: "ಶ್ರವಣ ಅನುಕ್ರಮ ಸ್ಮರಣಾ ಪರೀಕ್ಷೆ",
     welcome_memory_game:
@@ -5142,6 +5158,8 @@ export const translations = {
     now_exciting_twist:
       "ಈಗ ಒಂದು ರೋಮಾಂಚಕ ತಿರುವು! ನೀವು ಸಂಖ್ಯೆಗಳನ್ನು ಕೇಳುವಿರಿ, ಆದರೆ ನೀವು ಅವುಗಳನ್ನು ವಿಲೋಮ ಕ್ರಮದಲ್ಲಿ ಹಿಂತಿರುಗಿ ಹೇಳಬೇಕು.",
     if_i_say: "ನಾನು ಹೇಳಿದರೆ",
+    forward_mode : "ಮುಂದಿನ ಕ್ರಮ",
+    reverse_mode : "ಹಿಮ್ಮುข ಕ್ರಮ",
     you_say: "ನೀವು ಹೇಳಿ",
     start_reverse_challenge: "ವಿಲೋಮ ಸವಾಲನ್ನು ಪ್ರಾರಂಭಿಸಿ",
     listen_carefully: "ಗಮನವಿಟ್ಟು ಕೇಳಿ...",

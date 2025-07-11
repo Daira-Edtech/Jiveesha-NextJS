@@ -3,10 +3,12 @@
 // components/auditory-sequential/InstructionsScreen.js
 
 import { motion } from "framer-motion"
-import { Volume2, HelpCircle } from "lucide-react"
+// IMPORTED: X icon for the close button
+import { HelpCircle, Volume2, X } from "lucide-react"
 import { FaPlay } from "react-icons/fa"
 
-const InstructionsScreen = ({ stage, onStartForward, onStartReverse, t }) => {
+// ADDED: onClose prop to handle closing the dialog
+const InstructionsScreen = ({ stage, onStartForward, onStartReverse, onClose, t }) => {
   if (stage === "forward") {
     return (
       <motion.div
@@ -164,6 +166,57 @@ const InstructionsScreen = ({ stage, onStartForward, onStartReverse, t }) => {
       </motion.div>
     )
   }
+
+  // ADDED: This new block renders the component as a dialog/modal
+  if (stage === "infoOverlay") {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        // CHANGED: Added `relative z-10` to fix the layering issue
+        className="relative z-10 mx-auto p-10 sm:p-12 rounded-3xl border-2 border-yellow-700/40 shadow-2xl backdrop-blur-lg bg-gradient-to-br from-amber-600/50 via-yellow-500/30 to-amber-800/50 max-w-4xl w-full"
+      >
+        {/* Glow Effects */}
+        <div className="absolute -top-16 -left-16 w-60 h-60 bg-yellow-400/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute -bottom-16 -right-16 w-60 h-60 bg-yellow-600/30 rounded-full filter blur-3xl"></div>
+        
+        {/* Close Button */}
+        <motion.button
+          whileHover={{ scale: 1.2, rotate: 90 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={onClose}
+          // ADDED: A z-index to ensure the button is on top
+          className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors z-20"
+        >
+          <X size={32} />
+        </motion.button>
+
+        <h2 className="text-4xl font-bold text-white mb-8 text-center">
+          {t("howToPlay")}
+        </h2>
+
+        {/* Instructions for Forward Mode */}
+        <h3 className="text-2xl font-semibold text-amber-300 mb-4 mt-6">{t("forward_mode")}</h3>
+        <ul className="space-y-3">
+          <li className="flex items-center gap-4"><span className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-600 text-white font-bold">1</span><span className="text-xl text-white">{t("listen_carefully_numbers")}</span></li>
+          <li className="flex items-center gap-4"><span className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-600 text-white font-bold">2</span><span className="text-xl text-white">{t("repeat_back_exactly")}</span></li>
+        </ul>
+
+        {/* Instructions for Reverse Mode */}
+        <h3 className="text-2xl font-semibold text-amber-300 mb-4 mt-8">{t("reverse_mode")}</h3>
+        <p className="text-xl text-white mb-4">{t("now_exciting_twist")}</p>
+        <div className="p-6 rounded-lg bg-black/20 text-center">
+          <p className="text-xl text-white">
+            {t("if_i_say")} <span className="font-bold text-amber-300 px-2 py-1 rounded">1 - 3 - 5</span>
+            , {t("you_say")} <span className="font-bold text-amber-300 px-2 py-1 rounded">5 - 3 - 1</span>
+          </p>
+        </div>
+      </motion.div>
+    );
+  }
+
 
   return null
 }

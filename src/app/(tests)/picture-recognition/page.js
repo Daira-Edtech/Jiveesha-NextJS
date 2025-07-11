@@ -1,6 +1,6 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { toast, Toaster } from "sonner";
 import imagesData from "../../../Data/imageData"; // Ensure this path is correct
@@ -10,11 +10,10 @@ import LoadingSpinner from "../../../components/picture-test/LoadingSpinner";
 import PictureDialogContent from "../../../components/picture-test/PictureDialogContent";
 import PracticeCompleteModal from "../../../components/picture-test/PracticeCompleteModal";
 import PracticeRound from "../../../components/picture-test/PracticeRoundContent"; // Your path was PracticeRoundContent
-import ResultsDisplay from "../../../components/picture-test/ResultDisplay";
+import ResultsDisplay1 from "../../../components/picture-test/ResultDisplay1";
 import WelcomeDialog from "../../../components/picture-test/WelcomeDialog";
 import {
-  LanguageProvider,
-  useLanguage,
+  useLanguage
 } from "../../../contexts/LanguageContext.jsx";
 
 // Define view states
@@ -546,7 +545,7 @@ const PictureRecognitionTestPage = ({
         return (
           <>
             <BackButton t={t} targetPath="/take-tests" />
-            <ResultsDisplay
+            <ResultsDisplay1
               testResults={testResults}
               t={t}
               onRetakeTest={handleRetakeTest}

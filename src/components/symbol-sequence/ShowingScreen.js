@@ -28,8 +28,8 @@ const ShowingScreen = ({ currentSequence, currentRound, totalRounds, showingInde
         </h2>
 
         {/* Progress Bar */}
-        <div className="relative pt-1 mb-14 w-4/5 mx-auto">
-          <div className="flex items-center justify-between mb-2">
+       <div className="relative pt-1 w-full max-w-6xl mb-4"> 
+         <div className="flex items-center justify-between mb-2 px-4">
             <span className="text-base sm:text-lg font-semibold text-[#f7f1e3]">
               {t("round")} {currentRound} {t("of")} {totalRounds}
             </span>
@@ -37,7 +37,7 @@ const ShowingScreen = ({ currentSequence, currentRound, totalRounds, showingInde
               {Math.round((currentRound / totalRounds) * 100)}% {t("complete")}
             </span>
           </div>
-          <div className="overflow-hidden h-4 rounded-full bg-[#1a2a3a]/50">
+           <div className="overflow-hidden h-4 rounded-full bg-[#1a2a3a]/50 mx-4">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${(currentRound / totalRounds) * 100}%` }}

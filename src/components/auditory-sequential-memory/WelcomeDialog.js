@@ -4,28 +4,28 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { FaArrowLeft, FaCheck, FaChevronRight } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 
-import InstructionsScreen from "./InstructionsScreen.js";
-import PresentingScreen from "./PresentingScreen.js";
-import ListeningScreen from "./ListeningScreen.js";
 import FinalResultsScreen from "./FinalResultsScreen.js";
+import InstructionsScreen from "./InstructionsScreen.js";
+import ListeningScreen from "./ListeningScreen.js";
+import PresentingScreen from "./PresentingScreen.js";
 import TopBar from "./TopBar.js";
 
 import {
-  forwardSequences,
-  reverseSequences,
   dialogContent,
+  DIGIT_DISPLAY_TIME,
+  forwardSequences,
   getDigitMap,
+  MAX_ERRORS,
+  PAUSE_BETWEEN_DIGITS,
   practiceForwardSequence,
   practiceReverseSequence,
-  DIGIT_DISPLAY_TIME,
-  PAUSE_BETWEEN_DIGITS,
-  MAX_ERRORS,
+  reverseSequences,
 } from "./auditorySequentialConstants.js";
 
-import backgroundImage from "../../../public/auditory-test/backgroundImage.png";
 import { useLanguage } from "@/contexts/LanguageContext.jsx";
+import backgroundImage from "../../../public/auditory-test/backgroundImage.png";
 import characterImage from "../../../public/auditory-test/characterImage.png";
 
 const WelcomeDialog = ({
@@ -45,6 +45,7 @@ const WelcomeDialog = ({
   const [currentSequence, setCurrentSequence] = useState([]);
   const [displayedDigit, setDisplayedDigit] = useState(null);
   const [digitIndex, setDigitIndex] = useState(0);
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
 
   const [forwardScore, setForwardScore] = useState(0);
   const [reverseScore, setReverseScore] = useState(0);
@@ -473,7 +474,7 @@ const WelcomeDialog = ({
   };
 
   const handleShowInfo = () => {
-    console.log("Show info dialog");
+     setShowInfoDialog(true);
   };
 
   const handleFinishTest = useCallback(() => {
@@ -830,8 +831,20 @@ const WelcomeDialog = ({
       style={{ backgroundImage: `url(${backgroundImage.src})` }}
     >
       <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
+
+      {/* ADDED: This is the conditionally rendered dialog */}
+      {showInfoDialog && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <InstructionsScreen
+            stage="infoOverlay"
+            onClose={() => setShowInfoDialog(false)}
+            t={t}
+          />
+        </div>
+      )}
     </div>
   );
 };
+
 
 export default WelcomeDialog;
