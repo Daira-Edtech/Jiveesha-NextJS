@@ -1,7 +1,7 @@
 {
   "questions": [
     {
-      "label": "Consent Form By Parent",
+      "label": "Social Communication & Interaction",
       "name": "consent",
       "type": "checkbox",
       "options": ["I confirm that the information I am about to provide regarding my child's health is correct to the best of my knowledge. I authorize the Jiveesha team to use this information to plan the treatment needed to restore my child's health."],
@@ -26,537 +26,468 @@
       "options": ["Male", "Female", "Others"],
       "weight": 1
     },
+   
     {
-      "label": "Height",
-      "name": "height",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Weight",
-      "name": "weight",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Father's Name",
-      "name": "fatherName",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Father's Profession",
-      "name": "fatherProfession",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Mother's Name",
-      "name": "motherName",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Mother's Profession",
-      "name": "motherProfession",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Siblings Name & Age",
-      "name": "siblings",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Parent's Phone Number",
-      "name": "parentPhone",
-      "type": "tel",
-      "weight": 1
-    },
-    {
-      "label": "Place of Residence",
-      "name": "residence",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Parent's Email Id",
-      "name": "parentEmail",
-      "type": "email",
-      "weight": 1
-    },
-    {
-      "label": "Please mention your child's 3 challenges that are your Communication Target:",
-      "name": "communicationTarget",
-      "type": "checkbox",
-      "options": [
-        "Expressive & Receptive Language",
-        "Grammar - English & Hindi",
-        "Vocabulary & Articulation - Hindi",
-        "Narrative Skills",
-        "Sequencing Skills",
-        "Social Skills",
-        "Task Completion",
-        "Emotional Regulation",
-        "Following Daily Planner",
-        "Fine motor Skills",
-        "Self-care Skills",
-        "Self-advocacy Skills"
-      ],
-      "weight": 2
-    },
-    {
-      "label": "Which external therapy are you currently taking?",
-      "name": "externalTherapy",
-      "type": "checkbox",
-      "options": [
-        "Applied Behaviors Analysis (ABA)",
-        "Speech therapy",
-        "Sensory integration",
-        "Occupational therapy",
-        "Acupuncture",
-        "None of these"
-      ],
-      "weight": 2
-    },
-    {
-      "label": "Ante Natal History - Marriage Consanguinity",
-      "name": "marriageConsanguinity",
-      "type": "radio",
-      "options": ["Yes", "No"],
-      "weight": 1
-    },
-    {
-      "label": "Any Treatment taken to Conceive (If Yes Please Explain)",
-      "name": "treatmentToConceive",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Any Treatment taken during Pregnancy (If Yes Please Explain)",
-      "name": "treatmentDuringPregnancy",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Any Thyroid or Diabetic Problem during Pregnancy (If Yes Please Explain)",
-      "name": "thyroidDiabeticPregnancy",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Birth History - Delivery was Full Term or Pre Term (If Pre Term Please Explain)",
-      "name": "deliveryTerm",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Normal Delivery or Cesarean Delivery",
-      "name": "deliveryType",
-      "type": "radio",
-      "options": ["Normal Delivery", "Cesarean Delivery"],
-      "weight": 1
-    },
-    {
-      "label": "Baby Cried at Birth & Birth weight of the Child",
-      "name": "birthDetails",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "NICU Admission (If Yes Please Explain)",
-      "name": "nicuAdmission",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Post Natal History - Child Suffer from Jaundice after Birth (If Yes Please Explain)",
-      "name": "jaundiceAfterBirth",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Any other Treatment given to Child after Birth (If Yes Please Explain)",
-      "name": "treatmentAfterBirth",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "For how long was the Child Breast Fed?",
-      "name": "breastFeedingDuration",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Is your child able to express itself?",
-      "name": "canExpress",
-      "type": "radio",
-      "options": ["Yes", "No"],
-      "weight": 1
-    },
-    {
-      "label": "Is your child able to follow instructions?",
-      "name": "canFollowInstructions",
-      "type": "radio",
-      "options": ["Yes", "No"],
-      "weight": 1
-    },
-    {
-      "label": "How is the child's eye contact?",
+      "label": "Does your child understand and use appropriate eye contact during conversations or social interactions? (Atypical: Rarely/Never)",
       "name": "eyeContact",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Is the child having social interactions normally?",
-      "name": "socialInteractions",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Does your Child Speak? Explain in detail whether speech is meaningful or not?",
-      "name": "speechDetails",
-      "type": "textarea",
-      "weight": 2
-    },
-    {
-      "label": "Any Obsessive or Compulsive Behaviors?",
-      "name": "obsessiveBehaviors",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Is your child having issues with attention / hyperactivity? Please explain in detail.",
-      "name": "attentionHyperactivity",
-      "type": "textarea",
-      "weight": 2
-    },
-    {
-      "label": "Please mention your child's current situation in fine (writing, drawing) and gross motor Skills (walking, running)",
-      "name": "motorSkills",
-      "type": "text",
-      "weight": 2
-    },
-    {
-      "label": "Please mention how your child is doing in Stereotypical Behaviors (stemming/self-Stimulation Behaviors)",
-      "name": "stereotypicalBehaviors",
-      "type": "text",
-      "weight": 2
-    },
-    {
-      "label": "What is the current diagnosis? (Speech delay, Fine Motor Delay, Gross motor delay, Global Delay, Intellectual Disability, Low I.Q, Other: Since when, Current treatment if any)",
-      "name": "currentDiagnosis",
-      "type": "text",
-      "weight": 2
-    },
-    {
-      "label": "Have you tried Behavioral and Educational Therapies till now? Please provide details and outcomes.",
-      "name": "previousTherapies",
-      "type": "text",
-      "weight": 2
-    },
-    {
-      "label": "Which of the following best describes your Child?",
-      "name": "developmentDescription",
       "type": "radio",
-      "options": [
-        "A period of normal development followed by a loss in skills (Regression)",
-        "A period of normal development followed by a plateau, stagnation or non-progression in skills",
-        "Developmental delay from birth or early in life",
-        "Other (please describe)"
-      ],
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
       "weight": 2
     },
     {
-      "label": "How often has your child taken courses of antibiotics?",
-      "name": "antibioticsFrequency",
+      "label": "Does your child easily engage in back-and-forth conversations, showing interest in what others say and responding appropriately? (Atypical: Rarely/Never)",
+      "name": "backForthConversations",
       "type": "radio",
-      "options": ["Less than 5 times", "More than 5 times", "Never"],
-      "weight": 1
-    },
-    {
-      "label": "How often has your child taken oral steroids?",
-      "name": "steroidsFrequency",
-      "type": "radio",
-      "options": ["Less than 5 times", "More than 5 times", "Never"],
-      "weight": 1
-    },
-    {
-      "label": "Please write how's your child's Bowel movements",
-      "name": "bowelMovements",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Does your child suffer with allergic issues?",
-      "name": "allergies",
-      "type": "checkbox",
-      "options": [
-        "Asthma",
-        "Allergic rhinitis",
-        "Seasonal allergies",
-        "Eczema",
-        "Food allergies",
-        "Other (please specify)"
-      ],
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
       "weight": 2
     },
     {
-      "label": "List all medications (prescribed as well as over the counter)",
-      "name": "medications",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "List all Supplements",
-      "name": "supplements",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Is the child allergic to any medication, vitamin, mineral, or other nutritional supplement? If yes, please list.",
-      "name": "medicationAllergies",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Please share the child's immunization history",
-      "name": "immunizationHistory",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Hearing Test",
-      "name": "hearingTest",
+      "label": "Does your child understand and use nonverbal cues, such as facial expressions, body language, and gestures, to communicate effectively? (Atypical: Rarely/Never)",
+      "name": "nonverbalCues",
       "type": "radio",
-      "options": ["yes", "no"],
-      "weight": 1
-    },
-    {
-      "label": "If Yes, Please send details for Hearing Test",
-      "name": "hearingTestDetails",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Vision (Eye) Test",
-      "name": "visionTest",
-      "type": "radio",
-      "options": ["yes", "no"],
-      "weight": 1
-    },
-    {
-      "label": "If Yes, Please send details for Vision Test",
-      "name": "visionTestDetails",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "IQ Test",
-      "name": "iqTest",
-      "type": "radio",
-      "options": ["yes", "no"],
-      "weight": 1
-    },
-    {
-      "label": "If Yes, Please send details for IQ Test",
-      "name": "iqTestDetails",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Other Tests",
-      "name": "otherTests",
-      "type": "radio",
-      "options": ["yes", "no"],
-      "weight": 1
-    },
-    {
-      "label": "If Yes, Please send details for Other Tests",
-      "name": "otherTestsDetails",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "HOSPITALIZATIONS (fill mentioned columns as comma separated \"WHERE HOSPITALIZED, WHEN, REASON\" for multiple row write number for each row)",
-      "name": "hospitalizations",
-      "type": "textarea",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
       "weight": 2
     },
     {
-      "label": "Have you made any changes in your child's eating habits because of his/her health? If yes, what changes?",
-      "name": "dietChanges",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Preferred food choice (Salty/Sweet/Spicy)",
-      "name": "foodPreference",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Which food seems to aggravate the Child Symptom (If Yes, Please Explain)",
-      "name": "foodAggravation",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Your cooking vessels are made of which metals?",
-      "name": "cookingVessels",
-      "type": "text",
-      "weight": 1
-    },
-    {
-      "label": "Symptom Rating - Head",
-      "name": "symptomRatingHead",
-      "type": "table",
-      "options": ["Headaches", "Faintness", "Dizziness", "Insomnia", "Seizures"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Eyes",
-      "name": "symptomRatingEyes",
-      "type": "table",
-      "options": ["Watery or itchy eyes", "Swollen, reddened or sticky eyelids", "Bags or dark circles under eyes", "Blurred or tunnel vision"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Ears",
-      "name": "symptomRatingEars",
-      "type": "table",
-      "options": ["Itchy ears", "Earaches, ear infections", "Drainage from ear", "Ringing in ears, hearing loss"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Nose",
-      "name": "symptomRatingNose",
-      "type": "table",
-      "options": ["Stuffy nose", "Sinus problems", "High fever", "Sneezing attacks", "Excessive mucus formation"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Mouth/Throat",
-      "name": "symptomRatingMouthThroat",
-      "type": "table",
-      "options": ["Chronic coughing", "Gagging, frequent need to clear throat", "Sore throat, hoarseness, loss of voice", "Swollen or discoloured tongue, gums, lips"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Skin",
-      "name": "symptomRatingSkin",
-      "type": "table",
-      "options": ["Acne", "Hives, rashes, dry skin", "Hair loss", "Flushing, hot flashes", "Excessive sweating"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Heart",
-      "name": "symptomRatingHeart",
-      "type": "table",
-      "options": ["Irregular or skipped heartbeat", "Rapid or pounding heartbeat", "Chest pain"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Lungs",
-      "name": "symptomRatingLungs",
-      "type": "table",
-      "options": ["Chest congestion", "Asthma, bronchitis", "Shortness of breath", "Difficulty breathing"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Digestive Tract",
-      "name": "symptomRatingDigestive",
-      "type": "table",
-      "options": ["Nausea, vomiting", "Diarrhea", "Constipation", "Bloated feeling", "Belching, passing gas", "Heartburn", "Intestinal/stomach pain"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Joints/Muscles",
-      "name": "symptomRatingJoints",
-      "type": "table",
-      "options": ["Pain or aches in joints", "Arthritis", "Stiffness or limitation of movement", "Pain or aches in muscles", "Feeling of weakness or tiredness"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Weight",
-      "name": "symptomRatingWeight",
-      "type": "table",
-      "options": ["Binge eating/drinking", "Craving certain foods", "Excessive weight", "Compulsive eating", "Water retention", "Underweight"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Energy/Activity",
-      "name": "symptomRatingEnergy",
-      "type": "table",
-      "options": ["Fatigue, sluggishness", "Apathy, lethargy", "Hyperactivity", "Restlessness"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Mind",
-      "name": "symptomRatingMind",
-      "type": "table",
-      "options": ["Poor memory", "Confusion, poor comprehension", "Poor concentration", "Poor physical coordination", "Difficulty in making decisions", "Stuttering or stammering", "Slurred speech", "Learning disabilities"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Emotions",
-      "name": "symptomRatingEmotions",
-      "type": "table",
-      "options": ["Mood swings", "Anxiety, fear, nervousness", "Anger, irritability, aggressiveness", "Depression"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Symptom Rating - Other",
-      "name": "symptomRatingOther",
-      "type": "table",
-      "options": ["Frequent illness", "Frequent or urgent urination", "Genital itch or discharge"],
-      "scale": ["0", "1", "2", "3", "4"],
-      "weight": 3
-    },
-    {
-      "label": "Please list medicines you have taken in the past and/or are taking now",
-      "name": "pastMedications",
-      "type": "textarea",
-      "weight": 1
-    },
-    {
-      "label": "Please elaborate any of the symptoms you feel the need to explain in detail",
-      "name": "symptomDetails",
-      "type": "textarea",
+      "label": "Does your child initiate and maintain friendships with peers, showing an understanding of social rules and expectations? (Atypical: Rarely/Never)",
+      "name": "friendshipSkills",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
       "weight": 2
     },
     {
-      "label": "Family History - If anyone in family having any developmental issue (If yes, please explain and send all the patient reports related to treatment)",
-      "name": "familyDevelopmentalIssues",
-      "type": "textarea",
-      "weight": 1
+      "label": "Does your child adjust their communication style and behavior to suit different social contexts (e.g., speaking differently to an adult vs. a friend, behaving differently in a classroom vs. a playground)? (Atypical: Rarely/Never)",
+      "name": "communicationStyleAdjustment",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
     },
     {
-      "label": "Stress or hyperactivity disorder if any in family history (If yes, please explain)",
-      "name": "familyHyperactivity",
-      "type": "textarea",
-      "weight": 1
+      "label": "Does your child understand and respond to humor, sarcasm, or figurative language (e.g., idioms, metaphors)? (Atypical: Rarely/Never)",
+      "name": "humorSarcasmUnderstanding",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
     },
     {
-      "label": "Child Multi Activity (3 Major Symptoms) Videos required [ Provide Links ]",
-      "name": "activityVideosRequired",
-      "type": "text",
-      "weight": 1
+      "label": "Does your child show empathy or concern for others' feelings? (Atypical: Rarely/Never)",
+      "name": "empathyConcern",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty understanding social situations or the perspectives of others? (Atypical: Often)",
+      "name": "socialSituationsUnderstanding",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child prefer solitary activities over group play or social interaction? (Atypical: Often)",
+      "name": "solitaryPreference",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child struggle with turn-taking in conversations or games? (Atypical: Often)",
+      "name": "turnTakingStruggles",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty resolving conflicts with peers? (Atypical: Often)",
+      "name": "conflictResolutionDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty understanding unwritten social rules or expectations? (Atypical: Often)",
+      "name": "unwrittenSocialRules",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty shifting attention from one task to another, especially when interrupted? (Atypical: Often)",
+      "name": "attentionShiftingDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child struggle with planning and organizing schoolwork or daily activities? (Atypical: Often)",
+      "name": "planningOrganizingStruggles",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have trouble remembering and following multi-step instructions without reminders? (Atypical: Often)",
+      "name": "multiStepInstructionsTrouble",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty managing their time effectively for homework or chores? (Atypical: Often)",
+      "name": "timeManagementDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child struggle to adapt to changes in routine or unexpected events, becoming upset or rigid? (Atypical: Often)",
+      "name": "adaptationToChangesStruggle",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty controlling impulsive actions or words? (Atypical: Often)",
+      "name": "impulseControlDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often lose or misplace belongings needed for school or activities? (Atypical: Often)",
+      "name": "losingMisplacingBelongings",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have trouble initiating tasks or activities, even when they know what to do? (Atypical: Often)",
+      "name": "taskInitiationTrouble",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child struggle with problem-solving, especially when a solution isn't immediately obvious? (Atypical: Often)",
+      "name": "problemSolvingStruggles",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty monitoring their own behavior and making corrections? (Atypical: Often)",
+      "name": "selfMonitoringDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have trouble staying focused on tasks that are not highly engaging to them? (Atypical: Often)",
+      "name": "stayingFocusedNonEngaging",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child frequently forget instructions or what they were supposed to do? (Atypical: Often)",
+      "name": "forgettingInstructions",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty managing their emotions, leading to frequent outbursts, meltdowns, or excessive frustration? (Atypical: Often)",
+      "name": "emotionalManagementDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child struggle to express their feelings or needs verbally in a clear and appropriate manner? (Atypical: Often)",
+      "name": "expressingFeelingsVerbally",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child use repetitive or unusual phrases, or echo words/sentences spoken by others (echolalia)? (Atypical: Often)",
+      "name": "repetitiveUnusualPhrases",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty understanding complex verbal instructions or questions? (Atypical: Often)",
+      "name": "complexVerbalInstructions",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have a limited range of emotional expression or seem to have difficulty understanding the emotions of others? (Atypical: Often)",
+      "name": "limitedEmotionalExpression",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child struggle to initiate or maintain conversations with peers or adults? (Atypical: Often)",
+      "name": "conversationInitiationMaintenance",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty understanding abstract language, jokes, or sarcasm? (Atypical: Often)",
+      "name": "abstractLanguageDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child speak in an unusually flat, robotic, or overly formal tone? (Atypical: Often)",
+      "name": "flatFormalTone",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty telling a story or recounting events in a logical sequence? (Atypical: Often)",
+      "name": "storytellingDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty understanding social nuances in communication (e.g., knowing when it's their turn to speak, understanding implied meanings)? (Atypical: Often)",
+      "name": "socialNuancesUnderstanding",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty expressing their needs or wants clearly and directly? (Atypical: Often)",
+      "name": "expressingNeedsWants",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often misunderstand social cues or intentions of others due to language difficulties? (Atypical: Often)",
+      "name": "misunderstandSocialCues",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have unusually intense or focused interests in specific topics or objects that are not typical for their age? (Atypical: Often)",
+      "name": "intenseInterests",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child engage in repetitive body movements (e.g., hand flapping, rocking, spinning) or manipulate objects in a repetitive way (e.g., lining up toys, spinning wheels)? (Atypical: Often)",
+      "name": "repetitiveMovements",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child insist on strict adherence to routines and become very distressed by minor changes? (Atypical: Often)",
+      "name": "routineAdherence",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have unusual or extreme reactions to sensory input (e.g., strong aversion to certain sounds/textures, excessive smelling/touching of objects, fascination with lights/movement)? (Atypical: Often)",
+      "name": "sensoryReactions",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty engaging in imaginative or varied play, preferring to repeat the same play patterns? (Atypical: Often)",
+      "name": "imaginativePlayDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child show an unusual attachment to specific inanimate objects? (Atypical: Often)",
+      "name": "attachmentToObjects",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have ritualistic behaviors that they must perform in a specific order or way, and become upset if interrupted? (Atypical: Often)",
+      "name": "ritualisticBehaviors",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child talk excessively about a narrow range of topics, often without regard for the listener's interest? (Atypical: Often)",
+      "name": "narrowTopicTalk",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child show unusual resistance to learning new skills or trying new activities, preferring familiar ones? (Atypical: Often)",
+      "name": "resistanceToNewSkills",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have a strong need for predictability and become anxious or upset when plans change? (Atypical: Often)",
+      "name": "needForPredictability",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child engage in self-stimulatory behaviors (stimming) when excited, anxious, or overwhelmed? (Atypical: Often)",
+      "name": "selfStimulatoryBehaviors",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child have difficulty transitioning between activities or environments? (Atypical: Often)",
+      "name": "transitionDifficulty",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often fail to give close attention to details or make careless mistakes in schoolwork or other activities? (Atypical: Often)",
+      "name": "attentionToDetails",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often have trouble holding attention on tasks or play activities? (Atypical: Often)",
+      "name": "holdingAttention",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often not seem to listen when spoken to directly? (Atypical: Often)",
+      "name": "notListening",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often not follow through on instructions and fail to finish schoolwork, chores, or duties? (Atypical: Often)",
+      "name": "notFollowingInstructions",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often have trouble organizing tasks and activities? (Atypical: Often)",
+      "name": "organizingTasks",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often avoid, dislike, or is reluctant to do tasks that require mental effort over a long period of time (e.g., homework)? (Atypical: Often)",
+      "name": "avoidingMentalEffort",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often lose things necessary for tasks or activities (e.g., school materials, pencils, books)? (Atypical: Often)",
+      "name": "losingThings",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Is your child often easily distracted by unrelated stimuli? (Atypical: Often)",
+      "name": "easilyDistracted",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Is your child often forgetful in daily activities? (Atypical: Often)",
+      "name": "forgetfulDailyActivities",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often fidget with or tap hands or feet, or squirm in their seat? (Atypical: Often)",
+      "name": "fidgetingSquirming",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often leave their seat in situations when remaining seated is expected (e.g., in the classroom)? (Atypical: Often)",
+      "name": "leavingSeat",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often run about or climb in situations where it is not appropriate? (Atypical: Often)",
+      "name": "runningClimbing",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Is your child often unable to play or take part in leisure activities quietly? (Atypical: Often)",
+      "name": "quietLeisureActivities",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Is your child often \"on the go\" acting as if \"driven by a motor\"? (Atypical: Often)",
+      "name": "drivenByMotor",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often talk excessively? (Atypical: Often)",
+      "name": "talkingExcessively",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often blurt out an answer before a question has been completed? (Atypical: Often)",
+      "name": "blurtingAnswers",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often have trouble waiting their turn? (Atypical: Often)",
+      "name": "waitingTurn",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
+    },
+    {
+      "label": "Does your child often interrupt or intrude on others (e.g., butts into conversations or games)? (Atypical: Often)",
+      "name": "interruptingOthers",
+      "type": "radio",
+      "options": ["0 = Never", "1 = Rarely", "2 = Sometimes", "3 = Often"],
+      "weight": 2
     }
   ]
 }

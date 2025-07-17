@@ -411,22 +411,26 @@ const DynamicForm = ({ onSubmit, isLoading, onClose }) => {
           {/* Questions */}
           <div className="space-y-6">
             {pages[currentPage]?.map((question, index) => (
-              <div key={question.name} className="space-y-3">
-                <Label
-                  htmlFor={question.name}
-                  className="text-lg font-semibold text-gray-800 flex items-center space-x-2"
-                >
-                  <span className="w-6 h-6 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                    {pages
-                      .slice(0, currentPage)
-                      .reduce((acc, page) => acc + page.length, 0) +
-                      index +
-                      1}
-                  </span>
-                  <span>{question.label}</span>
-                  {question.required && <span className="text-red-500">*</span>}
-                </Label>
-                {renderInput(question)}
+              <div key={question.name} className="min-h-[200px] p-4 bg-white/50 rounded-lg border border-gray-200 shadow-sm">
+                <div className="h-full flex flex-col">
+                  <Label
+                    htmlFor={question.name}
+                    className="text-lg font-semibold text-gray-800 flex items-center space-x-2 mb-4 flex-shrink-0"
+                  >
+                    <span className="w-6 h-6 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                      {pages
+                        .slice(0, currentPage)
+                        .reduce((acc, page) => acc + page.length, 0) +
+                        index +
+                        1}
+                    </span>
+                    <span>{question.label}</span>
+                    {question.required && <span className="text-red-500">*</span>}
+                  </Label>
+                  <div className="flex-1 flex items-start">
+                    {renderInput(question)}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
