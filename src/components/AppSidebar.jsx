@@ -84,6 +84,7 @@ export function AppSidebar() {
     setLanguage,
     t,
     languagesList: contextLanguagesList,
+    isTransitioning,
   } = useLanguage();
 
   // Local state for dropdown visibility
@@ -291,14 +292,20 @@ export function AppSidebar() {
                                   ? "justify-between hover:bg-accent hover:border-border"
                                   : "justify-center hover:bg-accent"
                               }
-                              text-sidebar-foreground focus:ring-0 focus:ring-offset-0 transition-all duration-200`}
+                              text-sidebar-foreground focus:ring-0 focus:ring-offset-0 transition-all duration-200
+                              ${isTransitioning ? "opacity-50 cursor-not-allowed" : ""}`}
                   // onClick removed, DropdownMenuTrigger handles open/close via onOpenChange
                   aria-label={t("selectLanguage")}
+                  disabled={isTransitioning}
                 >
                   {isExpanded ? (
                     <>
                       <div className="flex items-center gap-2">
-                        <MdLanguage className="w-4 h-4 opacity-70" />
+                        {isTransitioning ? (
+                          <div className="w-4 h-4 border border-sidebar-foreground/30 border-t-sidebar-foreground rounded-full animate-spin" />
+                        ) : (
+                          <MdLanguage className="w-4 h-4 opacity-70" />
+                        )}
                         <span className="text-sm">
                           {currentLanguageDetails.name}
                         </span>
@@ -309,6 +316,8 @@ export function AppSidebar() {
                         }`}
                       />
                     </>
+                  ) : isTransitioning ? (
+                    <div className="w-5 h-5 md:w-6 md:h-6 border border-sidebar-foreground/30 border-t-sidebar-foreground rounded-full animate-spin" />
                   ) : (
                     <MdLanguage className="w-5 h-5 md:w-6 md:h-6" />
                   )}
@@ -319,10 +328,15 @@ export function AppSidebar() {
                   <DropdownMenuItem
                     key={lang.code}
                     onSelect={() => {
-                      setLanguage(lang.code);
-                      setDropdownOpen(false); // Close dropdown on selection
+                      if (!isTransitioning) {
+                        setLanguage(lang.code);
+                        setDropdownOpen(false); // Close dropdown on selection
+                      }
                     }}
-                    className={language === lang.code ? "bg-accent" : ""}
+                    className={`${language === lang.code ? "bg-accent" : ""} ${
+                      isTransitioning ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
+                    disabled={isTransitioning}
                   >
                     {lang.name} ({lang.short})
                   </DropdownMenuItem>
