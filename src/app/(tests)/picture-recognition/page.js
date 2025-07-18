@@ -562,7 +562,7 @@ const PictureRecognitionTestPage = ({
           );
         return (
           <>
-            <BackButton t={t} targetPath="/take-tests" />
+            <BackButton t={t} targetPath="/take-tests?skipStart=true" />
             <PictureDialogContent
               currentImage={currentImage}
               currentIndex={currentIndex}
