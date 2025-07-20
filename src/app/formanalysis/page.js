@@ -21,7 +21,7 @@ import { useFormData } from "@/hooks/useTestReports";
 import { LoadingSpinner, ErrorComponent } from "@/components/LoadingAndError";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
+import Link from "next/link";
 // Utility function to render markdown-style text
 const renderMarkdownText = (text) => {
   if (!text) return text;
@@ -174,6 +174,14 @@ const FormAnalysisPage = () => {
     <div className="h-screen flex flex-col bg-gradient-to-b from-blue-50/80 to-white p-4 md:p-8 overflow-auto">
       <div className="max-w-7xl mx-auto">
         {/* User Profile Section */}
+        <div className="mb-6">
+          <Link href="/analytics">
+            <button className="flex items-center gap-2 text-white bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-md shadow transition-all text-sm font-medium">
+              <span className="text-lg">←</span>
+              <span className="hidden sm:inline">Back to Analysis</span>
+            </button>
+          </Link>
+        </div>
         <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl shadow-lg mb-8 overflow-hidden">
           <div className="p-6 md:p-8">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
@@ -395,8 +403,6 @@ const FormAnalysisPage = () => {
               style={{ maxHeight: "calc(100vh - 300px)" }}
             >
               <div className="p-8 space-y-8">
-                
-
                 {/* Psychology Report Section */}
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 shadow-sm">
                   <div className="flex items-center mb-6">

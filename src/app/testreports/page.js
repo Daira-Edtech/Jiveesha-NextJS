@@ -15,6 +15,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTestReports, useFilteredTests } from "@/hooks/useTestReports";
 import { LoadingSpinner, ErrorComponent } from "@/components/LoadingAndError";
 import Image from "next/image";
+import Link from "next/link";
 
 const TestResultsTable = () => {
   // UI State
@@ -131,6 +132,15 @@ const TestResultsTable = () => {
   return (
     <div className="h-screen flex flex-col bg-gradient-to-b from-blue-50/80 to-white p-4 md:p-8 overflow-auto">
       <div className="max-w-7xl mx-auto">
+        <div className="flex items-center gap-4 mb-4">
+          <Link href="/analytics">
+            <button className="flex items-center gap-2 text-white bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-md shadow transition-all text-sm font-medium">
+              <span className="text-lg">←</span>
+              <span className="hidden sm:inline">Back to Analysis</span>
+            </button>
+          </Link>
+        </div>
+
         {/* User Profile Section */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl shadow-lg mb-8 overflow-hidden">
           <div className="p-6 md:p-8">

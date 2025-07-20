@@ -687,7 +687,7 @@ const MapLayout = ({ tests, onTestSelect, onQuit }) => {
                 </button>
               </div>
               <div className="space-y-2">
-                {["en", "ta", "hi", "kn"].map((lang) => (
+                {["en", "hi", "kn"].map((lang) => (
                   <button
                     key={lang}
                     onClick={() => {

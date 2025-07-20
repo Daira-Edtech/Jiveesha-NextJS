@@ -7,7 +7,7 @@ import { readFile } from "fs/promises";
 import path from "path";
 
 const prisma = new PrismaClient();
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY_1);
 
 // Load test metadata once when the server starts
 let testMetaData = {};

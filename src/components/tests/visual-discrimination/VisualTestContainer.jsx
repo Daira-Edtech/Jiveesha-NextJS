@@ -189,7 +189,7 @@ const VisualTestContainer = ({ suppressResultPage = false, onComplete, onTestCom
           position: "top-center",
           theme: "dark",
           onClose: () => {
-            router.push("/"); // Redirect to a relevant page for standalone mode
+            router.push("/take-tests?skipStart=true"); // Redirect to a relevant page for standalone mode
           },
         });
       } else {
