@@ -97,21 +97,35 @@ const GameplayArea = ({
       setIsTranscribing(true)
 
       try {
-        // Mock transcription for demo - replace with actual API call
-        await new Promise((resolve) => setTimeout(resolve, 2000))
-        const mockTranscription = "cat" // Replace with actual API response
-
-        setUserInput((prevInput) => {
-          if (prevInput.trim() === "") {
-            return mockTranscription
-          } else {
-            return prevInput
-          }
+        // Using existing speech-to-text API
+        const response = await fetch("/api/speech-to-text", {
+          method: "POST",
+          body: formData,
         })
-        setTranscriptionStatus("done")
+        
+        const result = await response.json()
+        
+        if (response.ok && result.transcription) {
+          // Clean up transcription: lowercase, trim, remove trailing punctuation
+          const transcription = result.transcription
+            .toLowerCase()
+            .trim()
+            .replace(/[.,!?;:]*$/, "")
+            
+          setUserInput((prevInput) => {
+            if (prevInput.trim() === "") {
+              return transcription
+            } else {
+              return prevInput
+            }
+          })
+          setTranscriptionStatus("done")
+        } else {
+          throw new Error(result.error || "Transcription failed")
+        }
       } catch (error) {
         console.error("Error uploading/transcribing audio:", error)
-        setError(t("errorProcessingAudio"))
+        setError(t("errorProcessingAudio") + (error.message ? `: ${error.message}` : ""))
         setTranscriptionStatus("error")
       } finally {
         setIsTranscribing(false)
