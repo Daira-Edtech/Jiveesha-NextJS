@@ -34,14 +34,19 @@ jobs:
       - name: Build Next.js App
         run: npm run build
 
-      # 6. Upload artifact for deployment job
+      # 6. Create and populate the publish directory
+      - name: Create publish directory
+        run: |
+          mkdir -p publish
+          cp -r .next/standalone/* ./publish/
+          cp package.json ./publish/
+
+      # 7. Upload artifact for deployment job
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: |
-            .next/standalone
-            package.json
+          path: ./publish
 
   deploy:
     runs-on: ubuntu-latest
