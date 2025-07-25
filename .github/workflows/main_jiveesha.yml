@@ -39,6 +39,8 @@ jobs:
         run: |
           mkdir -p publish
           cp -r .next/standalone/* ./publish/
+          cp -r public ./publish/
+          cp -r .next/static ./publish/.next/static
           cp package.json ./publish/
 
       # 7. Upload artifact for deployment job
