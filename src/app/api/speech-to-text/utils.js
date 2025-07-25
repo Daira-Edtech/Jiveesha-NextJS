@@ -60,15 +60,34 @@ export const convertToWav = async (inputPath) => {
   const tempDir = os.tmpdir();
   const outputPath = path.join(tempDir, `${Date.now()}-converted.wav`);
 
-  // Prefer system FFmpeg. If not available, fall back to the bundled static binary.
-  let ffmpegExec = "ffmpeg";
-  if (ffmpegPath && existsSync(ffmpegPath)) {
-    ffmpegExec = ffmpegPath;
-  } else {
-    console.warn(
-      "Bundled ffmpeg binary not found, falling back to system FFmpeg in PATH."
-    );
+  // Prefer path provided by ffmpeg-static if it exists
+  let ffmpegExec = (ffmpegPath && existsSync(ffmpegPath)) ? ffmpegPath : "ffmpeg";
+
+  // 2. If still unresolved, look for binary in project node_modules (packed by Oryx in /home/site/wwwroot)
+  if (ffmpegExec === "ffmpeg") {
+    const projectPath = path.join(process.cwd(), "node_modules", "ffmpeg-static", "ffmpeg");
+    if (existsSync(projectPath)) {
+      ffmpegExec = projectPath;
+    }
   }
+
+  // 3. Oryx often extracts modules to /node_modules outside the app folder
+  if (ffmpegExec === "ffmpeg") {
+    const rootPath = "/node_modules/ffmpeg-static/ffmpeg";
+    if (existsSync(rootPath)) {
+      ffmpegExec = rootPath;
+    }
+  }
+
+  // 4. Common system location
+  if (ffmpegExec === "ffmpeg" && existsSync("/usr/bin/ffmpeg")) {
+    ffmpegExec = "/usr/bin/ffmpeg";
+  }
+
+  if (ffmpegExec === "ffmpeg") {
+    console.warn("FFmpeg binary not found in any known location. Attempting to use system 'ffmpeg' in PATH.");
+  }
+
   const cmd = [
     `"${ffmpegExec}" -y -i "${inputPath}"`,
     `-ac 1 -ar 16000`,
