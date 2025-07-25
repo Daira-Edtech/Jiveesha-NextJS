@@ -67,7 +67,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-      
+          path: ./node-app
+
       # 2. Login to Azure
       - name: Login to Azure
         uses: azure/login@v2
@@ -83,4 +84,4 @@ jobs:
         with:
           app-name: 'Jiveesha'
           slot-name: 'Production'
-          package: ./node-app/
+          package: ./node-app/publish
