@@ -63,6 +63,16 @@ export const convertToWav = async (inputPath) => {
   // Prefer path provided by ffmpeg-static if it exists
   let ffmpegExec = (ffmpegPath && existsSync(ffmpegPath)) ? ffmpegPath : "ffmpeg";
 
+  // 0. Respect explicit environment override or bundled binary copied during build
+  if (process.env.FFMPEG_PATH && existsSync(process.env.FFMPEG_PATH)) {
+    ffmpegExec = process.env.FFMPEG_PATH;
+  } else {
+    const bundled = path.join(process.cwd(), "bin", "ffmpeg");
+    if (existsSync(bundled)) {
+      ffmpegExec = bundled;
+    }
+  }
+
   // 2. If still unresolved, look for binary in project node_modules (packed by Oryx in /home/site/wwwroot)
   if (ffmpegExec === "ffmpeg") {
     const projectPath = path.join(process.cwd(), "node_modules", "ffmpeg-static", "ffmpeg");
