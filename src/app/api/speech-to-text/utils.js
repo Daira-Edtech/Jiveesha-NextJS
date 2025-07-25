@@ -61,7 +61,14 @@ export const convertToWav = async (inputPath) => {
   const outputPath = path.join(tempDir, `${Date.now()}-converted.wav`);
 
   // Prefer system FFmpeg. If not available, fall back to the bundled static binary.
-  const ffmpegExec = ffmpegPath || "ffmpeg";
+  let ffmpegExec = "ffmpeg";
+  if (ffmpegPath && existsSync(ffmpegPath)) {
+    ffmpegExec = ffmpegPath;
+  } else {
+    console.warn(
+      "Bundled ffmpeg binary not found, falling back to system FFmpeg in PATH."
+    );
+  }
   const cmd = [
     `"${ffmpegExec}" -y -i "${inputPath}"`,
     `-ac 1 -ar 16000`,
