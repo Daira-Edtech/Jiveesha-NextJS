@@ -37,10 +37,10 @@ jobs:
       # 6. Create and populate the publish directory
       - name: Create publish directory
         run: |
-          mkdir -p publish
+          mkdir -p publish/.next
           cp -r .next/standalone/* ./publish/
           cp -r public ./publish/
-          cp -r .next/static ./publish/.next/static
+          cp -r .next/static ./publish/.next/
           cp package.json ./publish/
 
       # 7. Upload artifact for deployment job
