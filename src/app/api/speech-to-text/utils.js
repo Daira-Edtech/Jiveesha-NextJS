@@ -11,6 +11,7 @@ import {
 import util from "util";
 import path from "path";
 import os from "os";
+import ffmpegPath from "ffmpeg-static";
 
 const execPromise = util.promisify(exec);
 
@@ -59,9 +60,10 @@ export const convertToWav = async (inputPath) => {
   const tempDir = os.tmpdir();
   const outputPath = path.join(tempDir, `${Date.now()}-converted.wav`);
 
-  // Use system ffmpeg (works better on Render than ffmpeg-static)
+  // Prefer system FFmpeg. If not available, fall back to the bundled static binary.
+  const ffmpegExec = ffmpegPath || "ffmpeg";
   const cmd = [
-    `ffmpeg -y -i "${inputPath}"`,
+    `"${ffmpegExec}" -y -i "${inputPath}"`,
     `-ac 1 -ar 16000`,
     `-af "areverse,silenceremove=start_periods=1:start_duration=0.05:start_threshold=-60dB,` +
       `areverse,silenceremove=start_periods=1:start_duration=0.05:start_threshold=-60dB,` +
