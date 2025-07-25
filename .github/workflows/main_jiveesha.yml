@@ -38,6 +38,10 @@ jobs:
           cp -r .next/static publish/.next/
           # copy public folder for static files served via fs
           cp -r public publish/
+          # copy ffmpeg binary from ffmpeg-static into publish/bin so it isn't pruned
+          mkdir -p publish/bin
+          cp $(npm root)/ffmpeg-static/ffmpeg publish/bin/ffmpeg
+          chmod +x publish/bin/ffmpeg
 
       # 4. Azure login (OIDC)
       - name: Azure login
