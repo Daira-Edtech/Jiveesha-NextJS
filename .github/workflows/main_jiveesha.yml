@@ -37,10 +37,14 @@ jobs:
       # 6. Create and populate the publish directory
       - name: Create publish directory
         run: |
-          mkdir -p publish/.next
+          mkdir -p publish
+          # Copy the standalone server files
           cp -r .next/standalone/* ./publish/
+          # Copy the public directory
           cp -r public ./publish/
-          cp -r .next/static ./publish/.next/
+          # Copy the complete .next directory (including static files)
+          cp -r .next ./publish/
+          # Copy package.json
           cp package.json ./publish/
 
       # 7. Upload artifact for deployment job
@@ -77,6 +81,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Jiveesha' # Replace with your app name
+          app-name: 'Jiveesha'
           slot-name: 'Production'
           package: .
