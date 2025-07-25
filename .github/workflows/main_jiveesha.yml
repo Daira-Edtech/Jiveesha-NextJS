@@ -30,17 +30,11 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
-      # 5. Prisma: Apply migrations (Production DB)
-      - name: Run Prisma Migrate Deploy
-        run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
-      # 6. Build Next.js app
+      # 5. Build Next.js app
       - name: Build Next.js App
         run: npm run build
 
-      # 7. Upload artifact for deployment job
+      # 6. Upload artifact for deployment job
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
