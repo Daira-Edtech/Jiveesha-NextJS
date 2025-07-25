@@ -1,4 +1,4 @@
-name: Deploy Next.js app to Azure Web App - Jiveesha
+name: Build & Deploy Next.js (standalone) to Azure Web App - Jiveesha
 
 on:
   push:
@@ -12,22 +12,34 @@ jobs:
       contents: read
       id-token: write
 
+    env:
+      WEBAPP_NAME: 'Jiveesha'
+
     steps:
       # 1. Checkout source
       - uses: actions/checkout@v4
 
-      # 2. Setup Node.js (use same major version as Azure runtime)
+      # 2. Setup Node.js (same major version as App Service runtime)
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
 
-      # 3. Install dependencies and build once (catches build errors early)
-      - run: npm ci
-      - run: npm run build
+      # 3. Install deps & build (standalone output)
+      - name: Install & build
+        run: |
+          npm ci
+          npm run build            # outputs .next/standalone
+          mkdir -p publish
+          cp -r .next/standalone/* publish/
+          # copy static assets (Next expects them relative to .next/static)
+          mkdir -p publish/.next
+          cp -r .next/static publish/.next/
+          # copy public folder for static files served via fs
+          cp -r public publish/
 
-      # 4. Login to Azure
+      # 4. Azure login (OIDC)
       - name: Azure login
         uses: azure/login@v2
         with:
@@ -35,10 +47,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
-      # 5. Deploy entire repo (including .next build) to Web App
+      # 5. Deploy publish folder to Web App (ZIP deploy)
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Jiveesha'
+          app-name: ${{ env.WEBAPP_NAME }}
           slot-name: 'Production'
-          package: .
+          package: publish
