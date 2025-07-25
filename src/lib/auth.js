@@ -22,6 +22,7 @@ export const auth = betterAuth({
     "https://jiveesha-next-js-deploy.vercel.app",
     "https://jiveesha-nextjs.onrender.com/",
     "https://jiveesha-nextjs-wqr8.onrender.com",
+    "https://jiveesha-nextjs-k0cu.onrender.com",
   ],
   //   socialProviders: {
   //     github: {
